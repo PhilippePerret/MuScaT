@@ -5,7 +5,7 @@ const UI = {
     return document.getElementById('tools');
   },
   toggle_tools: function(){
-    if (this.domTools().className == 'displayed'){
+    if (this.domTools().className == 'opened'){
       this.hide_tools();
     } else {
       this.show_tools();
@@ -13,11 +13,18 @@ const UI = {
   },
 
   show_tools: function(){
-    this.domTools().className = 'displayed';
+    this.domTools().className = 'opened';
+    if(CTags.selections.length > 1){
+      $('#fs_alignment').removeClass('undisplayed');
+      $('#selecteds_count').text(CTags.selections.length);
+    } else {
+      $('#fs_alignment').addClass('undisplayed');
+    }
+    // $('#selecteds_count').innerHTML = CTags.selections.length;
   },
 
   hide_tools: function(){
-    this.domTools().className = 'undisplayed';
+    this.domTools().className = 'closed';
   }
 
 }

@@ -26,24 +26,30 @@
         Section contenant les boutons fonctionnels, qui n'apparaissent
         qu'au passage de la souris
     -->
-    <section id="tools" class="undisplayed">
+    <section id="tools" class="closed">
       <div id="picto_tools" onclick="$.proxy(UI,'toggle_tools')()">🛠</div>
       <div class="masked">
-        <div id="divalign">
-          <span>Aligné</span>
+
+        <fieldset id="fs_alignment" class="undisplayed">
+          <legend>Alignement</legend>
+          <span>Aligner les <span id="selecteds_count">0</span> éléments sélectionnés</span>
           <select id="alignement">
             <option value="up">en haut / top</option>
             <option value="down">en bas / bottom</option>
             <option value="left">à gauche / left</option>
-            <option value="right">à droit / right</option>
-          </select>
+            <option value="right">à droite / right</option>
+          </select><br>
           <span>du premier élément sélectionné</span>
-          <button type="button" onclick="$.proxy(CTags,'align')()">Aligner</button>
+          <div class="right">
+            <button type="button" onclick="$.proxy(CTags,'align')()">Aligner</button>
+          </div>
+        </fieldset>
 
-        </div>
-        <textarea name="codeSource" id="codeSource"></textarea>
-        <button type="button" onclick="$.proxy(MuScaT,'show_code')()">Copier le code source</button>
-        <button type="button" onclick="$.proxy(UI,'hide_tools')()">Fermer</button>
+        <fieldset id="fs_code">
+          <textarea name="codeSource" id="codeSource" style="visibility:hidden;"></textarea>
+          <button type="button" onclick="$.proxy(MuScaT,'show_code')()">Code source -> presse-papier</button>
+        </fieldset>
+
       </div>
     </section>
 

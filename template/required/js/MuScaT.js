@@ -59,11 +59,12 @@ const MuScaT = {
     // my.codeField().select();
     // document.execCommand("copy");
     alert(`
-Le nouveau code complet est copié dans le presse-papier.
+Le code complet de votre partition tagguée est copié dans
+le presse-papier.
 
 Il vous suffit de le coller dans votre fichier tags.js
-en remplaçant tout le code (p.e. sélectionnez tout avec
-de coller).
+en remplaçant tout le code (p.e. sélectionnez tout l'ancien
+code avant de coller le nouveau).
 `);
   },
 
@@ -88,7 +89,7 @@ de coller).
     // On boucle sur toutes les lignes du fichier tags.js pour
     // traiter les lignes, c'est-à-dire les instancier et les créer
     // dans le document.
-    Tags.split(RC).forEach(function(e){
+    Tags.trim().split(RC).forEach(function(e){
       try {
         var line = e.trim();
         my.lines.push(line);

@@ -32,6 +32,7 @@ const DATA_DRAGGABLE = {
   }
 }
 
+
 $(document).ready(function(){
 
   // On doit construire les éléments d'après les définitions faites dans
@@ -40,14 +41,16 @@ $(document).ready(function(){
 
   // Quand on clique sur la partition, en dehors d'un élément,
   // ça déselectionne tout
-  $('#tags').on('click', function(ev){CTags.desectionne_all()})
+  // $('#tags').on('click', function(ev){CTags.desectionne_all()})
+  $('#tags').on('click', $.proxy(Page, 'onClickOut'))
 
-  // On rend tous les éléments sensibles au click
-  $('.tag').on('click', function(ev){
-    ITags[$(this)[0].id].onClick(ev);
-    ev.stopPropagation();
-    ev.preventDefault();
-  });
+  // On rend tous les éléments sensibles au click (mais sans propagation)
+  $('.tag').on('click', CTags.onclick);
+
+  // On ajout un observateur de clic sur les images (ils en ont déjà un
+  // par .tag) pour qu'ils donnent les coordonnées au clic de la souris,
+  // ce qui peut servir à place un élément sur l'image directement
+  $('img').on('click', $.proxy(Page,'getCoordonates'))
 
   // On rend tous les éléments draggable
   $('.drag').draggable(DATA_DRAGGABLE)

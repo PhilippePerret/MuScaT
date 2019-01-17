@@ -3,7 +3,7 @@
 const ITags = {} ;
 
 function Tag(data_line, iline) {
-  this.id         = ++ window.last_tag_id ;
+  this.id = ++ window.last_tag_id ;
 
   // Initialisation de toutes les valeurs
   this.domId  = 'obj'+this.id ; // "objX"
@@ -64,7 +64,8 @@ function Tag(data_line, iline) {
   // utiles, comme ses coordonnées ou son texte.
   this.decompose();
 
-  // Pour débugger la décomposition
+  /*
+  // Pour débugger la décomposition (ajouter un "/" ci-dessus)
   dbug = {
     nature_init: this.nature_init,
     nature: this.nature,
@@ -73,6 +74,7 @@ function Tag(data_line, iline) {
   if(this.src){dbug['src'] = this.src}
   if(this.text){dbug['text'] = this.text}
   console.log(dbug);
+  //*/
 
   // Ce tag est ajouté à la liste des tags, ce qui permettra de le
   // retrouver rapidement.
@@ -104,11 +106,9 @@ Tag.prototype.hStyles = function(){
       if (value.match(/px/)){
         value = parseInt(value.replace(/px/,''));
       }
-      console.log("hstyles["+prop+"] mis à "+value);
       hstyles[prop] = value ;
     }
   })
-  console.log("hstyles final:");console.log(hstyles);
   return hstyles;
 }
 
@@ -136,8 +136,11 @@ Tag.prototype.to_html = function() {
 
   css = css.join(';');
 
+  /*/
+  // Ajouter un "/" ci-dessus pour débugger
   console.log('Tag « '+(my.text||my.src||my.type)+' » #'+my.domId+' x = '+my.x+' / y = '+my.y);
   console.log('=> css = ' + css);
+  //*/
 
   var classes = ['drag'] ;
   classes.push('tag') ;
@@ -295,7 +298,7 @@ Tag.prototype.recompose = function(){
   my.text && line.push(my.text.replace(/ /g,'_')) ;
   // Si un type est défini, et que la nature n'est pas un raccourci
   // de nature, on écrit ce type
-  if ( my.type && !is_nature_shortcut() ) {
+  if ( my.type && !my.is_nature_shortcut() ) {
     line.push('type='+my.type)
   }
   // La position
@@ -352,7 +355,7 @@ Tag.prototype.onStopMoving = function(){
     newtag.build();
     newtag.observe();
     // On doit insérer la ligne dans le code, au lieu de la remplacer
-    MuScaT.insert_line(newtag.index_line, newtag.line()) ;
+    MuScaT.insert_line(newtag.index_line, newtag.to_line()) ;
     // Il faut remettre le tag à sa place (seulement ici, pour que les valeurs
     // de x et y ci-dessus soit bien les nouvelles)
     my.x = prev_x ;
@@ -374,13 +377,13 @@ Tag.prototype.onStopMoving = function(){
 // créé après la première fabrication (copies)
 Tag.prototype.observe = function(){
   var my = this ;
-  my.jqObj.draggable(DATA_DRAGGABLE);
-  my.jqObj.on('click', $.proxy(ITags[my.domId],'onClick'))
+  my.jqObj.draggable(DATA_DRAGGABLE) ;
+  my.jqObj.on('click', CTags.onclick) ;
 }
 
 Tag.prototype.onClick = function(ev){
   var my = this ;
-  console.log(ev);
+  // console.log(ev);
   var withMaj = ev.shiftKey;
   CTags.on_select(my, ev.shiftKey) ;
 }

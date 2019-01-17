@@ -12,19 +12,22 @@ section#tools {
   z-index: 1000; /* au-dessus de tout */
 }
 
+.displayed {display: block;}
+.undisplayed {display: none;}
+
 /* Quand les outils sont masqués */
-section#tools.undisplayed div#picto_tools {
+section#tools.closed div#picto_tools {
   display: block;
 }
-section#tools.undisplayed .masked {
+section#tools.closed .masked {
   display: none;
 }
 
 /* Quand les outils sont affichés */
-section#tools.displayed {
+section#tools.opened {
   background-color: #EEEEEE;
 }
-section#tools.displayed .masked {
+section#tools.opened .masked {
   display: block;
   text-align: left;
   background-color: white;
@@ -74,3 +77,10 @@ section#tags {
   position: relative;
   z-index: 0;
 }
+
+button, select, select option {
+  font-size: inherit;
+}
+
+.right {text-align: right;}
+.center {text-align: center;}

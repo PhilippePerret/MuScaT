@@ -57,5 +57,12 @@ const CTags = {
         // directement dans le DOM, l'élément existant
       })
     }
+  },
+
+  // Méthode appelée par le on('click')
+  onclick: function(ev){
+    ITags[$(this)[0].id].onClick(ev);
+    ev.stopPropagation();
+    ev.preventDefault();
   }
 }

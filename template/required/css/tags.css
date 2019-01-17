@@ -17,9 +17,15 @@ span.tag {
   z-index:  10;
 }
 
-/* Quand l'élément est sélectionné */
+.tag {
+  border-width: 1px;
+  border-style: solid;
+  border-color: transparent;
+}
 .tag.selected {
-  border: 2px solid blue !important;
+  border-color: blue !important;
+  color: blue !important;
+  background-color: #EEEEFF;
 }
 
 

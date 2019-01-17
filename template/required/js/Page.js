@@ -31,4 +31,26 @@ const Page = {
     my.current_y = 0 + itag.y ;
   },
 
+  /**
+    * Méthode appelée quand on clique sur la page, en dehors d'un tag
+    * Ça permet notamment de :
+    *   1. tout désélectionner
+    *   2. mettre les coordonnées dans le presse-papier
+    */
+  onClickOut: function(ev){
+    // console.log(ev);
+    CTags.desectionne_all();
+    this.getCoordonates(ev);
+  },
+
+  // Fonction qui affiche et met dans le presse papier les coordonnées
+  // au click de souris.
+  // La méthode est utilisées aussi bien pour la page en dehors des tags
+  // que pour une image cliquée
+  getCoordonates: function(ev){
+    var x = ev.pageX ;
+    var y = ev.pageY ;
+    navigator.clipboard.writeText('x='+x+" y="+y);
+    message("Coordonnées « x="+x+" y="+y+" » mises dans presse-papier");
+  }
 }
