@@ -37,6 +37,7 @@ section#tools.opened .masked {
 @media print {
   section#tools   {display: none;}
   section#footer  {display: none;}
+  section#tags    {padding-bottom: 0;}
 }
 
 
@@ -67,8 +68,10 @@ section#footer #message.notice {
 /* La section qui contient tous les tags */
 section#tags {
   position: relative;
+  padding-bottom: 500px;
   z-index: 0;
 }
+
 
 button, select, select option {
   font-size: inherit;
