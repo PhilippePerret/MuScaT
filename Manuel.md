@@ -1,12 +1,21 @@
-# Manuel de l'application MusCaT
+# MusCaT
+# Manuel d'utilisation
 
-## Composition rapide d'un élément
+<!--  
+Pour actualiser le fichier PDF:
+- se placer dans ce dossier (cd ...)
+- supprimer le pdf existant
+- jouer : `pandoc Manuel.md --from=markdown --to=latex --output=Manuel.pdf`
+-->
+
+* [Aide rapide](#aide_rapide)
+* [Synopsis de fabrication](#synopsis_fabrication)
+
+## Aide rapide {#aide_rapide}
 
 Si vous avez déjà consulté ce manuel, vous pouvez trouver une aide rapide ici.
 
 ```
-  Composition de :
-
   image         `image <source> x=... y=... z=...`
                 Exemple : `image monScore.png z=50 x=100 y=100`
                 - "z" désigne le zoom en pourcentage
@@ -17,6 +26,7 @@ Si vous avez déjà consulté ce manuel, vous pouvez trouver une aide rapide ici
 
   harmonie      `harmonie <degré accord et renversement> x=... y=...`
                 Exemple : `harmonie II** x=200 y=230`
+                Alias : harmony, chiffrage
 
   cadence       `cadence <degré accord> type=<type cadence> x=... y=... w=...`
                 Exemple : `cadence I type=italienne w=200 x=12 y=100`
@@ -30,17 +40,34 @@ Si vous avez déjà consulté ce manuel, vous pouvez trouver une aide rapide ici
 
   texte         `texte <contenu> x=... y=... type=...`
                 Exemple : `texte Exposition x=100 y=50 type=partie`
+```
+
+## Composition d'un tag
+
+Un tag — image de la partition comprise — se compose d'une ligne dans le fichier de données.
+
+Cette ligne a le format général suivant :
+
+```
+  <nature>[ <contenu>][ <coordonnées>][ <options, type>]
 
 ```
 
-## Composition d'un élément
+Par exemple, pour une cadence (nature = 'cadence') de « V I » (contenu = 'V_I') qu'on veut placer à 200 pixels depuis le haut (coordonnée y = 200) et 100 pixels de la gauche (coordonnées x = 100), de type « cadence parfaite » (type = 'parfaite'), on insèrera dans son fichier `tags.js`, sous la définition de l'image (« score ») :
 
 ```
-  <nature>[ <type>|<contenu>]
+Tags = `
 
+  score ma_partition.jpg y=100 x=10
+
+  cadence V_I type=parfaite y=200 x=100
+
+`;
 ```
 
-Où `<nature>` peut être :
+Détaillons ces éléments.
+
+Dans la ligne, le premier mot qui définit la `<nature>` du tag peut être (note : les deux mots, français et anglais, sont utilisables) :
 
 ```
   Français    Anglais     Description                   Exemple
@@ -57,13 +84,54 @@ Où `<nature>` peut être :
                           d'une note.
   ligne       line
 
+  mesure      measure     Pour ajouter un numéro de mesure  12
+
+  texte       texte       Pour écrire un texte quelconque.
+
 ```
 
-Le `<type>` est nécessaire pour caractériser l'élément suivant sa nature. Par exemple, pour une ligne, il faut connaitre son aspect. Pour une cadence
+Le seconde « mot » définit le plus souvent le contenu textuel ou, pour les images, le nom du fichier dans le dossier `images`.
 
-Quand l'élément n'a pas de type, il a un contenu (il peut avoir les deux, commes les cadences).
+On peut par exemple écrire un texte quelconque à une position quelconque avec la ligne :
 
-### Écrire des textes
+```
+Tags = `
+
+  texte Et_si_j'étais_un_texte_quelconque x=300 y=400
+
+`;
+
+```
+
+> Remarquez comme les espaces ont été remplacées par des tirets plats (qu'on obtient sur Mac avec la combinaison de touches Maj- — touche majuscule et tiret).
+
+Ce deuxième sert aussi par exemple à définir le type des lignes à obtenir (cf. []()).
+
+Les deux autres informations capitales sont les positions verticale et horizontale du tag à poser (ou de la partition).
+
+NOTE IMPORTANTE : dans votre fichier `tags.js`, ces valeurs peuvent dans un premier temps être approximatives, et seront affinées directement à l'écran.
+
+On définit position verticale avec `y=` et la position horizontale avec `x=`, comme nous l'avons vu dans les exemples précédents. Le nombre est exprimé en pixels.
+
+Pour les lignes et les cadences par exemple, on peut définir aussi la largeur avec la lettre « w » qui signifie « width » (largeur) en anglais : `w=200`. Le nombre correspond là aussi au nombre de pixels.
+
+Ensuite, on peut définir certaines choses comme le « type » du tag. On l'a vu pour la cadence, par exemple. Les autres tags pouvant définir leur type sont le `texte` ou la `ligne` (bien que la `ligne` se définit plutôt par son contenu).
+
+## Synopsis de fabrication d'une partition tagguée {#synopsis_fabrication}
+
+* Choisir la partition.
+* Si elle est suffisamment aérée (assez d'espace entre les systèmes), on peut la garder telle qu'elle. Sinon, il faut la découper en systèmes (à l'aide de Gimp par exemple), chaque système étant une image séparée.
+* Commencer par définir ce ou ces images dans le fichier `tags.js` (pour le détail : [TODO: Lien vers aide]).
+  ![Exemple d’images dans tags.js](./img/images_in_tags_js.png)
+* Définir ensuite les éléments graphiques que l'on veut utiliser (marque de parties, accords, chiffrages, numéros de portée, cadences, etc.). Les placer à peu près en fonction des positions des images de la partition.
+* Ouvrir le fichier `partition.html` dans un navigateur de type Firefox (le plus sûr pour faire ça).
+* Placer les éléments aux bons endroits en les déplaçant à la souris.
+  ![Exemple de déplacement d'élément](./img/move_score.png)
+* Demander le code final et le copier dans le fichier `tags.js` pour le conserver (si vous voulez en garder une trace ou pouvoir le modifier plus tard).
+* Imprimer la page HTML du navigateur en choisissant le format PDF (ou utiliser un autre outil permettant de le faire, comme `textutils` sur mac et unix par exemple).
+* C'est fait !
+
+### Écrire des textes {#write_texts}
 
 Ce que l'on appelle les « textes », ici, ce sont tous les textes hors des accords, modulations, chiffrage, etc. Ce sont vraiment des textes qu'on peut placer n'importe où. À commencer pour définir les parties de l'ouvrage (« Introduction », « Coda », etc.).
 
