@@ -15,7 +15,7 @@ const MuScaT = {
   // Méthode qui actualise une ligne de donnée (appelée par une instance
   // Tag après son déplacement, par exemple)
   update_line: function(idx, new_line) {
-    var my = this ;
+    var   my = this ;
     my.lines[idx] = new_line ;
     // On met la nouvelle ligne dans le clipboard pour la copier-coller
     navigator.clipboard.writeText(new_line + RC) ;
@@ -24,8 +24,11 @@ const MuScaT = {
   },
 
   // Méthode qui insert une nouvelle ligne de donnée (lorsqu'il y a copie)
-  insert_line: function(idx, new_line){
-    var my = this ;
+  insert_line: function(itag){
+    var   my = this
+        , idx = itag.index_line
+        , new_line = itag.to_line()
+
     my.lines.splice(idx, 0, new_line) ;
     // On met la nouvelle ligne dans le clipboard pour la copier-coller
     navigator.clipboard.writeText(new_line + RC) ;

@@ -1,15 +1,18 @@
 
-
 const UI = {
   domTools: function(){
     return document.getElementById('tools');
   },
   toggle_tools: function(){
-    if (this.domTools().className == 'opened'){
+    if (this.tools_are_opened()){
       this.hide_tools();
     } else {
       this.show_tools();
     }
+  },
+
+  tools_are_opened: function(){
+    return this.domTools().className == 'opened';
   },
 
   show_tools: function(){

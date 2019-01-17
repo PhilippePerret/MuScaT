@@ -61,8 +61,27 @@ const CTags = {
 
   // Méthode appelée par le on('click')
   onclick: function(ev){
+    // On ferme la boite d'outils si elle était ouverte
+    if(UI.tools_are_opened()){UI.hide_tools()}
+    // On traite le clic sur l'élément courant
     ITags[$(this)[0].id].onClick(ev);
     ev.stopPropagation();
     ev.preventDefault();
+  },
+
+  /**
+   * Retourne l'index, dans le fichier tags.js (i.e. la liste des lignes),
+   * de la ligne qui se trouve juste après les coordonnées +y+, +x+
+   * Cette méthode sert notamment pour la copie d'un tag (et plus tard pour
+   * sa création), pour trouver où placer la nouvelle ligne.
+   */
+  get_index_line_before: function(y, x) {
+    var last_tid, tid, itag ;
+    for(tid in ITags){
+      itag = ITags[tid] ;
+      if(itag.y > y && itag.x > x){ return itag.index_line }
+      last_tid = tid ;
+    }
+    return ITags[last_tid] + 1 ; // au pire, à la fin
   }
 }

@@ -34,11 +34,13 @@ const Page = {
   /**
     * Méthode appelée quand on clique sur la page, en dehors d'un tag
     * Ça permet notamment de :
-    *   1. tout désélectionner
-    *   2. mettre les coordonnées dans le presse-papier
+    *   . fermer la boite d'outils si elle était ouvert
+    *   . tout désélectionner
+    *   . mettre les coordonnées dans le presse-papier
     */
   onClickOut: function(ev){
     // console.log(ev);
+    if(UI.tools_are_opened()){UI.hide_tools()}
     CTags.desectionne_all();
     this.getCoordonates(ev);
   },

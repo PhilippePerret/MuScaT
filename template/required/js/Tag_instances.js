@@ -2,6 +2,8 @@
 // Table de hashage qui contient toutes les instances Tag.
 const ITags = {} ;
 
+// Instanciation d'un tag
+//
 function Tag(data_line, iline) {
   this.id = ++ window.last_tag_id ;
 
@@ -347,30 +349,27 @@ Tag.prototype.onStopMoving = function(){
   // le nouveau tag et on remettra ensuite les anciennes valeurs.
   my.x = my.getX();
   my.y = my.getY();
+
   if (my.pour_copie){
-    // C'est une copie
-    // Il faut créer un nouveau tag à partir de celui-ci
-    var dline   = my.to_line().split(' '); // TODO Il faut utiliser plutôt une méthode qui refait le array
-    var newtag  = new Tag(dline, ITags['obj'+last_tag_id].index_line + 1) ;
-    newtag.build();
-    newtag.observe();
-    // On doit insérer la ligne dans le code, au lieu de la remplacer
-    MuScaT.insert_line(newtag.index_line, newtag.to_line()) ;
+    my.createCopy();
     // Il faut remettre le tag à sa place (seulement ici, pour que les valeurs
     // de x et y ci-dessus soit bien les nouvelles)
-    my.x = prev_x ;
-    my.y = prev_y ;
-    my.updateXY();
-    msg = 'Nouveau tag créé sur la partition (id #'+newtag.domId+'). N’oubliez pas de copier-coller sa ligne.'
+    my.x = prev_x ; my.y = prev_y ; my.updateXY();
   } else {
-    // Ce n'est pas une copie, il faut enregistrement les changement de
-    // l'objet
-    msg = "Nouvelle position de l'élément #" + my.id + " (« "+(my.src || my.text)+" ») : " + my.hposition()
     MuScaT.update_line(my.index_line, my.to_line()) ;
+    message("Nouvelle position de l'élément #" + my.id + " (« "+(my.src || my.text)+" ») : " + my.hposition());
   }
-  // console.log(msg) ;
-  message(msg);
-  // On actualise les lignes de données tout de suite
+}
+
+Tag.prototype.createCopy = function() {
+  var my = this ;
+  // Il faut créer un nouveau tag à partir de celui-ci
+  var dline   = my.recompose() ;
+  var newtag  = new Tag(dline, CTags.get_index_line_before(my.y, my.x)) ;
+  newtag.build();
+  newtag.observe();
+  MuScaT.insert_line(newtag) ;
+  message('Nouveau tag créé sur la partition (id #'+newtag.domId+'). N’oubliez pas de copier-coller sa ligne.');
 }
 
 // Méthode qui place les observeurs sur l'élément, lorsqu'il a été
@@ -400,5 +399,5 @@ Tag.prototype.deselect = function(){
 //  Méthodes de statut
 
 Tag.prototype.is_nature_shortcut = function(){
-  return NATURES_SHORTCUTS[my.nature_init];
+  return NATURES_SHORTCUTS[my.nature_init] != null;
 }

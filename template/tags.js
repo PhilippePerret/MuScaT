@@ -18,7 +18,9 @@ cadence I type=demi x=544 y=329
 
 # Deuxième système
 # ----------------
-score ligne-02.png x=2 y=200
+mesure 6 x=114 y=409
+accord Réb x=275 y=704
+score ligne-02.png x=2 y=203
 mesure 10 x=686 y=403
 harmony IV** x=535 y=631
 
