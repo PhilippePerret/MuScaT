@@ -41,7 +41,7 @@ const Page = {
    */
   update: function(){
     message('Actualisation demandée…');
-    eval(MuScaT.codeField().value);
+    Tags = MuScaT.codeField().value ;
     MuScaT.load();
     message(' ');
   },

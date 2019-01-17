@@ -4,9 +4,9 @@ body {
 }
 section#tools {
   background-color: white;
-  text-align: right;
+  text-align: left;
   position: fixed;
-  right: 10px;
+  left: 10px;
   top: 10px;
   padding: 0 10px 10px 10px;
   z-index: 1000; /* au-dessus de tout */

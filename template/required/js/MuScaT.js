@@ -25,7 +25,6 @@ const MuScaT = {
 
   // Méthode qui insert une nouvelle ligne de donnée (lorsqu'il y a copie)
   insert_line: function(itag){
-    console.log('-> insert_line');
     var   my = this
         , idx = itag.index_line
         , new_line = itag.to_line()
@@ -42,12 +41,28 @@ const MuScaT = {
     my.codeField().value = my.full_code() ;
   },
 
-  // Retourne le code entier du fichier tags.js, même avec "Tags = `"
+  // Retourne le code entier du fichier tags.js, mais sans "Tags = `"
   full_code: function(){
     var my = this ;
     var str_code = my.lines.join(RC) ;
-    str_code = 'Tags = `'+ RC + str_code + RC + '`;'
     return str_code ;
+  },
+
+  // Retourne le code entier du fichier tags.js, même avec "Tags ="
+  // et les options définies
+  very_full_code: function(){
+    var   opts = new Array()
+        , opt ;
+    for(opt in OPTIONS){
+      if (OPTIONS[opt]){ opts.push("'" + opt + "'") }
+    }
+    if (opts.length){
+      opts = 'options(' + opts.join(', ') + ') ;' + RC
+    } else {
+      opts = '' ;
+    }
+    // Le code complet re-composé
+    return opts + 'Tags = `'+ RC + my.full_code() + RC + '`;'
   },
 
   codeField: function(){
@@ -59,7 +74,7 @@ const MuScaT = {
   // qu'il soit copié-collé
   show_code: function(){
     var my = this ;
-    navigator.clipboard.writeText(my.full_code() + RC) ;
+    navigator.clipboard.writeText(MY.very_full_code + RC) ;
     // my.codeField().select();
     // document.execCommand("copy");
     alert(`
