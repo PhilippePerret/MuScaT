@@ -27,6 +27,9 @@ span.tag {
   color: blue !important;
   background-color: #EEEEFF;
 }
+.tag.warntag {
+  background-color: #FFBBBB !important;
+}
 
 
 span.tag.dragged {

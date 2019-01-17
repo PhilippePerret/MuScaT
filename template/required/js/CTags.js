@@ -53,6 +53,7 @@ const CTags = {
       }
       my.selections.forEach(function(itag){
         $.proxy(itag, method, value)() ;
+        $.proxy(itag,'updateXY')();
         // Note : pas d'update, c'est beaucoup plus simple de modifier
         // directement dans le DOM, l'élément existant
       })

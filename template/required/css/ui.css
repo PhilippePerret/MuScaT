@@ -90,6 +90,9 @@ section#rcolumn {
 section#rcolumn textarea#codeSource {
   font-family: 'Courier New', 'Courier';
   font-size:    11pt;
+  background-color: black;
+  color: white;
   height: 600px;
   width:  98%;
+  padding: 1em;
 }

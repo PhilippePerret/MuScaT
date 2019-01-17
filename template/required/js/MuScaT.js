@@ -25,6 +25,7 @@ const MuScaT = {
 
   // Méthode qui insert une nouvelle ligne de donnée (lorsqu'il y a copie)
   insert_line: function(itag){
+    console.log('-> insert_line');
     var   my = this
         , idx = itag.index_line
         , new_line = itag.to_line()
@@ -82,11 +83,12 @@ code avant de coller le nouveau).
     // Il faut d'abord s'assurer que le fichier tags.js a été correctement
     // défini.
     if ('undefined' == typeof Tags) {
-      alert('Il faut définir les images et les « tags » à poser dans le fichier `tag.js`')
-      return
+      alert('Il faut définir les images et les « tags » à poser dans le fichier `tag.js`');
+      return;
     }
 
-    my.tags = [];
+    my.tags   = [];
+    my.lines  = [];
     var line_index = -1; // pour commencer à 0
     $('section#tags')[0].innerHTML = ''; // si option code beside utilisé
 

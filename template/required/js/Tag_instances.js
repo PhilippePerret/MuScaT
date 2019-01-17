@@ -129,9 +129,10 @@ Tag.prototype.build = function(){
 Tag.prototype.to_html = function() {
   var my = this ;
   var css = [] ;
-  var x = my.x || 0 ;
+
+  var x = my.x || 100 ;
   css.push('left:' + x + 'px') ;
-  var y = my.y || 0 ;
+  var y = my.y || 100 ;
   css.push('top:'+ y + 'px') ;
   var w = my.w ? (my.w + 'px') : 'auto';
   css.push('width:' + w) ;
@@ -147,6 +148,12 @@ Tag.prototype.to_html = function() {
   var classes = ['drag'] ;
   classes.push('tag') ;
   classes.push(my.nature) ;
+
+  // Si l'élément ne définit pas ses x/y, on ajoute un style avec fond rouge
+  // pour le signaler
+  if (!my.x && !my.y){
+    classes.push('warntag')
+  }
 
   switch (my.nature) {
     case 'score':
@@ -168,8 +175,14 @@ Tag.prototype.to_html = function() {
 // Méthodes de transformation
 
 Tag.prototype.updateXY = function(){
-  this.updateX();
-  this.updateY();
+  var my = this ;
+  my.updateX();
+  my.updateY();
+  // Si le tag n'avait pas de coordonnées au départ, il avait reçu
+  // la classe "warntag" qui l'affichait en rouge. Maintenant qu'il a
+  // des coordonnées, on peut retirer cette classe.
+  my.jqObj.removeClass('warntag');
+  MuScaT.update_line(my.index_line, my.to_line()) ;
 }
 Tag.prototype.updateY = function(){
   this.jqObj.css({'top': this.y + 'px'});
@@ -181,30 +194,22 @@ Tag.prototype.updateX = function(){
 Tag.prototype.setXAt = function(value) {
   var my = this ;
   my.x = value ;
-  my.updateX();
-  MuScaT.update_line(my.index_line, my.to_line()) ;
 }
 Tag.prototype.setYAt = function(value) {
   var my = this ;
   my.y = value ;
-  my.updateY();
-  MuScaT.update_line(my.index_line, my.to_line()) ;
 }
 // Méthode qui cale le bas du tag à +value+ (en fonction de sa hauteur)
 Tag.prototype.setDownAt = function(value) {
   var my = this ;
   my.y = value - my.jqObj.height();
   if (my.y < 0) { my.y = 0}
-  this.updateY();
-  MuScaT.update_line(my.index_line, my.to_line()) ;
 }
 // Cale le côté droit du tag à +value+ (en fonction de sa largeur)
 Tag.prototype.setRightAt = function(value) {
   var my = this ;
   my.x = value - my.jqObj.width() ;
   if (my.x < 0) { my.x = 0 }
-  this.updateX();
-  MuScaT.update_line(my.index_line, my.to_line()) ;
 }
 
 // Actualisation du tag, aussi bien dans l'affichage (objet DOM) que
@@ -332,10 +337,6 @@ Tag.prototype.hposition = function(){
 // ---------------------------------------------------------------------
 // Méthodes évènementielles
 
-Tag.prototype.onStartMoving = function(ev, ui){
-  var my = this ;
-  my.pour_copie = ev.altKey == true ;
-}
 Tag.prototype.onStopMoving = function(){
   var my = this ;
   var msg ;
@@ -354,12 +355,22 @@ Tag.prototype.onStopMoving = function(){
     my.createCopy();
     // Il faut remettre le tag à sa place (seulement ici, pour que les valeurs
     // de x et y ci-dessus soit bien les nouvelles)
-    my.x = prev_x ; my.y = prev_y ; my.updateXY();
+    my.x = prev_x ; my.y = prev_y ;
   } else {
-    MuScaT.update_line(my.index_line, my.to_line()) ;
     message("Nouvelle position de l'élément #" + my.id + " (« "+(my.src || my.text)+" ») : " + my.hposition());
   }
+  // Que ce soit pour une copie ou pour un déplacement, il faut actualiser
+  // les données de l'élément
+  my.updateXY();
 }
+
+Tag.prototype.onStartMoving = function(ev, ui){
+  var my = this ;
+  my.pour_copie = ev.altKey == true ;
+}
+
+// ---------------------------------------------------------------------
+//  Méthodes de création
 
 Tag.prototype.createCopy = function() {
   var my = this ;
