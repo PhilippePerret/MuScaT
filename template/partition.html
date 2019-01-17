@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>MuScaT</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript" src="required/js/constants.js"></script>
+    <script type="text/javascript" src="required/js/ui.js"></script>
+    <script type="text/javascript" src="required/js/main.js"></script>
+    <script type="text/javascript" src="required/js/MuScaT.js"></script>
+    <script type="text/javascript" src="required/js/Tag_instances.js"></script>
+    <script type="text/javascript" src="required/js/CTags.js"></script>
+    <script type="text/javascript" src="required/js/Page.js"></script>
+    <script type="text/javascript" src="tags.js"></script>
+    <link rel="stylesheet" href="required/css/ui.css" />
+    <link rel="stylesheet" href="required/css/tags.css" />
+    <link rel="stylesheet" href="aspect.css" />
+  </head>
+  <body>
+    <section id="tags">
+      <!-- Tous les tags seront déposés ici -->
+    </section>
+    <!--
+        Section contenant les boutons fonctionnels, qui n'apparaissent
+        qu'au passage de la souris
+    -->
+    <section id="tools" class="undisplayed">
+      <div id="picto_tools" onclick="$.proxy(UI,'toggle_tools')()">🛠</div>
+      <div class="masked">
+        <div id="divalign">
+          <span>Aligné</span>
+          <select id="alignement">
+            <option value="up">en haut / top</option>
+            <option value="down">en bas / bottom</option>
+            <option value="left">à gauche / left</option>
+            <option value="right">à droit / right</option>
+          </select>
+          <span>du premier élément sélectionné</span>
+          <button type="button" onclick="$.proxy(CTags,'align')()">Aligner</button>
+
+        </div>
+        <textarea name="codeSource" id="codeSource"></textarea>
+        <button type="button" onclick="$.proxy(MuScaT,'show_code')()">Copier le code source</button>
+        <button type="button" onclick="$.proxy(UI,'hide_tools')()">Fermer</button>
+      </div>
+    </section>
+
+    <section id="footer">
+      <span id="message">&nbsp;</span>
+    </section>
+  </body>
+</html>

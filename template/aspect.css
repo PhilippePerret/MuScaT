@@ -1,0 +1,20 @@
+/**
+  * THEME : Base
+  * AUTHOR: Philippe Perret <philippe.perret@yahoo.fr>
+  * DATE:   Jan. 2019
+  */
+
+  
+/**
+  * Pour avoir la nature des cadences ("Cadence parfaite", etc.) sous
+  * le trait. Un autre thème permet de les avoir après le trait, donc
+  * prend moins de place verticalement, mais plus de place horizontalement
+*/
+span.tag.cadence.typed:after {
+  position: absolute;
+  right: -0.2rem;
+  top: 2rem;
+  font-weigth: normal;
+  font-size: 0.8em;
+  text-align: right;
+}

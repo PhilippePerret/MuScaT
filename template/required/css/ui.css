@@ -1,0 +1,76 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+section#tools {
+  background-color: white;
+  text-align: right;
+  position: fixed;
+  right: 10px;
+  top: 10px;
+  padding: 0 10px 10px 10px;
+  z-index: 1000; /* au-dessus de tout */
+}
+
+/* Quand les outils sont masqués */
+section#tools.undisplayed div#picto_tools {
+  display: block;
+}
+section#tools.undisplayed .masked {
+  display: none;
+}
+
+/* Quand les outils sont affichés */
+section#tools.displayed {
+  background-color: #EEEEEE;
+}
+section#tools.displayed .masked {
+  display: block;
+  text-align: left;
+  background-color: white;
+}
+
+section#tools textarea#codeSource {
+  height: 40px;
+  width:  200px;
+}
+textarea#codeSource.opened {
+  width: 500px;
+  height: 300px;
+}
+
+@media print {
+  section#tools   {display: none;}
+  section#footer  {display: none;}
+}
+
+
+
+section#footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  color: white;
+  background-color: black;
+  padding: 2px 8px;
+  z-index: 500;
+}
+section#footer span#message {
+  font-family: 'Courier New', 'Courier';
+  font-size: 11pt;
+}
+
+section#footer #message.warning {
+  color: red;
+  background-color: #FFCCCC;
+}
+section#footer #message.notice {
+  color: inherit;
+  background-color: inherit;
+}
+
+/* La section qui contient tous les tags */
+section#tags {
+  position: relative;
+  z-index: 0;
+}

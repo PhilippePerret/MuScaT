@@ -1,0 +1,103 @@
+/*  Tous les éléments, ou presque, doivent être de position absolute
+    Non, c'est inutile puisque la méthode jQUery.draggable les rendra
+    absolus. Ça permet, dans un premier temps, d'avoir les éléments
+    les uns au-dessous des autres (en tout cas les images)
+*/
+/* image, div {
+  position: absolute;
+} */
+img.tag {
+  z-index: 0;
+}
+span.tag {
+  position: absolute;
+  display:  inline-block;
+  background-color: transparent;
+  padding:  4px;
+  z-index:  10;
+}
+
+/* Quand l'élément est sélectionné */
+.tag.selected {
+  border: 2px solid blue !important;
+}
+
+
+span.tag.dragged {
+  border:   1px dashed red;
+}
+span.tag.harmony {
+  font-weight: bold;
+
+}
+span.tag.cadence {
+  font-weight: bold;
+  border-width: 0 1px 1px 0;
+  border-color: black;
+  border-style: solid;
+  padding-right: 0.5em;
+  padding-bottom: 4px;
+  padding:top:    1em;
+  text-align:     right;
+  width:          60px!important;
+}
+span.tag.cadence.parfaite:after {
+  content: 'Cad.Parf.';
+}
+span.tag.cadence.imparfaite:after {
+  content: 'Cad.Imp.';
+}
+span.tag.cadence.italienne:after {
+  content: 'Cad.Ital.';
+}
+span.tag.cadence.plagale:after {
+  content: 'Cad.Plag.';
+}
+span.tag.cadence.demi:after {
+  content: 'Demi Cad.';
+}
+span.tag.cadence.rompue:after {
+  content: 'Cad.Romp.';
+}
+span.tag.accord {
+  font-family:    Helvetica, Arial;
+}
+
+/* --------------------------------------------------------------------- */
+
+/* Les textes  */
+
+span.text {
+
+}
+span.text.part {
+  font-variant: small-caps;
+  font-size:  1.1rem;
+  transform:  rotate(-38.9deg);
+  transform-origin: center;
+  border: 1px solid #333;
+  padding: 2px 4px;
+}
+span.text.measure {
+  font-size:  0.9rem;
+  border: 1px solid #333;
+  padding: 3px 3px 1px 2px;
+}
+/* --------------------------------------------------------------------- */
+
+/* Les lignes */
+span.line {
+  background-color: transparent !important;
+}
+span.line0T0, span.line1T0, span.line1T1, span.line0T1 {
+  border-top: 1px solid black;
+}
+span.line0B0, span.line1B0, span.line1B1, span.line0B1 {
+  border-bottom: 1px solid black;
+}
+span.line1T0, .line1T1, .line1B0, .line1B1 {
+  border-left: 1px solid black;
+}
+span.line0T1, .line1T1, .line0B1, .line1B1 {
+  border-right: 1px solid black;
+}
