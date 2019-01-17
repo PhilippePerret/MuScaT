@@ -1,5 +1,6 @@
 # Todo list
 
+* [BUG] Au lieu d'actualiser la ligne, ça ajoute la ligne
 * Voir comment découper la partition à l'aide de 'convert' et si possible, faire une aide et un tuto dessus.
 * Quand on clique dans la page, on doit fermer la boite d'outils si elle est ouverte
 * Pouvoir supprimer un élément

@@ -22,6 +22,13 @@
     <section id="tags">
       <!-- Tous les tags seront déposés ici -->
     </section>
+    <section id="rcolumn" style="display:none;">
+      <!-- Colonne gauche, non visible, pour travailler avec le code à côté-->
+      <textarea name="codeSource" id="codeSource"></textarea>
+      <div class="right">
+        <button type="button" onclick="$.proxy(Page,'update')()">Actualiser</button>
+      </div>
+    </section>
     <!--
         Section contenant les boutons fonctionnels, qui n'apparaissent
         qu'au passage de la souris
@@ -46,7 +53,6 @@
         </fieldset>
 
         <fieldset id="fs_code">
-          <textarea name="codeSource" id="codeSource" style="visibility:hidden;"></textarea>
           <button type="button" onclick="$.proxy(MuScaT,'show_code')()">Code source -> presse-papier</button>
         </fieldset>
 

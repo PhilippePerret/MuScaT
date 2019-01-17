@@ -7,6 +7,28 @@ const Page = {
   prev_itag: null, // par exemple 'image'
 
   /**
+   * Préparation de la fenêtre pour travailler avec le code
+   * à côté de la partition.
+   */
+  set_code_beside: function(){
+    $('section#rcolumn').show();
+    // TODO : régler la hauteur du textarea en fonction de la fenêtre
+    // On met le code dans le champ
+    MuScaT.update_code();
+  },
+
+  /**
+   * Méthode appelée par le bouton "Actualiser" pour prendre le code dans
+   * le champ de texte et le passer à la moulinette.
+   */
+  update: function(){
+    message('Actualisation demandée…');
+    eval(MuScaT.codeField().value);
+    MuScaT.load();
+    message(' ');
+  },
+
+  /**
     * Ajoute un élément quelconque dans la page (image, cadence, accord, etc.)
     * Elle s'assure en plus que les éléments en soient pas tous les uns sur
     * les autres, en leur attribuant une hauteur et un décalage gauche

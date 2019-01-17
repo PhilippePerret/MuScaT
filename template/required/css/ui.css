@@ -33,14 +33,6 @@ section#tools.opened .masked {
   background-color: white;
 }
 
-section#tools textarea#codeSource {
-  height: 40px;
-  width:  200px;
-}
-textarea#codeSource.opened {
-  width: 500px;
-  height: 300px;
-}
 
 @media print {
   section#tools   {display: none;}
@@ -84,3 +76,20 @@ button, select, select option {
 
 .right {text-align: right;}
 .center {text-align: center;}
+
+
+section#rcolumn {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 30%;
+  max-width: 30%;
+  min-width: 30%;
+}
+
+section#rcolumn textarea#codeSource {
+  font-family: 'Courier New', 'Courier';
+  font-size:    11pt;
+  height: 600px;
+  width:  98%;
+}

@@ -17,6 +17,26 @@ window.error = function(msg){
   dom.innerHTML = msg;
 }
 
+OPTIONS = {
+  'code beside': false,
+  'coordonates': false, // afficher les coordonnées lors des déplacementss
+}
+// pour ajouter une option
+window.options = function(options){
+  for(var i in arguments){
+    var option = arguments[i] ;
+    if (undefined == OPTIONS[option]){
+      alert('L’option « '+option+' » est inconnue de nos services.');
+    } else {
+      OPTIONS[option] = true ;
+    }
+  }
+}
+window.option = window.options;
+window.get_option = function(opt){
+  return OPTIONS[opt] ;
+}
+
 // Mis dans un object pour pouvoir être réaffectées lors de l'update
 // des tags sur la partition.
 const DATA_DRAGGABLE = {
@@ -44,15 +64,10 @@ $(document).ready(function(){
   // $('#tags').on('click', function(ev){CTags.desectionne_all()})
   $('#tags').on('click', $.proxy(Page, 'onClickOut'))
 
-  // On rend tous les éléments sensibles au click (mais sans propagation)
-  $('.tag').on('click', CTags.onclick);
-
-  // On ajout un observateur de clic sur les images (ils en ont déjà un
-  // par .tag) pour qu'ils donnent les coordonnées au clic de la souris,
-  // ce qui peut servir à place un élément sur l'image directement
-  $('img').on('click', $.proxy(Page,'getCoordonates'))
-
-  // On rend tous les éléments draggable
-  $('.drag').draggable(DATA_DRAGGABLE)
+  // Si l'option 'code beside' a été activée, il faut préparer la
+  // page
+  if (get_option('code beside')){
+    Page.set_code_beside();
+  }
 
 })

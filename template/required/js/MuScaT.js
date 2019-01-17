@@ -88,6 +88,7 @@ code avant de coller le nouveau).
 
     my.tags = [];
     var line_index = -1; // pour commencer à 0
+    $('section#tags')[0].innerHTML = ''; // si option code beside utilisé
 
     // On boucle sur toutes les lignes du fichier tags.js pour
     // traiter les lignes, c'est-à-dire les instancier et les créer
@@ -105,6 +106,9 @@ code avant de coller le nouveau).
       // Une ligne à traiter
       my.treat_line(line, line_index);
     })
+
+    // On finit en plaçant les observers
+    this.set_observers();
   },
 
   // ---------------------------------------------------------------------
@@ -130,5 +134,18 @@ code avant de coller le nouveau).
     } else {
       alert('Le premier mot « '+kword+' » est inconnu. Je ne peux pas traiter la ligne ' + idx_line + '…')
     }
+  },
+
+  set_observers: function(){
+    // On rend tous les éléments sensibles au click (mais sans propagation)
+    $('section#tags .tag').on('click', CTags.onclick);
+
+    // On ajout un observateur de clic sur les images (ils en ont déjà un
+    // par .tag) pour qu'ils donnent les coordonnées au clic de la souris,
+    // ce qui peut servir à place un élément sur l'image directement
+    $('section#tags img').on('click', $.proxy(Page,'getCoordonates'))
+
+    // On rend tous les éléments draggable
+    $('section#tags .drag').draggable(DATA_DRAGGABLE)
   }
 }
