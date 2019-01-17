@@ -30,6 +30,12 @@ const MuScaT = {
         , new_line = itag.to_line()
 
     my.lines.splice(idx, 0, new_line) ;
+    // Après l'insertion d'une nouvelle ligne, il faut modifier l'index
+    // de tous les tags suivants
+    for(var i = idx ; i <= last_tag_id ; ++i ){
+      var itag = ITags['obj'+i];
+      itag.index_line += 1 ;
+    }
     // On met la nouvelle ligne dans le clipboard pour la copier-coller
     navigator.clipboard.writeText(new_line + RC) ;
     // On l'actualise immédiatement dans le champ de saisie
@@ -102,8 +108,7 @@ code avant de coller le nouveau).
       return;
     }
 
-    my.tags   = [];
-    my.lines  = [];
+    my.reset_all();
     var line_index = -1; // pour commencer à 0
     $('section#tags')[0].innerHTML = ''; // si option code beside utilisé
 
@@ -130,6 +135,14 @@ code avant de coller le nouveau).
 
   // ---------------------------------------------------------------------
   // Méthodes fonctionnelles
+
+  // Pour tout réinitialiser chaque fois qu'on actualise l'affichage
+  reset_all: function(){
+    my.tags   = new Array();
+    my.lines  = new Array();
+    window.last_tag_id = -1 ;
+    // ITags = {};
+  },
 
   // Traitement d'une ligne de données dans Tags
   treat_line: function(line, iline){

@@ -56,5 +56,3 @@ const TABLECOR_LIGNE_TYPE_GRAPH_TO_LETTER = {
 const TABLECOR_TYPES_LINE = {
 
 }
-
-var last_tag_id = 0 ; // 1-start

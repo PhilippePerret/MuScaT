@@ -2,6 +2,10 @@
 // Table de hashage qui contient toutes les instances Tag.
 const ITags = {} ;
 
+// Pour indicer le tag ('obj1', 'obj2', etc.)
+var last_tag_id = 0 ; // 1-start
+
+
 // Instanciation d'un tag
 //
 function Tag(data_line, iline) {

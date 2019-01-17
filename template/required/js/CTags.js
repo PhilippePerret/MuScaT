@@ -80,9 +80,16 @@ const CTags = {
     var last_tid, tid, itag ;
     for(tid in ITags){
       itag = ITags[tid] ;
-      if(itag.y > y && itag.x > x){ return itag.index_line }
-      last_tid = tid ;
+      if (itag.y > y) {
+        // On a trouvé un tag plus bas, il sera forcément après
+        return itag.index_line ;
+      } else if (itag.y == y && itag.x > x) {
+        // On a trouvé un tag à la même hauteur, mais plus à droite
+        // Il sera forcément après
+        return itag.index_line ;
+      }
+      last_tid = tid ; // on le mémorise, si on ne trouve rien
     }
-    return ITags[last_tid] + 1 ; // au pire, à la fin
+    return ITags[last_tid].index_line + 1 ; // au pire, à la fin
   }
 }
