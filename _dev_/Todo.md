@@ -1,12 +1,17 @@
 # Todo list
 
-* Créer une ligne pour aligner les éléments (options 'repère', 'repaire')
-* Pouvoir supprimer un élément
+* Quand on sélectionne un élément, il doit se sélectionner aussi dans le code
+* [BUG] Quand met une mauvaise nature, ça coince alors qu'il ne devrait y avoir qu'un message d'erreur.
+* Indiquer que toutes les natures (à part "partition") peuvent être désignées par leur trois premières lettres.
+* [BUG] Il faut pouvoir utiliser les flèches dans le champ de code.
+* Créer une ligne mobile pour aligner les éléments (options 'repère', 'repaire') (une verticale et une horizontale)
+* Pouvoir mettre un commentaire en jouant `CMD Maj /`
+* Pouvoir supprimer un élément (avec la touche erase)
 * Faire les différents styles
 * Pouvoir sélectionner plusieurs objets par sélection rectangle à la souris
 * Pouvoir annuler un déplacement (garder toujours une copie du code initial ou simplement du code qui vient d'être changé — garder l'historique, puisque c'est simple)
 * Avec la sélection déplaçable avec les flèches, il faudrait pouvoir utiliser ALT pour faire une copie (et la déplacer). Donc ALT => Copie de l'élément (des éléments ?) sélectionnés puis déplacement
-
+* Pouvoir grouper des éléments pour qu'ils réagissent ensemble aux déplacements
 * Parler des différents moyens de traiter une partition
   * PDF -> JPG/PNG avec `convert -antialias -quality 92 source.pdf destination.png`
   * L'ouvrir dans Aperçu et sélectionner avec CMD MAJ 4

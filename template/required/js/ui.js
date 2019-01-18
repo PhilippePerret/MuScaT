@@ -32,6 +32,7 @@ const UI = {
 
 }
 
+// Permet de stopper complètement n'importe quel évènement
 window.stop = function(ev){
   ev.stopPropagation();
   ev.preventDefault();

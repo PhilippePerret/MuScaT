@@ -34,28 +34,15 @@ function Tag(data_line, iline) {
   // nature raccourcie et/ou dans la langue d'origine.
   this.nature_init = nature ;
 
-  // Si c'est la version d'une autre langue
-  if (NATURES[nature].aka) { nature = NATURES[nature].aka }
-
-  // Certaines natures sont des raccourcis, par exemple :
-  //    partie Mon_Introduction ...
-  // correspond à :
-  //    text Mon_Introduction type=part
-  // Ou encore :
-  //    mesure 11 ....
-  // correspond à :
-  //    text 10 type=measure
-  // Il faut donc transformer ces raccourcis ici et quand on redonne
-  // la ligne.
-  if ( NATURES_SHORTCUTS[nature] ) {
-    var dnature = NATURES_SHORTCUTS[nature];
-    this.nature = dnature.real ;
-    // this.type   = dnature.type ;
-    data_line.push('type='+dnature.type)
-  } else {
-    this.nature = nature ;
-  }
+  // Il faut consigner les données de la ligne, on en a besoin tout de
+  // suite après.
   this.data_line  = data_line ;
+
+  if ( ! this.nature ) {
+    // La nature n'a pas été trouvée
+    return error(`Impossible de trouver la nature « ${this.nature_init} ». Elle n’existe pas.`);
+  }
+
 
   // La ligne réelle où est placé ce tag dans le fichier tags.js, pour pouvoir
    // la modifier quand elle est déplacée ou ajustée.
@@ -405,7 +392,24 @@ Tag.prototype.onClick = function(ev){
 Tag.prototype.select = function(){
   var my = this ;
   my.jqObj.addClass('selected');
+  my.selectCodeLine();
 }
+// Méthode qui sélectionne le code du tag dans codeSource
+Tag.prototype.selectCodeLine = function(){
+  var my = this, offStart, offEnd ;
+  if(false == window.get_option('code beside')){return}
+  CodeField.domObj.focus();
+  if ( my.index_line > 0){
+    offStart = MuScaT.lines.slice(0, my.index_line).join(RC).length + 1 ;
+  } else { offStart = 0 }
+  offEnd = offStart + MuScaT.lines[my.index_line].length ;
+  CodeField.domObj.setSelectionRange(offStart,offEnd);
+  var timer = setTimeout(function(){
+    my.domObj.focus();
+    CodeField.domObj.setSelectionRange(offStart,offStart);
+  }, 2000);
+}
+
 Tag.prototype.deselect = function(){
   var my = this ;
   my.jqObj.removeClass('selected');
@@ -415,5 +419,34 @@ Tag.prototype.deselect = function(){
 //  Méthodes de statut
 
 Tag.prototype.is_nature_shortcut = function(){
-  return NATURES_SHORTCUTS[my.nature_init] != null;
+  return !!this._is_nature_shortcut ;
 }
+
+Object.defineProperties(Tag.prototype,{
+  nature: {
+    get: function(){
+      if( ! this._nature ){
+        this._nature = NATURES[this.nature_init].aka || this.nature_init ;
+        // Certaines natures sont des raccourcis, par exemple :
+        //    partie Mon_Introduction ...
+        // correspond à :
+        //    text Mon_Introduction type=part
+        // Ou encore :
+        //    mesure 11 ....
+        // correspond à :
+        //    text 10 type=measure
+        // Il faut donc transformer ces raccourcis ici et quand on redonne
+        // la ligne.
+        if ( NATURES_SHORTCUTS[this._nature] ) {
+          this._is_nature_shortcut = true ;
+          var dnature = NATURES_SHORTCUTS[this._nature];
+          this._nature = dnature.real ;
+          this.type    = dnature.type ;
+        } else {
+        }
+      }
+      return this._nature;
+    },
+    set: function(value){ this._nature = value }
+  }
+})

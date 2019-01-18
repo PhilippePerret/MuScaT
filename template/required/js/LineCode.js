@@ -27,13 +27,13 @@ LineCode.prototype.treate = function(){
   line = line.replace(/\t/g, ' ') ;
   line = line.replace(/ +/g, ' ') ;
   my.raw_data = line.split(' ') ;
-  console.log(my.raw_data);
-  console.log(my.nature_init);
-  console.log(my.nature);
+  // console.log(my.raw_data);
+  // console.log(my.nature_init);
+  // console.log(my.nature);
   // Le premier mot doit être connu, sinon on génère une erreur
   if (my.first_word_is_known) {
-    console.log('ma nature est : ' + my.nature)
-    console.log('is image est ' + my.is_image);
+    // console.log('ma nature est : ' + my.nature)
+    // console.log('is image est ' + my.is_image);
     if ( my.is_image && my.src_is_regular_expression) {
       my.treate_as_image_with_reg_expression() ;
     } else {
@@ -41,7 +41,7 @@ LineCode.prototype.treate = function(){
       tag.build();
     }
   } else {
-    error('Impossible de créer la ligne « '+my.raw_code+' » ('+my.index+'e). La nature « '+my.nature_init+' » est inconnue.')
+    error(`Impossible de créer la ligne « ${my.raw_code} » (${my.index}e). La nature « ${my.nature_init} » est inconnue.`)
   }
 
   // Doit retourner l'index de ligne, qui a pu être modifié si plusieurs
@@ -92,7 +92,6 @@ Object.defineProperties(LineCode.prototype,{
   },
   first_word_is_known: {
     get: function(){
-      console.log('-> first_word_is_known')
       return null != this.nature }
   },
   is_image: {

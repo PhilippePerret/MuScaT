@@ -19,6 +19,7 @@ window.error = function(msg){
 
 OPTIONS = {
   'code beside':    false,
+  'code à côté':    'code beside',
   'crop image':     false,
   'images PNG':     false, // true si on veut des noms de fichier ne png (pour convert par exemple)
   'découpe image':  'crop image',

@@ -1,20 +1,6 @@
 /**
   * Pour la gestion de la page
   */
-const CodeField = {
-  // Méthode appelée quand on écrit dans le champ de code
-  onKey: function(ev){
-    if(ev.keyCode == 13){
-      // console.log('Touche entrée');
-      if (ev.altKey) {
-        Page.update();
-      }
-    }
-    if(ev.metaKey){
-      console.log("Avec métakey : keyCode: " + ev.keyCode + " / charCode: " + ev.charCode);
-    }
-  }
-}
 const Page = {
   current_y: 0, // La position verticale courante
   current_x: 0, // La position horizontale courante
@@ -28,7 +14,7 @@ const Page = {
     $('section#rcolumn').show();
     // On place un observeur de touche sur le champ de code pour
     // avoir les raccourcis
-    $('section#rcolumn textarea#codeSource').on('keyup', CodeField.onKey)
+    CodeField.observe();
     // TODO : régler la hauteur du textarea en fonction de la fenêtre
     // On met le code dans le champ
     MuScaT.update_code();
