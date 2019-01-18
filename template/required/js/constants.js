@@ -15,6 +15,7 @@ const NATURES = {
   'mesure':     {aka:   'measure'},
   'part':       {desc:  'Pour la marque d’une partie'},
   'partie':     {aka:   'part'},
+  'partition':  {aka:   'score'},
   'score':      {desc:  'Pour l’image ou les images de la partition (le mieux : une par système)'},
   'texte':      {aka:   'text'},
   'text':       {desc:  'Pour écrire un texte quelconque.'}

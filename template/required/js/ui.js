@@ -31,3 +31,9 @@ const UI = {
   }
 
 }
+
+window.stop = function(ev){
+  ev.stopPropagation();
+  ev.preventDefault();
+  return false
+}

@@ -11,6 +11,7 @@ function  write(str) {
 // MuScaT pour "Mu Sc Ta (à l'envers)" pour "Music Score Tagger"
 const MuScaT = {
   lines: [],
+  motif_lines_added: null,
 
   // Méthode qui actualise une ligne de donnée (appelée par une instance
   // Tag après son déplacement, par exemple)
@@ -78,19 +79,25 @@ const MuScaT = {
   // Méthode appelée par le bouton pour afficher le code source
   // On met le code dans un champ de saisie (et dans le clipboard) pour
   // qu'il soit copié-collé
-  show_code: function(){
+  show_code: function(message){
     var my = this ;
-    navigator.clipboard.writeText(MY.very_full_code + RC) ;
     // my.codeField().select();
     // document.execCommand("copy");
-    alert(`
-Le code complet de votre partition tagguée est copié dans
-le presse-papier.
+    if (!message){
+      message = `
+  Le code complet de votre partition tagguée est copié dans
+  le presse-papier.
 
-Il vous suffit de le coller dans votre fichier tags.js
-en remplaçant tout le code (p.e. sélectionnez tout l'ancien
-code avant de coller le nouveau).
-`);
+  Il vous suffit de le coller dans votre fichier tags.js
+  en remplaçant tout le code (p.e. sélectionnez tout l'ancien
+  code avant de coller le nouveau).
+      `
+    }
+
+    alert(message);
+
+    navigator.clipboard.writeText(my.very_full_code + RC) ;
+
   },
 
   // Chargement et traitement du fichier `tags.js` qui doit définir les
@@ -115,22 +122,51 @@ code avant de coller le nouveau).
     // On boucle sur toutes les lignes du fichier tags.js pour
     // traiter les lignes, c'est-à-dire les instancier et les créer
     // dans le document.
-    Tags.trim().split(RC).forEach(function(e){
+    lines = Tags.trim().split(RC);
+    for(var i = 0, len=lines.length;i<len; ++i){
+      e = lines[i];
       try {
         var line = e.trim();
         my.lines.push(line);
         line_index += 1
         if (line.length == 0){ throw('--- Chaine vide ---') }
-        if (line.substr(0,1) == '#'){ throw('--- Commentaire ---') }
+        if (line.substr(0,2) == '//'){ throw('--- Commentaire ---') }
       } catch (e) {
-        return ;
+        continue ;
       }
       // Une ligne à traiter
-      my.treat_line(line, line_index);
-    })
+      line_index = new LineCode(line, line_index).treate();
+      // line_index = my.treat_line(line, line_index);
+      // En mode crop image, il ne faut traiter qu'une fois
+      if (get_option('crop image')){
+        break;
+      }
+    }
+    // Fin de boucle sur toutes les lignes
 
-    // On finit en plaçant les observers
-    this.set_observers();
+    if (get_option('crop image')){
+      itag = ITags['obj0'];
+      itag.x = 0 ; itag.y = 0 ; itag.update();
+      itag.jqObj.css({'position': 'absolute', 'top': 0, 'left': 0});
+      message("La découpe de l'image est prête.");
+      this.set_observers_mode_crop();
+      // Pour indicer chaque image
+      my.indice_cropped_image = 0 ;
+    } else {
+
+      // Placement des observers
+      this.set_observers();
+
+      // Si des lignes ont été créées au cours ud processus,
+      // on demande à l'utilisateur de sauver le code
+      if (my.motif_lines_added) {
+        my.show_code(`
+  Des lignes de code ont été ajoutées ($(my.motif_lines_added)), le nouveau code
+  a été copié dans le presse-papier pour pouvoir être collé dans votre fichier
+  tags.js.
+        `);
+      }
+    }
   },
 
   // ---------------------------------------------------------------------
@@ -144,38 +180,98 @@ code avant de coller le nouveau).
     // ITags = {};
   },
 
-  // Traitement d'une ligne de données dans Tags
-  treat_line: function(line, iline){
-    var my = this ;
-    // Épuration de la ligne
-    line = line.replace(/\t/g, ' ') ;
-    line = line.replace(/ +/g, ' ') ;
-    var data_line = line.split(' ') ;
-    // Le premier mot doit être connu, sinon on génère une erreur
-    if (my.should_know_first_word(data_line[0], iline)){
-      tag = new Tag(data_line, iline) ;
-      tag.build();
-    }
-  },
-
-  should_know_first_word: function(kword, idx_line) {
-    if (NATURES[kword]) {
-      return true ;
-    } else {
-      alert('Le premier mot « '+kword+' » est inconnu. Je ne peux pas traiter la ligne ' + idx_line + '…')
-    }
-  },
-
   set_observers: function(){
     // On rend tous les éléments sensibles au click (mais sans propagation)
     $('section#tags .tag').on('click', CTags.onclick);
-
     // On ajout un observateur de clic sur les images (ils en ont déjà un
     // par .tag) pour qu'ils donnent les coordonnées au clic de la souris,
     // ce qui peut servir à place un élément sur l'image directement
     $('section#tags img').on('click', $.proxy(Page,'getCoordonates'))
-
     // On rend tous les éléments draggable
     $('section#tags .drag').draggable(DATA_DRAGGABLE)
+  },
+
+  /**
+   * Placement des observers pour le mode crop qui permet de découper une
+   * image. Ou plus exactement, de définir les coordonnées de la découpe
+   */
+  set_observers_mode_crop: function(){
+    // console.log('-> set_observers_mode_crop');
+    // var   my = this
+    //     , scoreTag = ITags['obj0']
+    //     , scoreObj = scoreTag.jqObj ;
+
+    window.onmousedown = $.proxy(MuScaT,'onMouseDownModeCrop');
+    window.onmouseup   = $.proxy(MuScaT,'onMouseUpModeCrop');
+    window.onmousemove = $.proxy(MuScaT,'onMouseMoveModeCrop');
+
+    // console.log('<- set_observers_mode_crop');
+  },
+  cropper: function(){
+    this._cropper = document.getElementById('cropper');
+    if (this._cropper) {
+      return this._cropper;
+    } else {
+      $('#tags').append('<div id="cropper" style="position:absolute;border:1px dashed green;"></div>');
+      return this.cropper();
+    }
+  },
+  onMouseDownModeCrop:function(ev){
+    console.log('-> onMouseDownModeCrop');
+    var   my = this
+        , x = ev.pageX
+        , y = ev.pageY ;
+    my.cropStartX = x ;
+    my.cropStartY = y ;
+    var cropper = my.cropper();
+    cropper.style.left = my.cropStartX + 'px' ;
+    cropper.style.top = my.cropStartY + 'px' ;
+    cropper.style.borderStyle = 'dashed';
+    cropper.style.borderColor = 'green';
+    my.scropping = true ;
+    return stop(ev);
+  },
+  onMouseUpModeCrop: function(ev){
+    // Quand on passe par ici, c'est qu'on a fini de sélectionner
+    // la zone de l'image que l'on veut découper.
+    // La méthode donne le code à utiliser pour convert
+    console.log('-> onMouseUpModeCrop');
+    var   my = this ;
+    my.cropEndX = ev.pageX ;
+    my.cropEndY = ev.pageY ;
+    my.scropping = false ;
+    var cropper = my.cropper();
+    cropper.style.borderStyle = 'solid';
+    cropper.style.borderColor = 'blue';
+
+    // Calcul des valeurs
+    var w = my.cropEndX - my.cropStartX ;
+    var h = my.cropEndY - my.cropStartY ;
+    var x = my.cropStartX ;
+    var y = my.cropStartY ;
+    // document.getElementById('tags').removeChild(my.cropper);
+    var scoreTag = ITags['obj0'] ;
+    var codeConvert = '-crop ' + w + 'x' + h + '+' + x + '+' + y ;
+    var indiceImg  = ++ my.indice_cropped_image ;
+    var extensionImg = get_option('images PNG') ? 'png' : 'jpg' ;
+    codeConvert = 'convert ' + scoreTag.src + ' ' + codeConvert + ' ' + scoreTag.src + '-'+indiceImg+'.'+extensionImg;
+    navigator.clipboard.writeText(codeConvert);
+    message('Code à jouer en console : ' + codeConvert + ' (copié dans le presse-papier)');
+    return stop(ev);
+  },
+  onMouseMoveModeCrop: function(ev){
+    var   my = this
+        , w = ev.pageX - my.cropStartX
+        , h = ev.pageY - my.cropStartY ;
+    if(my.scropping){
+      var cropper = my.cropper();
+      cropper.style.width  = w + 'px';
+      cropper.style.height = h + 'px';
+    }
+    // console.log(x + ' / ' + y);
+    return stop(ev);
   }
 }
+
+Object.defineProperties(MuScaT, {
+})

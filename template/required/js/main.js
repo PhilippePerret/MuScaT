@@ -18,8 +18,11 @@ window.error = function(msg){
 }
 
 OPTIONS = {
-  'code beside': false,
-  'coordonates': false, // afficher les coordonnées lors des déplacementss
+  'code beside':    false,
+  'crop image':     false,
+  'images PNG':     false, // true si on veut des noms de fichier ne png (pour convert par exemple)
+  'découpe image':  'crop image',
+  'coordonates':    false, // afficher les coordonnées lors des déplacementss
 }
 // pour ajouter une option
 window.options = function(options){
@@ -28,7 +31,12 @@ window.options = function(options){
     if (undefined == OPTIONS[option]){
       alert('L’option « '+option+' » est inconnue de nos services.');
     } else {
-      OPTIONS[option] = true ;
+      if ('string' == typeof OPTIONS[option]){
+        OPTIONS[OPTIONS[option]] = true ;
+      } else {
+        OPTIONS[option] = true ;
+      }
+
     }
   }
 }
@@ -59,10 +67,14 @@ $(document).ready(function(){
   // le fichier tag.js
   MuScaT.load() ;
 
+  // return ; // pour le moment
+
   // Quand on clique sur la partition, en dehors d'un élément,
   // ça déselectionne tout
   // $('#tags').on('click', function(ev){CTags.desectionne_all()})
-  $('#tags').on('click', $.proxy(Page, 'onClickOut'))
+  if(false == get_option('crop image')){
+    $('#tags').on('click', $.proxy(Page, 'onClickOut'))
+  }
 
   // Si l'option 'code beside' a été activée, il faut préparer la
   // page

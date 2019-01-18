@@ -12,11 +12,13 @@ const CTags = {
       itag.deselect();
       my.selections.pop();
       my.selection = null;
+      my.desactiveOnKey();
     } else {
       if (false == with_maj) {my.desectionne_all()}
       my.selections.push(itag);
       itag.select();
       my.selection = itag;
+      my.activeOnKey();
     }
   }, // on_select
 
@@ -24,6 +26,39 @@ const CTags = {
     var my = this ;
     my.selections.forEach(function(el){el.deselect()})
     my.selections = new Array();
+    my.desactiveOnKey();
+  },
+
+  // Quand on a une sélection, on peut activer les touches propres
+  // aux sélections de tags
+  activeOnKey: function(ev){
+    var my = this ;
+    my.old_on_keypress = window.onkeypress ;
+    window.onkeypress = this.onKeySelection
+  },
+  // Quand on n'a plus de sélection, on désactive les touches propres
+  // aux sélections de tags
+  desactiveOnKey: function(ev){
+    var my = this ;
+    window.on_keypress = my.old_on_keypress ;
+    my.old_on_keypress = null;
+  },
+  // Méthode évènementielle qui reçoit les touches pressées quand il y
+  // a une sélection
+  onKeySelection: function(ev){
+    console.log('kcode:'+ev.keyCode + ' | charCode:' + ev.charCode + ' | maj: ' + ev.shiftKey);
+    switch (ev.keyCode) {
+      case 37: // left
+        CTags.moveLeftSelection(ev.shiftKey);return stop(ev);
+      case 38: // up
+        CTags.moveUpSelection(ev.shiftKey);return stop(ev);
+      case 39: // right
+        CTags.moveRightSelection(ev.shiftKey);return stop(ev);
+      case 40: // down
+        CTags.moveDownSelection(ev.shiftKey);return stop(ev);
+      default:
+      // Rien pour le moment
+    }
   },
 
   // Méthode appelée quand on veut aligner des éléments
@@ -70,6 +105,40 @@ const CTags = {
     ev.preventDefault();
   },
 
+  // ---------------------------------------------------------------------
+  // Méthode d'action sur la sélection
+
+  moveUpSelection: function(dem) {
+    var   my = this
+        , pas = -10 ;
+    my.changeSelection('y', pas, dem) ;
+  },
+  moveDownSelection: function(dem) {
+    var   my = this
+        , pas = 10 ;
+    my.changeSelection('y', pas, dem) ;
+  },
+  moveRightSelection: function(dem) {
+    var   my = this
+        , pas = 10;
+    my.changeSelection('x', pas, dem) ;
+  },
+  moveLeftSelection: function(dem) {
+    var   my = this
+        , pas = -10 ;
+    my.changeSelection('x', pas, dem) ;
+  },
+  changeSelection: function(prop, value, dem){
+    var my = this;
+    dem = dem ? 5 : 1
+    my.selections.forEach(function(itag){
+      itag[prop] += value * dem ;
+      itag.update();
+    })
+  },
+
+  // ---------------------------------------------------------------------
+  //  Méthodes de calcul
   /**
    * Retourne l'index, dans le fichier tags.js (i.e. la liste des lignes),
    * de la ligne qui se trouve juste après les coordonnées +y+, +x+

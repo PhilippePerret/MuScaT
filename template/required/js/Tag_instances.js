@@ -220,8 +220,9 @@ Tag.prototype.setRightAt = function(value) {
 // dans la feuille tags.js
 Tag.prototype.update = function() {
   var my = this ;
-  Page.update(my);
-  MuScaT.update_line(my.index_line, my.to_line()) ;
+  // Page.update(my);
+  // MuScaT.update_line(my.index_line, my.to_line()) ;
+  my.updateXY(); // ça fait tout, normalement
 }
 
 // Méthode qui retourne l'objet HTML du DOM du tag
