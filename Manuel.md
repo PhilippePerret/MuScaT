@@ -5,10 +5,10 @@
 Pour actualiser le fichier PDF:
 - se placer dans ce dossier (cd ...)
 - supprimer le pdf existant
-- jouer : `pandoc Manuel.md --from=markdown --to=latex --output=Manuel.pdf`
+- jouer : `pandoc Manuel.md --from=markdown --to=latex --output=Manuel.pdf;open Manuel.pdf`
 -->
 
-Suite à la diffusion de mon [Initiation à l'analyse musicale](TODO: http://YOUTUBE) — dont je ne pensais pas qu'elle rencontrerait un tel succès ;-) — nombreux ont été les professeurs et autres pédagogues musicologues à me demander le logiciel que j'avais utilisé pour créer l'animation de cette initiation.
+Suite à la diffusion de mon [Initiation à l'analyse musicale](https://www.youtube.com/channel/UCX3XhJw9x1RsVx1s3GNYceA) — dont je ne pensais pas qu'elle rencontrerait un tel succès ;-) — nombreux ont été les professeurs et autres pédagogues musicologues à me demander le logiciel que j'avais utilisé pour créer l'animation de cette initiation.
 
 C'est malheureusement une application personnelle un peu trop… personnelle (comprendre : indomptable pour qui ne l'a pas créé), une usine à gaz ne fonctionnant qu'à la ligne de code.
 
@@ -80,7 +80,7 @@ On placer les éléments aux bons endroits simplement en les déplaçant à la s
 
 On demande enfin le code final de l'analyse, que l'on colle dans notre fichier `monAnalyse/tags.js` pour le conserver (si vous voulez en garder une trace ou pouvoir le modifier plus tard).
 
-### Impressio de l'analyse en PDF {#syn_print_pdf}
+### Impression de l'analyse en PDF {#syn_print_pdf}
 
 On imprime la page HTML du navigateur en choisissant le format PDF (ou on enregistre la page au format HTML et on utilise un outil de transformation des pages HTML en PDF).
 
@@ -319,24 +319,30 @@ Méthode la plus rapide, mais également la moins précise. Ce manque de précis
 
 * Ouvrir la partition PDF dans l'application Aperçu,
 * jouer `CMD Maj 4` pour activer la sélection par souris,
-* sélectionner la zone de la partition à capture (un système),
+* sélectionner la zone de la partition à capturer (un système),
 * recommencer l'opération pour tous les systèmes,
-* récupérer les captures sur le bureau (sauf si l'astuce ci-dessus a été utilisée) et les mettre dans le dossier `images` de votre analyse,
-* modifier les noms des fichiers (sauf si vous avez utilisé l'astuce ci-dessous) en les indiçant de 1 (ou 0) à N pour les insérer plus facilement dans l'analyse.
+* récupérer les captures sur le bureau — sauf si l'astuce ci-dessous (1) a été utilisée — et les mettre dans le dossier `images` de votre analyse,
+* modifier les noms des fichiers — sauf si vous avez utilisé l'astuce ci-dessous (1) — en les indiçant de 1 (ou 0) à N pour les insérer plus facilement dans l'analyse.
 
-Astuce : pour aller encore plus vite, vous pouvez :
+(1) Astuce : pour aller encore plus vite, vous pouvez :
 
-* utiliser l'[utilitaire Muscat `change_folder_captures`](#utils_change_captures_folder) pour définir le dossier des captures écran ou consulter la [procédure décrite ici](https://www.laptopmag.com/articles/change-macs-default-screenshot-directory). Vos captures iront directement dans ce dossier (pour revenir au dossier précédent, mettez `~/Desktop` à la fin de la ligne de commande),
+* utiliser l'[utilitaire Muscat `change_folder_captures`](#utils_change_captures_folder) pour définir le dossier des captures écran ou consulter la [procédure décrite ici](https://www.laptopmag.com/articles/change-macs-default-screenshot-directory). Vos captures iront directement dans ce dossier,
 * effectuer les captures,
-* utiliser l'[utilitaire Muscat `./utils/rename_images.rb`](#utils_renommer_fichiers) pour renommer instantannément vos fichiers.
-
-> Noter que les fichiers sont classés par date, pour pouvoir être indicés. Donc il faut impérativement découper la partition dans l'ordre (ou ajuster les indices ensuite en les changeant).
+* utiliser l'[utilitaire Muscat `rename_images`](#utils_renommer_fichiers) pour renommer instantannément vos fichiers.
 
 Note : vous pouvez voir ou revoir la procédure dans les tutoriels consacrés sur [ma chaine YouTube]().
 
 ### Avec sélection rectangulaire dans Aperçu (Mac)
 
-Une méthode qui ressemble à la précédente et permet d'être plus précis. Mais cette précision se paie au détriment du temps, notamment pour l'enregistrement des fichiers images.
+Une méthode qui ressemble à la précédente et permet d'être plus précis. Mais cette précision se fait au détriment du temps, notamment pour l'enregistrement des fichiers images.
+
+* ouvrir la partition PDF dans Aperçu,
+* choisir la sélection rectangle (p.e. Outils > Sélection rectangulaire),
+* sélectionner le système grossièrement,
+* ajuster parfaitement la sélection à l'aide des poignées,
+* copier la sélection (`CMD C`),
+* activer la combinaison `CMD N` pour créer une nouvelle image à partir du presse-papier,
+* enregistrer l'image (`CMD S`) avec le nom voulu, dans le dossier voulu, en choisissant le format voulu.
 
 ### Avec Aperçu, sélection souris et rectangle (Mac)
 
@@ -344,25 +350,29 @@ On peut bien entendu imaginer une méthode intermédiaire qui reprendrait les de
 
 ### Avec **MuScaT** et `convert`
 
-C'est une méthode intermédiaire. Elle souffre cependant, parfois, d'un manque de qualité de rendu.
+C'est une méthode qui souffre parfois d'un manque de qualité de rendu.
 
 On tire déjà les images du PDF à l'aide de la commande à jouer dans le Terminal (adapter la qualité du traitement en fonction du résultat) :
 
 ```
-# Il faut se trouver dans le dossier contenant la partition (cd ...)
-convert[ options] partition.pdf partition.jpg # ou .png
+
+  # Se trouver dans le dossier contenant la partition (cd ...)
+  convert[ options] partition.pdf partition.jpg # ou .png
+
 ```
 
-Autant d'images que de pages sont produite.
+Autant d'images que de pages sont produites.
 
 On insert la première dans le code du fichier `tags.js`, avec l'option `crop image` :
 
 ```
-# Dans tags.js
-option('crop image')
-Tags=`
-partition partition-0.jpg
-`;
+
+    # Dans tags.js
+    option('crop image')
+    Tags=`
+    partition partition-0.jpg
+    `;
+
 ```
 
 On ouvre le fichier `partition.html` dans Firefox.
@@ -381,16 +391,19 @@ Si Gimp présente une précision de découpage inégalable, l'application offre 
 * « cropper » l'image à la taille du plus haut système,
 * exporter chaque image-système (avec le bon nom).
 
+Ce mode d'emploi n'étant pas destiné à maitriser Gimp, je vous renvoie au manuel d'utilisation de l'application.
 
 ## Options
 
 ### Option « code à côté » {#option_code_beside}
 
-L'option « code à côté » permet d'avoir le fichier contenant le code juste à côté de la partition, ce qui est très pratique pour le modifier sans avoir à changer d'application.
+L'option « code à côté » permet d'avoir le fichier contenant le code juste à côté de la partition, ce qui est très pratique pour le modifier sans avoir à changer d'application. On le voit ci-dessous dans la boite noir.
 
 ![Code à côté de la partition](img/option_code_beside.png)
 
 ### Option « crop image » (ou « découpe image »)
+
+L'option « crop image » fait passer dans un mode d'utilisation qui va permettre de découper l'image de façon aisée (par simple [copié-]collé).
 
 TODO:
 
