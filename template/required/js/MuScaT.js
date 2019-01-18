@@ -96,7 +96,7 @@ const MuScaT = {
 
     alert(message);
 
-    navigator.clipboard.writeText(my.very_full_code + RC) ;
+    navigator.clipboard.writeText(my.very_full_code() + RC) ;
 
   },
 

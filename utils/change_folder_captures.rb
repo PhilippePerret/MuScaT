@@ -24,6 +24,9 @@ unless ARGV.include?('-h') || ARGV.include?('--help')
       end
     end
 
+    # On exécute le changement
+    `defaults write com.apple.screencapture location "#{DST_FOLDER}"`
+
     msgs << "Le dossier des captures a été mis à #{DST_FOLDER}."
     msgs = INDENT + msgs.join("\n#{INDENT}")
     puts "\n\n\n#{msgs}\n\n\n".vert
