@@ -24,7 +24,9 @@ Mais pour répondre à ces marques d'intérêts et à mes propres moyens, j'ai v
 
 C'est ainsi qu'est né **MuScaT** (dont le nom est composé de « Mu » pour « Musique », « Sc » pour « Score » — « partition » en anglais — et « Ta » à l'envers pour « Tag », le sens en français, comme les tags qu'on dépose sur les murs).
 
-En bref, **MuScaT** permet donc de **réaliser rapidement, de façon très propre et très pratique, des analyses de partitions musicales** comme l'extrait ci-dessous.
+En bref, **MuScaT** permet de **réaliser rapidement, de façon très propre et très pratique, des analyses de partitions musicales** comme l'extrait ci-dessous.
+
+![Extrait d’analyse musicale avec MuScaT](img/manuel/extrait_analyse.png)
 
 Elle est semi-graphique, et permet d'ajuster très finement les éléments — au pixel près — de façon visuelle et agréable.
 
@@ -70,13 +72,15 @@ Dans tous les cas, on place la ou les images dans le dossier `monAnalyse/images`
 
 On ouvre ensuite son fichier `monAnalyse/tags.js`. C'est **le fichier principal de l'analyse**, celui qui va définir tous les éléments, les images, les marques de modulations, les accords, les cadences, les parties, tout ce qui constitue l'analyse.
 
-![Exemple d’images dans tags.js](./img/images_in_tags_js.png)
+![Exemple d’images dans tags.js](./img/manuel/images_in_tags_js.png)
 
 On définit d'abord les images de la partition, en ajoutant des commentaires pour pouvoir se retrouver, plus tard, lorsque le fichier deviendra conséquent.
 
 ### Définition de tous les éléments de l'analyse {#syn_def_analysis_elements}
 
-On définit ensuite tous les autres éléments graphiques : marque de parties, accords, chiffrages, numéros de portée, cadences, etc. On s'arrange pour les placer, dans `tags.js`, à peu près en fonction des positions des images de la partition. C'est-à-dire que si une cadence doit se produire sur le troisième système, il vaut mieux la définir après la ligne insérant l'image de ce troisième système (remarquez cependant qu'il n'y a aucune obligation là-dessus).
+L'élément graphique de base de l'application MuScaT est le « Tag » (comme on en parle sur les murs des villes). Une analyse avec MuScaT consiste à « tagguer » une partition (remarquez que les partitions elles-mêmes, ou les images de leurs systèmes, sont aussi des « Tags »). C'est la raison pour laquelle le fichier qui va les définir s'appelle `tags.js`.
+
+On définit donc maintenant tous les autres éléments graphiques, tous les *tags* : marque de parties, accords, chiffrages, numéros de portée, cadences, etc. On s'arrange pour les placer, dans `tags.js`, à peu près en fonction des positions des images de la partition. C'est-à-dire que si une cadence doit se produire sur le troisième système, il vaut mieux la définir après la ligne insérant l'image de ce troisième système (remarquez cependant qu'il n'y a aucune obligation là-dessus).
 
 ### Ajustement des éléments graphiques {#syn_ajustement_elements}
 
@@ -84,7 +88,7 @@ On ouvre le fichier `monAnalyse/partition.html` dans un navigateur internet (Fir
 
 On placer les éléments aux bons endroits simplement en les déplaçant à la souris, ou avec les flèches de son clavier.
 
-![Exemple de déplacement d'élément](./img/move_score.png)
+![Exemple de déplacement d'élément](./img/manuel/move_score.png)
 
 ### Récupération du code final {#syn_recuperation_code_final}
 
@@ -307,7 +311,7 @@ Si vous avez déjà consulté ce manuel, vous pouvez trouver une aide rapide ici
 
 Les marques de partie s'indiquent avec le tag `partie` (ou `par` ou `part`). Ce sont des textes dans des boites inclinées qui ont cet aspect :
 
-![Marque de partie](img/marque_partie.png)
+![Marque de partie](img/manuel/marque_partie.png)
 
 #### Les mesures {#type_texte_mesure}
 
@@ -319,7 +323,7 @@ On peut mettre un texte au-dessus de la barre inclinée (en général la tonalit
 
 Pour séparer les deux textes, on utilise tout simplement la barre inclinée, appelée « balance ». Ainsi, pour obtenir :
 
-![Modulation avec sous-titre](img/Modulation_sous_texte.png)
+![Modulation avec sous-titre](img/manuel/Modulation_sous_texte.png)
 
 … on utilisera simplement :
 
@@ -445,7 +449,7 @@ Ce mode d'emploi n'étant pas destiné à maitriser Gimp, je vous renvoie au man
 
 L'option « code à côté » permet d'avoir le fichier contenant le code juste à côté de la partition, ce qui est très pratique pour le modifier sans avoir à changer d'application. On le voit ci-dessous dans la boite noir.
 
-![Code à côté de la partition](img/option_code_beside.png)
+![Code à côté de la partition](img/manuel/option_code_beside.png)
 
 ### Option « crop image » (ou « découpe image »)
 

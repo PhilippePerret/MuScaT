@@ -1,5 +1,6 @@
 # Todo list
 
+* [BUG] Quand on modifie la hauteur (h) d'une modulation, ça ne corrige pas
 * Pouvoir verrouiller des éléments (il suffit d'indiquer 'locked' sur la ligne)
 * Pouvoir grouper des éléments pour qu'ils réagissent ensemble aux déplacements
 * Faire le traitement avec la version minimale des écritures (sans "x=" et "y=").
