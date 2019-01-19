@@ -44,6 +44,16 @@ NATURES_SHORTCUTS = {
   'modulation': {real: 'text', type: 'modulation'}
 }
 
+// Les options utilisable
+OPTIONS = {
+  'code beside':    false,
+  'code à côté':    'code beside',
+  'crop image':     false,
+  'images PNG':     false, // true si on veut des noms de fichier ne png (pour convert par exemple)
+  'découpe image':  'crop image',
+  'coordonates':    false, // afficher les coordonnées lors des déplacementss
+}
+
 // Définition d'un retour chariot
 const RC = `
 `

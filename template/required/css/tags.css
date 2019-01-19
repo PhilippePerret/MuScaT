@@ -3,13 +3,23 @@
     absolus. Ça permet, dans un premier temps, d'avoir les éléments
     les uns au-dessous des autres (en tout cas les images)
 */
+
+/* La section qui contient tous les tags */
+section#tags {
+  position: relative;
+  padding-bottom: 500px;
+  background-color: white;
+  z-index: 0;
+}
+
 /* image, div {
   position: absolute;
 } */
 img.tag {
   z-index: 0;
 }
-span.tag {
+/* Des spans ou des divs */
+.tag {
   position: absolute;
   display:  inline-block;
   background-color: transparent;
@@ -32,7 +42,7 @@ span.tag {
 }
 
 
-span.tag.dragged {
+.tag.dragged {
   border:   1px dashed red;
 }
 span.tag.harmony {
@@ -92,6 +102,13 @@ span.text.measure {
   border: 1px solid #333;
   padding: 3px 3px 1px 2px;
 }
+
+div.tag.modulation svg {
+  /* position: absolute;
+  top:10px; left: 10px;
+  border:1px dashed red; */
+}
+
 /* --------------------------------------------------------------------- */
 
 /* Les lignes */

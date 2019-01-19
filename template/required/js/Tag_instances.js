@@ -106,7 +106,7 @@ Tag.prototype.hStyles = function(){
 }
 
 // ---------------------------------------------------------------------
-//  Méthodes de construction
+//  Méthodes de CONSTRUCTION
 
 // Méthode qui construit l'élément dans la page
 Tag.prototype.build = function(){
@@ -153,6 +153,9 @@ Tag.prototype.to_html = function() {
     case 'text':
       classes.push('typed') ; // permet d'ajouter du texte après
       classes.push(my.type) ;
+      if (my.type == 'modulation'){
+        return my.buildAsModulation(classes, css);
+      }
       break;
     case 'line':
       classes.push('line'+my.code_line_by_type())
@@ -160,6 +163,50 @@ Tag.prototype.to_html = function() {
     default:
   }
   return '<span id="obj'+my.id+'" class="'+classes.join(' ')+'" style="'+css+'">'+(my.text||'&nbsp;')+'</span>';
+}
+
+// La marque de modulation possède son propre code, complexe, à l'aide
+// de SVG.
+// +classes+  Classes CSS
+Tag.prototype.buildAsModulation = function(classes, css){
+  var my = this ;
+  // my.main_text = "SOL min"; my.sous_text = "(sous-dom)"
+  var vly1 = 65 ; // v=vertical, l=ligne, y1
+  var vly2 = (vly1 + (my.h ? my.h : 20)) ;
+
+  code = `
+<div id="${my.domId}" class="${classes.join(' ')}" style="${css}">
+  <svg xml:lang="fr" width=140 height=100
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+    <text class="main" font-size=16 x="0" y="56" transform="rotate(-28 0 0)">${my.main_text || my.text}</text>
+    <text class="sous" font-size=14 x="2" y="84" transform="rotate(-28 0 20)">${my.sous_text || ''}</text>
+    <line stroke-width="2" x1="18" y1="64" x2="88" y2="26" stroke="black" stroke-linecap="round" />
+    <line stroke-width="2" x1="18" y1="${vly1}" x2="18" y2="${vly2}" stroke="black" stroke-linecap="round" />
+  </svg>
+</div>`
+  return code;
+   /*
+   <!-- NOTE : JOUER SUR CE y2 pour la hauteur du trait (h=XXX) -->
+   <!-- NOTE : Pour descendre toute l'image dans son div, il faut incrémenter
+               de la même valeur TOUS les y (même les y2)
+   -->
+    */
+}
+// Les attributs pour le SVG d'une modulation
+const MODUL_SVG_ATTRS = {
+  'xml:lang':     'fr',
+  'width':        '140',
+  'height':       '140',
+  'xmlns':        'http://www.w3.org/2000/svg',
+  'xmlns:xlink':  'http://www.w3.org/1999/xlink'
+}
+// Les attributs du texte principal (tonalité) pour le SVG modulation
+const MODUL_MAIN_TEXT_ATTRS = {
+  'font-size': '16', 'x': 0, 'y': 56, 'transform': 'rotate(-28deg 0 0)'
+}
+const MODUL_SOUS_TEXT_ATTRS = {
+  'font-size': '14', 'x': 2, 'y': 84, 'transform': 'rotate(-28deg 0 0)'
 }
 
 // ---------------------------------------------------------------------
@@ -254,6 +301,8 @@ Tag.prototype.decompose = function(){
           my.y = value_int ; break ;
         case 'w':
           my.w = value_int ; break ;
+        case 'h':
+          my.h = value_int ; break ;
         case 'type':
           switch (my.nature) {
             case 'cadence':
@@ -280,6 +329,13 @@ Tag.prototype.decompose = function(){
         default:
           // La plupart des autres éléments
           my.text = el.replace(/_/g, ' ') ;
+          // Si le texte contient une balance, ça définit le
+          // main-texte et le sous-texte
+          if(my.text.match(/\//)){
+            d = my.text.split('/') ;
+            my.main_text = d[0] ;
+            my.sous_text = d[1] ;
+          }
       }
     }
   })

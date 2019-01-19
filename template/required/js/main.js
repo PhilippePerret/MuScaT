@@ -3,7 +3,7 @@
 */
 // Dans le cas où l'utilisateur n'aurait pas Firebug ou autre.
 if ('undefined'==typeof(console)){
-  console = {log:function(e){ } }
+  console = {log:function(e){},error:function(e){}}
 }
 
 window.message = function(str){
@@ -17,14 +17,6 @@ window.error = function(msg){
   dom.innerHTML = msg;
 }
 
-OPTIONS = {
-  'code beside':    false,
-  'code à côté':    'code beside',
-  'crop image':     false,
-  'images PNG':     false, // true si on veut des noms de fichier ne png (pour convert par exemple)
-  'découpe image':  'crop image',
-  'coordonates':    false, // afficher les coordonnées lors des déplacementss
-}
 // pour ajouter une option
 window.options = function(options){
   for(var i in arguments){

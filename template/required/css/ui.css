@@ -65,13 +65,6 @@ section#footer #message.notice {
   background-color: inherit;
 }
 
-/* La section qui contient tous les tags */
-section#tags {
-  position: relative;
-  padding-bottom: 500px;
-  z-index: 0;
-}
-
 
 button, select, select option {
   font-size: inherit;

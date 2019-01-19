@@ -85,7 +85,12 @@ Object.defineProperties(LineCode.prototype,{
     get: function(){ return this.raw_data[0] }
   },
   nature: {
-    get: function(){ return NATURES[this.nature_init].aka || this.nature_init }
+    get: function(){
+      if(undefined == NATURES[this.nature_init]){
+        return null;
+      }
+      return NATURES[this.nature_init].aka || this.nature_init
+    }
   },
   designation: {
     get:function(){ return this.raw_data[1]}

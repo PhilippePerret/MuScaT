@@ -6,17 +6,27 @@ Pour actualiser le fichier PDF:
 - se placer dans ce dossier (cd ...)
 - supprimer le pdf existant
 - jouer : `pandoc Manuel.md --from=markdown --to=latex --output=Manuel.pdf;open Manuel.pdf`
+
+Pour trouver précisément où peut se trouver un problème, on peut passer par
+le document LaTex et le composer. Pour le produire :
+
+pandoc -s Manuel.md --from=markdown --to=latex --output=Manuel.tex;open Manuel.tex
+
 -->
 
-Suite à la diffusion de mon [Initiation à l'analyse musicale](https://www.youtube.com/channel/UCX3XhJw9x1RsVx1s3GNYceA) — dont je ne pensais pas qu'elle rencontrerait un tel succès ;-) — nombreux ont été les professeurs et autres pédagogues musicologues à me demander le logiciel que j'avais utilisé pour créer l'animation de cette initiation.
+## Introduction (histoire)
 
-C'est malheureusement une application personnelle un peu trop… personnelle (comprendre : indomptable pour qui ne l'a pas créé), une usine à gaz ne fonctionnant qu'à la ligne de code.
+Suite à la diffusion de mon [Initiation à l'analyse musicale](https://www.youtube.com/channel/UCX3XhJw9x1RsVx1s3GNYceA) — dont je ne pensais pas qu'elle rencontrerait un tel succès ;-) — nombreux ont été les professeurs et autres pédagogues ou musicologues à me demander le logiciel que j'avais utilisé pour créer l'animation de cette initiation.
 
-Mais pour répondre à ces intérêts et à mes propres moyens, j'avais besoin d'un outil simple et pratique qui me permettrait de réaliser rapidement des analyses de partitions.
+C'est malheureusement une application personnelle un peu trop… personnelle (comprendre : indomptable pour qui ne l'a pas créé, toute en ligne de code), une usine à gaz ne fonctionnant qu'à la ligne de code (son créateur ne sait même pas toujours par quel bout la prendre).
 
-C'est ainsi qu'est né **MuScaT** (qui est composé de « Mu » pour « Musique », « Sc » pour « Score » — « partition » en anglais — et « Ta » à l'envers pour « Tag », le sens en français, comme les tags qu'on dépose sur les murs).
+Mais pour répondre à ces marques d'intérêts et à mes propres moyens, j'ai voulu concevoir un outil simple — en tout cas plus simple — et plus pratique qui permettrait de réaliser rapidement des analyses de partitions.
 
-**MuScaT** permet donc de **réaliser rapidement, de façon très propre et très pratique, des analyses de partitions musicales**. Elle est semi-graphique, et permet d'ajuster très finement les éléments — au pixel près — de façon visuelle et agréable.
+C'est ainsi qu'est né **MuScaT** (dont le nom est composé de « Mu » pour « Musique », « Sc » pour « Score » — « partition » en anglais — et « Ta » à l'envers pour « Tag », le sens en français, comme les tags qu'on dépose sur les murs).
+
+En bref, **MuScaT** permet donc de **réaliser rapidement, de façon très propre et très pratique, des analyses de partitions musicales** comme l'extrait ci-dessous.
+
+Elle est semi-graphique, et permet d'ajuster très finement les éléments — au pixel près — de façon visuelle et agréable.
 
 * [Synopsis de fabrication](#synopsis_fabrication)
 * [Composition d'un tag](#composition_dun_tag)
@@ -240,7 +250,7 @@ Si vous avez déjà consulté ce manuel, vous pouvez trouver une aide rapide ici
 
 ```
   partition     `image <source> x=... y=... z=...`
-                Exemple : `image monScore.png z=50 x=100 y=100`
+  par           Exemple : `image monScore.png z=50 x=100 y=100`
                 - "z" désigne le zoom en pourcentage
                 - l'image doit se trouver dans le dossier 'images'
                 Alias : score, image
@@ -248,39 +258,79 @@ Si vous avez déjà consulté ce manuel, vous pouvez trouver une aide rapide ici
                 suite d'image (image1, image2, image3 etc.)
 
   accord        `accord <nom> x=... y=...`
-                Exemple : `accord Cm7 x=230 y=520`
+  acc           Exemple : `accord Cm7 x=230 y=520`
                 Alias : chord
 
   harmonie      `harmonie <degré accord et renversement> x=... y=...`
-                Exemple : `harmonie II** x=200 y=230`
+  har           Exemple : `harmonie II** x=200 y=230`
                 Alias : harmony, chiffrage
 
+  modulation    `modulation <Ton[/sous-texte]> x=HH y=VV h=HH`
+  mod           Exemple : `modulation D_Maj/Sous–dom. x=100 y=100 h=60`
+                « h », ici, permet de définir la longueur du trait qui
+                rejoint la partition (le trait vertical).
+
   cadence       `cadence <degré accord> type=<type cadence> x=... y=... w=...`
-                Exemple : `cadence I type=italienne w=200 x=12 y=100`
+  cad           Exemple : `cadence I type=italienne w=200 x=12 y=100`
 
   ligne         `ligne <type ligne> x=... y=... w=...`
-                Exemples : `ligne U w=120 x=100 y=50`
+  lig           Exemples : `ligne U w=120 x=100 y=50`
                            `line |---| w=50 x=100 y=50`
 
   degré         `degre <indice> x=... y=...`
-                Exemple : `degre 5 x=100 y=120`
+  deg           Exemple : `degre 5 x=100 y=120`
 
   texte         `texte <contenu> x=... y=... type=...`
-                Exemple : `texte Exposition x=100 y=50 type=partie`
-```
-
-
-#### Les types de textes {#types_de_textes}
+  tex           Exemple : `texte Exposition x=100 y=50 type=partie`
 
 ```
 
-    type      anglais     Description
+
+### Les types de textes {#types_de_textes}
+
+* [Les parties](#type_texte_partie)
+* [Les modulations](#type_texte_modulation)
+* [Les mesures](#type_texte_mesure)
+
+```
+
+    type        anglais     Description
   ------------------------------------------------------------------
-    partie    part        Titre de partie, comme Exposition ou Coda
-    mesure    measure     Numéro de mesure, dans un carré.
+    partie      part        Titre de partie, comme Exposition ou Coda
+    mesure      measure     Numéro de mesure, dans un carré.
+    modulation  (id.)       Marque de modulation, en haut de partition,
+                            inclinée.
 
 ```
 
+#### Les parties {#type_texte_partie}
+
+Les marques de partie s'indiquent avec le tag `partie` (ou `par` ou `part`). Ce sont des textes dans des boites inclinées qui ont cet aspect :
+
+![Marque de partie](img/marque_partie.png)
+
+#### Les mesures {#type_texte_mesure}
+
+Les numéros de mesure, s'il ne sont pas indiqués sur la partition elle-même, peuvent être ajoutés à l'aide du tag `mesure` (ou `measure`, ou `mes`), suivant du numéro de mesure puis des coordonnées.
+
+#### Les modulations {#type_texte_modulation}
+
+On peut mettre un texte au-dessus de la barre inclinée (en général la tonalité vers laquelle on module) et un texte en dessous (en général la fonction de cette tonalité).
+
+Pour séparer les deux textes, on utilise tout simplement la barre inclinée, appelée « balance ». Ainsi, pour obtenir :
+
+![Modulation avec sous-titre](img/Modulation_sous_texte.png)
+
+… on utilisera simplement :
+
+```
+  modulation Sol_min/(sous-dom.) x=200 y=300
+
+  ou
+
+  mod Sol_min/(sous-dom.) 200 300
+
+```
 
 ### Dessiner des lignes
 
@@ -300,10 +350,6 @@ Le premier élément définit le `type` de la ligne. On trouve les types suivant
 ```
 
 On peut ensuite définir sa taille et sa position avec les lettres habituelles `x` (position horizontale), `y` (position verticale) et `w` (largeur en pixels).
-
-### Écrire un texte
-
-TODO:
 
 
 ## Procédure de découpage de la partition {#procedure_crop_partition}
