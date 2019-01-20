@@ -2,6 +2,7 @@
 
 * [BUG] Le cadenas n'est pas compris, en lecture du fichier tags.js
 * [BUG] Quand on modifie la hauteur (h) d'une modulation, ça ne corrige pas
+* [BUG] Il semble y avoir encore des problèmes lorsque l'on copie des éléments
 * Pouvoir grouper des éléments pour qu'ils réagissent ensemble aux déplacements
 * Faire le traitement avec la version minimale des écritures (sans "x=" et "y=").
 * Indiquer que toutes les natures (à part "partition") peuvent être désignées par leur trois premières lettres.

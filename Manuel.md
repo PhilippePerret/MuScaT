@@ -1,7 +1,7 @@
 # MuScaT
 # Manuel d'utilisation
 
-<!--  
+<!--
 Pour actualiser le fichier PDF:
 - se placer dans ce dossier (cd ...)
 - supprimer le pdf existant
