@@ -26,6 +26,8 @@ function Tag(data_line, iline) {
   this.text = null ; // Le texte de la cadence, de l'accord, etc.
   this.type = null ; // Le type de la cadence, de la ligne, etc.
 
+  this.locked = false ; // indicateur de verrouillage
+
   // === Nature ===
   var nature = data_line.shift() ;
 
@@ -37,12 +39,6 @@ function Tag(data_line, iline) {
   // Il faut consigner les données de la ligne, on en a besoin tout de
   // suite après.
   this.data_line  = data_line ;
-
-  if ( ! this.nature ) {
-    // La nature n'a pas été trouvée
-    return error(`Impossible de trouver la nature « ${this.nature_init} ». Elle n’existe pas.`);
-  }
-
 
   // La ligne réelle où est placé ce tag dans le fichier tags.js, pour pouvoir
    // la modifier quand elle est déplacée ou ajustée.
@@ -136,22 +132,28 @@ Tag.prototype.to_html = function() {
   console.log('=> css = ' + css);
   //*/
 
-  var classes = ['drag'] ;
-  classes.push('tag') ;
+  var classes = ['tag'] ;
   classes.push(my.nature) ;
 
-  // Si l'élément ne définit pas ses x/y, on ajoute un style avec fond rouge
+  // Si le TAG ne définit pas ses x/y, on ajoute un style avec fond rouge
   // pour le signaler
   if (!my.x && !my.y){
     classes.push('warntag')
   }
 
+  // Si le TAG est verrouillé on l'indique par une opacité moins grande
+  // (ou autre style locked)
+  // S'il n'est pas verrouillé, on ajoute une classe pour rendre le tag
+  // draggable
+  if(my.locked){classes.push('locked')}
+  else {classes.push('drag')}
+
   switch (my.nature) {
     case 'score':
-      return '<img id="obj'+my.id+'" class="tag drag" src="images/'+my.src+'" style="'+css+'">';
+      return `<img id="${my.domId}" class="${classes.join(' ')}" src="images/${my.src}" style="${css}" />`
     case 'cadence':
     case 'text':
-      classes.push('typed') ; // permet d'ajouter du texte après
+      // classes.push('typed') ; // permet d'ajouter du texte après
       classes.push(my.type) ;
       if (my.type == 'modulation'){
         return my.buildAsModulation(classes, css);
@@ -162,7 +164,7 @@ Tag.prototype.to_html = function() {
       break;
     default:
   }
-  return '<span id="obj'+my.id+'" class="'+classes.join(' ')+'" style="'+css+'">'+(my.text||'&nbsp;')+'</span>';
+  return `<span id="${my.domId}" class="${classes.join(' ')}" style="${css}">${my.text || ' '}</span>`;
 }
 
 // La marque de modulation possède son propre code, complexe, à l'aide
@@ -343,26 +345,29 @@ Tag.prototype.decompose = function(){
 
 // Méthode inverse de la précédente : elle recompose la ligne
 // analysée
+// Return un Array de toutes les valeurs
 Tag.prototype.recompose = function(){
   var my = this ;
-  line = new Array() ;
+  aLine = new Array() ;
+  // Indicateur de verrouillage si la ligne est verrouillé
+  if (my.locked){aLine.push('🔒')}
   // Premier mot (toujours celui donné)
-  line.push(my.nature_init) ; // par exemple 'image', line', 'part', 'mesure'
+  aLine.push(my.nature_init) ; // par exemple 'image', line', 'part', 'mesure'
   // Deuxième mot, la source ou le texte, ou rien
-  my.src  && line.push(my.src) ;
-  my.text && line.push(my.text.replace(/ /g,'_')) ;
+  my.src  && aLine.push(my.src) ;
+  my.text && aLine.push(my.text.replace(/ /g,'_')) ;
   // Si un type est défini, et que la nature n'est pas un raccourci
   // de nature, on écrit ce type
   if ( my.type && !my.is_nature_shortcut() ) {
-    line.push('type='+my.type)
+    aLine.push('type='+my.type)
   }
   // La position
-  my.x && line.push('x=' + parseInt(my.x)) ;
-  my.y && line.push('y=' + parseInt(my.y)) ;
-  my.w && line.push('w=' + parseInt(my.w)) ;
-  my.h && line.push('h=' + parseInt(my.h)) ;
+  my.x && aLine.push('x=' + parseInt(my.x)) ;
+  my.y && aLine.push('y=' + parseInt(my.y)) ;
+  my.w && aLine.push('w=' + parseInt(my.w)) ;
+  my.h && aLine.push('h=' + parseInt(my.h)) ;
 
-  return line ;
+  return aLine ;
 }
 
 // ---------------------------------------------------------------------

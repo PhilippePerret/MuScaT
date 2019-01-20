@@ -13,6 +13,74 @@ const MuScaT = {
   lines: [],
   motif_lines_added: null,
 
+  // Chargement et traitement du fichier `tags.js` qui doit définir les
+  // tags et les images dans la constante Tags.
+  // Ce chargement alimentera la donnée Lines.lines contiendra toutes les
+  // lignes, même les lignes vides et les commentaires, pour reproduire
+  // un fichier actualisé en cas de déplacement.
+  load: function(){
+    my = this;
+
+    // Il faut d'abord s'assurer que le fichier tags.js a été correctement
+    // défini.
+    if ('undefined' == typeof Tags) {
+      alert('Il faut définir les images et les « tags » à poser dans le fichier `tag.js`');
+      return ;
+    }
+
+    my.reset_all();
+    var line_index = -1; // pour commencer à 0
+
+    // On boucle sur toutes les lignes du fichier tags.js pour
+    // traiter les lignes, c'est-à-dire les instancier et les créer
+    // dans le document.
+    lines = Tags.trim().split(RC);
+    for(var i = 0, len=lines.length;i<len; ++i){
+      e = lines[i];
+      try {
+        var line = e.trim();
+        my.lines.push(line);
+        line_index += 1
+        if (line.length == 0){ throw('--- Chaine vide ---') }
+        if (line.substr(0,2) == '//'){ throw('--- Commentaire ---') }
+      } catch (e) {
+        continue ;
+      }
+      // Une ligne à traiter
+      line_index = new LineCode(line, line_index).treate();
+      // line_index = my.treat_line(line, line_index);
+      // En mode crop image, il ne faut traiter qu'une fois
+      if (get_option('crop image')){
+        break;
+      }
+    }
+    // Fin de boucle sur toutes les lignes
+
+    if (get_option('crop image')){
+      itag = ITags['obj0'];
+      itag.x = 0 ; itag.y = 0 ; itag.update();
+      itag.jqObj.css({'position': 'absolute', 'top': 0, 'left': 0});
+      message("La découpe de l'image est prête.");
+      this.set_observers_mode_crop();
+      // Pour indicer chaque image
+      my.indice_cropped_image = 0 ;
+    } else {
+
+      // Placement des observers
+      this.set_observers();
+
+      // Si des lignes ont été créées au cours ud processus,
+      // on demande à l'utilisateur de sauver le code
+      if (my.motif_lines_added) {
+        my.show_code(`
+  Des lignes de code ont été ajoutées (${my.motif_lines_added}), le nouveau code
+  a été copié dans le presse-papier pour pouvoir être collé dans votre fichier
+  tags.js.
+        `);
+      }
+    }
+  },
+
   // Méthode qui actualise une ligne de donnée (appelée par une instance
   // Tag après son déplacement, par exemple)
   update_line: function(idx, new_line) {
@@ -100,74 +168,6 @@ const MuScaT = {
 
   },
 
-  // Chargement et traitement du fichier `tags.js` qui doit définir les
-  // tags et les images dans la constante Tags.
-  // Ce chargement alimentera la donnée Lines.lines contiendra toutes les
-  // lignes, même les lignes vides et les commentaires, pour reproduire
-  // un fichier actualisé en cas de déplacement.
-  load: function(){
-    my = this;
-
-    // Il faut d'abord s'assurer que le fichier tags.js a été correctement
-    // défini.
-    if ('undefined' == typeof Tags) {
-      alert('Il faut définir les images et les « tags » à poser dans le fichier `tag.js`');
-      return;
-    }
-
-    my.reset_all();
-    var line_index = -1; // pour commencer à 0
-    $('section#tags')[0].innerHTML = ''; // si option code beside utilisé
-
-    // On boucle sur toutes les lignes du fichier tags.js pour
-    // traiter les lignes, c'est-à-dire les instancier et les créer
-    // dans le document.
-    lines = Tags.trim().split(RC);
-    for(var i = 0, len=lines.length;i<len; ++i){
-      e = lines[i];
-      try {
-        var line = e.trim();
-        my.lines.push(line);
-        line_index += 1
-        if (line.length == 0){ throw('--- Chaine vide ---') }
-        if (line.substr(0,2) == '//'){ throw('--- Commentaire ---') }
-      } catch (e) {
-        continue ;
-      }
-      // Une ligne à traiter
-      line_index = new LineCode(line, line_index).treate();
-      // line_index = my.treat_line(line, line_index);
-      // En mode crop image, il ne faut traiter qu'une fois
-      if (get_option('crop image')){
-        break;
-      }
-    }
-    // Fin de boucle sur toutes les lignes
-
-    if (get_option('crop image')){
-      itag = ITags['obj0'];
-      itag.x = 0 ; itag.y = 0 ; itag.update();
-      itag.jqObj.css({'position': 'absolute', 'top': 0, 'left': 0});
-      message("La découpe de l'image est prête.");
-      this.set_observers_mode_crop();
-      // Pour indicer chaque image
-      my.indice_cropped_image = 0 ;
-    } else {
-
-      // Placement des observers
-      this.set_observers();
-
-      // Si des lignes ont été créées au cours ud processus,
-      // on demande à l'utilisateur de sauver le code
-      if (my.motif_lines_added) {
-        my.show_code(`
-  Des lignes de code ont été ajoutées ($(my.motif_lines_added)), le nouveau code
-  a été copié dans le presse-papier pour pouvoir être collé dans votre fichier
-  tags.js.
-        `);
-      }
-    }
-  },
 
   // ---------------------------------------------------------------------
   // Méthodes fonctionnelles
@@ -177,6 +177,7 @@ const MuScaT = {
     my.tags   = new Array();
     my.lines  = new Array();
     window.last_tag_id = -1 ;
+    $('section#tags')[0].innerHTML = '' ;
     // ITags = {};
   },
 

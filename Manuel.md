@@ -16,29 +16,31 @@ pandoc -s Manuel.md --from=markdown --to=latex --output=Manuel.tex;open Manuel.t
 
 ## Introduction (histoire)
 
-Suite à la diffusion de mon [Initiation à l'analyse musicale](https://www.youtube.com/channel/UCX3XhJw9x1RsVx1s3GNYceA) — dont je ne pensais pas qu'elle rencontrerait un tel succès ;-) — nombreux ont été les professeurs et autres pédagogues ou musicologues à me demander le logiciel que j'avais utilisé pour créer l'animation de cette initiation.
+Suite à la diffusion de mon [Initiation à l'analyse musicale](https://www.youtube.com/channel/UCX3XhJw9x1RsVx1s3GNYceA) — et son « succès » que je n'aurais jamais imaginé aussi grand — nombreux ont été les professeurs et autres pédagogues ou musicologues à me demander le logiciel que j'avais utilisé pour en créer l'animation.
 
-C'est malheureusement une application personnelle un peu trop… personnelle (comprendre : indomptable pour qui ne l'a pas créé, toute en ligne de code), une usine à gaz ne fonctionnant qu'à la ligne de code (son créateur ne sait même pas toujours par quel bout la prendre).
+C'est malheureusement une application personnelle un peu trop… personnelle (comprendre : indomptable pour qui ne l'a pas créé), une usine à gaz ne fonctionnant qu'à la ligne de code (son créateur ne sait même pas toujours par quel bout la prendre).
 
-Mais pour répondre à ces marques d'intérêts et à mes propres moyens, j'ai voulu concevoir un outil simple — en tout cas plus simple — et plus pratique qui permettrait de réaliser rapidement des analyses de partitions.
+Mais pour répondre à ces marques d'intérêts et à mes propres besoin, j'ai voulu concevoir un outil plus simple et plus pratique qui permettrait de réaliser rapidement des analyses de partitions (entendu que c'est toujours un peu fastidieux et que le résultat manque souvent d'homogénéité).
 
-C'est ainsi qu'est né **MuScaT** (dont le nom est composé de « Mu » pour « Musique », « Sc » pour « Score » — « partition » en anglais — et « Ta » à l'envers pour « Tag », le sens en français, comme les tags qu'on dépose sur les murs).
+C'est ainsi qu'est née l'idée de **MuScaT** — dont le nom est composé de « Mu » pour « Musique », « Sc » pour « Score » (« partition » en anglais) et « Ta » à l'envers pour « Tag », le sens en français, comme les tags qu'on *taggue* sur les murs.
 
 En bref, **MuScaT** permet de **réaliser rapidement, de façon très propre et très pratique, des analyses de partitions musicales** comme l'extrait ci-dessous.
 
 ![Extrait d’analyse musicale avec MuScaT](img/manuel/extrait_analyse.png)
 
-Elle est semi-graphique, et permet d'ajuster très finement les éléments — au pixel près — de façon visuelle et agréable.
+Elle est semi-graphique, et permet d'ajuster très finement les TAGs — au pixel près — de façon visuelle et agréable.
 
-* [Synopsis de fabrication](#synopsis_fabrication)
+* [Synopsis général de fabrication](#synopsis_fabrication)
 * [Composition d'un tag](#composition_dun_tag)
-* [Désignation des images (partitions)](#designation_images)
+  * [Verrouillage des tags](#lock_tags)
+* [Les Images](#les_images)
+  * [Séquence d'images](#sequence_images)
 * [Tous les types (natures) d'éléments](#natures_elements)
   * [Les types de textes](#types_de_textes)
 
 ## Synopsis général de l'analyse {#synopsis_fabrication}
 
-Commençons par un aperçu général de la fabrication d'une analyse musicale à l'aide de **MuScaT**.
+Commençons par un aperçu du processus général qui va permettre de produire une analyse musicale à l'aide de **MuScaT**.
 
 1. [Création du dossier de l'analyse](#creation_dossier_analyse),
 1. [découpage de la partition en « images-systèmes»](#syn_crop_score),
@@ -102,9 +104,10 @@ On imprime la page HTML du navigateur en choisissant le format PDF (ou on enregi
 
 Et voilà, c'est fait ! Et vous pourrez retoucher à votre analyse à n'importe quel moment grâce au fichier `tags.js` qui contient tout le code et les positions de l'analyse courante.
 
+
 ## Composition d'un tag {#composition_dun_tag}
 
-Un tag — image de la partition comprise — se compose d'une ligne dans le fichier de données.
+Un *TAG* — image de la partition comprise — se compose d'une ligne dans le fichier de données.
 
 Cette ligne a le format général suivant :
 
@@ -127,7 +130,17 @@ Tags = `
 
 L'intégralité des natures d'éléments [est détaillé ici](#natures).
 
-## Désignation des images {#designation_images}
+### Verrouillage des tags {#lock_tags}
+
+On peut « verrouiller » un tag, c'est-à-dire empêcher totalement ses modifications, aussi bien sa position que son contenu, en ajoutant un astérisque, un rond (ALT #) ou même un 🔒 au tout début de sa ligne (suivi ou non par une espace).
+
+**MuScaT** ajoutera un vrai cadenas (🔒) qui rendra ce verrouillage très visuel.
+
+Une fois verrouillé, le TAG ne peut plus être déplacé à la souris. En revanche, il peut tout à fait être modifiée dans le code (sa position, son contenu, etc.).
+
+Pour deverrouiller un TAG et le rendre à nouveau mobile, il suffit tout simplement de retirer cette marque de verrouillage.
+
+## Les Images {#les_images}
 
 Il existe trois mots clés pour indique la nature d'une image : `image`, `score` ou `partition`. C'est le premier mot à trouver sur la ligne d'une image. Juste après, on doit trouver le nom de cette image, ou son chemin relatif depuis le dossier `image` du dossier de votre analyse.
 
@@ -137,6 +150,8 @@ Il existe trois mots clés pour indique la nature d'une image : `image`, `score
 ```
 
 Ci-dessus, l'image `premier_mouvement.png` doit donc se trouver dans le dossier `./images/haydn/` de votre dossier d'analyse.
+
+### Séquence d'images {#sequence_images}
 
 Le plus souvent, il n'est pas pratique d'utiliser une seule image pour toute une partition. Il y a trop peu d'espace entre les systèmes. On conseille donc fortement de découper les partitions en systèmes (vous pouvez trouver des indications sur la [procédure de découpage de la partition](#procedure_crop_partition) ci-dessous).
 

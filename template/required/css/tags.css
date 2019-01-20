@@ -40,6 +40,9 @@ img.tag {
 .tag.warntag {
   background-color: #FFBBBB !important;
 }
+.tag.locked {
+  opacity: 0.5;
+}
 
 
 .tag.dragged {

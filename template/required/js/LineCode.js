@@ -26,6 +26,13 @@ LineCode.prototype.treate = function(){
   // Épuration de la ligne
   line = line.replace(/\t/g, ' ') ;
   line = line.replace(/ +/g, ' ') ;
+  // Marque de ligne verrouillée
+  var premier_car = line.substring(0,1);
+  var locked_line = premier_car == '*' || premier_car == '•' || premier_car == '🔒' ;
+  if (locked_line){
+    // <= C'est une ligne verrouillée
+    line = line.substring(1,line.length).trim();
+  }
   my.raw_data = line.split(' ') ;
   // console.log(my.raw_data);
   // console.log(my.nature_init);
@@ -35,9 +42,10 @@ LineCode.prototype.treate = function(){
     // console.log('ma nature est : ' + my.nature)
     // console.log('is image est ' + my.is_image);
     if ( my.is_image && my.src_is_regular_expression) {
-      my.treate_as_image_with_reg_expression() ;
+      my.treate_as_image_with_reg_expression(locked_line) ;
     } else {
       tag = new Tag(my.raw_data, my.index) ;
+      tag.locked = locked_line ;
       tag.build();
     }
   } else {
@@ -50,7 +58,7 @@ LineCode.prototype.treate = function(){
 }
 
 // Pour traiter la ligne d'image comme une suite régulière d'images
-LineCode.prototype.treate_as_image_with_reg_expression = function(){
+LineCode.prototype.treate_as_image_with_reg_expression = function(locked_line){
   var my = this ;
   var dreg = this.designation.match(/^(.*)\[([0-9]+)\-([0-9]+)\](.*)$/) ;
   var bef_name    = dreg[1];
@@ -63,7 +71,8 @@ LineCode.prototype.treate_as_image_with_reg_expression = function(){
   for(var i = from_indice; i <= to_indice ; ++i) {
     src_name = bef_name + i + aft_name ;
     dline[1] = src_name ;
-    itag = new Tag(dline.slice(), my.index)
+    itag = new Tag(dline.slice(), my.index);
+    itag.locked = locked_line ;
     itag.build() ;
 
     // Il faut ajouter cette ligne, mais seulement si i est from_indice. Sinon,
