@@ -46,6 +46,4 @@ Object.assign(MuScaT,{
       nodeSrc.trigger({type: 'keypress', keyCode: 13, altKey: true});
     }
   }
-})
-
-const M = MuScaT ;
+});

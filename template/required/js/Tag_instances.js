@@ -11,6 +11,8 @@ var last_tag_id = 0 ; // 1-start
 function Tag(data_line, iline) {
   this.id = ++ window.last_tag_id ;
 
+  this.real = true ; // pour indiquer que c'est un vrai tag (≠ NoTag)
+
   // Initialisation de toutes les valeurs
   this.domId  = 'obj'+this.id ; // "objX"
   this.jqObj  = null ;

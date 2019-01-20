@@ -47,6 +47,7 @@ LineCode.prototype.treate = function(){
       tag = new Tag(my.raw_data, my.index) ;
       tag.locked = locked_line ;
       tag.build();
+      M.tags[my.index] = tag ;
     }
   } else {
     error(`Impossible de créer la ligne « ${my.raw_code} » (${my.index}e). La nature « ${my.nature_init} » est inconnue.`)
@@ -75,17 +76,20 @@ LineCode.prototype.treate_as_image_with_reg_expression = function(locked_line){
     itag.locked = locked_line ;
     itag.build() ;
 
-    // Il faut ajouter cette ligne, mais seulement si i est from_indice. Sinon,
-    // il faut remplacer la ligne à expression régulière par la ligne normale
+    // Il faut ajouter cette ligne, mais seulement si i est > from_indice.
+    // Sinon, il faut remplacer la ligne à expression régulière par la ligne
+    // normale
     if (i > from_indice) {
-      MuScaT.lines.push(itag.to_line()) ;
+      M.lines.push(itag.to_line()) ;
+      M.tags.push(itag);
     } else {
-      MuScaT.lines[my.index] = itag.to_line() ;
+      M.lines[my.index] = itag.to_line() ;
+      M.tags[my.index]  = itag;
     }
 
     ++ my.index ;
   }
-  MuScaT.motif_lines_added = 'images fournies par expression régulière';
+  M.motif_lines_added = 'images fournies par expression régulière';
 }
 
 

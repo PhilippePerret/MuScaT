@@ -1,5 +1,20 @@
 /*
   Gestion de la partition
+  -----------------------
+
+  Class MuScaT (alias : M)
+  -------------
+
+  M.lines     Contient dans l'ordre la liste des lignes physiques du code
+              telles qu'elles peuvent être affichées, par exemple, dans le
+              champ source
+
+  M.tags      Contient dans l'ordre la liste des instances Tag de chaque
+              ligne. En fait, on pourrait se passer de M.lines et reconstituer
+              la liste des lignes en bouclant sur M.tags
+              Attention car chaque élément n'est pas un tag. Les commentaires
+              ou les lignes vides sont des notag (pour pouvoir posséder des
+              méthodes communes)
 */
 
 
@@ -69,11 +84,14 @@ const MuScaT = {
       e = lines[i];
       try {
         var line = e.trim();
-        my.lines.push(line);
         line_index += 1
+        my.lines.push(line);
+        my.tags.push(new NoTag(line, line_index)); // renseigné plus tard
+        console.log('Nombre de M.tags: ', M.tags.length);
         if (line.length == 0){ throw('--- Chaine vide ---') }
         if (line.substr(0,2) == '//'){ throw('--- Commentaire ---') }
       } catch (e) {
+        // console.error(e);
         continue ;
       }
       // Une ligne à traiter
@@ -129,10 +147,14 @@ const MuScaT = {
         , new_line = itag.to_line()
 
     my.lines.splice(idx, 0, new_line) ;
+    my.tags.splice(idx, 0, itag);
+    console.log(`Ligne insérée : "${new_line}" à l'index ${idx}`);
+
     // Après l'insertion d'une nouvelle ligne, il faut modifier l'index
     // de tous les tags suivants
-    for(var i = idx ; i <= last_tag_id ; ++i ){
-      var itag = ITags['obj'+i];
+    for(var i = idx + 1 ; i <= last_tag_id ; ++i ){
+      var itag = my.tags[idx] ;
+      console.log(`- +1 à index de ligne ${itag.index_line} (${itag.to_line()})`);
       itag.index_line += 1 ;
     }
     // On met la nouvelle ligne dans le clipboard pour la copier-coller
@@ -268,7 +290,7 @@ const MuScaT = {
     // Quand on passe par ici, c'est qu'on a fini de sélectionner
     // la zone de l'image que l'on veut découper.
     // La méthode donne le code à utiliser pour convert
-    console.log('-> onMouseUpModeCrop');
+    // console.log('-> onMouseUpModeCrop');
     var   my = this ;
     my.cropEndX = ev.pageX ;
     my.cropEndY = ev.pageY ;
@@ -317,3 +339,6 @@ const MuScaT = {
 
 Object.defineProperties(MuScaT, {
 })
+
+// Alias
+const M = MuScaT ;

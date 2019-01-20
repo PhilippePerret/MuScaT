@@ -49,6 +49,7 @@ begin
   FileUtils.copy(PARTITION_PATH, TEST_FILE_PATH)
   code = File.read(TEST_FILE_PATH)
   code = code.sub(/<\!-- TESTS -->/, all_js_tags.join(RC))
+  code = code.sub(/<\/title>/, '- TESTS</title>')
   File.open(TEST_FILE_PATH,'wb'){|f|f.write code}
 
   # Ouverture du fichier test.html pour lancer le test
