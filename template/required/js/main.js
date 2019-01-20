@@ -75,4 +75,10 @@ $(document).ready(function(){
     Page.set_code_beside();
   }
 
+  // Si l'option 'lines of reference' a été activée, il faut
+  // ajouter les deux lignes repères
+  if(get_option('lines of reference')){
+    Page.build_lines_of_reference();
+  }
+
 })

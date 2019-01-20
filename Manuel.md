@@ -37,6 +37,9 @@ Elle est semi-graphique, et permet d'ajuster très finement les TAGs — au pix
   * [Séquence d'images](#sequence_images)
 * [Tous les types (natures) d'éléments](#natures_elements)
   * [Les types de textes](#types_de_textes)
+* [Les Options](#all_options)
+* [Les Utilitaires](#les_utilitaires)
+
 
 ## Synopsis général de l'analyse {#synopsis_fabrication}
 
@@ -46,7 +49,7 @@ Commençons par un aperçu du processus général qui va permettre de produire u
 1. [découpage de la partition en « images-systèmes»](#syn_crop_score),
 1. [inscription des images-systèmes dans l'analyse](#syn_inscription_images_systemes),
 1. [ajouts des accords, des chiffrages, des cadences, de tous les éléments d'analyse](#syn_def_analysis_elements),
-1. [Ajustement des éléments graphiques](#syn_ajustement_elements),
+1. [Positionnement des éléments graphiques](#syn_ajustement_elements),
 1. [récupération du code final](#syn_recuperation_code_final),
 1. [impression en PDF](#syn_print_pdf).
 
@@ -84,13 +87,19 @@ L'élément graphique de base de l'application MuScaT est le « Tag » (comme 
 
 On définit donc maintenant tous les autres éléments graphiques, tous les *tags* : marque de parties, accords, chiffrages, numéros de portée, cadences, etc. On s'arrange pour les placer, dans `tags.js`, à peu près en fonction des positions des images de la partition. C'est-à-dire que si une cadence doit se produire sur le troisième système, il vaut mieux la définir après la ligne insérant l'image de ce troisième système (remarquez cependant qu'il n'y a aucune obligation là-dessus).
 
-### Ajustement des éléments graphiques {#syn_ajustement_elements}
+### Positionnement des éléments graphiques {#syn_ajustement_elements}
 
 On ouvre le fichier `monAnalyse/partition.html` dans un navigateur internet (Firefox est le meilleur choix, pour **MuScaT**).
 
 On placer les éléments aux bons endroits simplement en les déplaçant à la souris, ou avec les flèches de son clavier.
 
 ![Exemple de déplacement d'élément](./img/manuel/move_score.png)
+
+#### Lignes repères
+
+Pour faciliter l'alignement des TAGs — par exemple l'alignement des dernières mesures de fin des systèmes — on peut utiliser des lignes de répère. Pour cela, il suffit d'activer l'option `repères` (ou `reperes` ou `lines of reference`).
+
+Cela ajoute deux lignes à l'écran, une verticale et une horizontale, qu'on peut déplacer à loisir.
 
 ### Récupération du code final {#syn_recuperation_code_final}
 
@@ -458,21 +467,34 @@ Si Gimp présente une précision de découpage inégalable, l'application offre 
 
 Ce mode d'emploi n'étant pas destiné à maitriser Gimp, je vous renvoie au manuel d'utilisation de l'application.
 
-## Options
+## Options {#all_options}
+
+* [Option « code à côté »](#option_code_beside)
+* [Option « découpe image »](#option_crop_image)
+* [Option « lignes de repère »](#option_line_of_reference)
 
 ### Option « code à côté » {#option_code_beside}
+
+Option : `code beside`, `code à côté`
 
 L'option « code à côté » permet d'avoir le fichier contenant le code juste à côté de la partition, ce qui est très pratique pour le modifier sans avoir à changer d'application. On le voit ci-dessous dans la boite noir.
 
 ![Code à côté de la partition](img/manuel/option_code_beside.png)
 
-### Option « crop image » (ou « découpe image »)
+### Option « découpe image » {#option_crop_image}
 
-L'option « crop image » fait passer dans un mode d'utilisation qui va permettre de découper l'image de façon aisée (par simple [copié-]collé).
+Option : `crop image`, `découpe image`
 
-TODO:
+Cette option fait passer dans un mode d'utilisation qui va permettre de découper l'image de façon aisée (par simple [copié-]collé).
 
-## Utilitaires
+### Option « lignes de repère » {#option_line_of_reference}
+
+Option : `repères`, `reperes`, `lines of reference`
+
+Ajoute une ligne horizontale et une ligne verticale qu'on peut déplacer et qui peuvent servir de guide, de repère, pour placer les TAGs.
+
+
+## Utilitaires {#les_utilitaires}
 
 L'application **MuScaT**, comme tout bon vin, est fournie avec quelques utilitaires pour se faciliter la vie, en tout cas sur Mac. En voici la liste avec leur mode d'utilisation.
 
@@ -484,7 +506,8 @@ Pour utiliser ce script :
 
 * ouvrir l'application Terminal,
 * rejoindre (commande `cd`) le dossier de l'application MuScaT (ATTENTION : ça n'est pas le dossier de l'analyse, ici, c'est bien le dossier de l'application),
-* taper `./utils/rename_images.rb -h` et la touche Entrée pour tout savoir du script.
+* se placer dans le dossier utilitaires (`cd utils`)
+* taper `./rename_images.rb -h` et la touche Entrée pour tout savoir du script.
 
 ### Changement du dossier des captures écran (Mac) {#utils_change_captures_folder}
 
@@ -493,7 +516,7 @@ Par défaut, les captures d'écran sont enregistrés sur le bureau. Ça n'est pa
 Voici la procédure :
 
 * ouvrir l'application Terminal,
-* rejoindre (commande `cd`) le dossier de l'application MuScaT (ATTENTION : ça n'est pas le dossier de l'analyse, ici, c'est bien le dossier de l'application),
-* taper `./utils/change_folder_captures.rb -h` et la touche Entrée pour tout savoir du script.
+* rejoindre (commande `cd`) le dossier `utils` de l'application MuScaT (ATTENTION : ça n'est pas le dossier de l'analyse, ici, c'est bien le dossier de l'application),
+* taper `./change_folder_captures.rb -h` et la touche Entrée pour tout savoir du script.
 
-Pour remettre la valeur par défaut (le bureau), jouer simplement `./utils/change_folder_captures.rb` sans aucun argument.
+Pour remettre la valeur par défaut (le bureau), jouer simplement `./utils/change_folder_captures.rb` sans aucun autre argument.

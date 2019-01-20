@@ -52,6 +52,9 @@ OPTIONS = {
   'images PNG':     false, // true si on veut des noms de fichier ne png (pour convert par exemple)
   'découpe image':  'crop image',
   'coordonates':    false, // afficher les coordonnées lors des déplacementss
+  'repères':        'lines of reference',
+  'reperes':        'lines of reference',
+  'lines of reference': false,  // si true, affiche les lignes de guide
 }
 
 // Définition d'un retour chariot

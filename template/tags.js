@@ -1,4 +1,4 @@
-option('code beside')
+option('code beside');option('repères')
 Tags = `
 sco extrait-analyse/sonate-haydn-2.png x=38 y=127
 acc G x=717 y=100
@@ -6,7 +6,7 @@ acc G x=717 y=100
 acc G x=717 y=100
 acc D7 x=230 y=100
 acc G x=307 y=100
-🔒 line type=U x=505 y=348 w=120
+* line type=U x=505 y=348 w=120
 tex Jeu_en_octaves x=519 y=371
 mod G_Maj/Rel.Maj x=95 y=55 h=120
 har V x=127 y=317

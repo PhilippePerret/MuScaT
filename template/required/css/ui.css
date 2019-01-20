@@ -92,3 +92,24 @@ section#rcolumn textarea#codeSource {
   width:  98%;
   padding: 1em;
 }
+
+/* --------------------------------------------------------------------- */
+/* Lignes de référence */
+div.refline {
+  position: fixed;
+  background-color: green;
+  /* Au-dessus de tout sauf des dialogues */
+  z-index: 400;
+}
+div#refline_h {
+  width:2px;
+  height: 4000px;
+  top: -10px;
+  left: 20px;
+}
+div#refline_v {
+  height:2px;
+  width: 200%;
+  left: -10px;
+  top: 20px;
+}

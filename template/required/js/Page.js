@@ -21,6 +21,17 @@ const Page = {
   },
 
   /**
+   * Construit la ligne horizontale et la ligne verticale qui permettent
+   * d'aligner des éléments.
+   */
+   build_lines_of_reference: function(){
+     $('body').append('<div id="refline_h" class="refline"></div>');
+     $('body').append('<div id="refline_v" class="refline"></div>');
+     $('#refline_h').draggable({axis: 'x'});
+     $('#refline_v').draggable({axis: 'y'});
+   },
+
+  /**
    * Méthode appelée par le bouton "Actualiser" pour prendre le code dans
    * le champ de texte et le passer à la moulinette.
    * Raccourci : ALT+ENTRÉE

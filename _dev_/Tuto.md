@@ -2,6 +2,8 @@
 * L'autre avantage avec Aperçu, c'est qu'on peut déjà régler la taille des images, puisqu'elles seront de la taille qu'on voit
 => faire varier
 * Numéroter les images simplement et utiliser la notation en `[from-to]` pour dire de quelle image on part jusqu'à laquelle,
+* MODULATION
+  * faire varier la hauteur de la ligne verticale.
 * VERROUILLAGE
   * en verrouillant dans le code
   * en verrouillant dans le code une image multiple, toutes les images qui en résultent sont verrouillées elles aussi
