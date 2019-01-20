@@ -30,3 +30,6 @@ end
 end
 
 INDENT = '  '
+
+RC = '
+'

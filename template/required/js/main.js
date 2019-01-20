@@ -65,7 +65,7 @@ $(document).ready(function(){
   // Quand on clique sur la partition, en dehors d'un élément,
   // ça déselectionne tout
   // $('#tags').on('click', function(ev){CTags.desectionne_all()})
-  if(false == get_option('crop image')){
+  if(!get_option('crop image')){
     $('#tags').on('click', $.proxy(Page, 'onClickOut'))
   }
 
