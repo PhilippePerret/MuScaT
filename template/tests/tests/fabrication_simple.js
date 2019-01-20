@@ -5,11 +5,13 @@
  new Test('fabrication_simple').run = function(){
 
    given('Avec un code ne définissant qu’un seul texte');
+   
    Tags = `
     text Un_simple_texte x=100 y=200
    `
    MuScaT.load();
-   // La section #tags ne doit contenir qu'un seul élément
+
+   // On prend les tags
    var tags = document.getElementsByClassName('tag');
 
    assert(

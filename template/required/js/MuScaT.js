@@ -13,6 +13,36 @@ const MuScaT = {
   lines: [],
   motif_lines_added: null,
 
+  // Première méthode appelée par document.ready
+  //
+  start_and_run: function(){
+    // console.log('-> start_and_run');
+    // On doit construire les éléments d'après les définitions faites dans
+    // le fichier tag.js
+    this.load() ;
+
+    // return ; // pour le moment
+
+    // Quand on clique sur la partition, en dehors d'un élément,
+    // ça déselectionne tout
+    // $('#tags').on('click', function(ev){CTags.desectionne_all()})
+    if(!get_option('crop image')){
+      $('#tags').on('click', $.proxy(Page, 'onClickOut'))
+    }
+
+    // Si l'option 'code beside' a été activée, il faut préparer la
+    // page
+    if (get_option('code beside')){
+      Page.set_code_beside();
+    }
+
+    // Si l'option 'lines of reference' a été activée, il faut
+    // ajouter les deux lignes repères
+    if(get_option('lines of reference')){
+      Page.build_lines_of_reference();
+    }
+  },
+
   // Chargement et traitement du fichier `tags.js` qui doit définir les
   // tags et les images dans la constante Tags.
   // Ce chargement alimentera la donnée Lines.lines contiendra toutes les
@@ -173,6 +203,8 @@ const MuScaT = {
   // Méthodes fonctionnelles
 
   // Pour tout réinitialiser chaque fois qu'on actualise l'affichage
+  // Pour les tests, appeler plutôt `reset_for_tests` (qui appelle aussi
+  // celle-ci)
   reset_all: function(){
     my.tags   = new Array();
     my.lines  = new Array();
@@ -271,6 +303,15 @@ const MuScaT = {
     }
     // console.log(x + ' / ' + y);
     return stop(ev);
+  },
+
+
+
+  // Pour remettre toutes les options à false
+  reset_options: function(){
+    for(var k in OPTIONS){
+      if ('boolean' == typeof(OPTIONS[k])){OPTIONS[k] = false};
+    }
   }
 }
 

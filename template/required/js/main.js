@@ -53,32 +53,4 @@ const DATA_DRAGGABLE = {
   }
 }
 
-
-$(document).ready(function(){
-
-  // On doit construire les éléments d'après les définitions faites dans
-  // le fichier tag.js
-  MuScaT.load() ;
-
-  // return ; // pour le moment
-
-  // Quand on clique sur la partition, en dehors d'un élément,
-  // ça déselectionne tout
-  // $('#tags').on('click', function(ev){CTags.desectionne_all()})
-  if(!get_option('crop image')){
-    $('#tags').on('click', $.proxy(Page, 'onClickOut'))
-  }
-
-  // Si l'option 'code beside' a été activée, il faut préparer la
-  // page
-  if (get_option('code beside')){
-    Page.set_code_beside();
-  }
-
-  // Si l'option 'lines of reference' a été activée, il faut
-  // ajouter les deux lignes repères
-  if(get_option('lines of reference')){
-    Page.build_lines_of_reference();
-  }
-
-})
+$(document).ready(function(){MuScaT.start_and_run()});
