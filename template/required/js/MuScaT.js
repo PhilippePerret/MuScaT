@@ -76,17 +76,9 @@ const MuScaT = {
    */
   update: function(){
     var my = this ;
-    // On boucle sur toutes les lignes de Tags tags.js pour
-    // traiter les lignes, c'est-à-dire les instancier et les créer
-    // dans le document.
-    // TODO Noter que c'est presque la même méthode que pour `load` et
-    // qu'il faut peut-être être plus DRY en employant un traitement à
-    // peine différent
-    var line_index = -1 ; // 0-start
-
-    var   i=0
+    var   i = 0
         , lines = Tags.trim().split(RC)
-        , len=lines.length
+        , len = lines.length
         , line
         , itag
         , itag_prov ;
@@ -95,11 +87,10 @@ const MuScaT = {
       line = lines[i];
       try {
         var line = line.trim();
-        line_index += 1
 
         // La ligne est strictement identique à ce qu'elle était précédemment,
         // on peut passer à la suite
-        if (line == my.lines[line_index]){continue};
+        if (line == my.lines[i]){continue};
 
         // Ici, il faudrait voir si la ligne à un identifiant
         // Cet identifiant pour les lignes vide ou de commentaire, est
@@ -109,10 +100,10 @@ const MuScaT = {
         // On prend le tag qui se trouve normalement sur cette ligne
         // Remarquer qu'il a pu être modifié après l'ajout d'un nouveau tag
         // ici (ou d'une nouvelle ligne)
-        itag = my.tags[line_index];
+        itag = my.tags[i];
         // On construit un Tag provisoire avec la ligne courante, qui
         // nous dira si c'est un nouveau tag ou un tag modifié
-        itag_prov = new TagProv(line, line_index);
+        itag_prov = new TagProv(line);
 
         if(itag_prov.id){
           // <= le tag possède un identifiant
@@ -127,31 +118,19 @@ const MuScaT = {
           // <= C'est un tout nouveau tag (ou ligne vide, commentaire, etc.)
           // => On l'insert
           if(itag_prov.is_real_tag){
-            line_index = new LineCode(line, line_index).treate();
+            new LineCode(line).treate();
           } else {
             // <= Pour une ligne de commentaire ou une ligne vide
-            my.tags.splice(line_index, 0, new TagNot(line, line_index));
-            my.lines.splice(line_index, 0, my.tags[line_index].to_line());
+            my.tags.splice(i, 0, new TagNot(line, i));
+            my.lines.splice(i, 0, my.tags[i].to_line());
             // TODO Est-ce qu'on change les line_index ici ou on le
             // fera après la boucle ?
           }
         }
-        // my.lines.push(line);
-        // my.tags.push(new NoTag(line, line_index)); // renseigné plus tard
-        // // console.log('Nombre de M.tags: ', M.tags.length);
-        // if (line.length == 0){ throw('--- Chaine vide ---') }
-        // if (line.substr(0,2) == '//'){ throw('--- Commentaire ---') }
       } catch (e) {
         console.error(e);
         continue ;
       }
-      // // Une ligne à traiter
-      // line_index = new LineCode(line, line_index).treate();
-      // // line_index = my.treat_line(line, line_index);
-      // // En mode crop image, il ne faut traiter qu'une fois
-      // if (get_option('crop image')){
-      //   break;
-      // }
     }
     // Fin de boucle sur toutes les lignes
 
@@ -302,19 +281,33 @@ const MuScaT = {
         , idx = itag.index_line
         , new_line = itag.to_line()
 
-    my.lines.splice(idx, 0, new_line) ;
-    my.tags.splice(idx, 0, itag);
-    console.log(`Ligne insérée : "${new_line}" à l'index ${idx}`);
+    if (idx == -1) {
+      my.lines.push(new_line);
+      my.tags.push(itag)
+      idx = my.tags.length - 1 ;
+      itag.index_line = idx ;
+      console.log(`Ligne insérée : "${new_line}" à la fin`);
+    } else {
+      my.lines.splice(idx, 0, new_line) ;
+      my.tags.splice(idx, 0, itag);
+      console.log(`Ligne insérée : "${new_line}" à l'index ${idx}`);
 
-    // Après l'insertion d'une nouvelle ligne, il faut modifier l'index
-    // de tous les tags suivants
-    for(var i = idx + 1 ; i <= my.last_tag_id ; ++i ){
-      var itag = my.tags[idx] ;
-      console.log(`- +1 à index de ligne ${itag.index_line} (${itag.to_line()})`);
-      itag.index_line += 1 ;
+      // Après l'insertion d'une nouvelle ligne, il faut modifier l'index
+      // de tous les tags suivants
+      var i   = idx + 1
+        , len = my.tags.length
+        ;
+      for(i;i<len;++i ){
+        var tg = my.tags[i] ;
+        console.log(`- +1 à index de ligne ${tg.index_line} (${tg.to_line()})`);
+        tg.index_line += 1 ;
+      }
+
     }
+
     // On met la nouvelle ligne dans le clipboard pour la copier-coller
     navigator.clipboard.writeText(new_line + RC) ;
+
     // On l'actualise immédiatement dans le champ de saisie
     my.update_code() ;
   },
@@ -380,6 +373,28 @@ const MuScaT = {
   // ---------------------------------------------------------------------
   // Méthodes fonctionnelles
 
+  /**
+   * Recherche l'index de ligne d'un tag qui serait à la position x/y
+   * si les lignes correspondent à l'affichage.
+   * Cette méthode est appelée à la création d'un nouvelle élément (par
+   * duplication au départ) pour savoir où ajouter la nouvelle ligne,
+   * pour ne pas la mettre à la fin.
+   */
+  get_line_for_position: function(x, y){
+    var my = this
+      , i  = 0
+      , len = my.tags.length
+      , itag
+      ;
+    for(i;i<len;++i){
+      itag = my.tags[i] ;
+      if(itag.real){
+        if (itag.y > y) { return Number.parseInt(i,10)};
+        if (itag.y == y && itag.x > x){ return Number.parseInt(i,10)};
+      }
+    }
+    return -1 ;
+  },
   // Pour tout réinitialiser chaque fois qu'on actualise l'affichage
   // Pour les tests, appeler plutôt `reset_for_tests` (qui appelle aussi
   // celle-ci)
@@ -493,9 +508,6 @@ const MuScaT = {
     }
   }
 }
-
-Object.defineProperties(MuScaT, {
-})
 
 // Alias
 const M = MuScaT ;

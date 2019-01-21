@@ -4,6 +4,7 @@
 const CTags = {
   selection: null,    // La sélection courante (Tag)
   selections: [],   // Les sélections (Tag(s))
+
   on_select: function(itag, with_maj){
     var my = this ;
     if (my.selection == itag){
@@ -100,7 +101,8 @@ const CTags = {
     // On ferme la boite d'outils si elle était ouverte
     if(UI.tools_are_opened()){UI.hide_tools()}
     // On traite le clic sur l'élément courant
-    ITags[$(this)[0].id].onClick(ev);
+    var itag = ITags[$(this)[0].id] ;
+    if( !itag.locked ) { itag.onClick(ev) } ;
     ev.stopPropagation();
     ev.preventDefault();
   },

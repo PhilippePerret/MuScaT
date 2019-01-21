@@ -7,7 +7,7 @@ function Tag(data_line) {
   // de bout en bout à chaque actualisation du code)
   this.id = null ;
 
-  this.real = true ; // pour indiquer que c'est un vrai tag (≠ NoTag)
+  this.real = true ; // pour indiquer que c'est un vrai tag (≠ TagNot)
 
   // Initialisation de toutes les valeurs
   this.domId  = null ;
@@ -438,11 +438,17 @@ Tag.prototype.createCopy = function() {
   var my = this ;
   // Il faut créer un nouveau tag à partir de celui-ci
   var dline   = my.recompose() ;
-  var newtag  = new Tag(dline, CTags.get_index_line_before(my.y, my.x)) ;
+  var newtag  = new Tag(dline) ;
+  newtag.index_line = M.get_line_for_position(newtag.x, newtag.y) ; // peut être = -1
+  newtag.set_id(++M.last_tag_id) ;
+  M.insert_line(newtag) ;
   newtag.build();
   newtag.observe();
-  MuScaT.insert_line(newtag) ;
-  message('Nouveau tag créé sur la partition (id #'+newtag.domId+'). N’oubliez pas de copier-coller sa ligne.');
+  message(`Nouveau tag créé sur la partition (id #${newtag.id}). N’oubliez pas de copier-coller sa ligne ou tout le code dans votre fichier tags.js.`);
+}
+
+Tag.prototype.search_index_line = function(){
+
 }
 
 // Méthode qui place les observeurs sur l'élément, lorsqu'il a été

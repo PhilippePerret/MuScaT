@@ -46,9 +46,6 @@ const Page = {
 
   /**
     * Ajoute un élément quelconque dans la page (image, cadence, accord, etc.)
-    * Elle s'assure en plus que les éléments en soient pas tous les uns sur
-    * les autres, en leur attribuant une hauteur et un décalage gauche
-    * suffisant en fonction du context.
     *
     * +itag+ Instance Tag de l'élément à mettre dans la page
     */
