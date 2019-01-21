@@ -25,7 +25,8 @@ function  write(str) {
 // La classe principale
 // MuScaT pour "Mu Sc Ta (à l'envers)" pour "Music Score Tagger"
 const MuScaT = {
-  lines: [],
+  lines: new Array(),
+  tags:  new Array(),
   motif_lines_added: null,
 
   // Première méthode appelée par document.ready
@@ -172,7 +173,7 @@ const MuScaT = {
    * l'être ?
    */
   load: function(){
-    my = this;
+    var my = this ;
 
     // Il faut d'abord s'assurer que le fichier tags.js a été correctement
     // défini.
@@ -182,49 +183,18 @@ const MuScaT = {
     }
 
     my.reset_all();
-    var line_index = -1; // pour commencer à 0
 
-    // On boucle sur toutes les lignes de Tags tags.js pour
-    // traiter les lignes, c'est-à-dire les instancier et les créer
-    // dans le document.
-    lines = Tags.trim().split(RC);
-    for(var i = 0, len=lines.length;i<len; ++i){
-      e = lines[i];
-      try {
-        var line = e.trim();
-        line_index += 1
-        my.lines.push(line);
-        my.tags.push(new TagNot(line, line_index)); // renseigné plus tard
-        // console.log('Nombre de M.tags: ', M.tags.length);
-        if (line.length == 0){ throw('--- Chaine vide ---') }
-        if (line.substr(0,2) == '//'){ throw('--- Commentaire ---') }
-      } catch (e) {
-        // console.error(e);
-        continue ;
-      }
-      // Une ligne à traiter
-      line_index = new LineCode(line, line_index).treate();
-      // line_index = my.treat_line(line, line_index);
-      // En mode crop image, il ne faut traiter qu'une fois
-      if (get_option('crop image')){
-        break;
-      }
-    }
-    // Fin de boucle sur toutes les lignes
+    my.parse_tags_js() ;
+
+    my.set_ids_and_index() ;
+
+    my.build_tags() ;
 
     if (get_option('crop image')){
-      itag = ITags['obj0'];
-      itag.x = 0 ; itag.y = 0 ; itag.update();
-      itag.jqObj.css({'position': 'absolute', 'top': 0, 'left': 0});
-      message("La découpe de l'image est prête.");
-      this.set_observers_mode_crop();
-      // Pour indicer chaque image
-      my.indice_cropped_image = 0 ;
+      my.prepare_crop_image();
     } else {
-
       // Placement des observers
       this.set_observers();
-
       // Si des lignes ont été créées au cours ud processus,
       // on demande à l'utilisateur de sauver le code
       if (my.motif_lines_added) {
@@ -235,6 +205,84 @@ const MuScaT = {
         `);
       }
     }
+
+    this.update_code();
+
+  },
+  // load
+
+  /**
+   * Méthode qui prend le code du fichier Tags.js et le décompose pour
+   * en tirer le code de l'analyse.
+   */
+  parse_tags_js: function(){
+    var my = this
+      , lines
+      , iline = 0
+      , line
+      , lineCode
+      , lines_count ;
+
+    // On boucle sur toutes les lignes de Tags tags.js pour
+    // traiter les lignes, c'est-à-dire les instancier et les créer
+    // dans le document.
+    lines = Tags.trim().split(RC) ;
+    lines_count = lines.length ;
+    for(iline;iline<lines_count;++iline){
+      line      = lines[iline].trim() ;
+      lineCode  = new LineCode(line) ;
+      if(lineCode.id && lineCode.id > my.last_tag_id){
+        my.last_tag_id = Number.parseInt(lineCode.id,10);
+      }
+      if (lineCode.is_empty_line || lineCode.is_comment_line){
+        my.lines.push(line);
+        my.tags.push(new TagNot(line));
+      } else {
+        lineCode.treate();
+        // En mode crop image, il ne faut traiter qu'une fois, puisque
+        // l'image doit être tout au-dessus
+        if (get_option('crop image')){
+          break;
+        }
+      }
+    }
+    // Fin de boucle sur toutes les lignes
+  },
+  //parse_tags_js
+
+  /**
+   * Méthode qui affecte les indices de lignes et les identifiants (aux
+   * nouvelles lignes)
+   */
+  set_ids_and_index: function(){
+    var i = 0, len = this.tags.length, itag ;
+    for(i;i<len;++i){
+      itag = this.tags[i] ; // Tag ou TagNot
+      itag.index_line = i ;
+      // On définit toujours l'ID du tag, même s'il est déjà défini,
+      // car cela définit le domId
+      itag.set_id(itag.id || ++this.last_tag_id) ;
+    }
+  },
+  /**
+   * Méthode qui construit les tags sur la table
+   */
+  build_tags: function(){
+    var i = 0, len = this.tags.length;
+    for(i;i<len;++i){
+      this.lines.push(this.tags[i].to_line()) ; // p.e. ajout de l'id
+      this.tags[i].build();
+    }
+  },
+
+  prepare_crop_image: function(){
+    itag = ITags['obj0'];
+    itag.x = 0 ; itag.y = 0 ; itag.update();
+    itag.jqObj.css({'position': 'absolute', 'top': 0, 'left': 0});
+    message("La découpe de l'image est prête.");
+    this.set_observers_mode_crop();
+    // Pour indicer chaque image
+    my.indice_cropped_image = 0 ;
   },
 
   // Méthode qui actualise une ligne de donnée (appelée par une instance
@@ -260,7 +308,7 @@ const MuScaT = {
 
     // Après l'insertion d'une nouvelle ligne, il faut modifier l'index
     // de tous les tags suivants
-    for(var i = idx + 1 ; i <= last_tag_id ; ++i ){
+    for(var i = idx + 1 ; i <= my.last_tag_id ; ++i ){
       var itag = my.tags[idx] ;
       console.log(`- +1 à index de ligne ${itag.index_line} (${itag.to_line()})`);
       itag.index_line += 1 ;
@@ -336,9 +384,10 @@ const MuScaT = {
   // Pour les tests, appeler plutôt `reset_for_tests` (qui appelle aussi
   // celle-ci)
   reset_all: function(){
+    var my = this ;
     my.tags   = new Array();
     my.lines  = new Array();
-    window.last_tag_id = -1 ;
+    my.last_tag_id = -1 ;
     $('section#tags')[0].innerHTML = '' ;
     // ITags = {};
   },

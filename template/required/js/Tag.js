@@ -1,24 +1,16 @@
-
-// Table de hashage qui contient toutes les instances Tag.
-const ITags = {} ;
-
-// Pour indicer le tag ('obj1', 'obj2', etc.)
-var last_tag_id = 0 ; // 1-start
-
-
 // Instanciation d'un tag
 //
-function Tag(data_line, iline) {
+function Tag(data_line) {
 
   // Il ne faut peut-être plus affecter l'ID de cette manière, depuis
   // qu'on update vraiment l'animation (qu'on ne la reconstruit plus
   // de bout en bout à chaque actualisation du code)
-  this.id = ++ window.last_tag_id ;
+  this.id = null ;
 
   this.real = true ; // pour indiquer que c'est un vrai tag (≠ NoTag)
 
   // Initialisation de toutes les valeurs
-  this.domId  = 'obj'+this.id ; // "objX"
+  this.domId  = null ;
   this.jqObj  = null ;
   this.domObj = null ;
 
@@ -47,8 +39,10 @@ function Tag(data_line, iline) {
   this.data_line  = data_line ;
 
   // La ligne réelle où est placé ce tag dans le fichier tags.js, pour pouvoir
-   // la modifier quand elle est déplacée ou ajustée.
-  this.index_line = iline ;
+  // la modifier quand elle est déplacée ou ajustée.
+  // La propriété sera renseignée à la fin du premier parsing, pour tenir
+  // compte des éventuels ajouts
+  this.index_line = null ;
 
   // Mis à true quand l'élément est modifié (bougé), pour indiquer
   // qu'il faut faire quelque chose (mais peut-être pas, si les positions
@@ -70,11 +64,6 @@ function Tag(data_line, iline) {
   if(this.text){dbug['text'] = this.text}
   console.log(dbug);
   //*/
-
-  // Ce tag est ajouté à la liste des tags, ce qui permettra de le
-  // retrouver rapidement.
-  ITags[this.domId] = this ;
-
 }
 
 // ---------------------------------------------------------------------
@@ -267,9 +256,11 @@ Tag.prototype.update = function() {
   my.updateXY(); // ça fait tout, normalement
 }
 
-// Méthode qui retourne l'objet HTML du DOM du tag
+// Méthode qui définit, d'après l'identifiant, le domId, et
+// l'objet HTML du DOM du tag
 Tag.prototype.set_dom_objet = function(){
   var my = this ;
+  my.domId  = `obj${this.id}`;
   my.jqObj  = $('#'+my.domId);
   my.domObj = my.jqObj[0];
 }
@@ -499,6 +490,13 @@ Tag.prototype.deselect = function(){
 
 Tag.prototype.is_nature_shortcut = function(){
   return !!this._is_nature_shortcut ;
+}
+
+// Définit l'identifiant, et avec lui l'identifiant DOM du tag
+Tag.prototype.set_id = function(value){
+  this.id = value ;
+  this.domId = `obj${this.id}`;
+  ITags[this.domId] = this ;
 }
 
 Object.defineProperties(Tag.prototype,{

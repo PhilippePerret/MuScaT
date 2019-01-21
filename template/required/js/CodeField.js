@@ -14,17 +14,17 @@ const CodeField = {
       Page.update();
       return stop(ev);
     } else if ( ev.keyCode == 16 && ev.metaKey && ev.shiftKey) {
-      console.log("=> Commentaire ")
+      console.log("=> Commentaire ");
     }
     if(ev.metaKey){
       if(ev.shift){
         // CMD Maj
 
-        console.log("Avec métakey  et shift: keyCode: " + ev.keyCode + " / charCode: " + ev.charCode);
+        // console.log("Avec métakey  et shift: keyCode: " + ev.keyCode + " / charCode: " + ev.charCode);
       }
-      console.log("Avec métakey : keyCode: " + ev.keyCode + " / charCode: " + ev.charCode);
+      // console.log("Avec métakey : keyCode: " + ev.keyCode + " / charCode: " + ev.charCode);
     } else {
-      console.log("keyCode: " + ev.keyCode + " / charCode: " + ev.charCode)
+      // console.log("keyCode: " + ev.keyCode + " / charCode: " + ev.charCode)
     }
 
     return true ;
@@ -42,7 +42,7 @@ const CodeField = {
   },
   onBlur: function(){
     var my = this ;
-    console.log('-> CodeField#onBlur');
+    // console.log('-> CodeField#onBlur');
     // Il faut désactiver la gestion des évènements
     // my.jqObj.on('keyup', null);
     my.jqObj.on('keypress', null);

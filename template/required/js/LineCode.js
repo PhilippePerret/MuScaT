@@ -8,16 +8,31 @@
  *
  */
 
-window.LineCode = function(strline, index){
+window.LineCode = function(strline){
   this.raw_code = strline ;
   this.raw_data = null ; // Array des données épurées
-  // L'index réel de la ligne dans le fichier code initial, en comptant
-  // tout, même les lignes vides et les commentaires.
-  this.index = index ;
+  // // L'index réel de la ligne dans le fichier code initial, en comptant
+  // // tout, même les lignes vides et les commentaires.
+  // this.index = null ;
   // La nature (premier mot) telle qu'elle est décrite dans le fichier
   this.nature_init = null ;
   // La nature réelle, simplifiée (anglaise)
   this.nature = null ;
+
+  this.id = function(ln){
+    var reg ;
+    if (reg = ln.match(/#([0-9]+)#/) ){
+      return Number.parseInt(reg[1],10);
+    } else if (reg = ln.match(/ id=([0-9]+) /)) {
+      return Number.parseInt(reg[1],10);
+    } else { return null }
+  }(this.raw_code);
+
+  // Dans tous les cas, on supprime l'éventuel identifiant pour composer
+  // la propriété `line` qui servira pour voir s'il s'agit d'un commentaire,
+  // d'une ligne vide ou d'un vrai tab
+  this.line = this.raw_code.replace(/#([0-9]+)#/,'').trim();
+
 }
 
 LineCode.prototype.treate = function(){
@@ -28,10 +43,11 @@ LineCode.prototype.treate = function(){
   line = line.replace(/ +/g, ' ') ;
   // Marque de ligne verrouillée
   var premier_car = line.substring(0,1);
-  var locked_line = premier_car == '*' || premier_car == '•' || premier_car == '🔒' ;
+  var locked_line = premier_car == '*' || premier_car == '•' || line.substring(0,2) == '🔒' ;
   if (locked_line){
     // <= C'est une ligne verrouillée
-    line = line.substring(1,line.length).trim();
+    firstoff = line.substring(0,2) == '🔒' ? 2 : 1
+    line = line.substring(firstoff,line.length).trim();
   }
   my.raw_data = line.split(' ') ;
   // console.log(my.raw_data);
@@ -46,17 +62,11 @@ LineCode.prototype.treate = function(){
     } else {
       tag = new Tag(my.raw_data, my.index) ;
       tag.locked = locked_line ;
-      tag.build();
-      M.tags[my.index]  = tag ;
-      M.lines[my.index] = tag.to_line() ; // p.e. ajout de l'id
+      M.tags.push(tag) ;
     }
   } else {
     error(`Impossible de créer la ligne « ${my.raw_code} » (${my.index}e). La nature « ${my.nature_init} » est inconnue.`)
   }
-
-  // Doit retourner l'index de ligne, qui a pu être modifié si plusieurs
-  // lignes ont été créées.
-  return my.index ;
 }
 
 // Pour traiter la ligne d'image comme une suite régulière d'images
@@ -73,22 +83,9 @@ LineCode.prototype.treate_as_image_with_reg_expression = function(locked_line){
   for(var i = from_indice; i <= to_indice ; ++i) {
     src_name = bef_name + i + aft_name ;
     dline[1] = src_name ;
-    itag = new Tag(dline.slice(), my.index);
+    itag = new Tag(dline.slice());
     itag.locked = locked_line ;
-    itag.build() ;
-
-    // Il faut ajouter cette ligne, mais seulement si i est > from_indice.
-    // Sinon, il faut remplacer la ligne à expression régulière par la ligne
-    // normale
-    if (i > from_indice) {
-      M.tags.push(itag);
-      M.lines.push(itag.to_line()) ;
-    } else {
-      M.tags[my.index]  = itag;
-      M.lines[my.index] = itag.to_line() ;
-    }
-
-    ++ my.index ;
+    M.tags.push(itag);
   }
   M.motif_lines_added = 'images fournies par expression régulière';
 }
@@ -118,5 +115,12 @@ Object.defineProperties(LineCode.prototype,{
   },
   src_is_regular_expression: {
     get: function() { return !!this.designation.match(/\[([0-9]+)\-([0-9]+)\]/) }
+  },
+
+  is_comment_line: {
+    get: function(){return this.line.substring(0,2) == '//' ;}
+  },
+  is_empty_line: {
+    get: function(){return this.line == ''}
   }
 })

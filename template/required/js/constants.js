@@ -84,3 +84,6 @@ const TABLECOR_LIGNE_TYPE_GRAPH_TO_LETTER = {
 const TABLECOR_TYPES_LINE = {
 
 }
+
+// Table de hashage qui contient toutes les instances Tag.
+const ITags = {} ;
