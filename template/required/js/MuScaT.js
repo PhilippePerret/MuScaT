@@ -81,11 +81,18 @@ const MuScaT = {
         , len = lines.length
         , line
         , itag
-        , itag_prov ;
+        , itag_prov
+        , current_line_idx = -1 // 0-start
+        ;
 
     for(i;i<len;++i){
       line = lines[i];
       try {
+        // On désolidarise current_line_idx de i car des tags ou des
+        // lignes de commentaire et vides vont pouvoir être ajoutées au
+        // cours du processus
+        ++ current_line_idx ;
+
         var line = line.trim();
 
         // La ligne est strictement identique à ce qu'elle était précédemment,
@@ -131,14 +138,24 @@ const MuScaT = {
           // <= C'est un tout nouveau tag (ou ligne vide, commentaire, etc.)
           // => On l'insère
           if(itag_prov.is_real_tag){
-            new LineCode(line).treate();
+            // new LineCode(line).treate();
+            var newtag = new Tag(line) ;
+            newtag.set_id(++my.last_tag_id) ;
+            // newtag.index_line = current_line_idx ++ ;
+            my.tags.splice(current_line_idx, 0, newtag) ;
+            my.lines.splice(current_line_idx, 0, newtag.to_line()) ;
+            newtag.build_and_watch();
           } else {
             // <= Pour une ligne de commentaire ou une ligne vide
-            my.tags.splice(i, 0, new TagNot(line, i));
-            my.lines.splice(i, 0, my.tags[i].to_line());
-            // TODO Est-ce qu'on change les line_index ici ou on le
-            // fera après la boucle ?
+            var newtagnot = new TagNot(line) ;
+            newtagnot.id = ++ my.last_tag_id ;
+            // newtagnot.index_line = current_line_idx ++ ;
+            my.tags.splice(current_line_idx, 0, newtagnot);
+            my.lines.splice(current_line_idx, 0, newtagnot.to_line()) ;
           }
+          // Dans les deux cas, on incrément current_line_idx car une
+          // ligne a été ajoutée
+          ++ current_line_idx ;
         }
       } catch (e) {
         console.error(e);
@@ -147,8 +164,18 @@ const MuScaT = {
     }
     // Fin de boucle sur toutes les lignes
 
-    this.update_code();
+    my.update_index_lines();
 
+    my.update_code();
+
+  },
+
+  update_index_lines: function(){
+    var my = this
+      , i = 0
+      , len = my.tags.length
+      ;
+    for(i;i<len;++i){ my.tags[i].index_line = i }
   },
 
   // Chargement et traitement du fichier `tags.js` qui doit définir les

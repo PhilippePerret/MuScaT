@@ -110,6 +110,11 @@ Tag.prototype.hStyles = function(){
 // ---------------------------------------------------------------------
 //  Méthodes de CONSTRUCTION
 
+// Construit le tag et pose les observers dessus
+Tag.prototype.build_and_watch = function(){
+  this.build();
+  this.observe();
+}
 // Méthode qui construit l'élément dans la page
 Tag.prototype.build = function(){
   var my = this ;
