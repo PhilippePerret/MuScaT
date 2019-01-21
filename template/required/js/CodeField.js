@@ -10,6 +10,7 @@ const CodeField = {
     // console.log('-> CodeField#onKeypress')
     var my = this ;
     if(ev.keyCode == 13 && ev.altKey){
+      // On demande à actualiser la page
       Page.update();
       return stop(ev);
     } else if ( ev.keyCode == 16 && ev.metaKey && ev.shiftKey) {

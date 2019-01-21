@@ -47,7 +47,8 @@ LineCode.prototype.treate = function(){
       tag = new Tag(my.raw_data, my.index) ;
       tag.locked = locked_line ;
       tag.build();
-      M.tags[my.index] = tag ;
+      M.tags[my.index]  = tag ;
+      M.lines[my.index] = tag.to_line() ; // p.e. ajout de l'id
     }
   } else {
     error(`Impossible de créer la ligne « ${my.raw_code} » (${my.index}e). La nature « ${my.nature_init} » est inconnue.`)
@@ -80,11 +81,11 @@ LineCode.prototype.treate_as_image_with_reg_expression = function(locked_line){
     // Sinon, il faut remplacer la ligne à expression régulière par la ligne
     // normale
     if (i > from_indice) {
-      M.lines.push(itag.to_line()) ;
       M.tags.push(itag);
+      M.lines.push(itag.to_line()) ;
     } else {
-      M.lines[my.index] = itag.to_line() ;
       M.tags[my.index]  = itag;
+      M.lines[my.index] = itag.to_line() ;
     }
 
     ++ my.index ;

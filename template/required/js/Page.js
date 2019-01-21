@@ -7,6 +7,18 @@ const Page = {
   prev_itag: null, // par exemple 'image'
 
   /**
+   * Méthode appelée par le bouton "Actualiser" pour prendre le code dans
+   * le champ de texte et le passer à la moulinette.
+   * Raccourci : ALT+ENTRÉE
+   */
+  update: function(){
+    message('Actualisation demandée…');
+    Tags = MuScaT.codeField().value ;
+    MuScaT.update();
+    message(' ');
+  },
+
+  /**
    * Préparation de la fenêtre pour travailler avec le code
    * à côté de la partition.
    */
@@ -31,17 +43,6 @@ const Page = {
      $('#refline_v').draggable({axis: 'y'});
    },
 
-  /**
-   * Méthode appelée par le bouton "Actualiser" pour prendre le code dans
-   * le champ de texte et le passer à la moulinette.
-   * Raccourci : ALT+ENTRÉE
-   */
-  update: function(){
-    message('Actualisation demandée…');
-    Tags = MuScaT.codeField().value ;
-    MuScaT.load();
-    message(' ');
-  },
 
   /**
     * Ajoute un élément quelconque dans la page (image, cadence, accord, etc.)

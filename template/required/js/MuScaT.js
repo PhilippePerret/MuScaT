@@ -58,11 +58,119 @@ const MuScaT = {
     }
   },
 
+  /**
+   * Actualisation de la page
+   *
+   * Méthode appelée par le bouton sous le champ de texte ou par
+   * le raccourci clavier `ALT ENTRÉE` quand on se trouve dans le champ
+   * de code.
+   *
+   * La méthode relit le code `Tags` (actualisé par Page.update) et regarde
+   * les modifications opérées, qui peuvent être :
+   *
+   *  * une ligne n'a pas d'id => c'est un nouveau tag, on l'insère
+   *  * une ligne a un id et elle est identique => on ne la touche pas
+   *  * une ligne a un id et elle est différente => on l'actualise
+   *
+   */
+  update: function(){
+    var my = this ;
+    // On boucle sur toutes les lignes de Tags tags.js pour
+    // traiter les lignes, c'est-à-dire les instancier et les créer
+    // dans le document.
+    // TODO Noter que c'est presque la même méthode que pour `load` et
+    // qu'il faut peut-être être plus DRY en employant un traitement à
+    // peine différent
+    var line_index = -1 ; // 0-start
+
+    var   i=0
+        , lines = Tags.trim().split(RC)
+        , len=lines.length
+        , line
+        , itag
+        , itag_prov ;
+
+    for(i;i<len;++i){
+      line = lines[i];
+      try {
+        var line = line.trim();
+        line_index += 1
+
+        // La ligne est strictement identique à ce qu'elle était précédemment,
+        // on peut passer à la suite
+        if (line == my.lines[line_index]){continue};
+
+        // Ici, il faudrait voir si la ligne à un identifiant
+        // Cet identifiant pour les lignes vide ou de commentaire, est
+        // indiqué à la fin de la ligne par #<id>#
+        // Pour un tag, il est noté `id=<id>`
+
+        // On prend le tag qui se trouve normalement sur cette ligne
+        // Remarquer qu'il a pu être modifié après l'ajout d'un nouveau tag
+        // ici (ou d'une nouvelle ligne)
+        itag = my.tags[line_index];
+        // On construit un Tag provisoire avec la ligne courante, qui
+        // nous dira si c'est un nouveau tag ou un tag modifié
+        itag_prov = new TagProv(line, line_index);
+
+        if(itag_prov.id){
+          // <= le tag possède un identifiant
+          // => il est connu, mais il ne correspond pas forcément à l'itag
+          //    qui devrait se trouver là
+          if (itag_prov.id == itag.id){
+            // <= le tag correspond au tag qui se trouve sur cette ligne
+            // => il faut juste l'updater avec les nouvelles données
+            // TODO
+          }
+        } else {
+          // <= C'est un tout nouveau tag (ou ligne vide, commentaire, etc.)
+          // => On l'insert
+          if(itag_prov.is_real_tag){
+            line_index = new LineCode(line, line_index).treate();
+          } else {
+            // <= Pour une ligne de commentaire ou une ligne vide
+            my.tags.splice(line_index, 0, new TagNot(line, line_index));
+            my.lines.splice(line_index, 0, my.tags[line_index].to_line());
+            // TODO Est-ce qu'on change les line_index ici ou on le
+            // fera après la boucle ?
+          }
+        }
+        // my.lines.push(line);
+        // my.tags.push(new NoTag(line, line_index)); // renseigné plus tard
+        // // console.log('Nombre de M.tags: ', M.tags.length);
+        // if (line.length == 0){ throw('--- Chaine vide ---') }
+        // if (line.substr(0,2) == '//'){ throw('--- Commentaire ---') }
+      } catch (e) {
+        console.error(e);
+        continue ;
+      }
+      // // Une ligne à traiter
+      // line_index = new LineCode(line, line_index).treate();
+      // // line_index = my.treat_line(line, line_index);
+      // // En mode crop image, il ne faut traiter qu'une fois
+      // if (get_option('crop image')){
+      //   break;
+      // }
+    }
+    // Fin de boucle sur toutes les lignes
+
+    this.update_code();
+
+  },
+
   // Chargement et traitement du fichier `tags.js` qui doit définir les
   // tags et les images dans la constante Tags.
+  //
   // Ce chargement alimentera la donnée Lines.lines contiendra toutes les
   // lignes, même les lignes vides et les commentaires, pour reproduire
   // un fichier actualisé en cas de déplacement.
+  /**
+   * Pour le moment, la méthode est appelée aussi à l'actualisation demandée
+   * C'est-à-dire que tout le code de l'analyse est toujours reconstruit lors
+   * d'une actualisation.
+   * QUESTION: Ne serait-ce pas moins lourd de n'actualiser que ce qui doit
+   * l'être ?
+   */
   load: function(){
     my = this;
 
@@ -76,7 +184,7 @@ const MuScaT = {
     my.reset_all();
     var line_index = -1; // pour commencer à 0
 
-    // On boucle sur toutes les lignes du fichier tags.js pour
+    // On boucle sur toutes les lignes de Tags tags.js pour
     // traiter les lignes, c'est-à-dire les instancier et les créer
     // dans le document.
     lines = Tags.trim().split(RC);
@@ -86,8 +194,8 @@ const MuScaT = {
         var line = e.trim();
         line_index += 1
         my.lines.push(line);
-        my.tags.push(new NoTag(line, line_index)); // renseigné plus tard
-        console.log('Nombre de M.tags: ', M.tags.length);
+        my.tags.push(new TagNot(line, line_index)); // renseigné plus tard
+        // console.log('Nombre de M.tags: ', M.tags.length);
         if (line.length == 0){ throw('--- Chaine vide ---') }
         if (line.substr(0,2) == '//'){ throw('--- Commentaire ---') }
       } catch (e) {

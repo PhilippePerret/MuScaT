@@ -9,6 +9,10 @@ var last_tag_id = 0 ; // 1-start
 // Instanciation d'un tag
 //
 function Tag(data_line, iline) {
+
+  // Il ne faut peut-être plus affecter l'ID de cette manière, depuis
+  // qu'on update vraiment l'animation (qu'on ne la reconstruit plus
+  // de bout en bout à chaque actualisation du code)
   this.id = ++ window.last_tag_id ;
 
   this.real = true ; // pour indiquer que c'est un vrai tag (≠ NoTag)
@@ -300,13 +304,21 @@ Tag.prototype.decompose = function(){
       value_int = Number.parseInt(value,10);
       switch (varia) {
         case 'x':
-          my.x = value_int ; break ;
         case 'y':
-          my.y = value_int ; break ;
         case 'w':
-          my.w = value_int ; break ;
         case 'h':
-          my.h = value_int ; break ;
+        case 'id':
+          my[varia] = value_int ; break ;
+        // case 'x':
+        //   my.x = value_int ; break ;
+        // case 'y':
+        //   my.y = value_int ; break ;
+        // case 'w':
+        //   my.w = value_int ; break ;
+        // case 'h':
+        //   my.h = value_int ; break ;
+        // case 'id':
+        //   my.id = value_int ; break ;
         case 'type':
           switch (my.nature) {
             case 'cadence':
@@ -358,6 +370,10 @@ Tag.prototype.recompose = function(){
   // Deuxième mot, la source ou le texte, ou rien
   my.src  && aLine.push(my.src) ;
   my.text && aLine.push(my.text.replace(/ /g,'_')) ;
+
+  // L'identifiant
+  aLine.push(`id=${my.id}`) ;
+
   // Si un type est défini, et que la nature n'est pas un raccourci
   // de nature, on écrit ce type
   if ( my.type && !my.is_nature_shortcut() ) {
