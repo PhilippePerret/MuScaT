@@ -21,31 +21,26 @@ const TagProv = function(line, idx) {
   this.is_known       = true ; // par défaut : ce tag est connu
   this.is_comments    = false ; // par défaut, pas un commentaire
 
-  console.log('Traitement de ligne : ', line);
-
   if (this.line == '' ){
     // => ligne vide + NOUVELLE LIGNE
     this.is_empty_line  = true ;
     this.is_known       = false ;
     this.is_notagline   = true ;
-    console.log('-> Nouvelle ligne vide');
   } else if (this.line.match(/^#([0-9]+)#$/)){
     // => ligne vide avec identifiant
     this.is_empty_line  = true ;
     // this.is_known       = true ; // <= défaut
-    console.log('-> Ligne vide connu #', this.id);
   } else if (this.line.substring(0,2) == '//'){
     this.is_notagline = true ;
     this.is_comments  = true ;
-    // Commentaire connu ou non ?
-    if(this.is_notagline_known){
-      console.log('-> ligne de commentaire connue');
-    }else{
-      console.log('-> Ligne de commentaire inconnue');
-    }
+    // // Commentaire connu ou non ?
+    // if(this.is_notagline_known){
+    //   console.log('-> ligne de commentaire connue');
+    // }else{
+    //   console.log('-> Ligne de commentaire inconnue');
+    // }
   } else {
     // C'est une définition de tag
-    console.log('-> Un vrai tag');
     this.decompose();
     this.is_known = !!this.id ;
   }
@@ -58,7 +53,7 @@ const TagProv = function(line, idx) {
   // pour les nouveaux tags et les lignes notag)
   if (!this.id){this.get_id()};
 
-  console.log('ID de cette ligne : ', this.id);
+  // console.log('ID de cette ligne : ', this.id);
 }
 
 // Le même que pour Tag

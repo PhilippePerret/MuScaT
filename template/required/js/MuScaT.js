@@ -90,7 +90,10 @@ const MuScaT = {
 
         // La ligne est strictement identique à ce qu'elle était précédemment,
         // on peut passer à la suite
-        if (line == my.lines[i]){continue};
+        if (line == my.lines[i]){
+          console.log(`La ligne d'index ${i} n'a pas bougé ("${my.lines[i]}" = "${line}").`)
+          continue ;
+        };
 
         // Ici, il faudrait voir si la ligne à un identifiant
         // Cet identifiant pour les lignes vide ou de commentaire, est
@@ -101,6 +104,7 @@ const MuScaT = {
         // Remarquer qu'il a pu être modifié après l'ajout d'un nouveau tag
         // ici (ou d'une nouvelle ligne)
         itag = my.tags[i];
+
         // On construit un Tag provisoire avec la ligne courante, qui
         // nous dira si c'est un nouveau tag ou un tag modifié
         itag_prov = new TagProv(line);
@@ -109,14 +113,23 @@ const MuScaT = {
           // <= le tag possède un identifiant
           // => il est connu, mais il ne correspond pas forcément à l'itag
           //    qui devrait se trouver là
+          // console.log('  La ligne a un identifiant : ', itag_prov.id);
+          // console.log(`  Même identifiant que le tag ? (${itag_prov.id} contre ${itag.id})`);
           if (itag_prov.id == itag.id){
             // <= le tag correspond au tag qui se trouve sur cette ligne
             // => il faut juste l'updater avec les nouvelles données
-            // TODO
+            // console.log('  Même identifiant => je compare et j’actualise');
+            // NOTE Maintenant que l'instanciation de Tag ne génère plus
+            // d'élément en soit dans les listes (comme dans ITags auparavant)
+            // on peut tout à fait créer une instance pour la comparer
+            itag.compare_and_update(new Tag(line)) ;
+            if ( itag.modified ) {
+              my.lines[itag.index_line] = itag.to_line();
+            }
           }
         } else {
           // <= C'est un tout nouveau tag (ou ligne vide, commentaire, etc.)
-          // => On l'insert
+          // => On l'insère
           if(itag_prov.is_real_tag){
             new LineCode(line).treate();
           } else {
@@ -372,6 +385,31 @@ const MuScaT = {
 
   // ---------------------------------------------------------------------
   // Méthodes fonctionnelles
+
+  /**
+   * Méthode qui reçoit la ligne brute, telle qu'elle peut se trouver dans
+   * le Tags du fichier tags.js et qui retourne un objet contenant
+   * :data et :locked
+   * :data est la liste des parties de la ligne (split avec espace), sans
+   * la marque de verrou.
+   * :locked est mis à true si la ligne est verrouillée.
+   *
+   * Note : cette méthode sert aussi bien lors du chargement que lors de
+   * la modification des lignes.
+   */
+  epure_and_split_raw_line: function(line){
+    line = line.replace(/\t/g, ' ') ;
+    line = line.replace(/ +/g, ' ') ;
+    // Marque de ligne verrouillée
+    var premier_car = line.substring(0,1);
+    var locked_line = premier_car == '*' || premier_car == '•' || line.substring(0,2) == '🔒' ;
+    if (locked_line){
+      // <= C'est une ligne verrouillée
+      firstoff = line.substring(0,2) == '🔒' ? 2 : 1
+      line = line.substring(firstoff,line.length).trim();
+    }
+    return {data: line.split(' '), locked: locked_line}
+  },
 
   /**
    * Recherche l'index de ligne d'un tag qui serait à la position x/y

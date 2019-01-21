@@ -1,7 +1,7 @@
 options('code beside') ;
 Tags = `
 acc G id=1 x=100 y=100
-🔒 mod SI_min x=200 y=200
+🔒 mod SI_min x=200 y=300
 sco extrait-analyse/sonate-haydn-2.png id=3 x=38 y=127
 `;
 

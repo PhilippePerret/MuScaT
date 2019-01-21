@@ -34,22 +34,15 @@ window.LineCode = function(strline){
   this.line = this.raw_code.replace(/#([0-9]+)#/,'').trim();
 
 }
-
 LineCode.prototype.treate = function(){
   var   my = this
       , line = my.raw_code ;
-  // Épuration de la ligne
-  line = line.replace(/\t/g, ' ') ;
-  line = line.replace(/ +/g, ' ') ;
-  // Marque de ligne verrouillée
-  var premier_car = line.substring(0,1);
-  var locked_line = premier_car == '*' || premier_car == '•' || line.substring(0,2) == '🔒' ;
-  if (locked_line){
-    // <= C'est une ligne verrouillée
-    firstoff = line.substring(0,2) == '🔒' ? 2 : 1
-    line = line.substring(firstoff,line.length).trim();
-  }
-  my.raw_data = line.split(' ') ;
+
+  // Épuration de la ligne et découpage
+  var ret = M.epure_and_split_raw_line(line) ;
+  my.raw_data = ret.data ;
+  var locked_line = ret.locked ;
+
   // console.log(my.raw_data);
   // console.log(my.nature_init);
   // console.log(my.nature);

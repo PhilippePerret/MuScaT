@@ -47,7 +47,7 @@ const CTags = {
   // Méthode évènementielle qui reçoit les touches pressées quand il y
   // a une sélection
   onKeySelection: function(ev){
-    console.log('kcode:'+ev.keyCode + ' | charCode:' + ev.charCode + ' | maj: ' + ev.shiftKey);
+    // console.log('kcode:'+ev.keyCode + ' | charCode:' + ev.charCode + ' | maj: ' + ev.shiftKey);
     switch (ev.keyCode) {
       case 37: // left
         CTags.moveLeftSelection(ev.shiftKey);return stop(ev);

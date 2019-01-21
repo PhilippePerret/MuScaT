@@ -1,10 +1,21 @@
 // Instanciation d'un tag
 //
 function Tag(data_line) {
+  var locked ;
 
-  // Il ne faut peut-être plus affecter l'ID de cette manière, depuis
-  // qu'on update vraiment l'animation (qu'on ne la reconstruit plus
-  // de bout en bout à chaque actualisation du code)
+  // Si +data_line+ est un string, c'est la ligne qui est passée de
+  // façon brute
+  if ('string' == typeof(data_line)){
+    var ret = M.epure_and_split_raw_line(data_line) ;
+    data_line = ret.data ;
+    locked    = ret.locked ;
+  } else {
+    locked = false ;
+  }
+
+  // L'ID pourra être affecté longtemps après l'instanciation, quand
+  // par exemple c'est une nouvelle ligne (un nouveau tag) dans un
+  // fichier tags.js très long.
   this.id = null ;
 
   this.real = true ; // pour indiquer que c'est un vrai tag (≠ TagNot)
@@ -24,7 +35,7 @@ function Tag(data_line) {
   this.text = null ; // Le texte de la cadence, de l'accord, etc.
   this.type = null ; // Le type de la cadence, de la ligne, etc.
 
-  this.locked = false ; // indicateur de verrouillage
+  this.locked = locked ; // indicateur de verrouillage
 
   // === Nature ===
   var nature = data_line.shift() ;
@@ -178,8 +189,8 @@ Tag.prototype.buildAsModulation = function(classes, css){
   xmlns:xlink="http://www.w3.org/1999/xlink">
     <text class="main" font-size=16 x="0" y="56" transform="rotate(-28 0 0)">${my.main_text || my.text}</text>
     <text class="sous" font-size=14 x="2" y="84" transform="rotate(-28 0 20)">${my.sous_text || ''}</text>
-    <line stroke-width="2" x1="18" y1="64" x2="88" y2="26" stroke="black" stroke-linecap="round" />
-    <line stroke-width="2" x1="18" y1="${vly1}" x2="18" y2="${vly2}" stroke="black" stroke-linecap="round" />
+    <line class="bias" stroke-width="2" x1="18" y1="64" x2="88" y2="26" stroke="black" stroke-linecap="round" />
+    <line class="vert" stroke-width="2" x1="18" y1="${vly1}" x2="18" y2="${vly2}" stroke="black" stroke-linecap="round" />
   </svg>
 </div>`
   return code;
@@ -209,6 +220,36 @@ const MODUL_SOUS_TEXT_ATTRS = {
 // ---------------------------------------------------------------------
 // Méthodes de transformation
 
+// Actualisation du tag dans le DOM
+Tag.prototype.update = function(prop) {
+  var my = this ;
+  if(undefined == prop){
+    // Appel de la méthode sans argument
+    my.updateXY(); // ça fait tout, normalement
+  } else {
+    // Appelé avec un argument, c'est la propriété qu'il faut
+    // actualiser
+    switch (prop) {
+      case 'y':
+      case 'top':
+        this.updateY();break;
+      case 'x':
+      case 'left':
+        this.updateX();break;
+      case 'h':
+      case 'height':
+        this.updateH();break;
+      case 'w':
+      case 'width':
+        this.updateW();break;
+      case 'text':
+        this.updateText();break;
+      case 'src':
+        this.updateSrc();break;
+    }
+  }
+}
+
 Tag.prototype.updateXY = function(){
   var my = this ;
   my.updateX();
@@ -224,6 +265,36 @@ Tag.prototype.updateY = function(){
 }
 Tag.prototype.updateX = function(){
   this.jqObj.css({'left': this.x + 'px'});
+}
+Tag.prototype.updateH = function(){
+  var my = this ;
+  // Traitement particulier pour les modulations
+  if(my.type == 'modulation'){
+    my.jqObj.find('svg')[0].setAttribute('height', this.h + 50) ;
+    var line = my.jqObj.find('svg line.vert')[0]
+    line.setAttribute('y2', Number.parseInt(line.getAttribute('y1'),10) + this.h);
+  } else {
+    this.jqObj.css({'height': this.h + 'px'})
+  }
+}
+Tag.prototype.updateW = function(){
+  this.jqObj.css({'width': this.w + 'px'}) ;
+  console.warn('Attention, je ne sais peut-être pas tout à fait traiter la largeur…')
+}
+Tag.prototype.updateText = function(){
+  var my = this ;
+  if(my.type == 'modulation'){
+    var [t, st] = my.text.split('/');
+    my.main_text = t || '' ;
+    my.sous_text = st || '' ;
+    my.jqObj.find('svg text.main').text(my.main_text) ;
+    my.jqObj.find('svg text.sous').text(my.sous_text) ;
+  } else {
+    my.domObj.innerHTML = my.text ;
+  }
+}
+Tag.prototype.updateSrc = function(){
+  this.domObj.src = this.src ;
 }
 
 Tag.prototype.setXAt = function(value) {
@@ -247,14 +318,6 @@ Tag.prototype.setRightAt = function(value) {
   if (my.x < 0) { my.x = 0 }
 }
 
-// Actualisation du tag, aussi bien dans l'affichage (objet DOM) que
-// dans la feuille tags.js
-Tag.prototype.update = function() {
-  var my = this ;
-  // Page.update(my);
-  // MuScaT.update_line(my.index_line, my.to_line()) ;
-  my.updateXY(); // ça fait tout, normalement
-}
 
 // Méthode qui définit, d'après l'identifiant, le domId, et
 // l'objet HTML du DOM du tag
@@ -300,16 +363,6 @@ Tag.prototype.decompose = function(){
         case 'h':
         case 'id':
           my[varia] = value_int ; break ;
-        // case 'x':
-        //   my.x = value_int ; break ;
-        // case 'y':
-        //   my.y = value_int ; break ;
-        // case 'w':
-        //   my.w = value_int ; break ;
-        // case 'h':
-        //   my.h = value_int ; break ;
-        // case 'id':
-        //   my.id = value_int ; break ;
         case 'type':
           switch (my.nature) {
             case 'cadence':
@@ -447,8 +500,23 @@ Tag.prototype.createCopy = function() {
   message(`Nouveau tag créé sur la partition (id #${newtag.id}). N’oubliez pas de copier-coller sa ligne ou tout le code dans votre fichier tags.js.`);
 }
 
-Tag.prototype.search_index_line = function(){
-
+/**
+ * Méthode qui doit comparer le tag courant avec tagComp (instancié d'après la
+ * ligne dans le champ du code) et procéder au modification (dans l'instance
+ * comme dans le DOM).
+ */
+ const TAG_PROPERTIES_LIST = ['x', 'y', 'h', 'w', 'type', 'nature', 'nature_init', 'text', 'src'] ;
+Tag.prototype.compare_and_update = function(tagComp) {
+  this.modified = false ;
+  for(var prop of TAG_PROPERTIES_LIST){
+    console.log('prop = ', prop);
+    if (tagComp[prop] != this[prop]){
+      // console.log(`La propriété "${prop}" est différente (${tagComp[prop]} / ${this[prop]})`);
+      this[prop] = tagComp[prop] ;
+      this.update(prop) ;
+      this.modified = true ;
+    }
+  }
 }
 
 // Méthode qui place les observeurs sur l'élément, lorsqu'il a été
