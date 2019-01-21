@@ -97,10 +97,7 @@ const MuScaT = {
 
         // La ligne est strictement identique à ce qu'elle était précédemment,
         // on peut passer à la suite
-        if (line == my.lines[i]){
-          console.log(`La ligne d'index ${i} n'a pas bougé ("${my.lines[i]}" = "${line}").`)
-          continue ;
-        };
+        if (line == my.lines[i]){ continue };
 
         // Ici, il faudrait voir si la ligne à un identifiant
         // Cet identifiant pour les lignes vide ou de commentaire, est

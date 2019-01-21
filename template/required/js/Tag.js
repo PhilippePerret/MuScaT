@@ -251,6 +251,8 @@ Tag.prototype.update = function(prop) {
         this.updateText();break;
       case 'src':
         this.updateSrc();break;
+      case 'locked':
+        this.updateLock();break;
     }
   }
 }
@@ -300,6 +302,15 @@ Tag.prototype.updateText = function(){
 }
 Tag.prototype.updateSrc = function(){
   this.domObj.src = this.src ;
+}
+Tag.prototype.updateLock = function(){
+  var my = this ;
+  my.jqObj[my.locked ? 'addClass' : 'removeClass']('locked');
+  if(my.locked){
+    my.unobserve();
+  } else {
+    my.observe();
+  };
 }
 
 Tag.prototype.setXAt = function(value) {
@@ -510,11 +521,11 @@ Tag.prototype.createCopy = function() {
  * ligne dans le champ du code) et procéder au modification (dans l'instance
  * comme dans le DOM).
  */
- const TAG_PROPERTIES_LIST = ['x', 'y', 'h', 'w', 'type', 'nature', 'nature_init', 'text', 'src'] ;
+ const TAG_PROPERTIES_LIST = ['x', 'y', 'h', 'w', 'type', 'nature', 'nature_init', 'text', 'src', 'locked'] ;
 Tag.prototype.compare_and_update = function(tagComp) {
   this.modified = false ;
   for(var prop of TAG_PROPERTIES_LIST){
-    console.log('prop = ', prop);
+    // console.log('prop = ', prop);
     if (tagComp[prop] != this[prop]){
       // console.log(`La propriété "${prop}" est différente (${tagComp[prop]} / ${this[prop]})`);
       this[prop] = tagComp[prop] ;
@@ -528,8 +539,22 @@ Tag.prototype.compare_and_update = function(tagComp) {
 // créé après la première fabrication (copies)
 Tag.prototype.observe = function(){
   var my = this ;
-  my.jqObj.draggable(DATA_DRAGGABLE) ;
+  if( ! my.is_draggabled ){
+    my.jqObj.draggable(DATA_DRAGGABLE) ;
+    my.is_draggabled = true ;
+  }
+  console.log('Je le rend movable');
+  my.jqObj.draggable('option', 'disabled', false) ;
   my.jqObj.on('click', CTags.onclick) ;
+}
+Tag.prototype.unobserve = function(){
+  var my = this ;
+  if( ! my.is_draggabled ){
+    my.jqObj.draggable(DATA_DRAGGABLE) ;
+    my.is_draggabled = true ;
+  }
+  my.jqObj.draggable('option', 'disabled', true) ;
+  my.jqObj.on('click', null) ;
 }
 
 Tag.prototype.onClick = function(ev){
