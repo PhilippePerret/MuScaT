@@ -19,12 +19,3 @@
 * Pouvoir jouer le code progressivement (pour une sorte d'animation) : on définit où l'animation doit commencer (START) et à partir de là, les lignes s'exécutent l'une après l'autre (option('anim'|'animation')).
 * Donner le code sous la forme d'un fichier zip à downloader
 * Pouvoir double cliquer sur la page pour ajouter un élément quelconque (un formulaire s'ouvre, qui permet de définir l'élément)
-
-
-## Question sur l'actualisation
-
-Nouvelle façon d'actualiser, en partant du principe que :
-
-* Les tags ne peuvent avoir que trois natures : inchangé (id connu, pas de modification), (id connu des modifications), (pas d'id, une nouvelle ligne), (id connu, mais n'est plus dans la liste de lignes)
-
-On pourrait donc passer en revue les nouvelles lignes pour créer une nouvelle table provisoire newTags qui instancierait toutes les lignes actuelles (rappel : ça ne pose plus de problème maintenant que l'instanciation n'ajoute pas obligatoire de tags dans ITags). On compare ensuite M.tags avec newTags.

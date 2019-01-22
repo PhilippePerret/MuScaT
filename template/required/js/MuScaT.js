@@ -23,6 +23,24 @@ const MuScaT = {
   tags:  new Array(),
   motif_lines_added: null,
 
+  // Exécute la fonction +method+ sur tous les tags de this.tags
+  onEachTag: function(method){
+    var i = 0, len = this.tags.length ;
+    for(i;i<len;++i){method(this.tags[i], i)};
+  },
+  // Exécute la fonction +method+ sur toutes les lignes de la
+  // constante Tags.
+  onEachTagsLine: function(method){
+    var  i = 0, lines = Tags.trim().split(RC), len = lines.length ;
+    for(i;i<len;++i){method(lines[i])};
+  },
+  // Exécute la fonction +method+ sur toutes les lignes de this.lines
+  onEachLine: function(method){
+    var i = 0, len = this.lines.length ;
+    for(i;i<len;++i){method(this.lines[i])};
+  },
+
+
   // Première méthode appelée par document.ready
   //
   start_and_run: function(){
@@ -58,73 +76,58 @@ const MuScaT = {
    * le raccourci clavier `ALT ENTRÉE` quand on se trouve dans le champ
    * de code.
    *
-   * La méthode relit le code `Tags` (actualisé par Page.update) et regarde
-   * les modifications opérées, qui peuvent être :
-   *
-   *  * une ligne n'a pas d'id => c'est un nouveau tag, on l'insère
-   *  * une ligne a un id et elle est identique => on ne la touche pas
-   *  * une ligne a un id et elle est différente => on l'actualise
-   *
    */
   update: function(){
     var my = this ;
-    var   i = 0
-        , lines = Tags.trim().split(RC)
-        , len = lines.length
-        , line
-        , itag
-        ;
     my.new_tags = new Array();
-    for(i;i<len;++i){
-      my.new_tags.push(new Tag(lines[i].trim()));
-    };
-    // On peut maintenant comparer .tags et .new_tags
+    my.onEachTagsLine(function(line){
+      my.new_tags.push(new Tag(line));
+    })
     my.compare_old_and_new_tags();
   },
+
+
   compare_old_and_new_tags: function(){
     var my = this ;
-    var i = 0
-      , len   = my.tags.length
-      , itag
-      ;
+
     // On remet la liste à rien
     my.lines = new Array();
 
     // On va passer par une table qui contient en clé l'identifiant et
     // en valeur le tag, pour passer en revue tous les nouveaux tags (ou pas)
     my.htags = {};
-    for(i;i<len;++i){
-      itag = my.tags[i];
-      my.htags[itag.id] = itag;
-    }
+    my.onEachTag(function(itag){ my.htags[itag.id] = itag });
+
     // console.log('tags:', my.tags);
     // console.log('htags:', my.htags);
     // console.log('new_tags:', my.new_tags);
-    i = 0 ;
-    len = my.new_tags.length ;
+
+    var i = 0
+      , len = my.new_tags.length
+      , itag
+      ;
     for(i=0;i<len;++i){
       itag = my.new_tags[i] ;
+
+      // Est-ce une copie d'une ligne ? (identifiant déjà traité)
+      if(undefined == my.htags[itag.id]){
+        itag.reset_id();
+      };
+
       if (itag.id == null) {
         // <= C'est un nouveau tag
         // console.log(`Le tag d'index ${i} est nouveau`);
         itag.id = ++ my.last_tag_id;
-        if(itag.real){
-          itag.build_and_watch();
-        }
+        // console.log('Nouveau dernier ID : ', my.last_tag_id);
+        itag.real && itag.build_and_watch();
       } else {
         // <= C'est un tag connu
-        // S'il n'est pas modifié, on
-        if (itag.compare_and_update(my.htags[itag.id])){
-          // <= Le tag a été modifié
-          // console.log(`Le tag ${itag.id} a été modifié`);
-        } else {
-          // <= Le tag n'a pas été modifié
-          // console.log(`Le tag ${itag.id} n'a pas été modifié`);
-        }
-        // Dans tous les cas, on le retire de htags
+        // console.log(`itag #${itag.id} : ${itag.text || itag.src}`);
+        itag.real && itag.compare_and_update(my.htags[itag.id])
+        // Dans tous les cas, on le retire de htags (pour savoir ceux
+        // qu'il faudra détruire)
         delete my.htags[itag.id] ;
       }
-
       my.lines.push(itag.to_line());
     };
 
@@ -144,27 +147,15 @@ const MuScaT = {
     my.update_code();
   },
 
-
+  // Actualise l'index de chaque élément de l'analyse
   update_index_lines: function(){
-    var my = this
-      , i = 0
-      , len = my.tags.length
-      ;
-    for(i;i<len;++i){ my.tags[i].index_line = i }
+    var my = this ;
+    my.onEachTag(function(itag, idx){ itag.index_line = idx });
   },
 
-  // Chargement et traitement du fichier `tags.js` qui doit définir les
-  // tags et les images dans la constante Tags.
-  //
-  // Ce chargement alimentera la donnée Lines.lines contiendra toutes les
-  // lignes, même les lignes vides et les commentaires, pour reproduire
-  // un fichier actualisé en cas de déplacement.
   /**
-   * Pour le moment, la méthode est appelée aussi à l'actualisation demandée
-   * C'est-à-dire que tout le code de l'analyse est toujours reconstruit lors
-   * d'une actualisation.
-   * QUESTION: Ne serait-ce pas moins lourd de n'actualiser que ce qui doit
-   * l'être ?
+   * Chargement du fichier tags.js, analyse du code et construction de
+   * l'analyse sur la table.
    */
   load: function(){
     var my = this ;
@@ -205,6 +196,7 @@ const MuScaT = {
 
     this.update_code();
 
+    // console.log('À la fin de load, last_tag_id = ', this.last_tag_id);
   },
   // load
 
@@ -213,23 +205,12 @@ const MuScaT = {
    * en tirer le code de l'analyse.
    */
   parse_tags_js: function(){
-    var my = this
-      , lines
-      , iline = 0
-      , line
-      , lineCode
-      , lines_count
-      ;
-
-    // On boucle sur toutes les lignes de Tags tags.js pour
-    // traiter les lignes, c'est-à-dire les instancier et les créer
-    // dans le document.
-    lines = Tags.trim().split(RC) ;
-    lines_count = lines.length ;
-    // Boucle sur toutes les lignes
-    for(iline;iline<lines_count;++iline){
-      my.tags.push(new Tag(lines[iline].trim()));
-    }
+    var my = this, itag ;
+    my.onEachTagsLine(function(line){
+      itag = new Tag(line) ;
+      my.tags.push(itag) ;
+      if(itag.id && itag.id > my.last_tag_id){my.last_tag_id = itag.id};
+    });
   },
   //parse_tags_js
 
@@ -238,29 +219,29 @@ const MuScaT = {
    * nouvelles lignes)
    */
   set_ids_and_index: function(){
-    var i = 0, len = this.tags.length, itag ;
-    for(i;i<len;++i){
-      itag = this.tags[i] ; // Tag ou TagNot
-      itag.index_line = i ;
-      // On définit toujours l'ID du tag, même s'il est déjà défini,
-      // car cela définit le domId
-      // itag.set_id(itag.id || ++this.last_tag_id) ;
-      if(itag.id == null){ itag.id = ++this.last_tag_id };
-    }
+    var my = this ;
+    my.onEachTag(function(itag, idx){
+      itag.index_line = idx ;
+      if(itag.id == null){ itag.id = ++ my.last_tag_id };
+    });
   },
+
   /**
    * Méthode qui construit les tags sur la table
+   *
+   * Note les watchers ne sont pas placés, ici, car ils le seront
+   * d'un seul coup (cette méthode est seulement appelée par load)
    */
   build_tags: function(){
-    var i = 0, len = this.tags.length;
-    for(i;i<len;++i){
-      this.lines.push(this.tags[i].to_line()) ; // p.e. ajout de l'id
-      if(this.tags[i].real){this.tags[i].build()};
-    }
+    var my = this ;
+    my.onEachTag(function(itag){
+      my.lines.push(itag.to_line()) ; // p.e. ajout de l'id
+      if(itag.real){itag.build()};
+    });
   },
 
   prepare_crop_image: function(){
-    itag = ITags['obj0'];
+    itag = ITags['obj1'];
     itag.x = 0 ; itag.y = 0 ; itag.update();
     itag.jqObj.css({'position': 'absolute', 'top': 0, 'left': 0});
     message("La découpe de l'image est prête.");
@@ -365,7 +346,7 @@ const MuScaT = {
   // qu'il soit copié-collé
   show_code: function(message){
     var my = this ;
-    console.log('-> show_code');
+    // console.log('-> show_code');
     // my.codeField().select();
     // document.execCommand("copy");
     if (!message){
@@ -429,19 +410,15 @@ const MuScaT = {
    * pour ne pas la mettre à la fin.
    */
   get_line_for_position: function(x, y){
-    var my = this
-      , i  = 0
-      , len = my.tags.length
-      , itag
-      ;
-    for(i;i<len;++i){
-      itag = my.tags[i] ;
+    var my = this ;
+    var res = my.onEachTag(function(itag){
       if(itag.real){
         if (itag.y > y) { return Number.parseInt(i,10)};
         if (itag.y == y && itag.x > x){ return Number.parseInt(i,10)};
       }
-    }
-    return -1 ;
+    });
+    if(res == null) { res = -1 };
+    return res ;
   },
   // Pour tout réinitialiser chaque fois qu'on actualise l'affichage
   // Pour les tests, appeler plutôt `reset_for_tests` (qui appelle aussi
@@ -450,7 +427,7 @@ const MuScaT = {
     var my = this ;
     my.tags   = new Array();
     my.lines  = new Array();
-    my.last_tag_id = -1 ;
+    my.last_tag_id = 0 ; // commence à 1
     $('section#tags')[0].innerHTML = '' ;
     // ITags = {};
   },
@@ -471,14 +448,9 @@ const MuScaT = {
    * image. Ou plus exactement, de définir les coordonnées de la découpe
    */
   set_observers_mode_crop: function(){
-    // console.log('-> set_observers_mode_crop');
-    // var   my = this
-    //     , scoreTag = ITags['obj0']
-    //     , scoreObj = scoreTag.jqObj ;
-
-    window.onmousedown = $.proxy(MuScaT,'onMouseDownModeCrop');
-    window.onmouseup   = $.proxy(MuScaT,'onMouseUpModeCrop');
-    window.onmousemove = $.proxy(MuScaT,'onMouseMoveModeCrop');
+    window.onmousedown = $.proxy(M,'onMouseDownModeCrop');
+    window.onmouseup   = $.proxy(M,'onMouseUpModeCrop');
+    window.onmousemove = $.proxy(M,'onMouseMoveModeCrop');
 
     // console.log('<- set_observers_mode_crop');
   },
@@ -525,7 +497,7 @@ const MuScaT = {
     var x = my.cropStartX ;
     var y = my.cropStartY ;
     // document.getElementById('tags').removeChild(my.cropper);
-    var scoreTag = ITags['obj0'] ;
+    var scoreTag = ITags['obj1'] ;
     var codeConvert = '-crop ' + w + 'x' + h + '+' + x + '+' + y ;
     var indiceImg  = ++ my.indice_cropped_image ;
     var extensionImg = get_option('images PNG') ? 'png' : 'jpg' ;
@@ -545,16 +517,6 @@ const MuScaT = {
     }
     // console.log(x + ' / ' + y);
     return stop(ev);
-  },
-
-
-
-  // Pour remettre toutes les options à false
-  reset_options: function(){
-    for(var k in OPTIONS){
-      if (OPTIONS[k].boolean){ OPTIONS[k].value = false;}
-      else {OPTIONS[k].value = null };
-    }
   }
 }
 

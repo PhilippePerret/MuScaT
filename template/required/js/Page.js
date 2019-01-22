@@ -57,12 +57,9 @@ const Page = {
     // la première fois des tags ne se retrouvent pas au même endroit. On ne
     // le fait plus, ça pose trop de problèmes.
     $('section#tags').append(itag.to_html()) ;
-    // Définir les propriétés (comme domObj et jqObj) et poser les
-    // observateurs.
-    itag.set_dom_objet();
 
-    ITags[itag.domObj] = itag ;
-    
+    ITags[itag.domId] = itag ;
+
     // console.log(itag.domObj);
     my.prev_itag = itag ;
     my.current_x = 0 + itag.x ;

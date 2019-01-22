@@ -1,13 +1,13 @@
 var t = new Test('Ajout de tags');
 t.run = function(){
 
-  // this.check_ligne_copied_pasted_without_same_id();
+  this.check_ligne_copied_pasted_without_same_id();
 
-  // this.check_line_copied_pasted_after_new_empty_line();
+  this.check_line_copied_pasted_after_new_empty_line();
 
-  // this.check_new_line_at_the_end();
+  this.check_new_line_at_the_end();
 
-  // this.check_two_new_lines_at_the_end();
+  this.check_two_new_lines_at_the_end();
 
   this.check_line_at_the_end_and_empty_line_before();
 
@@ -36,15 +36,17 @@ acc G x=100 y=100
     'Il y a deux tags (dans M.tags)',
     `Il devrait y avoir deux tags dans M.tags. Il y en a ${M.tags.length}.`
   );
+  var expect_id = 1
   assert(
-    M.tags[0].id == 0,
-    'Le premier tag a l’identifiant #0',
-    `Le premier tag devrait avoir l'identifiant #0, il a #${M.tags[0].id}`
+    M.tags[0].id == expect_id,
+    `Le premier tag a bien l’identifiant #${expect_id}`,
+    `Le premier tag devrait avoir l'identifiant #${expect_id}, il a #${M.tags[0].id}`
   )
+  expect_id = 2
   assert(
-    M.tags[1].id == 1,
-    'Le second tag a l’identifiant #1',
-    `Le second tag devrait avoir l'identifiant #1, il a #${M.tags[0].id}`
+    M.tags[1].id == expect_id,
+    `Le second tag a l’identifiant #${expect_id}`,
+    `Le second tag devrait avoir l'identifiant #${expect_id}, il a #${M.tags[0].id}`
   )
 }
 
@@ -146,6 +148,7 @@ sco extrait-analyse/sonate-haydn-2.png id=2 x=38 y=127
 #4#
 `;
   M.relaunch_for_tests();
+  // Test de préparation
   assert_nombre_tags(4, 2);
 
   // Le test
@@ -161,6 +164,8 @@ acc G id=1 x=100 y=200
 
   // La vérification
   assert_nombre_tags(6, 3);
+
+
   // Ce coup-ci, on vérifie vraiment chaque tag
   data_expected = {
     0: {real: true, id: 1},

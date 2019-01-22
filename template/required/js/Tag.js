@@ -76,6 +76,22 @@ function Tag(data_line) {
   //*/
 }
 
+/** ---------------------------------------------------------------------
+  *
+  * MÉTHODES DE DONNÉES
+  *
+  **/
+
+// Reset de l'identifiant (quand copie, par exemple)
+Tag.prototype.reset_id = function() {
+  var my = this ;
+  my.id = null ;
+  my._domId = null ;
+  my._jqObj = null ;
+  my._domObj = null ;
+}
+
+
 // ---------------------------------------------------------------------
 // Méthodes de coordonnées
 
@@ -331,16 +347,6 @@ Tag.prototype.setRightAt = function(value) {
   var my = this ;
   my.x = value - my.jqObj.width() ;
   if (my.x < 0) { my.x = 0 }
-}
-
-
-// Méthode qui définit, d'après l'identifiant, le domId, et
-// l'objet HTML du DOM du tag
-Tag.prototype.set_dom_objet = function(){
-  var my = this ;
-  my.domId  = `obj${this.id}`;
-  my.jqObj  = $('#'+my.domId);
-  my.domObj = my.jqObj[0];
 }
 
 // Return un code pour le style de la ligne

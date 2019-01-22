@@ -5,7 +5,7 @@
  new Test('fabrication_simple').run = function(){
 
    given('Avec un code ne définissant qu’un seul texte');
-   
+
    Tags = `
     text Un_simple_texte x=100 y=200
    `
@@ -23,9 +23,9 @@
    var letag = tags[0] ;
 
    assert(
-     letag.id == 'obj0',
-     'le tag possède un ID de #obj0',
-     `le tag devrait avoir l’ID #obj0 (il vaut ${letag.id})`
+     letag.id == 'obj1',
+     'le tag possède un ID de #obj1',
+     `le tag devrait avoir l’ID #obj1 (il vaut ${letag.id})`
    );
    assert(
      $(letag).hasClass('drag') && $(letag).hasClass('text'),

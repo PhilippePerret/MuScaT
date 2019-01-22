@@ -90,11 +90,12 @@ tag.check_parties = function(){
     'les 2 derniers titres de parties sont bien verrouillés',
     `les 2 derniers titres de parties devraient être verrouillés (${diffs})`
   );
+
   // Dans l'instance
   diffs = new Array();
-  if(ITags['obj0'].locked){push_failure(diffs, 'locked de la 1ère instance', false, true)}
-  if(!ITags['obj1'].locked){push_failure(diffs, 'locked de la 2e instance', true, false)}
-  if(!ITags['obj2'].locked){push_failure(diffs, 'locked de la 3e instance', true, false)}
+  if(ITags['obj1'].locked){push_failure(diffs, 'locked de la 1ère instance', false, true)}
+  if(!ITags['obj2'].locked){push_failure(diffs, 'locked de la 2e instance', true, false)}
+  if(!ITags['obj3'].locked){push_failure(diffs, 'locked de la 3e instance', true, false)}
   assert(
     diffs.length == 0,
     'les instances ont leur bonne marque de verrou (locked)',
@@ -135,6 +136,6 @@ tag.check_harmony = function(){
   given('Des chiffrages définis avec `harmony`, `harmonie` et `chiffrage`');
 
   Tags = `
-  
+
   `;
 }
