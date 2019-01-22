@@ -287,7 +287,7 @@ const MuScaT = {
     var i = 0, len = this.tags.length;
     for(i;i<len;++i){
       this.lines.push(this.tags[i].to_line()) ; // p.e. ajout de l'id
-      this.tags[i].build();
+      if(this.tags[i].real){this.tags[i].build()};
     }
   },
 
@@ -367,13 +367,22 @@ const MuScaT = {
     var   opts = new Array()
         , opt ;
     for(opt in OPTIONS){
-      if (OPTIONS[opt]){ opts.push("'" + opt + "'") }
-    }
+      if (!OPTIONS[opt].aka){
+        if(OPTIONS[opt].boolean){
+          opts.push("'" + opt + "'");
+        } else {
+          var val = OPTIONS[opt].value ;
+          if ('string' == typeof(val)){ val= "'"+val+"'"}
+          opts.push("'" + opt + "', " + val);
+        }
+
+      };
+    };
     if (opts.length){
-      opts = 'options(' + opts.join(', ') + ') ;' + RC
+      opts = 'options(' + opts.join(', ') + ') ;' + RC ;
     } else {
       opts = '' ;
-    }
+    };
     // Le code complet re-composé
     return opts + 'Tags = `'+ RC + my.full_code() + RC + '`;'
   },
@@ -566,7 +575,8 @@ const MuScaT = {
   // Pour remettre toutes les options à false
   reset_options: function(){
     for(var k in OPTIONS){
-      if ('boolean' == typeof(OPTIONS[k])){OPTIONS[k] = false};
+      if (OPTIONS[k].boolean){ OPTIONS[k].value = false;}
+      else {OPTIONS[k].value = null };
     }
   }
 }

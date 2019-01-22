@@ -24,18 +24,16 @@ window.options = function(options){
     if (undefined == OPTIONS[option]){
       alert('L’option « '+option+' » est inconnue de nos services.');
     } else {
-      if ('string' == typeof OPTIONS[option]){
-        OPTIONS[OPTIONS[option]] = true ;
-      } else {
-        OPTIONS[option] = true ;
+      if (OPTIONS[option].aka){
+        option = OPTIONS[option].aka ;
       }
-
+      OPTIONS[option].value = true ;
     }
   }
 }
 window.option = window.options;
 window.get_option = function(opt){
-  return OPTIONS[opt] ;
+  return OPTIONS[opt].value ;
 }
 
 // Mis dans un object pour pouvoir être réaffectées lors de l'update

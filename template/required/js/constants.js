@@ -46,15 +46,15 @@ NATURES_SHORTCUTS = {
 
 // Les options utilisable
 OPTIONS = {
-  'code beside':    false,
-  'code à côté':    'code beside',
-  'crop image':     false,
-  'images PNG':     false, // true si on veut des noms de fichier ne png (pour convert par exemple)
-  'découpe image':  'crop image',
-  'coordonates':    false, // afficher les coordonnées lors des déplacementss
-  'repères':        'lines of reference',
-  'reperes':        'lines of reference',
-  'lines of reference': false,  // si true, affiche les lignes de guide
+  'code beside':        {boolean: true, value: false},
+  'code à côté':        {aka: 'code beside'},
+  'crop image':         {boolean: true, value: false},
+  'images PNG':         {boolean: true, value: false}, // true si on veut des noms de fichier ne png (pour convert par exemple)
+  'découpe image':      {aka: 'crop image'},
+  'coordonates':        {boolean: true, value: false}, // afficher les coordonnées lors des déplacementss
+  'repères':            {aka: 'lines of reference'},
+  'reperes':            {aka: 'lines of reference'},
+  'lines of reference': {boolean: true, value: false}  // si true, affiche les lignes de guide
 }
 
 // Définition d'un retour chariot

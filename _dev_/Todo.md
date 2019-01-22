@@ -1,24 +1,6 @@
 # Todo list
 
-* [BUG] Maintenant, les copies (duplication de tag) se font mal (pour commencer, l'id n'est pas actualisé)
-* [BUG] Les IDs sont aussi mal gérés lorsqu'on introduit des lignes vides sur un code avec déjà des ids. Par exemple :
-```
-  acc G id=1 ...
-
-  sco image.png id=2 ...
-```
-  Si on ajoute la ligne vide comme ci-dessus, entre deux éléments avec ID, cette ligne vide va recevoir l'identifiant 2 alors qu'il est utilisé par la ligne de partition.
-  => Il faudrait pouvoir mettre les ID à la fin, quand on connait le dernier
-Même problème avec cette deuxième ligne insérée :
-```
-acc G id=1 ...
-mod SI_min ...
-sco image.png id=3 ...
-```
-  Elle va prendre l'identifiant 3 alors qu'il est déjà affecté.
-
-  => Analyser d'abord le code, puis construire seulement après, en fonction des M.lines
-
+* [BUG] C'est du grand n'importe quoi quand on ajoute des lignes vides dans le code du champ
 * [BUG] Les options se règlent mal quand on demande le code complet
 * [BUG] L'index des lignes s'affecte mal
 * [BUG] Le cadenas n'est pas compris, en lecture du fichier tags.js (c'est peut-être à cause du nombre de caractères lus)
