@@ -1,10 +1,9 @@
 # Todo list
 
-* [BUG] Le code complet ne se colle plus dans le presse-papier
+* [BUG] Quand on supprime un élément dans le code et qu'on update, il revient…
 * Pouvoir grouper des éléments pour qu'ils réagissent ensemble aux déplacements
 * Faire le traitement avec la version minimale des écritures (sans "x=" et "y=", ou on aurait '<nature> <contenu> <x> <y>'). Noter que ça ne fonctionne que pour une nouvelle ligne, après, il y a un identifiant.
 * Indiquer que toutes les natures (à part "partition") peuvent être désignées par leur trois premières lettres.
-* Créer une ligne mobile pour aligner les éléments (options 'repère', 'repaire') (une verticale et une horizontale)
 * Pouvoir supprimer un élément (avec la touche erase)
 * Faire les différents styles
 * Pouvoir sélectionner plusieurs objets par sélection rectangle à la souris
@@ -24,19 +23,8 @@
 
 ## Question sur l'actualisation
 
-On pourrait mettre l'ID de la ligne en début :
+Nouvelle façon d'actualiser, en partant du principe que :
 
-#12# acc G x=10 y=100
-#20# sco mon_image.png x=120 y=130
-...
+* Les tags ne peuvent avoir que trois natures : inchangé (id connu, pas de modification), (id connu des modifications), (pas d'id, une nouvelle ligne), (id connu, mais n'est plus dans la liste de lignes)
 
-Les problèmes :
-
-* l'utilisateur pourrait modifier ces premiers numéros et foutre le bazar (même sans le vouloir)
-* il suffirait que l'utilisateur supprime un croisillon pour foutre le bazar (même problème si on le met à la fin. Et si on utilise : `acc G x=10 y=100 id=12xx`)
-* ça rend la ligne moins claire
-
-Les avantage :
-
-* Ça permet de ne pas tout refaire à chaque fois : une simple méthode de comparaison permettrait de savoir si l'objet a bouger
-* Ça crée un lien fort entre la ligne est l'objet
+On pourrait donc passer en revue les nouvelles lignes pour créer une nouvelle table provisoire newTags qui instancierait toutes les lignes actuelles (rappel : ça ne pose plus de problème maintenant que l'instanciation n'ajoute pas obligatoire de tags dans ITags). On compare ensuite M.tags avec newTags.

@@ -1,9 +1,8 @@
 options('code beside') ;
 Tags = `
-acc G id=1 x=100 y=200
-#3#
-sco extrait-analyse/sonate-haydn-2.png id=2 x=38 y=127
-#4#
+acc D x=100 y=200
+acc E x=200 y=200
+acc F x=300 y=200
 `;
 
 // option('code beside');//option('repères')

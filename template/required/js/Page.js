@@ -60,6 +60,9 @@ const Page = {
     // Définir les propriétés (comme domObj et jqObj) et poser les
     // observateurs.
     itag.set_dom_objet();
+
+    ITags[itag.domObj] = itag ;
+    
     // console.log(itag.domObj);
     my.prev_itag = itag ;
     my.current_x = 0 + itag.x ;
@@ -75,7 +78,7 @@ const Page = {
     */
   onClickOut: function(ev){
     // console.log(ev);
-    if(UI.tools_are_opened()){UI.hide_tools()}
+    if(UI.tools_are_opened()){UI.hide_tools()};
     CTags.desectionne_all();
     this.getCoordonates(ev);
   },
@@ -85,6 +88,7 @@ const Page = {
   // La méthode est utilisées aussi bien pour la page en dehors des tags
   // que pour une image cliquée
   getCoordonates: function(ev){
+    console.log('-> getCoordonates');
     var x = ev.pageX ;
     var y = ev.pageY ;
     navigator.clipboard.writeText('x='+x+" y="+y);

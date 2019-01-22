@@ -9,21 +9,16 @@ function Tag(data_line) {
     var ret = M.epure_and_split_raw_line(data_line) ;
     data_line = ret.data ;
     locked    = ret.locked ;
+    this.id   = ret.id ; // seulement pour les commentaires et vides
   } else {
-    locked = false ;
+    locked  = false ;
+    this.id = null ;
   }
 
-  // L'ID pourra être affecté longtemps après l'instanciation, quand
+  // Note sur l'ID
+  // Il pourra être affecté longtemps après l'instanciation, quand
   // par exemple c'est une nouvelle ligne (un nouveau tag) dans un
   // fichier tags.js très long.
-  this.id = null ;
-
-  this.real = true ; // pour indiquer que c'est un vrai tag (≠ TagNot)
-
-  // Initialisation de toutes les valeurs
-  this.domId  = null ;
-  this.jqObj  = null ;
-  this.domObj = null ;
 
   // Pour les coordonnées et l'aspect
   this.x = null;
@@ -44,6 +39,10 @@ function Tag(data_line) {
   // de recréer la ligne exactement comme elle était, avec la valeur de
   // nature raccourcie et/ou dans la langue d'origine.
   this.nature_init = nature ;
+
+  // Maintenant que les commentaires et les lignes vides sont des
+  // tags aussi, on doit interpréter ici
+  this.real = this.nature_init != '' && this.nature_init != '//';
 
   // Il faut consigner les données de la ligne, on en a besoin tout de
   // suite après.
@@ -365,6 +364,15 @@ Tag.prototype.code_line_by_type = function() {
 // déduire les données connues
 Tag.prototype.decompose = function(){
   var my = this;
+  // console.log('decompose :', this.data_line);
+  if(my.is_comment_line){
+    this.text = this.data_line.join(' ');
+    return ;
+  } else if(my.is_empty_line){
+    this.text = '';
+    return ;
+  }
+  // else
   this.data_line.forEach(function(el){
     // first_letter = el.substr(0,1).toLowerCase();
     // write('el = ' + el + ' / première lettre : "'+first_letter+'"');
@@ -432,7 +440,7 @@ Tag.prototype.recompose = function(){
   my.text && aLine.push(my.text.replace(/ /g,'_')) ;
 
   // L'identifiant
-  aLine.push(`id=${my.id}`) ;
+  aLine.push(my.real ? `id=${my.id}` : `#${my.id}#`);
 
   // Si un type est défini, et que la nature n'est pas un raccourci
   // de nature, on écrit ce type
@@ -456,7 +464,7 @@ Tag.prototype.recompose = function(){
 // mais de la ligne de CODE qui définit l'élément graphique dans tags.js
 Tag.prototype.to_line = function() {
   // On sépare toutes les valeurs par une espace
-  return this.recompose().join(' ') ;
+  return (this.recompose().join(' ')).trim() ;
 }
 
 // Retourne la position sous forme humaine
@@ -509,10 +517,9 @@ Tag.prototype.createCopy = function() {
   var dline   = my.recompose() ;
   var newtag  = new Tag(dline) ;
   newtag.index_line = M.get_line_for_position(newtag.x, newtag.y) ; // peut être = -1
-  newtag.set_id(++M.last_tag_id) ;
+  newtag.id = ++ M.last_tag_id ;
   M.insert_line(newtag) ;
-  newtag.build();
-  newtag.observe();
+  newtag.build_and_watch();
   message(`Nouveau tag créé sur la partition (id #${newtag.id}). N’oubliez pas de copier-coller sa ligne ou tout le code dans votre fichier tags.js.`);
 }
 
@@ -522,17 +529,25 @@ Tag.prototype.createCopy = function() {
  * comme dans le DOM).
  */
  const TAG_PROPERTIES_LIST = ['x', 'y', 'h', 'w', 'type', 'nature', 'nature_init', 'text', 'src', 'locked'] ;
+
 Tag.prototype.compare_and_update = function(tagComp) {
   this.modified = false ;
   for(var prop of TAG_PROPERTIES_LIST){
-    // console.log('prop = ', prop);
     if (tagComp[prop] != this[prop]){
-      // console.log(`La propriété "${prop}" est différente (${tagComp[prop]} / ${this[prop]})`);
-      this[prop] = tagComp[prop] ;
+      // console.log(`La propriété "${prop}" est différente. Avant : ${tagComp[prop]}. Maintenant ${this[prop]}.`);
       this.update(prop) ;
       this.modified = true ;
     }
   }
+  return this.modified == true ; // seulement pour les messages, je crois
+};
+
+Tag.prototype.destroy = function(){
+  var my = this ;
+  if(my.real){
+    my.jqObj.remove() ;
+    delete ITags[my.domId] ;
+  };
 }
 
 // Méthode qui place les observeurs sur l'élément, lorsqu'il a été
@@ -545,7 +560,8 @@ Tag.prototype.observe = function(){
   }
   my.jqObj.draggable('option', 'disabled', false) ;
   my.jqObj.on('click', CTags.onclick) ;
-}
+};
+
 Tag.prototype.unobserve = function(){
   var my = this ;
   if( ! my.is_draggabled ){
@@ -595,17 +611,14 @@ Tag.prototype.is_nature_shortcut = function(){
   return !!this._is_nature_shortcut ;
 }
 
-// Définit l'identifiant, et avec lui l'identifiant DOM du tag
-Tag.prototype.set_id = function(value){
-  this.id = value ;
-  this.domId = `obj${this.id}`;
-  ITags[this.domId] = this ;
-}
-
 Object.defineProperties(Tag.prototype,{
   nature: {
     get: function(){
       if( ! this._nature ){
+        if(this.is_comment_line || this.is_empty_line){return null};
+        if(!NATURES[this.nature_init]){
+          throw(`La nature de tag "${this.nature_init}" est inconnue. Merci de corriger le code.`);
+        }
         this._nature = NATURES[this.nature_init].aka || this.nature_init ;
         // Certaines natures sont des raccourcis, par exemple :
         //    partie Mon_Introduction ...
@@ -628,5 +641,42 @@ Object.defineProperties(Tag.prototype,{
       return this._nature;
     },
     set: function(value){ this._nature = value }
+  },
+  // DOM
+  domId: {
+    get: function(){
+      if(undefined == this._domId){
+        if(null == this.id){throw('Impossible de définir domId, l’identifiant du tag est null…')}
+        this._domId = `obj${this.id}`
+      }
+      return this._domId ;
+    },
+    set: function(value){ this._domId = value }
+  },
+  jqObj: {
+    get: function(){
+      if(!this._jqOjb){
+        this._jqObj = $(`#${this.domId}`) ;
+      }
+      return this._jqObj;
+    },
+    set: function(value){ this._jqObj = value }
+  },
+  domObj: {
+    get: function(){
+      if(!this._domObj){
+        this._domObj = document.getElementById(this.domId);
+      }
+      return this._domObj;
+    },
+    set: function(value){this._domObj = value; }
+  },
+
+  // Nature de la ligne du tag
+  is_comment_line: {
+    get: function(){return this.nature_init == '//'}
+  },
+  is_empty_line: {
+    get: function(){return this.nature_init == ''}
   }
 })

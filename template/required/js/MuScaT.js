@@ -16,12 +16,6 @@
               ou les lignes vides sont des notag (pour pouvoir posséder des
               méthodes communes)
 */
-
-
-function  write(str) {
-  $('body').append('<div>' + str + '</div>')
-}
-
 // La classe principale
 // MuScaT pour "Mu Sc Ta (à l'envers)" pour "Music Score Tagger"
 const MuScaT = {
@@ -79,108 +73,77 @@ const MuScaT = {
         , len = lines.length
         , line
         , itag
-        , itag_prov
-        , current_line_idx = -1 // 0-start
         ;
-
+    my.new_tags = new Array();
     for(i;i<len;++i){
-      line = lines[i];
-      try {
-        // On désolidarise current_line_idx de i car des tags ou des
-        // lignes de commentaire et vides vont pouvoir être ajoutées au
-        // cours du processus
-        ++ current_line_idx ;
-
-        var line = line.trim();
-
-        // Debug
-        // console.log(`Traitement de ligne ${i}`, line);
-
-        // La ligne est strictement identique à ce qu'elle était précédemment,
-        // on peut passer à la suite
-        if (line == my.lines[i]){ continue };
-        // Si c'est une ligne vide ou une ligne de commentaire, on peut
-        // la passer directement
-        if (line.match(/#[0-9]+#/)){ continue };
-
-        // Ici, il faudrait voir si la ligne à un identifiant
-        // Cet identifiant pour les lignes vide ou de commentaire, est
-        // indiqué à la fin de la ligne par #<id>#
-        // Pour un tag, il est noté `id=<id>`
-
-        // On prend le tag qui se trouve normalement sur cette ligne
-        // Remarquer qu'il a pu être modifié après l'ajout d'un nouveau tag
-        // ici (ou d'une nouvelle ligne)
-        // Remarquer aussi qu'il peut ne pas exister, si c'est une ligne
-        // ajoutée à la fin
-        itag = my.tags[i];
-
-        // On construit un Tag provisoire avec la ligne courante, qui
-        // nous dira si c'est un nouveau tag ou un tag modifié
-        itag_prov = new TagProv(line);
-
-        if ( undefined == itag ){
-          // <= C'est une toute nouvelle ligne
-          // => C'est un tout nouveau tag
-          var newtag = new Tag(line) ;
-          newtag.set_id(++my.last_tag_id) ;
-          // newtag.index_line = current_line_idx ++ ;
-          my.tags.push(newtag) ;
-          my.lines.push(newtag.to_line()) ;
-          newtag.build_and_watch();
-        } else if(itag_prov.id){
-          // <= le tag possède un identifiant
-          // => il est connu, mais il ne correspond pas forcément à l'itag
-          //    qui devrait se trouver là
-          // console.log('  La ligne a un identifiant : ', itag_prov.id);
-          // console.log(`  Même identifiant que le tag ? (${itag_prov.id} contre ${itag.id})`);
-          if (itag_prov.id == itag.id){
-            // <= le tag correspond au tag qui se trouve sur cette ligne
-            // => il faut juste l'updater avec les nouvelles données
-            // console.log('  Même identifiant => je compare et j’actualise');
-            // NOTE Maintenant que l'instanciation de Tag ne génère plus
-            // d'élément en soit dans les listes (comme dans ITags auparavant)
-            // on peut tout à fait créer une instance pour la comparer
-            itag.compare_and_update(new Tag(line)) ;
-            if ( itag.modified ) {
-              my.lines[itag.index_line] = itag.to_line();
-            }
-          }
-        } else {
-          // <= C'est un tout nouveau tag (ou ligne vide, commentaire, etc.)
-          // => On l'insère
-          if(itag_prov.is_real_tag){
-            // new LineCode(line).treate();
-            var newtag = new Tag(line) ;
-            newtag.set_id(++my.last_tag_id) ;
-            // newtag.index_line = current_line_idx ++ ;
-            my.tags.splice(current_line_idx, 0, newtag) ;
-            my.lines.splice(current_line_idx, 0, newtag.to_line()) ;
-            newtag.build_and_watch();
-          } else {
-            // <= Pour une ligne de commentaire ou une ligne vide
-            var newtagnot = new TagNot(line) ;
-            newtagnot.id = ++ my.last_tag_id ;
-            // newtagnot.index_line = current_line_idx ++ ;
-            my.tags.splice(current_line_idx, 0, newtagnot);
-            my.lines.splice(current_line_idx, 0, newtagnot.to_line()) ;
-          }
-          // Dans les deux cas, on incrément current_line_idx car une
-          // ligne a été ajoutée
-          ++ current_line_idx ;
-        }
-      } catch (e) {
-        console.error(e);
-        continue ;
-      }
-    }
-    // Fin de boucle sur toutes les lignes
-
-    my.update_index_lines();
-
-    my.update_code();
-
+      my.new_tags.push(new Tag(lines[i].trim()));
+    };
+    // On peut maintenant comparer .tags et .new_tags
+    my.compare_old_and_new_tags();
   },
+  compare_old_and_new_tags: function(){
+    var my = this ;
+    var i = 0
+      , len   = my.tags.length
+      , itag
+      ;
+    // On remet la liste à rien
+    my.lines = new Array();
+
+    // On va passer par une table qui contient en clé l'identifiant et
+    // en valeur le tag, pour passer en revue tous les nouveaux tags (ou pas)
+    my.htags = {};
+    for(i;i<len;++i){
+      itag = my.tags[i];
+      my.htags[itag.id] = itag;
+    }
+    // console.log('tags:', my.tags);
+    // console.log('htags:', my.htags);
+    // console.log('new_tags:', my.new_tags);
+    i = 0 ;
+    len = my.new_tags.length ;
+    for(i=0;i<len;++i){
+      itag = my.new_tags[i] ;
+      if (itag.id == null) {
+        // <= C'est un nouveau tag
+        // console.log(`Le tag d'index ${i} est nouveau`);
+        itag.id = ++ my.last_tag_id;
+        if(itag.real){
+          itag.build_and_watch();
+        }
+      } else {
+        // <= C'est un tag connu
+        // S'il n'est pas modifié, on
+        if (itag.compare_and_update(my.htags[itag.id])){
+          // <= Le tag a été modifié
+          // console.log(`Le tag ${itag.id} a été modifié`);
+        } else {
+          // <= Le tag n'a pas été modifié
+          // console.log(`Le tag ${itag.id} n'a pas été modifié`);
+        }
+        // Dans tous les cas, on le retire de htags
+        delete my.htags[itag.id] ;
+      }
+
+      my.lines.push(itag.to_line());
+    };
+
+    // Il doit rester dans htags les tags supprimés
+    for(var id in my.htags){
+      itag = my.htags[id] ;
+      itag.destroy() ;
+      // console.log(`Le tag #${itag.id} a été supprimé`);
+    }
+
+    // On passe la liste
+    my.tags = my.new_tags ;
+
+    // On actualise les index de lignes
+    my.update_index_lines();
+    // On actualise le code
+    my.update_code();
+  },
+
 
   update_index_lines: function(){
     var my = this
@@ -255,35 +218,18 @@ const MuScaT = {
       , iline = 0
       , line
       , lineCode
-      , lines_count ;
+      , lines_count
+      ;
 
     // On boucle sur toutes les lignes de Tags tags.js pour
     // traiter les lignes, c'est-à-dire les instancier et les créer
     // dans le document.
     lines = Tags.trim().split(RC) ;
     lines_count = lines.length ;
-
+    // Boucle sur toutes les lignes
     for(iline;iline<lines_count;++iline){
-      line      = lines[iline].trim() ;
-      lineCode  = new LineCode(line) ;
-
-      // Est-ce le plus grand ID ?
-      if(lineCode.id && lineCode.id > my.last_tag_id){
-        my.last_tag_id = Number.parseInt(lineCode.id,10);
-      }
-
-      if (lineCode.is_empty_line || lineCode.is_comment_line){
-        my.tags.push(new TagNot(line));
-      } else {
-        lineCode.treate();
-        // En mode crop image, il ne faut traiter qu'une fois, puisque
-        // l'image doit être tout au-dessus
-        if (get_option('crop image')){
-          break;
-        }
-      }
+      my.tags.push(new Tag(lines[iline].trim()));
     }
-    // Fin de boucle sur toutes les lignes
   },
   //parse_tags_js
 
@@ -298,7 +244,8 @@ const MuScaT = {
       itag.index_line = i ;
       // On définit toujours l'ID du tag, même s'il est déjà défini,
       // car cela définit le domId
-      itag.set_id(itag.id || ++this.last_tag_id) ;
+      // itag.set_id(itag.id || ++this.last_tag_id) ;
+      if(itag.id == null){ itag.id = ++this.last_tag_id };
     }
   },
   /**
@@ -385,12 +332,13 @@ const MuScaT = {
   // Retourne le code entier du fichier tags.js, même avec "Tags ="
   // et les options définies
   very_full_code: function(){
-    var   opts = new Array()
+    var   my = this
+        , opts = new Array()
         , opt ;
     for(opt in OPTIONS){
       if (!OPTIONS[opt].aka){
         if(OPTIONS[opt].boolean){
-          opts.push("'" + opt + "'");
+          if (OPTIONS[opt].value) {opts.push("'" + opt + "'")};
         } else {
           var val = OPTIONS[opt].value ;
           if ('string' == typeof(val)){ val= "'"+val+"'"}
@@ -417,6 +365,7 @@ const MuScaT = {
   // qu'il soit copié-collé
   show_code: function(message){
     var my = this ;
+    console.log('-> show_code');
     // my.codeField().select();
     // document.execCommand("copy");
     if (!message){
@@ -452,7 +401,7 @@ const MuScaT = {
    * la modification des lignes.
    */
   epure_and_split_raw_line: function(line){
-    line = line.replace(/\t/g, ' ') ;
+    line = line.trim().replace(/\t/g, ' ') ;
     line = line.replace(/ +/g, ' ') ;
     // Marque de ligne verrouillée
     var premier_car = line.substring(0,1);
@@ -462,7 +411,14 @@ const MuScaT = {
       firstoff = line.substring(0,2) == '🔒' ? 2 : 1
       line = line.substring(firstoff,line.length).trim();
     }
-    return {data: line.split(' '), locked: locked_line}
+    // La ligne est-elle un commentaire ou une ligne vide qui contient
+    // son identifiant ?
+    id = null ;
+    if (rg = line.match(/#([0-9]+)#/)){
+      id    = Number.parseInt(rg[1],10) ;
+      line  = line.replace(/#([0-9]+)#/,'').trim();
+    }
+    return {data: line.split(' '), locked: locked_line, id: id}
   },
 
   /**

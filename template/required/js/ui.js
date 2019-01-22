@@ -1,4 +1,8 @@
 
+function  write(str) {
+  $('body').append('<div>' + str + '</div>')
+}
+
 const UI = {
   domTools: function(){
     return document.getElementById('tools');
