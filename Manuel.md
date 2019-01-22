@@ -83,9 +83,9 @@ On définit d'abord les images de la partition, en ajoutant des commentaires pou
 
 ### Définition de tous les éléments de l'analyse {#syn_def_analysis_elements}
 
-L'élément graphique de base de l'application MuScaT est le « Tag » (comme on en parle sur les murs des villes). Une analyse avec MuScaT consiste à « tagguer » une partition (remarquez que les partitions elles-mêmes, ou les images de leurs systèmes, sont aussi des « Tags »). C'est la raison pour laquelle le fichier qui va les définir s'appelle `tags.js`.
+L'élément graphique de base de l'application MuScaT est le « TAG » (comme on en parle sur les murs des villes). Une analyse avec **MuScaT** consiste à « tagguer » une partition (remarquez que les partitions elles-mêmes, ou les images de leurs systèmes, sont aussi des « TAGs »). C'est la raison pour laquelle le fichier qui va les définir s'appelle `tags.js`.
 
-On définit donc maintenant tous les autres éléments graphiques, tous les *tags* : marque de parties, accords, chiffrages, numéros de portée, cadences, etc. On s'arrange pour les placer, dans `tags.js`, à peu près en fonction des positions des images de la partition. C'est-à-dire que si une cadence doit se produire sur le troisième système, il vaut mieux la définir après la ligne insérant l'image de ce troisième système (remarquez cependant qu'il n'y a aucune obligation là-dessus).
+On définit donc maintenant tous les autres éléments graphiques, tous les *tags* (cf. pour le détail de la procédure, voir [Composition d'un tag](#composition_dun_tag)) : marque de parties, accords, chiffrages, numéros de portée, cadences, etc. On s'arrange pour les placer, dans `tags.js`, à peu près en fonction des positions des images de la partition. C'est-à-dire que si une cadence doit se produire sur le troisième système, il vaut mieux la définir après la ligne insérant l'image de ce troisième système (remarquez cependant qu'il n'y a aucune obligation là-dessus).
 
 ### Positionnement des éléments graphiques {#syn_ajustement_elements}
 
@@ -127,7 +127,8 @@ Cette ligne a le format général suivant :
 
 Par exemple, pour une cadence (nature = 'cadence') de « V I » (contenu = 'V_I') qu'on veut placer à 200 pixels depuis le haut (coordonnée y = 200) et 100 pixels de la gauche (coordonnées x = 100), de type « cadence parfaite » (type = 'parfaite'), on insèrera dans son fichier `tags.js`, sous la définition de l'image (« score ») :
 
-```
+```javascript
+
 Tags = `
 
   score ma_partition.jpg y=100 x=10
@@ -135,13 +136,34 @@ Tags = `
   cadence V_I type=parfaite y=200 x=100
 
 `;
+
 ```
 
 L'intégralité des natures d'éléments [est détaillé ici](#natures).
 
+### Forme raccourcie d'écriture
+
+Pour la première définition du TAG, on peut utiliser une version raccourcie de définition qui la rend très simple et très rapide. Elle consiste à utiliser :
+
+```javascript
+
+Tags = `
+<version 3 lettres|normale> <contenu|source> <valeur x> <valeur y>
+`;
+
+```
+
+Par exemple, pour une *modulation* vers la tonalité de SOL mineur (G min.) devant se situer à 200 pixels du haut et 450 pixels de la gauche, on pourra écrire :
+
+```javascript
+
+  mod G_min 200 450
+
+```
+
 ### Verrouillage des tags {#lock_tags}
 
-On peut « verrouiller » un tag, c'est-à-dire empêcher totalement ses modifications, aussi bien sa position que son contenu, en ajoutant un astérisque, un rond (ALT #) ou même un 🔒 au tout début de sa ligne (suivi ou non par une espace).
+On peut « verrouiller » un TAG, c'est-à-dire empêcher totalement ses modifications, aussi bien sa position que son contenu, en ajoutant un astérisque, un rond (ALT #) ou même un 🔒 au tout début de sa ligne (suivi ou non par une espace).
 
 **MuScaT** ajoutera un vrai cadenas (🔒) qui rendra ce verrouillage très visuel.
 

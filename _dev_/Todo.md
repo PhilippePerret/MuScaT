@@ -1,6 +1,5 @@
 # Todo list
 
-* [BUG] Quand on supprime un élément dans le code et qu'on update, il revient…
 * Pouvoir grouper des éléments pour qu'ils réagissent ensemble aux déplacements
 * Faire le traitement avec la version minimale des écritures (sans "x=" et "y=", ou on aurait '<nature> <contenu> <x> <y>'). Noter que ça ne fonctionne que pour une nouvelle ligne, après, il y a un identifiant.
 * Indiquer que toutes les natures (à part "partition") peuvent être désignées par leur trois premières lettres.

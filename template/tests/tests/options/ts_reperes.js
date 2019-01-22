@@ -2,9 +2,9 @@ var t = new Test('Option Repères');
 
 t.run = function(){
 
-  t.les_lignes_reperes_existent();
+  this.les_lignes_reperes_existent();
 
-  t.on_peut_bouger_les_lignes_reperes();
+  this.on_peut_bouger_les_lignes_reperes();
 
 }
 t.les_lignes_reperes_existent = function(){
@@ -59,25 +59,24 @@ t.mouveMouse = function(){
 }
 t.on_peut_bouger_les_lignes_reperes = function() {
 
-  // Je ne sais pas encore faire ça…
-  return ;
-  given("Avec l'option 'repères'")
-  M.reset_for_tests();
-  option('repères');
-  Tags=`
-  acc G x=100 y=100
-  `;
-  M.relaunch_for_tests();
-
-  var lineh = $('#refline_h') ;
-  lineh.trigger({type:'mousedown'});
-  try {
-    // t.y = lineh.position().top ;
-    // t.timer = setInterval(t.mouveMouse, 10);
-  } catch (err) {
-    console.error(err);
-  } finally {
-    $('#refline_h').trigger({type:'mouseup'});
-  }
+  // // Je ne sais pas encore faire ça…
+  // given("Avec l'option 'repères'")
+  // M.reset_for_tests();
+  // option('repères');
+  // Tags=`
+  // acc G x=100 y=100
+  // `;
+  // M.relaunch_for_tests();
+  //
+  // var lineh = $('#refline_h') ;
+  // lineh.trigger({type:'mousedown'});
+  // try {
+  //   // t.y = lineh.position().top ;
+  //   // t.timer = setInterval(t.mouveMouse, 10);
+  // } catch (err) {
+  //   console.error(err);
+  // } finally {
+  //   $('#refline_h').trigger({type:'mouseup'});
+  // }
 
 }

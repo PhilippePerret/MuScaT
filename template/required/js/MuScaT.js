@@ -382,6 +382,7 @@ const MuScaT = {
    * la modification des lignes.
    */
   epure_and_split_raw_line: function(line){
+    var rg ;
     line = line.trim().replace(/\t/g, ' ') ;
     line = line.replace(/ +/g, ' ') ;
     // Marque de ligne verrouillée
@@ -399,6 +400,14 @@ const MuScaT = {
       id    = Number.parseInt(rg[1],10) ;
       line  = line.replace(/#([0-9]+)#/,'').trim();
     }
+
+    // Est-ce une version raccourcie d'écriture :
+    // <nature> <valeur> <y> <x>
+    if (rg = line.match(/^([a-z]+) (.*) ([0-9]+) ([0-9]+)$/i)){
+      line = `${rg[1]} ${rg[2]} y=${rg[3]} x=${rg[4]}`;
+      console.log("Ligne après transformation de raccourcie :", line);
+    };
+
     return {data: line.split(' '), locked: locked_line, id: id}
   },
 
