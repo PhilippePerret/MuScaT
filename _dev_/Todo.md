@@ -1,13 +1,8 @@
 # Todo list
 
-* [BUG] C'est du grand n'importe quoi quand on ajoute des lignes vides dans le code du champ
-* [BUG] Les options se règlent mal quand on demande le code complet
-* [BUG] L'index des lignes s'affecte mal
-* [BUG] Le cadenas n'est pas compris, en lecture du fichier tags.js (c'est peut-être à cause du nombre de caractères lus)
-* [BUG] Quand on modifie la hauteur (h) d'une modulation, il faut qu'elle se corrige
-* [BUG] Il semble y avoir encore des problèmes lorsque l'on copie des éléments
+* [BUG] Le code complet ne se colle plus dans le presse-papier
 * Pouvoir grouper des éléments pour qu'ils réagissent ensemble aux déplacements
-* Faire le traitement avec la version minimale des écritures (sans "x=" et "y=").
+* Faire le traitement avec la version minimale des écritures (sans "x=" et "y=", ou on aurait '<nature> <contenu> <x> <y>'). Noter que ça ne fonctionne que pour une nouvelle ligne, après, il y a un identifiant.
 * Indiquer que toutes les natures (à part "partition") peuvent être désignées par leur trois premières lettres.
 * Créer une ligne mobile pour aligner les éléments (options 'repère', 'repaire') (une verticale et une horizontale)
 * Pouvoir supprimer un élément (avec la touche erase)
@@ -18,8 +13,6 @@
 
 ## Développements futurs
 
-* Pouvoir rentrer des options avec des valeurs `option('<id option>', <valeur>)` mais bien voir que pour le moment, `<valeur>` serait interprété comme une autre option. Donc : si ce n'est pas un string ou si ce n'est pas une option, on considère que c'est la valeur de `<id option>`. Mais si `<id option>` ne peut pas être défini (seulement true/false) on génère une erreur d'option inconnue sur `<valeur>`.
-  Cette formule permettra de définir beaucoup de choses de façon numérique, comme la largeur du champ de saisie, la taille (pourcentage) des images, la police et la taille utilisée pour les textes et tout autre réglage permettant d'afficher la partition exactement comme on le désire.
 * Avant d'avoir la boite complète de création d'objet, on peut avoir une liste des objets possibles pour en créer un au dernier endroit cliqué (qu'il faudrait mettre en mémoire).
 * Avec l'option 'aimant' (+ traduction anglaise) activée, il doit être possible de magnétiser les tags pour qu'ils s'aligent le long des lignes repère ('lines of reference') quand ils sont prochent.
 * Pouvoir entrer le titre et d'autres informations pour la première page (ou même une image de première page). Si informations textuelles, créer cette première page avec un @media qui ne rendrait pas les éléments visibles par défaut sur la page, mais les imprimeraient.

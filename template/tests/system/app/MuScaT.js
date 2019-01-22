@@ -38,20 +38,4 @@ Object.assign(MuScaT,{
     $('#rcolumn').hide();
   },
 
-  // Pour modifier le code source (dans le champ "à côté")
-  //
-  // Si +update_required+ est true, on actualise comme si on jouait
-  // ALT ENTRÉE.
-  change_code_source(new_code, update_required){
-    var nodeSrc = $('#codeSource') ;
-    nodeSrc.val(new_code);
-    nodeSrc[0].focus(); // active le gestionnaire d'évènement
-    // On vérifie si le gestionnaire a bien été enclenché (si la console a
-    // le focus ça n'a pas marché)
-    nodeSrc.trigger({type: 'keypress', keyCode: 'test'});
-    if(!CodeField.actived){console.error('Impossible de mettre le focus au champ de code. Il faut peut-être que vous activiez la fenêtre principale de l’application.')}
-    if (update_required){
-      nodeSrc.trigger({type: 'keypress', keyCode: 13, altKey: true});
-    }
-  }
 });

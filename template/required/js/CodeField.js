@@ -74,3 +74,5 @@ Object.defineProperties(CodeField, {
     get: function(){return $('textarea#codeSource')}
   }
 })
+
+const CF = CodeField;

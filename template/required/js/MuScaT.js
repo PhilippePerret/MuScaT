@@ -93,12 +93,15 @@ const MuScaT = {
 
         var line = line.trim();
 
+        // Debug
+        // console.log(`Traitement de ligne ${i}`, line);
+
         // La ligne est strictement identique à ce qu'elle était précédemment,
         // on peut passer à la suite
         if (line == my.lines[i]){ continue };
         // Si c'est une ligne vide ou une ligne de commentaire, on peut
         // la passer directement
-        if (line.match(/#[0-9]#/)){ continue };
+        if (line.match(/#[0-9]+#/)){ continue };
 
         // Ici, il faudrait voir si la ligne à un identifiant
         // Cet identifiant pour les lignes vide ou de commentaire, est
@@ -108,13 +111,24 @@ const MuScaT = {
         // On prend le tag qui se trouve normalement sur cette ligne
         // Remarquer qu'il a pu être modifié après l'ajout d'un nouveau tag
         // ici (ou d'une nouvelle ligne)
+        // Remarquer aussi qu'il peut ne pas exister, si c'est une ligne
+        // ajoutée à la fin
         itag = my.tags[i];
 
         // On construit un Tag provisoire avec la ligne courante, qui
         // nous dira si c'est un nouveau tag ou un tag modifié
         itag_prov = new TagProv(line);
 
-        if(itag_prov.id){
+        if ( undefined == itag ){
+          // <= C'est une toute nouvelle ligne
+          // => C'est un tout nouveau tag
+          var newtag = new Tag(line) ;
+          newtag.set_id(++my.last_tag_id) ;
+          // newtag.index_line = current_line_idx ++ ;
+          my.tags.push(newtag) ;
+          my.lines.push(newtag.to_line()) ;
+          newtag.build_and_watch();
+        } else if(itag_prov.id){
           // <= le tag possède un identifiant
           // => il est connu, mais il ne correspond pas forcément à l'itag
           //    qui devrait se trouver là

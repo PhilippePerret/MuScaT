@@ -49,9 +49,8 @@ test.changement_in_codeField_change_analyse = function(){
   );
 
   // === Test ici ===
-  var n = $('#codeSource') ;
-  var add = RC + 'text Un_tag_ajouté_dans_le_champ x=300 y=300';
-  M.change_code_source(n.val() + add, true);
+  var add = 'text Un_tag_ajouté_dans_le_champ x=300 y=300';
+  CF.change_code_source(add, {update: true, add: true});
 
   // === check ===
   var tags = document.getElementsByClassName('tag');

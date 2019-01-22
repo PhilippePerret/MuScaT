@@ -7,14 +7,19 @@
    sheets: new Array(),
    nombre_success: 0,
    nombre_failures: 0,
+   stop: false,   // mis à true en cas d'erreur fatale, pour interrompre
    run: function(files){
      // console.clear();
      console.log(RC+RC+RC+'============ DÉBUT DES TESTS ==============');
      this.nombre_success  = 0 ;
      this.nombre_failures = 0 ;
      for(var i = 0, len = this.sheets.length; i<len; ++i){
-       console.log(`\n\n------- Test : ${this.sheets[i].name} ---`)
+       console.log(`\n\n------- Test : ${this.sheets[i].name} ---`);
        this.sheets[i].run();
+       if(this.stop){
+         console.error('Interruption des tests suite à une erreur fatale.');
+         return;
+       };
      }
      this.sumarize();
    },

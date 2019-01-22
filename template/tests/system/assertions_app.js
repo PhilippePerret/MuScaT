@@ -1,7 +1,31 @@
 /**
  * Assertions propres à la classe
+
+ assert_nombre_tags(<nombre>[, <nombre sur table>])
+    Pour vérifier le nombre de tags dans MuScaT.tags ET sur la table
+
+assert_classes(<nodes>, <classes>) / inverse : assert_not_classes
+    Pour vérifier que des éléments du DOM on la bonne classes
+
+assert_position(<nodes>, <position>) / inverse : assert_not_position
+    Pour vérifier que des éléments du DOM sont à la bonne position x et y
+
  */
 
+ window.assert_nombre_tags = function(nombre, nombre_sur_table){
+   if(undefined==nombre_sur_table){nombre_sur_table = nombre};
+   assert(
+     M.tags.length == nombre,
+     `Il y a bien ${nombre} tags dans MuScaT.tags`,
+     `Il devrait y avoir ${nombre} tags dans MuScaT.tags, il y en a ${M.tags.length}`
+   );
+   var tags = document.getElementsByClassName('tag');
+   assert(
+     tags.length == nombre_sur_table,
+     `Il y a bien ${nombre_sur_table} tags construits sur la table`,
+     `Il devrait y avoir ${nombre_sur_table} tags constrits sur la table, il y en a ${tags.length}.`
+   );
+ };
 // Pour vérifier que des éléments DOM ont la bonne classe CSS
  window.assert_classes = function(nodes, classes) {
    var i=0, icl=0, errs = new Array(), node, classe ;
