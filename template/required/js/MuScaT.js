@@ -52,19 +52,19 @@ const MuScaT = {
     // Quand on clique sur la partition, en dehors d'un élément,
     // ça déselectionne tout
     // $('#tags').on('click', function(ev){CTags.desectionne_all()})
-    if(!get_option('crop image')){
+    if(!Options.get('crop image')){
       $('#tags').on('click', $.proxy(Page, 'onClickOut'))
     }
 
     // Si l'option 'code beside' a été activée, il faut préparer la
     // page
-    if (get_option('code beside')){
+    if (Options.get('code beside')){
       Page.set_code_beside();
     }
 
     // Si l'option 'lines of reference' a été activée, il faut
     // ajouter les deux lignes repères
-    if(get_option('lines of reference')){
+    if(Options.get('lines of reference')){
       Page.build_lines_of_reference();
     }
   },
@@ -79,6 +79,7 @@ const MuScaT = {
    */
   update: function(){
     var my = this ;
+    my.check_sequence_image_in_tags();
     my.new_tags = new Array();
     my.onEachTagsLine(function(line){
       my.new_tags.push(new Tag(line));
@@ -178,7 +179,7 @@ const MuScaT = {
 
     my.build_tags() ;
 
-    if (get_option('crop image')){
+    if (Options.get('crop image')){
       my.prepare_crop_image();
     } else {
       // Placement des observers
@@ -206,6 +207,7 @@ const MuScaT = {
    */
   parse_tags_js: function(){
     var my = this, itag ;
+    my.check_sequence_image_in_tags();
     my.onEachTagsLine(function(line){
       itag = new Tag(line) ;
       my.tags.push(itag) ;
@@ -213,6 +215,43 @@ const MuScaT = {
     });
   },
   //parse_tags_js
+
+  /**
+   * Méthode qui, avant toute autre opération sur les lignes de la donnée
+   * Tags, regarde s'il n'y a pas une séquence d'images à traiter
+   * Si c'est le cas, elle modifie le code pour que cette séquence soit
+   * bien traitée.
+   *
+   * Note : l'option 'espacement images' peut modifier l'espacement par
+   * défaut
+   */
+  check_sequence_image_in_tags: function(){
+    var my = this
+      , lines_finales = new Array()
+      , rg
+      ;
+    my.onEachTagsLine(function(line){
+      if(rg = line.match(/^(.*)\[([0-9]+)\-([0-9]+)\](.*)$/)){
+        my.treate_as_sequence_images(rg, lines_finales);
+      } else {
+        lines_finales.push(line);
+      }
+    })
+    Tags = lines_finales.join(RC);
+  },
+  treate_as_sequence_images: function(dreg, lines_finales) {
+    var bef_name    = dreg[1]
+      , from_indice = Number.parseInt(dreg[2], 10)
+      , to_indice   = Number.parseInt(dreg[3], 10)
+      , aft_name    = dreg[4]
+      , src_name
+      , itag
+      , i = from_indice
+      , images_list = new Array()
+      ;
+    for(i;i<=to_indice;++i){lines_finales.push(bef_name + i + aft_name)};
+    M.motif_lines_added = 'images fournies par expression régulière';
+  },
 
   /**
    * Méthode qui affecte les indices de lignes et les identifiants (aux
@@ -399,14 +438,11 @@ const MuScaT = {
     if (rg = line.match(/#([0-9]+)#/)){
       id    = Number.parseInt(rg[1],10) ;
       line  = line.replace(/#([0-9]+)#/,'').trim();
-    }
-
-    // Est-ce une version raccourcie d'écriture :
-    // <nature> <valeur> <y> <x>
-    if (rg = line.match(/^([a-z]+) (.*) ([0-9]+) ([0-9]+)$/i)){
+    } else if (rg = line.match(/^([a-z]+) (.*) ([0-9]+) ([0-9]+)$/i)){
+      // Est-ce une version raccourcie d'écriture :
+      // <nature> <valeur> <y> <x>
       line = `${rg[1]} ${rg[2]} y=${rg[3]} x=${rg[4]}`;
-      console.log("Ligne après transformation de raccourcie :", line);
-    };
+    } ;
 
     return {data: line.split(' '), locked: locked_line, id: id}
   },
@@ -509,7 +545,7 @@ const MuScaT = {
     var scoreTag = ITags['obj1'] ;
     var codeConvert = '-crop ' + w + 'x' + h + '+' + x + '+' + y ;
     var indiceImg  = ++ my.indice_cropped_image ;
-    var extensionImg = get_option('images PNG') ? 'png' : 'jpg' ;
+    var extensionImg = Options.get('images PNG') ? 'png' : 'jpg' ;
     codeConvert = 'convert ' + scoreTag.src + ' ' + codeConvert + ' ' + scoreTag.src + '-'+indiceImg+'.'+extensionImg;
     navigator.clipboard.writeText(codeConvert);
     message('Code à jouer en console : ' + codeConvert + ' (copié dans le presse-papier)');

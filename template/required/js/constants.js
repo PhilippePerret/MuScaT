@@ -46,15 +46,18 @@ NATURES_SHORTCUTS = {
 
 // Les options utilisable
 OPTIONS = {
-  'code beside':        {boolean: true, value: false},
-  'code à côté':        {aka: 'code beside'},
-  'crop image':         {boolean: true, value: false},
-  'images PNG':         {boolean: true, value: false}, // true si on veut des noms de fichier ne png (pour convert par exemple)
-  'découpe image':      {aka: 'crop image'},
-  'coordonates':        {boolean: true, value: false}, // afficher les coordonnées lors des déplacementss
-  'repères':            {aka: 'lines of reference'},
-  'reperes':            {aka: 'lines of reference'},
-  'lines of reference': {boolean: true, value: false}  // si true, affiche les lignes de guide
+    'code beside':          {boolean: true, value: false}
+  , 'code à côté':          {aka: 'code beside'}
+  , 'code':                 {aka: 'code beside'}
+  , 'crop image':           {boolean: true, value: false}
+  , 'images PNG':           {boolean: true, value: false} // true si on veut des noms de fichier ne png (pour convert par exemple)
+  , 'découpe image':        {aka: 'crop image'}
+  , 'coordonates':          {boolean: true, value: false} // afficher les coordonnées lors des déplacementss
+  , 'repères':              {aka: 'lines of reference'}
+  , 'reperes':              {aka: 'lines of reference'}
+  , 'lines of reference':   {boolean: true, value: false} // si true, affiche les lignes de guide
+  , 'espacement images':    {aka: 'space between scores'}
+  , 'space between scores': {boolean: false, value: null}
 }
 
 // Définition d'un retour chariot
@@ -87,3 +90,10 @@ const TABLECOR_TYPES_LINE = {
 
 // Table de hashage qui contient toutes les instances Tag.
 const ITags = {} ;
+
+/**
+ * Valeurs par défaut pour les images
+ */
+const DEFAULT_SCORE_LEFT_MARGIN = 50  ;
+const DEFAULT_SCORE_TOP_MARGIN  = 100 ;
+const DEFAULT_SCORES_SPACES     = 0   ; // espace entre les images de système

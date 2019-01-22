@@ -1,7 +1,10 @@
 # Todo list
 
+* [TEST] Tester le nouvel objet Options (ts_options.js)
+* [TEST] Poursuite du test `ts_images`. Tester la définition d'une suite d'images
+  * vérifier que leur positionnement soit bien calculé
+  * vérifier que l'utilisation de l'option `option('code', 'espacement images', 100)` fonctionne
 * Pouvoir grouper des éléments pour qu'ils réagissent ensemble aux déplacements
-* Faire le traitement avec la version minimale des écritures (sans "x=" et "y=", ou on aurait '<nature> <contenu> <x> <y>'). Noter que ça ne fonctionne que pour une nouvelle ligne, après, il y a un identifiant.
 * Indiquer que toutes les natures (à part "partition") peuvent être désignées par leur trois premières lettres.
 * Pouvoir supprimer un élément (avec la touche erase)
 * Faire les différents styles

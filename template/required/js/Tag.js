@@ -63,6 +63,9 @@ function Tag(data_line) {
   // utiles, comme ses coordonnées ou son texte.
   this.decompose();
 
+  if( this.is_image && (!this.x || !this.y) ) {
+    this.define_x_y_for_image();
+  }
   /*
   // Pour débugger la décomposition (ajouter un "/" ci-dessus)
   dbug = {
@@ -89,8 +92,15 @@ Tag.prototype.reset_id = function() {
   my._domId = null ;
   my._jqObj = null ;
   my._domObj = null ;
-}
+};
 
+Tag.prototype.define_x_y_for_image = function(){
+  var my = this ;
+  var left = Options.get('marge gauche image') || DEFAULT_SCORE_LEFT_MARGIN ;
+  var top_if_first = Options.get('marge haut première image') || DEFAULT_SCORE_TOP_MARGIN ;
+  var space = Options.get('espacement images') || DEFAULT_SCORES_SPACES ;
+
+};
 
 // ---------------------------------------------------------------------
 // Méthodes de coordonnées
@@ -101,10 +111,10 @@ Tag.prototype.reset_id = function() {
 // voir directement dans le style de l'objet)
 Tag.prototype.getX = function() {
   return this.hStyles()['left'] ;
-}
+};
 Tag.prototype.getY = function() {
   return this.hStyles()['top'] ;
-}
+};
 // Retourne une table de clé:valeur des styles définis
 // dans la balise
 Tag.prototype.hStyles = function(){
@@ -592,7 +602,7 @@ Tag.prototype.select = function(){
 // Méthode qui sélectionne le code du tag dans codeSource
 Tag.prototype.selectCodeLine = function(){
   var my = this, offStart, offEnd ;
-  if(false == window.get_option('code beside')){return}
+  if(false == Options.get('code beside')){return}
   CodeField.domObj.focus();
   if ( my.index_line > 0){
     offStart = MuScaT.lines.slice(0, my.index_line).join(RC).length + 1 ;
@@ -684,5 +694,8 @@ Object.defineProperties(Tag.prototype,{
   },
   is_empty_line: {
     get: function(){return this.nature_init == ''}
+  },
+  is_image: {
+    get: function(){return this.nature == 'score' }
   }
 })

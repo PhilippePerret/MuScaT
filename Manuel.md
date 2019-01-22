@@ -135,11 +135,48 @@ Tags = `
 
   cadence V_I type=parfaite y=200 x=100
 
+  modulation G_min x=200 y=100
+
+`;
+
+```
+
+Une « nature » de TAG (le premier mot), peut toujours être exprimé par ses trois premières lettres (exception faite du terme « partition » qui rentrerait en conflit avec « partie »). Ainsi, on peut écrire le code ci-dessu :
+
+```javascript
+
+Tags = `
+
+  sco ma_partition.jpg y=100 x=10
+
+  cad V_I type=parfaite y=200 x=100
+
+  mod G_min x=200 y=100
+
 `;
 
 ```
 
 L'intégralité des natures d'éléments [est détaillé ici](#natures).
+
+Vous observerez que tout de suite après la création, un identifiant est ajouté à toutes les lignes, mêmes les lignes vides. Il contient de ne pas y toucher, sous peine de voir son travail réduit à néant.
+
+Ainsi, le code ci-dessous, au final, donnera :
+
+```javascript
+
+  # Contenu intégral du fichier tags.js
+  option('code'); // pour voir ce code à côté de la partition
+
+  Tags = `
+    sco ma_partition.jpg id=2 y=100 x=10
+    #3#
+    cad V_I type=parfaite id=4 y=200 x=100
+    #5#
+    mod G_min id=6 y=100 x=200
+  `;
+
+```
 
 ### Forme raccourcie d'écriture
 
@@ -153,7 +190,7 @@ Tags = `
 
 ```
 
-Par exemple, pour une *modulation* vers la tonalité de SOL mineur (G min.) devant se situer à 200 pixels du haut et 450 pixels de la gauche, on pourra écrire :
+Par exemple, pour une *modulation* vers la tonalité de SOL mineur (G min.) qui doit se situer à 200 pixels du haut et 450 pixels de la gauche, on pourra écrire :
 
 ```javascript
 
@@ -167,13 +204,13 @@ On peut « verrouiller » un TAG, c'est-à-dire empêcher totalement ses modifi
 
 **MuScaT** ajoutera un vrai cadenas (🔒) qui rendra ce verrouillage très visuel.
 
-Une fois verrouillé, le TAG ne peut plus être déplacé à la souris. En revanche, il peut tout à fait être modifiée dans le code (sa position, son contenu, etc.).
+Une fois verrouillé, le TAG ne peut plus être déplacé à la souris. En revanche, il peut tout à fait être modifiée dans le code (sa position, son contenu, etc) pour un ajustement très précis.
 
-Pour deverrouiller un TAG et le rendre à nouveau mobile, il suffit tout simplement de retirer cette marque de verrouillage.
+Pour deverrouiller un TAG et le rendre à nouveau mobile, il suffit tout simplement de retirer cette marque de verrouillage dans le code.
 
 ## Les Images {#les_images}
 
-Il existe trois mots clés pour indique la nature d'une image : `image`, `score` ou `partition`. C'est le premier mot à trouver sur la ligne d'une image. Juste après, on doit trouver le nom de cette image, ou son chemin relatif depuis le dossier `image` du dossier de votre analyse.
+Il existe trois mots clés pour indiquer la nature d'une image, mais ils sont identiques en réalité : `image`, `score` ou `partition`. C'est le premier mot à trouver sur la ligne d'une image. Juste après, on doit trouver le nom de cette image, ou son chemin relatif depuis le dossier `image` du dossier de votre analyse.
 
 ```
   partition haydn/premier_mouvement.png [...]
@@ -184,9 +221,11 @@ Ci-dessus, l'image `premier_mouvement.png` doit donc se trouver dans le dossier 
 
 ### Séquence d'images {#sequence_images}
 
-Le plus souvent, il n'est pas pratique d'utiliser une seule image pour toute une partition. Il y a trop peu d'espace entre les systèmes. On conseille donc fortement de découper les partitions en systèmes (vous pouvez trouver des indications sur la [procédure de découpage de la partition](#procedure_crop_partition) ci-dessous).
+Bien souvent, une analyse n'est pas constituée d'une seule image pour toute la partition. Il y a trop peu d'espace entre les systèmes. On conseille donc fortement de découper les partitions en autant de systèmes qu'elles en comportent (vous trouverez des indications sur la [procédure de découpage de la partition](#procedure_crop_partition) ci-dessous).
 
-Mais il serait fastidieux d'entrer la ligne de chaque image de système dans notre fichier `tags.js`. Au lieu de ça, si les images des systèmes ont été correctement nommés (avec des suites de nombres), il suffit d'une seule ligne pour entrer toute la partition :
+Mais il serait fastidieux d'entrer la ligne de chaque image de système dans notre fichier `tags.js`. Une partition même courte peut très vite comporter de 10 à 15 systèmes et ce serait autant de lignes de partition qu'il faudrait introduire dans le code…
+
+Au lieu de ça, si les images des systèmes ont été nommés en respectant une règle simple (avec des suites de nombres), une seule ligne suffira pour entrer tous les systèmes de la partition. Par exemple :
 
 ```
 
@@ -208,7 +247,25 @@ Le texte ci-dessus indique qu'il y a 35 images de système dans ce mouvement. Le
 
 ```
 
-Nous vous invitons vivement à commencer par cette opération avant insertion de toute autre marque sur la partition.
+Nous vous invitons vivement à commencer par cette opération avant l'insertion de toute autre marque sur la partition.
+
+Quand **MuScaT** place les images sur la table d'analyse, il les répartit pour obtenir l'aspect initial de la partition. On peut modifier ce comportement en définissant explicitement un espace (vertical) entre chaque système ou chaque image, grâce à l'option `espacement images` :
+
+```javascript
+
+  // Code intégrale du fichier tags.js
+  option('code');option('espacement images', 50);
+  Tags=`
+  sco haydn/mouvement_1-[1-35].png
+  `;
+
+```
+
+> Notez la version raccourci de la nature du TAG : `sco` pour `score`.
+
+> Notez également l'usage de l'option `code` qui permet d'afficher le code à côté de la table de l'analyse, pour pouvoir le modifier.
+
+Grâce à l'option `espacement images` défini ci-dessus, chaque image (chaque système) sera séparé de 50 pixels.
 
 Une fois ce code établi, vous pouvez déplacer les images dans la page pour les ajuster à vos besoins. Cela créra automatiquement les `x` et les `y` des coordonnées spatiales de chaque système au bout des lignes de score.
 
