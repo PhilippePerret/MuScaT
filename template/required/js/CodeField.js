@@ -7,10 +7,9 @@ const CodeField = {
 
   // Gestionnaire de touche pressée
   onKeypress: function(ev){
-    // console.log('-> CodeField#onKeypress')
+    // console.log('-> CodeField#onKeypress');
     var my = this ;
     if(ev.keyCode == 13 && ev.altKey){
-      // On demande à actualiser la page
       Page.update();
       return stop(ev);
     } else if ( ev.keyCode == 16 && ev.metaKey && ev.shiftKey) {
@@ -25,6 +24,13 @@ const CodeField = {
       // console.log("Avec métakey : keyCode: " + ev.keyCode + " / charCode: " + ev.charCode);
     } else {
       // console.log("keyCode: " + ev.keyCode + " / charCode: " + ev.charCode)
+
+      // Pour vérifier que le champ est bien focusé (pour les tests)
+      if(ev.keyCode == 'test'){
+        my.actived = true ;
+      } else {
+        my.actived = false ;
+      }
     }
 
     return true ;

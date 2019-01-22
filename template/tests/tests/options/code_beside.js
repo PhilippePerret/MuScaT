@@ -1,8 +1,6 @@
 /**
  * Pour tester l'option 'code_besine'
  */
-
-
  var test = new Test('Test de l’option "code beside');
 
 test.run = function(){
@@ -18,39 +16,42 @@ test.run = function(){
 
 test.check_presence_codeField = function(){
 
- given("Sans l'option 'code beside'");
- MuScaT.reset_for_tests();
- MuScaT.relaunch();
- assert_not_visible('#rcolumn');
+  console.log('Tags = ', Tags);
 
- given("Avec option 'code beside'");
- MuScaT.reset_for_tests();
- option('code beside');
- MuScaT.relaunch();
- assert_visible('#rcolumn');
+  given("Sans l'option 'code beside'");
+  MuScaT.reset_for_tests();
+  MuScaT.relaunch_for_tests();
+  assert_not_visible('#rcolumn');
+
+  given("Avec option 'code beside'");
+  MuScaT.reset_for_tests();
+  option('code beside');
+  MuScaT.relaunch_for_tests();
+  assert_visible('#rcolumn');
 
 };
 
 test.changement_in_codeField_change_analyse = function(){
+
   given("En ajoutant du code, dans le champ");
 
   given("Avec option 'code beside'");
   MuScaT.reset_for_tests();
   option('code beside');
-  MuScaT.relaunch();
+  MuScaT.relaunch_for_tests();
 
   var tags = document.getElementsByClassName('tag');
 
   assert(
     tags.length == 0,
-    'Aucun élément n’est construit',
+    'Aucun élément n’est construit au départ',
     'Aucun tag ne devrait se trouver sur la table'
   );
 
   // === Test ici ===
   var n = $('#codeSource') ;
   var add = RC + 'text Un_tag_ajouté_dans_le_champ x=300 y=300';
-  M.change_code_source(n.val()+add, true);
+  M.change_code_source(n.val() + add, true);
 
   // === check ===
   var tags = document.getElementsByClassName('tag');

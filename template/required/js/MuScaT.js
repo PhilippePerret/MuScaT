@@ -37,8 +37,6 @@ const MuScaT = {
     // le fichier tag.js
     this.load() ;
 
-    // return ; // pour le moment
-
     // Quand on clique sur la partition, en dehors d'un élément,
     // ça déselectionne tout
     // $('#tags').on('click', function(ev){CTags.desectionne_all()})
@@ -98,6 +96,9 @@ const MuScaT = {
         // La ligne est strictement identique à ce qu'elle était précédemment,
         // on peut passer à la suite
         if (line == my.lines[i]){ continue };
+        // Si c'est une ligne vide ou une ligne de commentaire, on peut
+        // la passer directement
+        if (line.match(/#[0-9]#/)){ continue };
 
         // Ici, il faudrait voir si la ligne à un identifiant
         // Cet identifiant pour les lignes vide ou de commentaire, est
@@ -198,6 +199,9 @@ const MuScaT = {
       return ;
     }
 
+    // Pour débug
+    // console.log('dans load, Tags=', Tags);
+
     my.reset_all();
 
     my.parse_tags_js() ;
@@ -244,14 +248,17 @@ const MuScaT = {
     // dans le document.
     lines = Tags.trim().split(RC) ;
     lines_count = lines.length ;
+
     for(iline;iline<lines_count;++iline){
       line      = lines[iline].trim() ;
       lineCode  = new LineCode(line) ;
+
+      // Est-ce le plus grand ID ?
       if(lineCode.id && lineCode.id > my.last_tag_id){
         my.last_tag_id = Number.parseInt(lineCode.id,10);
       }
+
       if (lineCode.is_empty_line || lineCode.is_comment_line){
-        my.lines.push(line);
         my.tags.push(new TagNot(line));
       } else {
         lineCode.treate();

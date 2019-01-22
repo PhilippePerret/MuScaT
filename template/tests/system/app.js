@@ -20,17 +20,21 @@ Object.assign(MuScaT,{
   // Pour relancer l'application comme si c'était au rechargement
   // Tout est initialisé et la méthode 'start_and_run' (appelée normalement
   // par le document.ready) est joué.
-  relaunch:function(){
+  relaunch_for_tests:function(){
     // MuScaT.reset_for_tests();
     MuScaT.start_and_run();
   },
 
   // Initialisation de tout, même la fenêtre, avant les tests (mais doit
   // être appelée)
-  reset_for_tests: function(){
+  // Si options.init_tags est false, la constante Tags ne sera pas
+  // réinitialisée.
+  reset_for_tests: function(options){
+    if(undefined==options){options={}};
+    if(undefined==options.init_tags){options.init_tags = true};
     this.reset_options() ;
     this.reset_all() ;
-    Tags = "// Juste un commentaire" ;
+    if(!!options.init_tags){Tags = "// Juste un commentaire de reset_for_tests"};
     $('#rcolumn').hide();
   },
 
@@ -40,8 +44,12 @@ Object.assign(MuScaT,{
   // ALT ENTRÉE.
   change_code_source(new_code, update_required){
     var nodeSrc = $('#codeSource') ;
-    nodeSrc.focus(); // doit permettre d'avoir le bon gestionnaire d'events
     nodeSrc.val(new_code);
+    nodeSrc[0].focus(); // active le gestionnaire d'évènement
+    // On vérifie si le gestionnaire a bien été enclenché (si la console a
+    // le focus ça n'a pas marché)
+    nodeSrc.trigger({type: 'keypress', keyCode: 'test'});
+    if(!CodeField.actived){console.error('Impossible de mettre le focus au champ de code. Il faut peut-être que vous activiez la fenêtre principale de l’application.')}
     if (update_required){
       nodeSrc.trigger({type: 'keypress', keyCode: 13, altKey: true});
     }

@@ -26,7 +26,7 @@ begin
   end
   # On récupère les feuilles de tests
   paths_tests = nil
-  if ARGV.first
+  if ARGV.first && !ARGV.first.start_with?('-')
     path_test = File.join(FOLDER_TESTS,'tests',ARGV.first)
     path_test_file = path_test
     path_test_file.concat('.js') unless path_test.end_with?('.js')

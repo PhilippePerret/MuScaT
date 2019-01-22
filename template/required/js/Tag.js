@@ -543,7 +543,6 @@ Tag.prototype.observe = function(){
     my.jqObj.draggable(DATA_DRAGGABLE) ;
     my.is_draggabled = true ;
   }
-  console.log('Je le rend movable');
   my.jqObj.draggable('option', 'disabled', false) ;
   my.jqObj.on('click', CTags.onclick) ;
 }
