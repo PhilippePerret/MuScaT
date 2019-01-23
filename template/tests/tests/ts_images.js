@@ -1,7 +1,7 @@
 
 var test = new Test('Création des images');
 
-test.run = function() {
+test.run_async = function() {
   // Préambule
   M.reset_for_tests();
   option('code', 'espacement images', 100);
@@ -21,7 +21,10 @@ test.wait_to_check_images = function(){
   var unloadeds = $('#tags img').length ;
   $('#tags img').on('load', function(){
     -- unloadeds ;
-    if(!unloadeds){test.run_when_ready()};
+    if(!unloadeds){
+      test.run_when_ready();
+      Tests.next();//On peut passer à la suite
+    };
   });
 },
 

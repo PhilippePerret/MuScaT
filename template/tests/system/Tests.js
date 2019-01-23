@@ -16,15 +16,30 @@
      this.nombre_success  = 0 ;
      this.nombre_failures = 0 ;
      this.nombre_pendings = 0 ;
-     for(var i = 0, len = this.sheets.length; i<len; ++i){
-       console.log(`\n\n------- Test : ${this.sheets[i].name} ---`);
-       this.sheets[i].run();
+     this.current_isheet  = 0 ; // pour commencer à
+     this.next() ;
+   },
+
+   /**
+    * Pour les tests asynchrone, on appelle cette méthode
+    */
+   next: function(){
+     var current_sheet = this.sheets[this.current_isheet++] ;
+     if(!current_sheet){
+       console.log("Fin des tests");
+       return this.sumarize();
+     }
+     console.log(`\n\n------- Test : ${current_sheet.name} ---`);
+     if('function' == typeof(current_sheet.run_async)){
+       current_sheet.run_async();
+     } else {
+       current_sheet.run();
        if(this.stop){
          console.error('Interruption des tests suite à une erreur fatale.');
          return;
        };
+       this.next(); // pour passer à la suivante, pas en asynchrone
      }
-     this.sumarize();
    },
 
    // Affiche le résultat des courses

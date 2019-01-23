@@ -3,6 +3,7 @@
 * [Introduction](#introduction)
 * [Fonctionnement](#fonctionnement)
 * [Composition des tests](#composition_tests)
+  * [Tests asynchrones](#async_test)
 * [Liste des assertions](#assertions)
 
 ## Introduction {#introduction}
@@ -62,6 +63,7 @@ On comprend donc que le fichier `test.html` doit être produit chaque fois qu'on
 
 Ensuite, il suffit de charger le fichier `test.html` (créé par `test.rb`) et de lire la console de Firebug pour avoir le résultat du test.
 
+
 ## Composition des tests {#composition_tests}
 
 Comme nous l'avons vu, la base du fichier test est simplement :
@@ -118,6 +120,37 @@ L'assertion ci-dessus produira « Deux + deux est bien égal à quatre ».
 
 Vous trouverez la [liste des assertions](#assertions) ci-dessous.
 
+
+### Tests asynchrones {#async_test}
+
+Pour les tests asynchrones, on ne définit pas la méthode `run` mais `run_async`.
+
+Et l'on doit impérativement appeler la méthode `Tests.next()` à la fin du traitement.
+
+Exemple avec l'attente du chargement d'images :
+
+```javascript
+
+var test = new Test("Mon test asynchrone");
+
+test.run_async = function() {
+  this.wait_for_image_loading();
+}
+test..wait_for_image_loading = function(){
+  var unloaded = $('body img').length;
+  $('body img').on('load', function(){
+    -- unloaded ; // encore une chargée
+    if(!unloaded){
+      // S'il n'y a plus de chargement, on peut lancer les tests
+      test.execute_le_test();
+      // Et pour terminer on passe à la suite
+      Tests.next();
+      // Noter que la méthode pourrait être aussi appelée par `execute_le_test`
+      // si cette fonction est asynchrone aussi.
+    }
+  })
+}
+```
 
 ## Assertions {#assertions}
 
