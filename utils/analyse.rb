@@ -13,6 +13,7 @@ def save_current_analyse
   folder_original_current_analyse = File.join(ANALYSES_FOLDER,INFOS[:analyse_name],'analyse')
   FileUtils.rm_rf(folder_original_current_analyse)
   FileUtils.cp_r(CURRENT_ANALYSE_FOLDER,folder_original_current_analyse)
+  puts "Analyse courante sauvegardée."
 end
 
 def faire_un_choix question
@@ -74,6 +75,8 @@ def detruire_analyse_courante
           end
         end
       end
+      # Finalement, si tout est OK, on peut la détruire
+      return true
     else
       # Le dossier original a été détruit depuis
       return true
@@ -149,15 +152,11 @@ unless ARGV.include?('-h') || ARGV.include?('--help')
       # je dois m'assurer qu'il a bien été sauvegarder (date). Si ce n'est
       # pas le cas, je le confie à l'utilisateur.
       if detruire_analyse_courante
-
-        exit
-
         # On peut procéder au changement
         if File.exist?(CURRENT_ANALYSE_FOLDER)
           FileUtils.rm_rf(CURRENT_ANALYSE_FOLDER)
         end
         FileUtils.cp_r(analyse_folder, CURRENT_ANALYSE_FOLDER)
-
         # Enfin, on ouvre la partition
         `open -a Firefox "#{PARTITION_PATH}"`
       else

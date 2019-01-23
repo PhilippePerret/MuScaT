@@ -5,7 +5,7 @@
 Pour actualiser le fichier PDF:
 - se placer dans ce dossier (cd ...)
 - supprimer le pdf existant
-- jouer : `pandoc Manuel.md --from=markdown --to=latex --output=Manuel.pdf;open Manuel.pdf`
+- jouer : `pandoc Manuel.md --pdf-engine=xelatex --from=markdown --to=latex --output=Manuel.pdf;open Manuel.pdf`
 
 Pour trouver précisément où peut se trouver un problème, on peut passer par
 le document LaTex et le composer. Pour le produire :
@@ -36,12 +36,16 @@ Elle est semi-graphique, et permet d'ajuster très finement les TAGs — au pix
 * [Les Images](#les_images)
   * [Définition de la taille d'une image](#defining_image_size)
   * [Séquence d'images](#sequence_images)
-* [Tous les types (natures) d'éléments](#natures_elements)
+* [Tous les types (natures) d'éléments](#natures)
+  * [Second mot (contenu, accord)](#second_mot)
+  * [Autres données de la ligne](#autres_data_ligne)
   * [Les types de textes](#types_de_textes)
 * [Les Options](#all_options)
 * [Les Utilitaires](#les_utilitaires)
   * [Changement du dossier des captures écran (Mac)](#utils_change_captures_folder)
   * [Renommage des fichiers images (Mac/Unix)](#utils_renommer_fichiers)
+  * [Création d'une nouvelle analyse (Mac)](#create_new_analyse)
+  * [Activation d'une analyse (Mac)](#activate_analyse)
 
 
 ## Synopsis général de l'analyse {#synopsis_fabrication}
@@ -60,7 +64,16 @@ Commençons par un aperçu du processus général qui va permettre de produire u
 
 ### Création du dossier de l'analyse {#creation_dossier_analyse}
 
-On commence par **créer un dossier pour son analyse** en copiant-collant le dossier `template` du dossier principal de **MuScaT**. Nous vous conseillons vivement de ne pas toucher à ce modèle.
+Si vous êtes sur Mac, le plus simple est d'utiliser le script `create.rb` qui fait tout le travail pour vous, simplement en lui donnant le nom de l'analyse.
+
+```bash
+
+  > cd /chemin/vers/dossier/MuScaT
+  > ./utils/create.rb "Ma première analyse"
+
+```
+
+Si vous n'êtes pas sur Mac, la procédure est à peine plus compliquée : vous dupliquez le dossier `Template` qui se trouve dans le dossier `MuScaT/_analyses_` (ce dossier est le dossier qui contient toutes les analyses ; même si vous pouvez les ranger où vous voulez).
 
 ![](img/chantier-small.png)
 
@@ -68,35 +81,71 @@ Appelons ce dossier `monAnalyse` pour illustrer.
 
 ![](img/chantier-small.png)
 
+Dans ce dossier, vous pouvez mettre, au même niveau que le dossier `analyse`, votre partition en PDF ou en image.
+
 ### Découpage de la partition en « images-systèmes » {#syn_crop_score}
 
-Si la partition que l'on s'apprête à analyser est suffisamment aéré (espace entre les systèmes), on peut la garder telle qu'elle. Dans le cas contraire (et le plus fréquent), il faut découper cette partition en systèmes, c'est-à-dire faire une image de chaque système.
+Si la partition que l'on s'apprête à analyser est suffisamment aérée (espace entre les systèmes), on peut la garder telle qu'elle. Dans le cas contraire (et le plus fréquent), il faut découper cette partition en systèmes, c'est-à-dire faire une image de chaque système pour les écarter sur la table d'analyse.
 
-Dans tous les cas, on place la ou les images dans le dossier `monAnalyse/images`.
+Dans tous les cas, on place la ou les images dans le dossier `monAnalyse/analyse/images`.
 
 ![](img/chantier-small.png)
 
+Notez que c'est ce dossier `analyse` que vous déplacerez dans le dossier `_table_analyse_` pour visualiser ou travailler votre analyse.
+
 ### Inscription des images-systèmes {#syn_inscription_images_systemes}
 
-On ouvre ensuite son fichier `monAnalyse/tags.js`. C'est **le fichier principal de l'analyse**, celui qui va définir tous les éléments, les images, les marques de modulations, les accords, les cadences, les parties, tout ce qui constitue l'analyse.
+On ouvre ensuite son fichier `monAnalyse/analyse/tags.js`. C'est **le fichier principal de l'analyse**, celui qui va définir tous les éléments, les images, les marques de modulations, les accords, les cadences, les parties, tout ce qui constitue l'analyse.
 
 ![Exemple d’images dans tags.js](./img/manuel/images_in_tags_js.png)
 
-On définit d'abord les images de la partition, en ajoutant des commentaires pour pouvoir se retrouver, plus tard, lorsque le fichier deviendra conséquent.
+Vous devez ouvrir ce fichier en texte simple, c'est-à-dire ne surtout pas utiliser de traitement de texte, ou alors en s'assurant d'exporter le fichier final au format « SimpleText » (`.txt`).
+
+Dans ce fichier `tags.js` On définit d'abord les images de la partition, en ajoutant des commentaires pour pouvoir se retrouver, plus tard, lorsque le fichier deviendra conséquent. Par exemple :
+
+```javascript
+
+  // Dans tags.js
+  option('code');
+
+  Tags = `
+  // Premier système, les mesures de 1 à 10
+  partition system-1-mes-1-10.png
+
+  // Deuxième système, les mesures de 11 à 16
+  partition system-2-mes-11-16.png
+
+  // Troisième système
+  // ... etc.
+
+  `;
+```
+
+> Note : l'option 'code', en haut du fichier `tags.js`, permet simplement de voir le code à côté de la table d'analyse.
+
+
 
 ### Définition de tous les éléments de l'analyse {#syn_def_analysis_elements}
 
-L'élément graphique de base de l'application MuScaT est le « TAG » (comme on en parle sur les murs des villes). Une analyse avec **MuScaT** consiste à « tagguer » une partition (remarquez que les partitions elles-mêmes, ou les images de leurs systèmes, sont aussi des « TAGs »). C'est la raison pour laquelle le fichier qui va les définir s'appelle `tags.js`.
+L'élément graphique de base de l'application **MuScaT** est le « TAG » (comme on en parle sur les murs des villes). Une analyse avec **MuScaT** consiste donc à « tagguer » une partition (remarquez que les partitions elles-mêmes, ou les images de leurs systèmes, sont aussi des « TAGs »). C'est la raison pour laquelle le fichier qui va les définir s'appelle `tags.js`.
 
-On définit donc maintenant tous les autres éléments graphiques, tous les *tags* (cf. pour le détail de la procédure, voir [Composition d'un tag](#composition_dun_tag)) : marque de parties, accords, chiffrages, numéros de portée, cadences, etc. On s'arrange pour les placer, dans `tags.js`, à peu près en fonction des positions des images de la partition. C'est-à-dire que si une cadence doit se produire sur le troisième système, il vaut mieux la définir après la ligne insérant l'image de ce troisième système (remarquez cependant qu'il n'y a aucune obligation là-dessus).
+On définit tous les autres éléments graphiques, tous les *tags* (cf. pour le détail de la procédure, voir [Composition d'un tag](#composition_dun_tag)) : marque de parties, accords, chiffrages, numéros de portée, cadences, textes divers, etc. Le mieux est de s'arranger pour les placer, dans `tags.js`, à peu près en fonction des positions dans l'analyse. Si une cadence doit se produire sur le troisième système, il vaut mieux la définir après la ligne insérant l'image de ce troisième système (remarquez cependant qu'il n'y a aucune obligation là-dessus, vous pouvez aussi, rassembler tous les accords d'un côté, toutes les cadences de l'autre, etc. à votre guise).
 
 ### Positionnement des éléments graphiques {#syn_ajustement_elements}
 
-On ouvre le fichier `monAnalyse/partition.html` dans un navigateur internet (Firefox est le meilleur choix, pour **MuScaT**).
+Pour activer cette nouvelle analyse, nous allons placer son dossier `analyse` dans le dossier `_table_analyse_` de **MuScaT**.
 
-On placer les éléments aux bons endroits simplement en les déplaçant à la souris, ou avec les flèches de son clavier.
+Pour se faire, il faudra certainement détruire le dossier `analyse` qui se trouve déjà là. C'est la raison pour laquelle il est vivement conseillé de travailler avec des duplicatas plutôt qu'avec les dossiers d'analyse originaux.
+
+Les heureux possesseurs de Mac ont un script qui permet d'activer très simplement n'importe quelle analyse. Il suffit de jouer `./utils/analyse.rb` lorsqu'on se trouve dans le dossier de **MuScaT** ou simplement `analyse.rb` si on se trouve dans le dossier `MuScaT/utils/`.
+
+Pour les autres, il faut donc faire une duplication du dossier `analyse`, la placer dans le dossier `_table_analyse_` et enfin ouvrir le fichier `_table_analyse_/partition.html` dans un navigateur internet pour travailler l'analyse (Firefox est le meilleur choix, pour **MuScaT**).
+
+On peut placer les éléments aux bons endroits simplement en les déplaçant à la souris, ou avec les flèches de son clavier. On peut en ajouter des nouveaux en dupliquant les lignes de code ou les ajoutant explicitement dans le code.
 
 ![Exemple de déplacement d'élément](./img/manuel/move_score.png)
+
+Sans l'option `option('code')` activée, il faut modifier le code directement dans le fichier `tags.js` puis recharger la page dans Firefox.
 
 #### Lignes repères
 
@@ -106,7 +155,9 @@ Cela ajoute deux lignes à l'écran, une verticale et une horizontale, qu'on peu
 
 ### Récupération du code final {#syn_recuperation_code_final}
 
-On demande enfin le code final de l'analyse, que l'on colle dans notre fichier `monAnalyse/tags.js` pour le conserver (si vous voulez en garder une trace ou pouvoir le modifier plus tard).
+Si l'on a travaillé dans le champ de texte à côté de la table d'analyse, on doit copier le code final dans le fichier `tags.js`, au risque de perdre tous les changements. Pour se faire, on clique sur le bouton des outils — en haut à gauche — et on demande à mettre le code complet dans le presse-papier. On colle ce code dans le fichier `tags.js`, en remplaçant l'intégralité de son contenu.
+
+On n'oublie pas de faire une duplication dans l'autre sens, vers le dossier `_analyses_/monAnalyse/` pour conserver les modifications opérées.
 
 ### Impression de l'analyse en PDF {#syn_print_pdf}
 
@@ -114,10 +165,12 @@ On imprime la page HTML du navigateur en choisissant le format PDF (ou on enregi
 
 ### Et voilà
 
-Et voilà, c'est fait ! Et vous pourrez retoucher à votre analyse à n'importe quel moment grâce au fichier `tags.js` qui contient tout le code et les positions de l'analyse courante.
+Et voilà, c'est fait ! Et vous pourrez retoucher à votre analyse à n'importe quel moment grâce au dossier `analyse` qui contient tous les éléments de l'analyse et qu'il suffit de mettre sur la table d'analyse (comprendre : dans le dossier `_table_analyse_`).
 
 
 ## Composition d'un tag {#composition_dun_tag}
+
+Voyons plus en détail comment se compose une ligne du fichier `tags.js`, une ligne définissant un *tag* ou une partition.
 
 Un *TAG* — image de la partition comprise — se compose d'une ligne dans le fichier de données.
 
@@ -144,7 +197,7 @@ Tags = `
 
 ```
 
-Une « nature » de TAG (le premier mot), peut toujours être exprimé par ses trois premières lettres (exception faite du terme « partition » qui rentrerait en conflit avec « partie »). Ainsi, on peut écrire le code ci-dessu :
+Une « nature » de TAG (le premier mot), peut toujours être exprimé par ses trois premières lettres (exception faite du terme « partition » qui rentrerait en conflit avec « partie »). Ainsi, on peut écrire le code ci-dessous :
 
 ```javascript
 
@@ -193,7 +246,7 @@ Tags = `
 
 ```
 
-Par exemple, pour une *modulation* vers la tonalité de SOL mineur (G min.) qui doit se situer à 200 pixels du haut et 450 pixels de la gauche, on pourra écrire :
+Par exemple, pour une *modulation* vers la tonalité de SOL mineur (G min.) qui doit se situer à 200 pixels du haut et 450 pixels de la gauche, on pourra écrire simplement :
 
 ```javascript
 
@@ -220,7 +273,7 @@ Il existe trois mots clés pour indiquer la nature d'une image, mais ils sont id
 
 ```
 
-Ci-dessus, l'image `premier_mouvement.png` doit donc se trouver dans le dossier `./images/haydn/` de votre dossier d'analyse.
+Ci-dessus, l'image `premier_mouvement.png` doit donc se trouver dans le dossier `./analyse/images/haydn/` de votre dossier d'analyse.
 
 ### Définition de la taille d'une image {#defining_image_size}
 
@@ -250,7 +303,7 @@ Au lieu de ça, si les images des systèmes ont été nommés en respectant une 
 
 ```
 
-  score haydn/mouvement_1-[1-35].png
+  score mouvement_1/image-[1-35].png
 
 ```
 
@@ -258,13 +311,13 @@ Le texte ci-dessus indique qu'il y a 35 images de système dans ce mouvement. Le
 
 ```
 
-  score haydn/mouvement_1-1.png
-  score haydn/mouvement_1-2.png
-  score haydn/mouvement_1-3.png
-  score haydn/mouvement_1-4.png
+  score mouvement_1/image-1.png
+  score mouvement_1/image-2.png
+  score mouvement_1/image-3.png
+  score mouvement_1/image-4.png
   ...
   ...
-  score haydn/mouvement_1-35.png
+  score mouvement_1/image-35.png
 
 ```
 
@@ -276,6 +329,7 @@ Quand **MuScaT** place les images sur la table d'analyse, il les répartit pour 
 
   // Code intégrale du fichier tags.js
   option('code');option('espacement images', 50);
+
   Tags=`
   sco haydn/mouvement_1-[1-35].png
   `;
@@ -292,35 +346,63 @@ Une fois ce code établi, vous pouvez déplacer les images dans la page pour les
 
 Astuce : si votre écran et assez grand et que vous adoptez [l'option `code beside` (ou `code à côté`)](#option_code_beside), vous pourrez voir en direct votre code s'actualiser.
 
+---
 
-## Nature des éléments {#natures}
+## Nature des tags {#natures}
 
-Détaillons ces éléments.
+Détaillons toutes les natures de TAGs qu'on peut trouver.
 
-Dans la ligne, le premier mot qui définit la `<nature>` du tag peut être (note : les deux mots, français et anglais, sont utilisables) :
+Dans la ligne, le premier mot définit la `<nature>` du tag.
 
-```
-  Français    Anglais     Description                   Exemple
-  -----------------------------------------------------------------
-  image       score       Pour ajouter l'image d'une      mon.png
-                          partition à tagger.
-  accord      chord       Le nom d'un accord, placé       Dm7
-                          au-dessus de la portée.
-  harmonie    harmony     L'accord dans l'harmonie        I**
-                          avec son renversement.
-  cadence                 Marque la cadence.              I
-
-  degre       degree      Marque le degré dans la gamme   4
-                          d'une note.
-  ligne       line
-
-  mesure      measure     Pour ajouter un numéro de mesure  12
-
-  texte       texte       Pour écrire un texte quelconque.
+Cette nature peut être (note : les deux mots, français et anglais, sont utilisables) :
 
 ```
+  partition     `image <source> x=... y=... z=...`
+                Exemple : `image monScore.png z=50 x=100 y=100`
+                - "z" désigne le zoom en pourcentage
+                - l'image doit se trouver dans le dossier 'images'
+                Alias : 'score', 'image'
+                Note : un astérisque ("*") indique au départ une
+                suite d'image (image1, image2, image3 etc.)
 
-Le seconde « mot » définit le plus souvent le contenu textuel ou, pour les images, le nom du fichier dans le dossier `images`.
+  mesure       `mesure <nombre> x=... y=...`
+  mes           Exemple : `mes 13 x=100 y=234`
+                Alias : 'measure'
+
+  accord        `accord <nom> x=... y=...`
+  acc           Exemple : `accord Cm7 x=230 y=520`
+                Alias : 'chord'
+
+  harmonie      `harmonie <degré accord et renversement> x=... y=...`
+  har           Exemple : `harmonie II** x=200 y=230`
+                Alias : 'harmony', 'chiffrage'
+
+  modulation    `modulation <Ton[/sous-texte]> x=HH y=VV h=HH`
+  mod           Exemple : `modulation D_Maj/Sous–dom. x=100 y=100 h=60`
+                « h », ici, permet de définir la longueur du trait qui
+                rejoint la partition (le trait vertical).
+
+  cadence       `cadence <degré accord> type=<type cadence> x=... y=... w=...`
+  cad           Exemple : `cadence I type=italienne w=200 x=12 y=100`
+
+  ligne         `ligne <type ligne> x=... y=... w=...`
+  lig           Exemples : `ligne U w=120 x=100 y=50`
+                           `line |---| w=50 x=100 y=50`
+                Alias : 'line'
+
+  degré         `degre <indice> x=... y=...`
+  deg           Exemple : `degre 5 x=100 y=120`
+                Alias : 'degree'
+
+  texte         `texte <contenu> x=... y=... type=...`
+  tex           Exemple : `texte Exposition x=100 y=50 type=partie`
+                Alias : 'text'
+
+```
+
+### Contenu du tag (second mot) {#second_mot}
+
+Le seconde « mot » définit le plus souvent le contenu textuel ou, pour les images, le nom du fichier dans le dossier `analyse/images`. C'est aussi, souvent, un accord ou son chiffrage.
 
 On peut par exemple écrire un texte quelconque à une position quelconque avec la ligne :
 
@@ -335,7 +417,9 @@ Tags = `
 
 > Remarquez comme les espaces ont été remplacées par des tirets plats (qu'on obtient sur Mac avec la combinaison de touches Maj- — touche majuscule et tiret).
 
-Ce deuxième sert aussi par exemple à définir le type des lignes à obtenir (cf. []()).
+Ce deuxième « mot » de la ligne sert aussi par exemple à définir le type des lignes à obtenir (cf. [Dessiner des lignes](#types_de_lignes)).
+
+### Autres données de la ligne {#autres_data_ligne}
 
 Les deux autres informations capitales sont les positions verticale et horizontale du tag à poser (ou de la partition).
 
@@ -371,47 +455,6 @@ Il faut définir la ligne :
 ```
 
 Note : ici, c'est le type `partie` qui fera que le texte s'écrit de travers, dans une boite.
-
-## Tous les types (natures) d'éléments {#natures_elements}
-
-Si vous avez déjà consulté ce manuel, vous pouvez trouver une aide rapide ici.
-
-```
-  partition     `image <source> x=... y=... z=...`
-  par           Exemple : `image monScore.png z=50 x=100 y=100`
-                - "z" désigne le zoom en pourcentage
-                - l'image doit se trouver dans le dossier 'images'
-                Alias : score, image
-                Note : un astérisque ("*") indique au départ une
-                suite d'image (image1, image2, image3 etc.)
-
-  accord        `accord <nom> x=... y=...`
-  acc           Exemple : `accord Cm7 x=230 y=520`
-                Alias : chord
-
-  harmonie      `harmonie <degré accord et renversement> x=... y=...`
-  har           Exemple : `harmonie II** x=200 y=230`
-                Alias : harmony, chiffrage
-
-  modulation    `modulation <Ton[/sous-texte]> x=HH y=VV h=HH`
-  mod           Exemple : `modulation D_Maj/Sous–dom. x=100 y=100 h=60`
-                « h », ici, permet de définir la longueur du trait qui
-                rejoint la partition (le trait vertical).
-
-  cadence       `cadence <degré accord> type=<type cadence> x=... y=... w=...`
-  cad           Exemple : `cadence I type=italienne w=200 x=12 y=100`
-
-  ligne         `ligne <type ligne> x=... y=... w=...`
-  lig           Exemples : `ligne U w=120 x=100 y=50`
-                           `line |---| w=50 x=100 y=50`
-
-  degré         `degre <indice> x=... y=...`
-  deg           Exemple : `degre 5 x=100 y=120`
-
-  texte         `texte <contenu> x=... y=... type=...`
-  tex           Exemple : `texte Exposition x=100 y=50 type=partie`
-
-```
 
 
 ### Les types de textes {#types_de_textes}
@@ -460,7 +503,7 @@ Pour séparer les deux textes, on utilise tout simplement la barre inclinée, ap
 
 ```
 
-### Dessiner des lignes
+### Dessiner des lignes {#types_de_lignes}
 
 Les lignes se définissent par `line` ou `ligne`.
 
@@ -737,3 +780,27 @@ Voici la procédure :
 * taper `./change_folder_captures.rb -h` et la touche Entrée pour tout savoir du script.
 
 Pour remettre la valeur par défaut (le bureau), jouer simplement `./utils/change_folder_captures.rb` sans aucun autre argument.
+
+
+### Création d'une nouvelle analyse (Mac) {#create_new_analyse}
+
+Le script `create.rb` permet de créer une nouvelle analyse dans le dossier `_analyses_` de **MuScaT**.
+
+* ouvrir l'application Terminal,
+* rejoindre (commande `cd`) le dossier `utils` de l'application MuScaT,
+* puis, au choix :
+  * taper `./create.rb -h` et la touche Entrée pour tout savoir du script,
+  * taper `./create.rb "Ma nouvelle analyses" -o` pour créer l'analyse et l'ouvrir dans le finder.
+
+Notez que pour l'activer, il faut l'ouvrir dans le navigateur avec le script `./analyse.rb`.
+
+### Activation d'une analyse (Mac) {#activate_analyse}
+
+Le script `analyse.rb` permet d'activer une analyse se trouvant dans le dossier `_analyses_` de **MuScaT**.
+
+* ouvrir l'application Terminal,
+* rejoindre (commande `cd`) le dossier `utils` de l'application MuScaT,
+* puis, au choix :
+  * taper `./analyse.rb -h` et la touche Entrée pour tout savoir du script.
+  * taper `./analyse.rb` pour obtenir la liste des analyses et en choisir une,
+  * taper `./analyse.rb "Mon_analyse"` pour ouvrir l'analyse qui commence par ce titre.

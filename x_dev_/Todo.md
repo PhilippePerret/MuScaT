@@ -1,5 +1,6 @@
 # Todo list
 
+* [BUG] Voir pourquoi mon analyse de Haydn ne fonctionne pas (séquence image). Pas de placement, pas de draggable
 * Modifier le mode d'emploi en fonction de la nouvelle tournure
 * Pouvoir grouper des éléments pour qu'ils réagissent ensemble aux déplacements
 * Pouvoir supprimer un élément (avec la touche erase)

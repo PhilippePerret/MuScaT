@@ -43,7 +43,7 @@ test.un_test_particulier = function(){
 
 ```
 
-Les fiches de test doivent impérativement se trouver dans le dossier `./template/tests/tests/`. Dès qu'une fiche de test est créée, il faut lancer en console (Terminal) l'utilitaire `./utils/test.rb` qui va préparer les tests. `test.rb` va ajouter les balises d'inclusion de script dans le fichier HTML : tous ceux du dossier system, sans distinction, puis ceux désignés ou non par le premier argument :
+Les fiches de test doivent impérativement se trouver dans le dossier `./_table_analyse_/tests/tests/`. Dès qu'une fiche de test est créée, il faut lancer en console (Terminal) l'utilitaire `./utils/test.rb` qui va préparer les tests. `test.rb` va ajouter les balises d'inclusion de script dans le fichier HTML : tous ceux du dossier system, sans distinction, puis ceux désignés ou non par le premier argument :
 
 ```bash
 

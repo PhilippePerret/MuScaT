@@ -6,7 +6,8 @@ var testCreateImage = new Test('Création des images');
 testCreateImage.current_itest = 0 ;
 
 testCreateImage.suite_tests = [
-    'un_rang_dimages_est_cree_normalement'
+    'rang_images_sans_espacement_defini'
+  , 'un_rang_dimages_est_cree_normalement'
   , 'avec_taille_sans_unite'
   , 'avec_taille_et_unite'
   , 'avec_taille_en_pourcentage'
@@ -33,6 +34,29 @@ testCreateImage.wait_for_images = function(fn){
   });
 };
 
+testCreateImage.before_rang_images_sans_espacement_defini = function(){
+  M.reset_for_tests();
+  option('code');
+  Tags=`
+  sco ${image_path('image-[1-3].png')}
+  `;
+  M.relaunch_for_tests();
+  this.wait_for_images(this.rang_images_sans_espacement_defini);
+}
+testCreateImage.rang_images_sans_espacement_defini = function(){
+  given("Avec une séquence d'images sans espacement défini");
+  var tags = assert_nombre_tags(3);
+  var pos = [];
+  for(var i=0;i<3;++i){pos.push(tags[i].style.top)};
+  assert(
+    pos[0] == '100px' &&
+    pos[1] == '319px' &&
+    pos[2] == '538px'
+    , "Les 3 images sont bien placées"
+    , `Les 3 images ne sont pas bien placées (${pos.join(', ')} au lieu de 100, 319, 538)`
+  );
+  testCreateImage.run_async();
+}
 testCreateImage.before_un_rang_dimages_est_cree_normalement = function() {
   // Préambule
   M.reset_for_tests();
@@ -47,7 +71,7 @@ testCreateImage.before_un_rang_dimages_est_cree_normalement = function() {
 };
 testCreateImage.un_rang_dimages_est_cree_normalement = function(){
 
-  given("Avec un code définissant un rang d'images");
+  given("Avec un code définissant un rang d'images et un espacement défini");
 
   // Vérification
   var tags = assert_nombre_tags(3);
