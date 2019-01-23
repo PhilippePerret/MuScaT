@@ -4,8 +4,9 @@
  assert_error(<message>[, <type erreur>])
     Pour vérifier qu'une erreur a bien été produite.
 
- assert_nombre_tags(<nombre>[, <nombre sur table>])
+ var tags = assert_nombre_tags(<nombre>[, <nombre sur table>])
     Pour vérifier le nombre de tags dans MuScaT.tags ET sur la table
+    Retourne les DOMElements des tags existants
 
 assert_classes(<nodes>, <classes>) / inverse : assert_not_classes
     Pour vérifier que des éléments du DOM on la bonne classes
@@ -33,6 +34,7 @@ window.matchError = function(err_msg, err_type){
   return false ;
 }
 
+// Note : en sus, la méthode retourne tous les tags (DOM elements)
 window.assert_nombre_tags = function(nombre, nombre_sur_table){
  if(undefined==nombre_sur_table){nombre_sur_table = nombre};
  assert(
@@ -46,6 +48,7 @@ window.assert_nombre_tags = function(nombre, nombre_sur_table){
    `Il y a bien ${nombre_sur_table} tags construits sur la table`,
    `Il devrait y avoir ${nombre_sur_table} tags constrits sur la table, il y en a ${tags.length}.`
  );
+ return tags ;
 };
 // Pour vérifier que des éléments DOM ont la bonne classe CSS
 window.assert_classes = function(nodes, classes) {

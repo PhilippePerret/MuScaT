@@ -7,12 +7,15 @@
    sheets: new Array(),
    nombre_success: 0,
    nombre_failures: 0,
+   nombre_pendings: 0,
+
    stop: false,   // mis à true en cas d'erreur fatale, pour interrompre
    run: function(files){
      // console.clear();
      console.log(RC+RC+RC+'============ DÉBUT DES TESTS ==============');
      this.nombre_success  = 0 ;
      this.nombre_failures = 0 ;
+     this.nombre_pendings = 0 ;
      for(var i = 0, len = this.sheets.length; i<len; ++i){
        console.log(`\n\n------- Test : ${this.sheets[i].name} ---`);
        this.sheets[i].run();
@@ -26,8 +29,8 @@
 
    // Affiche le résultat des courses
    sumarize: function(){
-    var color = this.nombre_failures > 0 ? 'red' : '#00BB00' ;
-    var str = this.nombre_success + ' success, ' + this.nombre_failures + ' failures' ;
+    var color = this.nombre_failures > 0 ? 'red' : (this.nombre_pendings > 0 ? 'orange' : '#00BB00') ;
+    var str = `${this.nombre_success} success ${this.nombre_failures} failures ${this.nombre_pendings} pendings`
     console.log(RC+RC+RC+'%c' + str, `color:${color};font-weight:bold;`);
    },
 
@@ -47,12 +50,17 @@
    },
    given:function(str){
      console.log(RC+'%c'+str+'…', 'font-size:1.1em;font-weight:bold;');
+   },
+   pending: function(str){
+     this.nombre_pendings ++ ;
+     console.log(RC+'%c'+(str||'TODO')+'…', 'color:orange;font-weight:bold;');
    }
  };
 
 // Raccourci
-window.assert = $.proxy(Tests,'assert') ;
-window.given  = $.proxy(Tests,'given') ;
+window.assert   = $.proxy(Tests,'assert') ;
+window.given    = $.proxy(Tests,'given') ;
+window.pending  = $.proxy(Tests,'pending') ;
 
 // Pour construire un message d'erreur de type :
 //  La valeur de truc devrait être à machin, elle vaut bidule

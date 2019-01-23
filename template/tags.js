@@ -1,4 +1,4 @@
-option('code beside') ;
+option('code beside', 'espacement images', 100) ;
 Tags = `
 acc D x=100 y=200
 acc E x=200 y=200

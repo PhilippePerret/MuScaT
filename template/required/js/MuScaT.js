@@ -179,7 +179,9 @@ const MuScaT = {
 
     my.build_tags() ;
 
-    if (Options.get('crop image')){
+    if (my.treate_images_spaces) {
+      Page.wait_to_treate_images_spaces();
+    } else if (Options.get('crop image')){
       my.prepare_crop_image();
     } else {
       // Placement des observers
@@ -231,7 +233,7 @@ const MuScaT = {
       , rg
       ;
     my.onEachTagsLine(function(line){
-      if(rg = line.match(/^(.*)\[([0-9]+)\-([0-9]+)\](.*)$/)){
+      if(rg = line.match(/^(.*)\[([0-9]+)\-([0-9]+)\]([^ ]+)( (.*))?$/)){
         my.treate_as_sequence_images(rg, lines_finales);
       } else {
         lines_finales.push(line);
@@ -240,17 +242,76 @@ const MuScaT = {
     Tags = lines_finales.join(RC);
   },
   treate_as_sequence_images: function(dreg, lines_finales) {
-    var bef_name    = dreg[1]
+    var my          = this
+      , bef_name    = dreg[1]
       , from_indice = Number.parseInt(dreg[2], 10)
       , to_indice   = Number.parseInt(dreg[3], 10)
-      , aft_name    = dreg[4]
+      , suffix      = dreg[4]
+      , aft_name    = (dreg[5]||'')
       , src_name
       , itag
       , i = from_indice
+      , data_img    = my.get_data_in_line(aft_name)
       , images_list = new Array()
       ;
-    for(i;i<=to_indice;++i){lines_finales.push(bef_name + i + aft_name)};
+
+    var left      = Options.get('marge gauche')       || DEFAULT_SCORE_LEFT_MARGIN ;
+    var top_first = Options.get('marge haut')         || DEFAULT_SCORE_TOP_MARGIN ;
+    var voffset   = Options.get('espacement images') ;
+
+    // Pour indiquer qu'il faut calculer la position des images en fonction
+    // de 1. l'espacement choisi ou par défaut et 2. la hauteur de l'image
+    my.treate_images_spaces = true ;
+
+    // Il faut étudier aft_name pour voir si des données de position ou de
+    // taille sont définies
+    if (data_img.x) {
+      // console.log('La marge gauche est définie à ', data_img.x);
+    } else {
+      data_img.x = left ;
+    }
+    if (data_img.y) {
+      // console.log("La marge haute est définie à ", data_img.y)
+      top_first = data_img.y ;
+    } else {
+      data_img.y = top_first -  voffset ; // -voffset pour éviter une condition ci-dessous
+    }
+    if (data_img.w) {
+      // console.log("La largeur est définie à ", data_img.w);
+    };
+    // if (data_img.h){
+    //   console.log("La hauteur est définie à ", data_img.h);
+    // }
+
+    for(i;i<=to_indice;++i){
+      // Placement vertical provisoire. La vraie position sera recalculée dans
+      // Page.treate_images_spaces
+      data_img.y += voffset ;
+      lines_finales.push(bef_name + i + suffix + my.data_in_line_to_str(data_img));
+    };
     M.motif_lines_added = 'images fournies par expression régulière';
+  },
+
+  // Reçoit {x: 120, y: 130} et retourne " x=120 y=130"
+  // Noter le ' ' au début (pour coller directement)
+  data_in_line_to_str: function(h){
+    var arr = new Array();
+    for(var k in h){arr.push(`${k}=${h[k]}`)};
+    return ' ' + arr.join(' ')
+  },
+  get_data_in_line: function(str){
+    var h = {} ;
+    str = str.trim().replace(/\t/g, ' ') ;
+    str = str.replace(/ +/g, ' ') ;
+    str.split(' ').forEach(function(paire){
+      [prop, value] = paire.split('=');
+      h[prop] = value || true ;
+    });
+    if (h.left)   { h.x = delete h.left   };
+    if (h.top)    { h.y = delete h.top    };
+    if (h.width)  { h.w = delete h.width  };
+    if (h.height) { h.h = delete h.height };
+    return h ;
   },
 
   /**

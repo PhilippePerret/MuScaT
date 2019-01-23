@@ -22,7 +22,7 @@ begin
 
   # On récupère tous les fichiers js système
   all_js_tags = Dir["#{FOLDER_TESTS}/system/**/*.js"].collect do |pth|
-    '<script type="text/javascript" src="%s"></script>' % [pth.sub(/^#{FOLDER_TESTS}/,'./tests/')]
+    '<script type="text/javascript" src="%s"></script>' % [pth.sub(/^#{FOLDER_TESTS}/,'./tests')]
   end
   # On récupère les feuilles de tests
   paths_tests = nil

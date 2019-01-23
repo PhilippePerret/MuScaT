@@ -63,9 +63,6 @@ function Tag(data_line) {
   // utiles, comme ses coordonnées ou son texte.
   this.decompose();
 
-  if( this.is_image && (!this.x || !this.y) ) {
-    this.define_x_y_for_image();
-  }
   /*
   // Pour débugger la décomposition (ajouter un "/" ci-dessus)
   dbug = {
@@ -92,14 +89,6 @@ Tag.prototype.reset_id = function() {
   my._domId = null ;
   my._jqObj = null ;
   my._domObj = null ;
-};
-
-Tag.prototype.define_x_y_for_image = function(){
-  var my = this ;
-  var left = Options.get('marge gauche image') || DEFAULT_SCORE_LEFT_MARGIN ;
-  var top_if_first = Options.get('marge haut première image') || DEFAULT_SCORE_TOP_MARGIN ;
-  var space = Options.get('espacement images') || DEFAULT_SCORES_SPACES ;
-
 };
 
 // ---------------------------------------------------------------------
@@ -326,7 +315,7 @@ Tag.prototype.updateText = function(){
   }
 }
 Tag.prototype.updateSrc = function(){
-  this.domObj.src = this.src ;
+  this.domObj.src = `images/${this.src}` ;
 }
 Tag.prototype.updateLock = function(){
   var my = this ;

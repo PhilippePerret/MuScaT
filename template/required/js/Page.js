@@ -18,6 +18,38 @@ const Page = {
     message(' ');
   },
 
+  wait_to_treate_images_spaces: function(){
+    var my = this ;
+    var unloadeds = $('#tags img').length ;
+    $('#tags img')
+      .on('load', function(){
+        -- unloadeds ;
+        if(!unloadeds){my.treate_images_spaces()};
+      });
+  },
+  treate_images_spaces: function(){
+    var voffset = Options.get('espacement images') || DEFAULT_SCORES_SPACES ;
+    var topImage ;
+    M.onEachTag(function(itag){
+      if(!itag.is_image){return};
+      if(undefined == topImage){
+        // <= Première image (ne pas la bouger)
+        topImage = itag.jqObj.offset().top ;
+      } else {
+        itag.y = topImage ;
+        itag.jqObj.css('top', topImage + 'px');
+        // Actualiser la ligne
+        // Note : ne pas passer par update_line qui appelle aussi
+        // update_code et ne sert donc que pour une modification unique
+        M.lines[itag.index_line] = itag.to_line() ;
+      }
+      // Pour la prochaine image
+      topImage = topImage + itag.jqObj.height() + voffset;
+    });
+    // Il faut actualiser le code si
+    M.update_code();
+  },
+
   /**
    * Préparation de la fenêtre pour travailler avec le code
    * à côté de la partition.
