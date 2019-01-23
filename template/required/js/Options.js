@@ -3,6 +3,27 @@
  * -------------
  * Pour la gestion des options
  */
+ // Les options utilisables
+ OPTIONS = {
+     'code beside':           {boolean: true, value: false}
+   , 'code à côté':           {aka: 'code beside'}
+   , 'code':                  {aka: 'code beside'}
+   , 'crop image':            {boolean: true, value: false}
+   , 'images PNG':            {boolean: true, value: false} // true si on veut des noms de fichier ne png (pour convert par exemple)
+   , 'découpe image':         {aka: 'crop image'}
+   , 'coordonates':           {boolean: true, value: false} // afficher les coordonnées lors des déplacementss
+   , 'repères':               {aka: 'lines of reference'}
+   , 'reperes':               {aka: 'lines of reference'}
+   , 'guides':                {aka: 'lines of reference'}
+   , 'lines of reference':    {boolean: true, value: false} // si true, affiche les lignes de guide
+   , 'espacement images':     {aka: 'space between scores'}
+   , 'space between scores':  {boolean: false, value: null}
+   , 'top first score':       {boolean: false, value: null}
+   , 'marge haut':            {aka: 'top first score'}
+   , 'left margin':           {boolean: false, valeu: null}
+   , 'marge gauche':          {aka: 'left margin'}
+ }
+
  // pour ajouter une option
  window.options = function(){
    Options.set(arguments);
@@ -40,8 +61,10 @@ const Options = {
       seq_options = seq_options.entries();
       while(dopt = seq_options.next().value){
         opt_id = dopt[1] ;
+        // console.log('Traitement de opt_id: ', opt_id);
         if(undefined == OPTIONS[opt_id]){
           alert(`L'option ${opt_id} est inconnue de nos services !…`);
+          continue;
         } else if (OPTIONS[opt_id].aka) {
           opt_id = OPTIONS[opt_id].aka ;
         }
@@ -49,7 +72,21 @@ const Options = {
         if (doption.boolean) {
           OPTIONS[opt_id].value = true ;
         } else {
-          OPTIONS[opt_id].value = seq_options.next().value[1] ;
+          err_msg = `Dans tags.js, il faut définir la valeur de l'option non booléenne '${opt_id}'.` ;
+          var nextopt = seq_options.next() ;
+          if (nextopt.value){
+            var valopt = nextopt.value[1] ;
+            if(undefined == OPTIONS[valopt]){
+              // C'est une vraie valeur
+              OPTIONS[opt_id].value = valopt ;
+            } else {
+              // Puisque la valeur est un id d'option, c'est un oubli
+              error(err_msg);
+            }
+          } else {
+            // La valeur a été oubliée
+            error(err_msg);
+          }
         }
       };
     } catch (err) {
@@ -62,7 +99,8 @@ const Options = {
   // Pour remettre toutes les options à false (utile pour les tests)
   reset: function(){
     for(var k in OPTIONS){
-      if (OPTIONS[k].boolean){ OPTIONS[k].value = false;}
+      if (OPTIONS[k].aka){continue}
+      else if (OPTIONS[k].boolean){ OPTIONS[k].value = false;}
       else {OPTIONS[k].value = null };
     }
   }

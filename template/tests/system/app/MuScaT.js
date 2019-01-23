@@ -36,6 +36,7 @@ Object.assign(MuScaT,{
     this.reset_all() ;
     if(!!options.init_tags){Tags = "// Juste un commentaire de reset_for_tests"};
     $('#rcolumn').hide();
+    $('.refline').hide(); // les lignes repère
   },
 
 });

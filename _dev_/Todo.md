@@ -1,9 +1,7 @@
 # Todo list
 
-* [TEST] Tester le nouvel objet Options (ts_options.js)
 * [TEST] Poursuite du test `ts_images`. Tester la définition d'une suite d'images
   * vérifier que leur positionnement soit bien calculé
-  * vérifier que l'utilisation de l'option `option('code', 'espacement images', 100)` fonctionne
 * Pouvoir grouper des éléments pour qu'ils réagissent ensemble aux déplacements
 * Indiquer que toutes les natures (à part "partition") peuvent être désignées par leur trois premières lettres.
 * Pouvoir supprimer un élément (avec la touche erase)
@@ -14,6 +12,8 @@
 
 ## Développements futurs
 
+* Magnétiser les lignes repères si on se trouve à moins de x de leur position (note : s'assurer que l'option pour démagnéser — désaimanter — existe).
+* Voir peut-être si on doit poser des sauts de page
 * Avant d'avoir la boite complète de création d'objet, on peut avoir une liste des objets possibles pour en créer un au dernier endroit cliqué (qu'il faudrait mettre en mémoire).
 * Avec l'option 'aimant' (+ traduction anglaise) activée, il doit être possible de magnétiser les tags pour qu'ils s'aligent le long des lignes repère ('lines of reference') quand ils sont prochent.
 * Pouvoir entrer le titre et d'autres informations pour la première page (ou même une image de première page). Si informations textuelles, créer cette première page avec un @media qui ne rendrait pas les éléments visibles par défaut sur la page, mais les imprimeraient.

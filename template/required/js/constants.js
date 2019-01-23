@@ -44,21 +44,8 @@ NATURES_SHORTCUTS = {
   'modulation': {real: 'text', type: 'modulation'}
 }
 
-// Les options utilisable
-OPTIONS = {
-    'code beside':          {boolean: true, value: false}
-  , 'code à côté':          {aka: 'code beside'}
-  , 'code':                 {aka: 'code beside'}
-  , 'crop image':           {boolean: true, value: false}
-  , 'images PNG':           {boolean: true, value: false} // true si on veut des noms de fichier ne png (pour convert par exemple)
-  , 'découpe image':        {aka: 'crop image'}
-  , 'coordonates':          {boolean: true, value: false} // afficher les coordonnées lors des déplacementss
-  , 'repères':              {aka: 'lines of reference'}
-  , 'reperes':              {aka: 'lines of reference'}
-  , 'lines of reference':   {boolean: true, value: false} // si true, affiche les lignes de guide
-  , 'espacement images':    {aka: 'space between scores'}
-  , 'space between scores': {boolean: false, value: null}
-}
+// Les options utilisables,
+// cf. Options.js
 
 // Définition d'un retour chariot
 const RC = `

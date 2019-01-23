@@ -39,6 +39,8 @@ Elle est semi-graphique, et permet d'ajuster très finement les TAGs — au pix
   * [Les types de textes](#types_de_textes)
 * [Les Options](#all_options)
 * [Les Utilitaires](#les_utilitaires)
+  * [Changement du dossier des captures écran (Mac)](#utils_change_captures_folder)
+  * [Renommage des fichiers images (Mac/Unix)](#utils_renommer_fichiers)
 
 
 ## Synopsis général de l'analyse {#synopsis_fabrication}
@@ -546,15 +548,67 @@ Si Gimp présente une précision de découpage inégalable, l'application offre 
 
 Ce mode d'emploi n'étant pas destiné à maitriser Gimp, je vous renvoie au manuel d'utilisation de l'application.
 
+---
+
 ## Options {#all_options}
 
 * [Option « code à côté »](#option_code_beside)
 * [Option « découpe image »](#option_crop_image)
 * [Option « lignes de repère »](#option_line_of_reference)
+* [Option « espacement images »](#option_space_between_scores)
+* [Option « marge haut »](#option_top_first_score)
+* [Option « marge gauche »](#option_left_margin)
+
+Comme les tags et les partitions, les options se règle dans le fichier `tags.js`. On utilise tout naturellement la fonction `option` (ou `options`) avec en argument les options à activer.
+
+Ci-dessous, par exemple, on active l'option `guide` qui affiche deux lignes repère déplaçables pour aligner des éléments à la souris (ou par magnétisation).
+
+```javascript
+
+  // Dans tags.js
+  option('guide');
+  Tags=`
+    ...
+  `;  
+
+```
+
+Dans la méthode `option`, on peut passer toutes les options les unes à la place des autres, ou utiliser plusieurs fois la méthode `option`. Les deux formulations suivantes sont équivalentes :
+
+```javascript
+
+  // Dans tags.js
+  option('guide', 'code', 'marge haut', 100);
+
+```
+
+… équivaut à :
+
+```javascript
+
+  // Dans tags.js
+  option('guide');option('code');option('marge haut', 100);
+
+```
+
+> Note : les points virgules sont optionnels.
+
+Vous noterez qu'il existe deux types d'options. Les options dites « booléenne » qu'on active simplement en indiquant leur nom en argument (par exemple `guide` ou `code`) et il y a les options non booléennes qui attendent une valeur précise (par exemple `marge haut` attend la valeur de cette marge haut).
+
+Dans les arguments de la méthode `option`, la valeur des options non booléennes doit suivre immédiatement le nombre de l'option :
+
+```javascript
+
+  // Dans tags.js
+  option('marge haut', 100);
+
+```
 
 ### Option « code à côté » {#option_code_beside}
 
 Option : `code beside`, `code à côté`
+
+Type : booléen
 
 L'option « code à côté » permet d'avoir le fichier contenant le code juste à côté de la partition, ce qui est très pratique pour le modifier sans avoir à changer d'application. On le voit ci-dessous dans la boite noir.
 
@@ -564,14 +618,79 @@ L'option « code à côté » permet d'avoir le fichier contenant le code juste
 
 Option : `crop image`, `découpe image`
 
+Type : booléen
+
 Cette option fait passer dans un mode d'utilisation qui va permettre de découper l'image de façon aisée (par simple [copié-]collé).
 
 ### Option « lignes de repère » {#option_line_of_reference}
 
 Option : `repères`, `reperes`, `lines of reference`
 
+Type : booléen
+
 Ajoute une ligne horizontale et une ligne verticale qu'on peut déplacer et qui peuvent servir de guide, de repère, pour placer les TAGs.
 
+### Option « Espacement entre images » {#option_space_between_scores}
+
+Option : `espacement images`, `space between scores`
+
+Type : non booléen, la valeur est le nombre de pixels
+
+Permet de régler l'espacement en pixels entre deux images lorsque l'[écriture séquentielle des images](#sequence_images) a été adoptée.
+
+```javascript
+
+  // Dans tags.js
+  option('espacement images', 100);
+  Tags=`
+    ...
+  `;  
+
+```
+
+Avec le code ci-dessus, l'espace entre les différents systèmes sera de 100 pixels.
+
+### Option « marge haut » {#option_top_first_score}
+
+Option : `marge haut`, `top first score`
+
+Type : non booléen, la valeur est le nombre de pixels
+
+Lors de l'[écriture séquentielle des images](#sequence_images), cette valeur permet de déterminer à quelle hauteur doit être placée la première image (le premier système ou la partition).
+
+```javascript
+
+  // Dans tags.js
+  option('marge haut', 200);
+  Tags=`
+    ...
+  `;  
+
+```
+
+Avec le code ci-dessus, la première image de partition sera placée à 200 pixels du haut.
+
+### Option « marge gauche » {#option_left_margin}
+
+Option : `marge gauche`, `left margin`
+
+Type : non booléen, la valeur est le nombre de pixels
+
+Lors de l'[écriture séquentielle des images](#sequence_images), cette valeur détermine la marge gauche où placer l'image (son `x`).
+
+```javascript
+
+  // Dans tags.js
+  option('marge gauche', 50);
+  Tags=`
+    ...
+  `;  
+
+```
+
+Avec le code ci-dessus, toutes les images de la séquence seront placées à 50 pixels de la gauche.
+
+---
 
 ## Utilitaires {#les_utilitaires}
 

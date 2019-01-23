@@ -11,11 +11,25 @@ window.message = function(str){
   dom.className = 'notice';
   dom.innerHTML = str;
 }
-window.error = function(msg){
-  var dom = document.getElementById('message');
-  dom.className = 'warning';
-  dom.innerHTML = msg;
+window.error = function(err_msg, err_type){
+  Errors.show(err_msg, err_type);
 }
+const Errors = {
+  messages: new Array(),
+  show: function(err_msg, err_type = null){
+    this.domObj.className = 'warning';
+    this.domObj.innerHTML = err_msg;
+    this.messages.push({msg: err_msg, type: err_type}) ;
+  }
+}
+Object.defineProperties(Errors,{
+  jqObj: {
+    get: function(){return $(this.domObj);}
+  },
+  domObj:{
+    get: function(){return document.getElementById('message');}
+  }
+})
 
 // Mis dans un object pour pouvoir être réaffectées lors de l'update
 // des tags sur la partition.

@@ -33,16 +33,15 @@ const Page = {
   },
 
   /**
-   * Construit la ligne horizontale et la ligne verticale qui permettent
+   * Affiche la ligne horizontale et la ligne verticale qui permettent
    * d'aligner des éléments.
    */
    build_lines_of_reference: function(){
-     $('body').append('<div id="refline_h" class="refline"></div>');
-     $('body').append('<div id="refline_v" class="refline"></div>');
+     $('#refline_h').show();
+     $('#refline_v').show();
      $('#refline_h').draggable({axis: 'x'});
      $('#refline_v').draggable({axis: 'y'});
    },
-
 
   /**
     * Ajoute un élément quelconque dans la page (image, cadence, accord, etc.)

@@ -26,13 +26,18 @@
     <section id="tags">
       <!-- Tous les tags seront déposés ici -->
     </section>
+
+    <!-- Colonne gauche, non visible, pour travailler avec le code à côté-->
     <section id="rcolumn" style="display:none;">
-      <!-- Colonne gauche, non visible, pour travailler avec le code à côté-->
       <textarea name="codeSource" id="codeSource"></textarea>
       <div class="right">
         <button type="button" onclick="$.proxy(Page,'update')()">Actualiser (ALT ↩︎)</button>
       </div>
     </section>
+
+    <!-- Les lignes repères (masquées sans l'option 'repères') -->
+    <div id="refline_h" class="refline" style="display:none;"></div>
+    <div id="refline_v" class="refline" style="display:none;"></div>
     <!--
         Section contenant les boutons fonctionnels, qui n'apparaissent
         qu'au passage de la souris
