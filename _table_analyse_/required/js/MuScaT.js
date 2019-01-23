@@ -181,7 +181,9 @@ const MuScaT = {
 
     if (my.treate_images_spaces) {
       Page.wait_to_treate_images_spaces();
-    } else if (Options.get('crop image')){
+    }
+
+    if (Options.get('crop image')){
       my.prepare_crop_image();
     } else {
       // Placement des observers
