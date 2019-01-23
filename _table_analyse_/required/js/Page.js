@@ -116,7 +116,6 @@ const Page = {
   // La méthode est utilisées aussi bien pour la page en dehors des tags
   // que pour une image cliquée
   getCoordonates: function(ev){
-    console.log('-> getCoordonates');
     var x = ev.pageX ;
     var y = ev.pageY ;
     navigator.clipboard.writeText('x='+x+" y="+y);

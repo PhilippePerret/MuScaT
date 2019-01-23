@@ -34,6 +34,7 @@ Elle est semi-graphique, et permet d'ajuster très finement les TAGs — au pix
 * [Composition d'un tag](#composition_dun_tag)
   * [Verrouillage des tags](#lock_tags)
 * [Les Images](#les_images)
+  * [Définition de la taille d'une image](#defining_image_size)
   * [Séquence d'images](#sequence_images)
 * [Tous les types (natures) d'éléments](#natures_elements)
   * [Les types de textes](#types_de_textes)
@@ -220,6 +221,24 @@ Il existe trois mots clés pour indiquer la nature d'une image, mais ils sont id
 ```
 
 Ci-dessus, l'image `premier_mouvement.png` doit donc se trouver dans le dossier `./images/haydn/` de votre dossier d'analyse.
+
+### Définition de la taille d'une image {#defining_image_size}
+
+On peut définir la taille d'une image à l'aide du paramètre `w` (ou `width`, « largeur », en anglais). Sa valeur peut être explicite avec une unité, explicite sans unité ou en pourcentage. Par exemple :
+
+```javascript
+
+  // Dans tags.js
+  Tags = `
+  sco image-0.png
+  sco image-1.png w=200
+  sco image-2.png w=10cm
+  sco image-3.png w=50%
+  `;
+
+```
+
+Avec le code ci-dessus, l'image `0` aura sa taille normale, `image-1` fera 200 pixels de large, `image-2` fera 10 centimètres de large et `image-3` sera mise à 50% de sa largeur.
 
 ### Séquence d'images {#sequence_images}
 

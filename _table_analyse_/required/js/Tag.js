@@ -146,7 +146,7 @@ Tag.prototype.to_html = function() {
   css.push('left:' + x + 'px') ;
   var y = my.y || 100 ;
   css.push('top:'+ y + 'px') ;
-  var w = my.w ? (my.w + 'px') : 'auto';
+  var w = my.w ? my.w : 'auto';
   css.push('width:' + w) ;
 
   css = css.join(';');
@@ -175,7 +175,7 @@ Tag.prototype.to_html = function() {
 
   switch (my.nature) {
     case 'score':
-      return `<img id="${my.domId}" class="${classes.join(' ')}" src="images/${my.src}" style="${css}" />`
+      return `<img id="${my.domId}" class="${classes.join(' ')}" src="analyse/images/${my.src}" style="${css}" />`
     case 'cadence':
     case 'text':
       // classes.push('typed') ; // permet d'ajouter du texte après
@@ -299,8 +299,7 @@ Tag.prototype.updateH = function(){
   }
 }
 Tag.prototype.updateW = function(){
-  this.jqObj.css({'width': this.w + 'px'}) ;
-  console.warn('Attention, je ne sais peut-être pas tout à fait traiter la largeur…')
+  this.jqObj.css({'width': this.w}) ;
 }
 Tag.prototype.updateText = function(){
   var my = this ;
@@ -315,7 +314,7 @@ Tag.prototype.updateText = function(){
   }
 }
 Tag.prototype.updateSrc = function(){
-  this.domObj.src = `images/${this.src}` ;
+  this.domObj.src = `analyse/images/${this.src}` ;
 }
 Tag.prototype.updateLock = function(){
   var my = this ;
@@ -388,10 +387,15 @@ Tag.prototype.decompose = function(){
       switch (varia) {
         case 'x':
         case 'y':
-        case 'w':
         case 'h':
         case 'id':
           my[varia] = value_int ; break ;
+        case 'w':
+          // Cas spécial de la largeur, qui  peut être définie
+          // avec ou sans unité, et qu'on met toujours avec son
+          // unité (par défaut, le pixel)
+          if(value.match(/^[0-9]+$/)){value += 'px'} // un pur chiffre
+          my.w = value ; break ;
         case 'type':
           switch (my.nature) {
             case 'cadence':
@@ -455,8 +459,8 @@ Tag.prototype.recompose = function(){
   // La position
   my.x && aLine.push('x=' + parseInt(my.x)) ;
   my.y && aLine.push('y=' + parseInt(my.y)) ;
-  my.w && aLine.push('w=' + parseInt(my.w)) ;
   my.h && aLine.push('h=' + parseInt(my.h)) ;
+  my.w && aLine.push('w=' + my.w) ;
 
   return aLine ;
 }

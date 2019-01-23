@@ -33,3 +33,8 @@ INDENT = '  '
 
 RC = '
 '
+
+APPFOLDER = File.expand_path(File.dirname(__dir__))
+puts "APPFOLDER: #{APPFOLDER}"
+ANALYSES_FOLDER = File.join(APPFOLDER,'_analyses_')
+TABLE_FOLDER    = File.join(APPFOLDER, '_table_analyse_')

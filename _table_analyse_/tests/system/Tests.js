@@ -26,8 +26,8 @@
    next: function(){
      var current_sheet = this.sheets[this.current_isheet++] ;
      if(!current_sheet){
-       console.log("Fin des tests");
-       return this.sumarize();
+       this.sumarize() ;
+       return ;
      }
      console.log(`\n\n------- Test : ${current_sheet.name} ---`);
      if('function' == typeof(current_sheet.run_async)){
