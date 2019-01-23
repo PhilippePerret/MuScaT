@@ -32,7 +32,7 @@ unless ARGV.include?('-h') || ARGV.include?('--help')
     puts "\n\n\n#{msgs}\n\n\n".vert
 
   rescue Exception => e
-    puts "\n\n\tERREUR: #{e.message}\n\n(pour obtenir de l'aide, jouez `./change_folder_captures --help` — ou `-h`)\n\n".blanc_sur_fond_rouge
+    puts "\n\n\tERREUR: #{e.message}\n\n(pour obtenir de l'aide, jouez `./change_folder_captures.rb --help` — ou `-h`)\n\n".blanc_sur_fond_rouge
   end
 
 

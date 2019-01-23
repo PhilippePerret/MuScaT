@@ -4,6 +4,7 @@
 * [Fonctionnement](#fonctionnement)
 * [Composition des tests](#composition_tests)
   * [Tests asynchrones](#async_test)
+* [Utilisation des images](#utilisation_images)
 * [Liste des assertions](#assertions)
 
 ## Introduction {#introduction}
@@ -150,6 +151,23 @@ test..wait_for_image_loading = function(){
     }
   })
 }
+```
+
+## Utilisation des images {#utilisation_images}
+
+Les images des tests doivent se mettre dans le dossier `./_table_analyse_/tests/tests/images/`.
+
+Pour charger une image de ce dossier, il suffit d'utiliser la méthode `image_path` avec l'image en argument. Par exemple :
+
+```javascript
+
+  // Dans le fichier test
+  Tags = `
+
+  score ${image_path('monImage.png')} w=50%
+
+  `;
+
 ```
 
 ## Assertions {#assertions}

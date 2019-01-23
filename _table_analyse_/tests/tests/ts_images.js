@@ -1,19 +1,22 @@
 
-var test = new Test('Création des images');
-test.current_itest = 0 ;
+const image_path = function(image){
+  return `../../tests/tests/images/${image}`
+}
+var testCreateImage = new Test('Création des images');
+testCreateImage.current_itest = 0 ;
 
-test.suite_tests = [
+testCreateImage.suite_tests = [
     'un_rang_dimages_est_cree_normalement'
   , 'avec_taille_sans_unite'
   , 'avec_taille_et_unite'
   , 'avec_taille_en_pourcentage'
 ];
 
-test.run_async = function() {
+testCreateImage.run_async = function() {
   var tname = this.suite_tests[this.current_itest++];
   if(tname){
     // On joue le test
-    test[`before_${tname}`]();
+    testCreateImage[`before_${tname}`]();
   } else {
     // On finit
     Tests.next();
@@ -22,7 +25,7 @@ test.run_async = function() {
 
 // Méthode qui attend, pour lancer le test +fn+, que les images
 // soient toutes chargées
-test.wait_for_images = function(fn){
+testCreateImage.wait_for_images = function(fn){
   var unloadeds = $('#tags img').length ;
   $('#tags img').on('load', function(){
     -- unloadeds ;
@@ -30,19 +33,19 @@ test.wait_for_images = function(fn){
   });
 };
 
-test.before_un_rang_dimages_est_cree_normalement = function() {
+testCreateImage.before_un_rang_dimages_est_cree_normalement = function() {
   // Préambule
   M.reset_for_tests();
   option('code', 'espacement images', 100);
   Tags=`
-  sco tests/image-[1-3].png
+  sco ${image_path('image-[1-3].png')}
   `;
   // Test
   M.relaunch_for_tests();
   // Il faut attendre que les images soient chargées et placées
-  this.wait_for_images(test.un_rang_dimages_est_cree_normalement);
+  this.wait_for_images(testCreateImage.un_rang_dimages_est_cree_normalement);
 };
-test.un_rang_dimages_est_cree_normalement = function(){
+testCreateImage.un_rang_dimages_est_cree_normalement = function(){
 
   given("Avec un code définissant un rang d'images");
 
@@ -63,20 +66,20 @@ test.un_rang_dimages_est_cree_normalement = function(){
     , "Les 3 images sont bien placées"
     , `Les 3 images ne sont pas bien placées (${pos.join(', ')} au lieu de 100, 419, 738)`
   );
-  test.run_async();
+  testCreateImage.run_async();
 };
 
-test.before_avec_taille_sans_unite = function(){
+testCreateImage.before_avec_taille_sans_unite = function(){
   given("Avec une image-sequence définissant une taille sans unité");
   M.reset_for_tests();
   option('code', 'espacement images', 50);
   Tags=`
-  sco tests/image-[1-2].png w=200
+  sco ${image_path('image-[1-2].png')} w=200
   `;
   M.relaunch_for_tests();
-  this.wait_for_images(test.avec_taille_sans_unite);
+  this.wait_for_images(testCreateImage.avec_taille_sans_unite);
 };
-test.avec_taille_sans_unite = function(){
+testCreateImage.avec_taille_sans_unite = function(){
   var tags = assert_nombre_tags(2)
   var widths = [];
   for(var i=0;i<2;++i){widths.push(M.tags[i].jqObj.width())};
@@ -89,20 +92,20 @@ test.avec_taille_sans_unite = function(){
     , "La taille des images a bien été mise à 200px"
     , `La taille des images aurait dû être mise à 200px, elle est de ${widths.join(', ')}`
   );
-  test.run_async();
+  testCreateImage.run_async();
 };
 
-test.before_avec_taille_et_unite = function(){
+testCreateImage.before_avec_taille_et_unite = function(){
   given("Avec une image-séquence définissant une taille avec unité");
   M.reset_for_tests();
   option('code', 'espacement images', 50);
   Tags=`
-  sco tests/image-[1-3].png w=20cm
+  sco ${image_path('image-[1-3].png')} w=20cm
   `;
   M.relaunch_for_tests();
-  this.wait_for_images(test.avec_taille_et_unite);
+  this.wait_for_images(testCreateImage.avec_taille_et_unite);
 };
-test.avec_taille_et_unite = function(){
+testCreateImage.avec_taille_et_unite = function(){
   var tags = assert_nombre_tags(3);
   var widths = [];
   for(var i=0;i<2;++i){widths.push(M.tags[i].domObj.style.width)};
@@ -111,20 +114,20 @@ test.avec_taille_et_unite = function(){
     , "La taille des images a bien été mise à '20cm'"
     , `La taille des images aurait dû être mise à '20cm', elle est de ${widths.join(', ')}`
   );
-  test.run_async();
+  testCreateImage.run_async();
 };
 
-test.before_avec_taille_en_pourcentage = function(){
+testCreateImage.before_avec_taille_en_pourcentage = function(){
   given("Avec une image-séquence définissant une taille en pourcentage");
   M.reset_for_tests();
   option('code', 'espacement images', 50);
   Tags=`
-  sco tests/image-[1-2].png w=40%
+  sco ${image_path('image-[1-2].png')} w=40%
   `;
   M.relaunch_for_tests();
-  this.wait_for_images(test.avec_taille_en_pourcentage);
+  this.wait_for_images(testCreateImage.avec_taille_en_pourcentage);
 };
-test.avec_taille_en_pourcentage = function(){
+testCreateImage.avec_taille_en_pourcentage = function(){
   var tags = assert_nombre_tags(2);
   var widths = [];
   for(var i=0;i<2;++i){widths.push(M.tags[i].domObj.style.width)};
@@ -133,9 +136,5 @@ test.avec_taille_en_pourcentage = function(){
     , "La taille des images a bien été mise à '40%'"
     , `La taille des images aurait dû être mise à '40%', elle est de ${widths.join(', ')}`
   );
-  test.run_async();
+  testCreateImage.run_async();
 };
-
-// given("Avec une image-sequence définissant une position x et y");
-// pending('À faire');
-//

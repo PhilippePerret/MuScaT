@@ -1,17 +1,15 @@
 # Todo list
 
-* [TEST] Poursuite du test `ts_images`. Tester la définition d'une suite d'images
-  * vérifier que leur positionnement soit bien calculé
+* Modifier le mode d'emploi en fonction de la nouvelle tournure
 * Pouvoir grouper des éléments pour qu'ils réagissent ensemble aux déplacements
-* Indiquer que toutes les natures (à part "partition") peuvent être désignées par leur trois premières lettres.
 * Pouvoir supprimer un élément (avec la touche erase)
-* Faire les différents styles
 * Pouvoir sélectionner plusieurs objets par sélection rectangle à la souris
 * Pouvoir annuler un déplacement (garder toujours une copie du code initial ou simplement du code qui vient d'être changé — garder l'historique, puisque c'est simple)
 * Avec la sélection déplaçable avec les flèches, il faudrait pouvoir utiliser ALT pour faire une copie (et la déplacer). Donc ALT => Copie de l'élément (des éléments ?) sélectionnés puis déplacement
 
 ## Développements futurs
 
+* Faire les différents styles
 * Magnétiser les lignes repères si on se trouve à moins de x de leur position (note : s'assurer que l'option pour démagnéser — désaimanter — existe).
 * Voir peut-être si on doit poser des sauts de page
 * Avant d'avoir la boite complète de création d'objet, on peut avoir une liste des objets possibles pour en créer un au dernier endroit cliqué (qu'il faudrait mettre en mémoire).

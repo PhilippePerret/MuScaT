@@ -41,7 +41,7 @@ unless ARGV.include?('-h') || ARGV.include?('--help')
     puts "\n\n\n  Opération exécutée avec succès.\n\n\n".vert
 
   rescue Exception => e
-    puts "\n\n\tERREUR: #{e.message}\n\n(pour obtenir de l'aide, jouez `./rename_images --help` — ou `-h`)\n\n".blanc_sur_fond_rouge
+    puts "\n\n\tERREUR: #{e.message}\n\n(pour obtenir de l'aide, jouez `./rename_images.rb --help` — ou `-h`)\n\n".blanc_sur_fond_rouge
   end
 
 
