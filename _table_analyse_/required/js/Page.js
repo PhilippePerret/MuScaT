@@ -122,9 +122,18 @@ const Page = {
    build_lines_of_reference: function(){
      $('#refline_h').show();
      $('#refline_v').show();
-     $('#refline_h').draggable({axis: 'x'});
-     $('#refline_v').draggable({axis: 'y'});
+     $('#refline_h').draggable({axis: 'x', stop:function(ev,ui){Cook.set('hline-left', ui.helper.offset().left)}});
+     $('#refline_v').draggable({axis: 'y', stop:function(ev,ui){Cook.set('vline-top', ui.helper.offset().top)}});
+     // Si leur position était définie en cookie, il faut la remettre
+     if(pos = Cook.get('hline-left')){
+       $('#refline_h').css('left', pos + 'px');
+     }
+     if(pos = Cook.get('vline-top')){
+       $('#refline_v').css('top', pos + 'px');
+     }
    },
+
+
 
    assure_lines_draggable: function(){
      $('#refline_h').css('position','fixed');

@@ -1,6 +1,8 @@
 /*
   Script principal
 */
+console.log(document.cookie);
+
 // Dans le cas où l'utilisateur n'aurait pas Firebug ou autre.
 if ('undefined'==typeof(console)){
   console = {log:function(e){},error:function(e){}}
@@ -26,4 +28,7 @@ const DATA_DRAGGABLE = {
   }
 }
 
-$(document).ready(function(){MuScaT.start_and_run()});
+$(document).ready(function(){
+  Cook.parse();
+  MuScaT.start_and_run()
+});
