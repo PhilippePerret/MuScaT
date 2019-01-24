@@ -43,6 +43,9 @@ img.tag {
 .tag.locked {
   opacity: 0.5;
 }
+.tag.grouped.selected {
+  border-color: green !important;
+}
 
 
 .tag.dragged {

@@ -2,8 +2,18 @@
 // Objet gérant les Tags dans leur ensemble (à commencer par
 // les sélection)
 const CTags = {
-  selection: null,   // La sélection courante (Tag)
-  selections: [],   // Les sélections (Tag(s))
+  selection: null,    // La sélection courante (Tag)
+  selections: [],     // Les sélections (Tag(s))
+  last_group_id: 0,   // Pour les tags groupés
+
+  /**
+   * Pour répéter une opération sur tous les éléments sélectionnés
+   */
+  onEachSelected: function(method){
+    for(var itag of this.selections){
+      method(itag);
+    }
+  },
 
   on_select: function(itag, with_maj){
     var my = this ;
@@ -79,8 +89,28 @@ const CTags = {
         $.proxy(itag,'updateXY')();
         // Note : pas d'update, c'est beaucoup plus simple de modifier
         // directement dans le DOM, l'élément existant
-      })
+      });
+      UI.hide_tools();
     }
+  },
+
+  /**
+   * Méthode appelée par le bouton outil "Grouper", quand il y a plusieurs
+   * sélections, pour les groupes
+   */
+  grouper_selected: function(){
+    UI.hide_tools();
+    // Il faut voir d'abord si aucun n'élément n'appartient à un groupe
+    var stop = false ;
+    this.onEachSelected(function(itag){
+      if(itag.group != null){
+        F.error("Impossible de grouper ces éléments. Certains sont déjà groupés.")
+        stop = true ;
+      }
+    });
+    if(stop){return;};
+    var new_group = new TagsGroup();
+    this.onEachSelected(function(itag){itag.add_in_group(new_group)});
   },
 
   /**
@@ -92,11 +122,14 @@ const CTags = {
     if(UI.tools_are_opened()){UI.hide_tools()}
     // On traite le clic sur l'élément courant
     var itag = ITags[$(this)[0].id] ;
-    if( !itag.locked ) {
-      message('Tag non verrouillé. Je peux le sélectionner');
-      itag.onClick(ev)
+    if(itag.group){
+      ev.shiftKey = true ;
+      itag.group.onEachTag(function(itag){itag.onClick(ev)})
+    } else {
+      if( !itag.locked ) {
+        itag.onClick(ev)
+      }
     }
-    else {message('Tag verrouillé. Impossible de le sélectionner.')}
     return stop(ev);
   },
 

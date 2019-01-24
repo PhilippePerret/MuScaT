@@ -18,6 +18,7 @@
     <script type="text/javascript" src="required/js/main.js"></script>
     <script type="text/javascript" src="required/js/MuScaT.js"></script>
     <script type="text/javascript" src="required/js/Tag.js"></script>
+    <script type="text/javascript" src="required/js/TagsGroup.js"></script>
     <script type="text/javascript" src="required/js/CTags.js"></script>
     <script type="text/javascript" src="required/js/Page.js"></script>
     <script type="text/javascript" src="analyse/tags.js"></script>
@@ -49,9 +50,12 @@
       <div id="picto_tools" onclick="$.proxy(UI,'toggle_tools')()">🛠</div>
       <div class="masked">
 
+        <fieldset id="fs_boutons">
+          <button type="button" id="btn-grouper" class="undisplayed" onclick="$.proxy(CTags,'grouper_selected')()">Grouper les <span class="selected_count">0</span> tags sélectionnés</button>
+        </fieldset>
         <fieldset id="fs_alignment" class="undisplayed">
           <legend>Alignement</legend>
-          <span>Aligner les <span id="selecteds_count">0</span> éléments sélectionnés</span>
+          <span>Aligner les <span class="selected_count">0</span> éléments sélectionnés</span>
           <select id="alignement">
             <option value="up">en haut / top</option>
             <option value="down">en bas / bottom</option>
