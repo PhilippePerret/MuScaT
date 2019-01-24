@@ -1,15 +1,7 @@
 # Todo list
 
-* [BUG] Voir comment gérer toutes les erreurs qui peuvent être générées par un tags.js qui ne définirait que :
-
-```javascript
-  Tags=`
-// sco sonate_haydn-[1-5].png
-  `;
-```
-    Noter que la ligne sera transformée en sco_sonate_haydn-[1-5].png #1#
-    Détacher le "sco_" (en supprimant le trait plat) comme si on croyait que ça allait résoudre le problème (voir les erreurs et les gérer).
 * Pouvoir annuler un déplacement (garder toujours une copie du code initial ou simplement du code qui vient d'être changé — garder l'historique, puisque c'est simple)
+* Faire un script pour "updater" l'analyse courante, c'est-à-dire copier son fichier actuellement édité (sur la table d'analyse) dans son dossier d'analyse dans `_analyses_`.
 
 ## Développements futurs
 

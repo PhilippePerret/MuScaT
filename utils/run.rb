@@ -52,8 +52,11 @@ if !COMMAND || COMMAND == 'help' || COMMAND == 'aide'
   puts AIDE
 elsif File.exist?(File.join(APPFOLDER,'utils',"#{COMMAND}.rb"))
   # C'est bon, on peut le faire
-  puts "Je vais jouer la commande #{COMMAND}.rb"
-  require_relative COMMAND
+  # On se place toujours dans l'application
+  Dir.chdir(APPFOLDER) do
+    require_relative COMMAND
+  end
+  
 else
   puts "\n\nDésolé, je ne connais pas la commande `#{COMMAND}`…\nPour obtenir de l'aide, mettre `help` ou `aide` en premier argument.\n\n".rouge
 end

@@ -14,8 +14,8 @@ require 'fileutils'
 begin
   # Inscription de tous les fichiers de tests (système et tests) dans
   # le corps de TABLE_ANALYSE.html (renommé 'test.html')
-  TEST_FILE_PATH  = File.expand_path('../_table_analyse_/test.html')
-  FOLDER_TESTS    = File.expand_path('../_table_analyse_/tests')
+  TEST_FILE_PATH  = File.expand_path(File.join(APPFOLDER,'_table_analyse_','test.html'))
+  FOLDER_TESTS    = File.expand_path(File.join(APPFOLDER,'_table_analyse_','tests'))
 
   # On récupère tous les fichiers js système
   all_js_tags = Dir["#{FOLDER_TESTS}/system/**/*.js"].collect do |pth|
