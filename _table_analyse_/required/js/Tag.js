@@ -556,7 +556,19 @@ Tag.prototype.destroy = function(){
     my.jqObj.remove() ;
     delete ITags[my.domId] ;
   };
-}
+};
+/**
+ * Alors que la méthode précédente ne détruit le tag que
+ * sur la table et dans ITags, cette méthode le détruit aussi dans
+ * le code (sans actualiser l'affichage de ce code, ce qui sera fait
+ * une fois que tous les tags à détruire seront détruits)
+ */
+Tag.prototype.destroy_everywhere = function(){
+  var my = this ;
+  my.destroy() ;
+  M.lines.splice(my.index_line,1);
+  M.update_index_line_from(my.index_line);
+};
 
 // Méthode qui place les observeurs sur l'élément, lorsqu'il a été
 // créé après la première fabrication (copies)

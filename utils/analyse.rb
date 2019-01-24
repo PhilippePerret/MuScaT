@@ -7,6 +7,8 @@ require 'io/console'
 require 'fileutils'
 require_relative 'required'
 
+puts ARGV.inspect
+
 # Méthode pour sauver l'analyse courante dans son dossier
 def save_current_analyse
   puts "Sauvegarde de l'analyse courante…"
@@ -114,13 +116,17 @@ unless ARGV.include?('-h') || ARGV.include?('--help')
     else
       # Mauvais nom ou
       names = Array.new
-      name_list.each do |name|
+      names_list.each do |name|
         if name.start_with?(analyse_name)
           names << name
         end
       end
       if names.count == 1
         analyse_folder = File.join(ANALYSES_FOLDER,names.first,'analyse')
+      elsif names.count == 0
+        puts "Aucun dossier d'analyse n'a été trouvé avec « #{analyse_name} »".vert
+        names = names_list
+        analyse_folder = nil
       end
     end
 
@@ -131,7 +137,7 @@ unless ARGV.include?('-h') || ARGV.include?('--help')
         puts "    #{(97+idx).chr}: #{aname}"
       end
       puts "\n\n"
-      print "Quel dossier choisir (lettre) ? "
+      print "Quel dossier choisir (lettre) ? ('q' pour renoncer)"
       choix = STDIN.getch()
       puts ''
       if choix == 'q'
@@ -183,6 +189,8 @@ puts <<-HELP
   USAGE
   -----
     #{'./analyse.rb "<Début_du_nom_de_dossier>"'.jaune}
+
+    (avec l'alias `mus`) > mus analyse "début du nom"
 
     Note : si on se trouve dans le dossier principal de MuScaT, il faut
     faire `./utils/analyse.rb`.

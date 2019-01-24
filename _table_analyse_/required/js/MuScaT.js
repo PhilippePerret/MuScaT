@@ -25,8 +25,12 @@ const MuScaT = {
   motif_lines_added: null,
 
   // Exécute la fonction +method+ sur tous les tags de this.tags
-  onEachTag: function(method){
-    var i = 0, len = this.tags.length ;
+  onEachTag: function(method, options){
+    var i, len ;
+    if(options && options.from){i = options.from}
+    else {i = 0};
+    if(options && options.to){len = options.to + 1}
+    else {len = this.tags.length};
     for(i;i<len;++i){method(this.tags[i], i)};
   },
   // Exécute la fonction +method+ sur toutes les lignes de la
@@ -50,6 +54,15 @@ const MuScaT = {
     // le fichier tag.js
     this.load() ;
 
+    // Pour une raison pas encore expliquée, il arrive que les
+    // éléments se bloquent et ne prenent plus leur position
+    // absolute (bug dans le draggable de jQuery).
+    // Donc, ici, on s'assure toujours que les éléments draggable
+    // soit en bonne position
+    // On fera la même chose, un peu plus bas, avec les lignes de
+    // référence
+    this.onEachTag(function(tg){tg.jqObj.css('position','absolute')});
+
     // Quand on clique sur la partition, en dehors d'un élément,
     // ça déselectionne tout
     // $('#tags').on('click', function(ev){CTags.deselect_all()})
@@ -67,6 +80,7 @@ const MuScaT = {
     // ajouter les deux lignes repères
     if(Options.get('lines of reference')){
       Page.build_lines_of_reference();
+      Page.assure_lines_draggable();
     }
   },
 
@@ -149,11 +163,19 @@ const MuScaT = {
     my.update_code();
   },
 
-  // Actualise l'index de chaque élément de l'analyse
-  update_index_lines: function(){
+  /**
+   * Méthodes qui actualisent tous les index lignes des
+   * tags.
+   * À partir de +from_index+ si options le désire.
+   */
+  update_index_lines: function(options){
     var my = this ;
-    my.onEachTag(function(itag, idx){ itag.index_line = idx });
+    my.onEachTag(function(itag, idx){ itag.index_line = idx }, options);
   },
+  update_index_line_from:function(from_index){
+    this.update_index_lines({from: from_index});
+  },
+
 
   /**
    * Chargement du fichier tags.js, analyse du code et construction de

@@ -126,6 +126,11 @@ const Page = {
      $('#refline_v').draggable({axis: 'y'});
    },
 
+   assure_lines_draggable: function(){
+     $('#refline_h').css('position','fixed');
+     $('#refline_v').css('position','fixed');
+   },
+
   /**
     * Ajoute un élément quelconque dans la page (image, cadence, accord, etc.)
     *

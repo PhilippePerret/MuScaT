@@ -10,6 +10,8 @@
 const Flash = {
   built: false,
 
+  onOK_method: null,      // la méthode à appeler quand OK est cliqué (if any)
+  onCancel_method: null,  // idem pour Renoncer
   //////////////////////////////////////////////////////////////////////////
   //  Méthodes d'affichage
 
@@ -20,6 +22,10 @@ const Flash = {
   // Affichage d'une erreur
   error: function(str){
     this.display(str, 'jqWarning');
+  },
+  ask: function(msg, args){
+    this.onOK_method = args.onOK ;
+    this.display(msg, 'jqAsk');
   },
 
   // L'affichage commun de n'importe quel type de texte
@@ -52,7 +58,7 @@ const Flash = {
     this.jqObj.hide();
     this.jqNotice.html('').hide();
     this.jqWarning.html('').hide();
-    // this.jqButtons.hide();
+    this.jqAsk.html('').hide();
   },
 
   /////////////////////////////////////////////////////////////////
@@ -60,9 +66,25 @@ const Flash = {
 
   onOK: function(){
     this.close();
+    if(this.onOK_method){
+      this.onOK_method();
+    }
+    this.reset_all();
   },
   onCancel: function(){
     this.close();
+    if(this.onCancel_method){
+      this.this.onCancel_method();
+    }
+    this.reset_all();
+  },
+
+  reset_all: function(){
+    this.onOK_method      = null ;
+    this.onCancel_method  = null ;
+    // Noter que les champs de texte sont vidés à l'appel
+    // de l'affichage. ALors que cette méthode est appelée
+    // en fin de cycle.
   },
 
   onKeypress:function(ev){
@@ -99,6 +121,7 @@ const Flash = {
       <div id="flash" style="display:none;">
         <div id="flash-notice" class="msg" style="display:none;"></div>
         <div id="flash-warning" class="msg" style="display:none;"></div>
+        <div id="flash-ask" class="msg" style="display:none;"></div>
         <section id="buttons">
           <button id="cancel-btn" class="btn" onclick="$.proxy(Flash,'onCancel')()">Annuler</button>
           <button id="ok-btn" class="btn" onclick="$.proxy(Flash,'onOK')()">OK</button>
@@ -112,6 +135,7 @@ Object.defineProperties(Flash,{
   jqObj:      {get: function(){return $('#flash')}},
   jqNotice:   {get: function(){return $('#flash #flash-notice')}},
   jqWarning:  {get: function(){return $('#flash #flash-warning')}},
+  jqAsk:      {get: function(){return $('#flash #flash-ask')}},
   jqButtons:  {get: function(){return $('#flash #buttons')}},
   css: {get: function(){
     return `
@@ -120,6 +144,7 @@ Object.defineProperties(Flash,{
       #flash div.msg {padding:2em 4em; font-family: Avenir, Helvetica; font-size: 16pt;}
       #flash #flash-notice {color: blue; background-color:#CCCCFF;}
       #flash #flash-warning {color: red; background-color: #FFCCCC; border: 1px solid red;}
+      #flash #flash-ask {color: green; background-color: #CCFFCC; border: 1px solid green;}
       #flash #buttons {text-align:right;padding-top:1em;background-color:white;padding:0.5em 1em;}
       #flash #buttons #cancel-btn {float: left;}
       #flash #buttons .btn {font-size: 16pt; padding: 8px;}

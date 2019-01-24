@@ -68,8 +68,11 @@ const MEvents = {
         CTags.moveRightSelection(ev);return stop(ev);
       case 40: // down
         CTags.moveDownSelection(ev);return stop(ev);
+      case 8:  // ERASE
+        CTags.ask_for_erase(ev);return stop(ev);
       default:
       // Rien pour le moment
+      // console.log(`keyCode:${ev.keyCode} | charCode:${ev.charCode} | which:${ev.which}`);
     };
     return true ;
   },

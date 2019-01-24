@@ -170,6 +170,22 @@ const CTags = {
       itag.update();
     })
   },
+  ask_for_erase: function(ev){
+    var my = this ;
+    var nb = my.selections.length ;
+    var msg ;
+    if (nb > 1) {
+      msg = `tous les éléments sélectionnés (${nb})`;
+    } else {
+      msg = `l'élément « ${M.lines[my.selections[0].index_line]} »`;
+    }
+    F.ask('Dois-je vraiment détruire ' + msg, {onOK: $.proxy(CTags,'erase_selections')});
+  },
+  erase_selections: function(){
+    var my = this ;
+    my.onEachSelected(function(itag){itag.destroy_everywhere()});
+    M.update_code();
+  },
 
   // ---------------------------------------------------------------------
   //  Méthodes de calcul

@@ -9,12 +9,12 @@
 ```
     Noter que la ligne sera transformée en sco_sonate_haydn-[1-5].png #1#
     Détacher le "sco_" (en supprimant le trait plat) comme si on croyait que ça allait résoudre le problème (voir les erreurs et les gérer).
-* Pouvoir supprimer un élément (avec la touche erase)
 * Pouvoir annuler un déplacement (garder toujours une copie du code initial ou simplement du code qui vient d'être changé — garder l'historique, puisque c'est simple)
 * Faire un test pour voir si les images se chargent normalement et signaler les erreurs. En cas d'erreur, on détruit le tag, pour éviter les problèmes.
 
 ## Développements futurs
 
+* Voir comment mémoriser la position de certains éléments (au rechargement après une visualisation) comme par exemple les lignes repères. Voir du côté des cookes, que javascript sait gérer, je crois.
 * CTRL META UP et DOWN doit permettre de descendre et remonter un tag quand on est dans le champ de code
 * Faire les différents styles
 * Magnétiser les lignes repères si on se trouve à moins de x de leur position (note : s'assurer que l'option pour démagnéser — désaimanter — existe).
