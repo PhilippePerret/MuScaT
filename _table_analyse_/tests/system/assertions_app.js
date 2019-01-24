@@ -17,11 +17,34 @@ assert_position(<nodes>, <position>) / inverse : assert_not_position
  */
 
 window.assert_error = function(err_msg, err_type){
-  assert(
-    matchError(err_msg, err_type),
-    `L'erreur « ${err_msg} » a bien été générée.`,
-    `L'erreur « ${err_msg} » aurait dû être générée.`
-  )
+  if (Array.isArray(err_msg)){
+    // Plusieurs portions
+    ret = matchErrors(err_msg) ;
+    errs = err_msg.join(', ')
+    assert(
+        ret.ok
+      , `Une erreur contenant « ${errs} » a bien été générée`
+      , `Une erreur contenant « ${errs} » aurait dû être générée (pas trouvé : ${ret.not_found.join(', ')})`
+    );
+  } else {
+    assert(
+      matchError(err_msg, err_type),
+      `L'erreur « ${err_msg} » a bien été générée.`,
+      `L'erreur « ${err_msg} » aurait dû être générée.`
+    );
+  }
+}
+// Pour chercher plusieurs portions de message
+window.matchErrors = function(err_msgs, err_type){
+  var ret = {
+    ok: true, not_found: new Array()
+  }
+  for(err of err_msgs){
+    if (matchError(err, err_type)){continue};
+    ret.ok = false ;
+    ret.not_found.push(err);
+  }
+  return ret
 }
 window.matchError = function(err_msg, err_type){
   var rg = new RegExp(err_msg, 'i')

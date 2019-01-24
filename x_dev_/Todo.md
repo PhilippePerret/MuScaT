@@ -1,12 +1,11 @@
 # Todo list
 
-* [BUG] Voir pourquoi mon analyse de Haydn ne fonctionne pas (séquence image). Pas de placement, pas de draggable
-* Modifier le mode d'emploi en fonction de la nouvelle tournure
+* Mettre en place un système de Flash plus sympa pour l'user (et plus contrôlable pour les tests)
 * Pouvoir grouper des éléments pour qu'ils réagissent ensemble aux déplacements
 * Pouvoir supprimer un élément (avec la touche erase)
 * Pouvoir sélectionner plusieurs objets par sélection rectangle à la souris
 * Pouvoir annuler un déplacement (garder toujours une copie du code initial ou simplement du code qui vient d'être changé — garder l'historique, puisque c'est simple)
-* Avec la sélection déplaçable avec les flèches, il faudrait pouvoir utiliser ALT pour faire une copie (et la déplacer). Donc ALT => Copie de l'élément (des éléments ?) sélectionnés puis déplacement
+* Faire un test pour voir si les images se chargent normalement et signaler les erreurs. En cas d'erreur, on détruit le tag, pour éviter les problèmes.
 
 ## Développements futurs
 

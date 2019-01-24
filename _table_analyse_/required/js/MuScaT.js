@@ -21,6 +21,7 @@
 const MuScaT = {
   lines: new Array(),
   tags:  new Array(),
+  // Liste des erreurs rencontrées (sert surtout aux textes)
   motif_lines_added: null,
 
   // Exécute la fonction +method+ sur tous les tags de this.tags
@@ -181,6 +182,8 @@ const MuScaT = {
 
     if (my.treate_images_spaces) {
       Page.wait_to_treate_images_spaces();
+    } else {
+      Page.wait_for_images();
     }
 
     if (Options.get('crop image')){
@@ -235,7 +238,7 @@ const MuScaT = {
       , rg
       ;
     my.onEachTagsLine(function(line){
-      if(rg = line.match(/^(.*)\[([0-9]+)\-([0-9]+)\]([^ ]+)( (.*))?$/)){
+      if(rg = line.match(/^[^\/](.*)\[([0-9]+)\-([0-9]+)\]([^ ]+)( (.*))?$/)){
         my.treate_as_sequence_images(rg, lines_finales);
       } else {
         lines_finales.push(line);
@@ -448,9 +451,6 @@ const MuScaT = {
   // qu'il soit copié-collé
   show_code: function(message){
     var my = this ;
-    // console.log('-> show_code');
-    // my.codeField().select();
-    // document.execCommand("copy");
     if (!message){
       message = `
   Le code complet de votre partition tagguée est copié dans
@@ -462,7 +462,7 @@ const MuScaT = {
       `
     }
 
-    alert(message);
+    F.notice(message);
 
     navigator.clipboard.writeText(my.very_full_code() + RC) ;
 
@@ -535,8 +535,11 @@ const MuScaT = {
     var my = this ;
     my.tags   = new Array();
     my.lines  = new Array();
+    my.errors = new Array();
     my.last_tag_id = 0 ; // commence à 1
     $('section#tags')[0].innerHTML = '' ;
+    my.treate_images_spaces = false ;
+    my.motif_lines_added = null ;
     // ITags = {};
   },
 
@@ -625,7 +628,7 @@ const MuScaT = {
     }
     // console.log(x + ' / ' + y);
     return stop(ev);
-  }
+  },
 }
 
 // Alias

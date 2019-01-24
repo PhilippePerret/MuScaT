@@ -4,7 +4,6 @@
 <!--
 Pour actualiser le fichier PDF:
 - se placer dans ce dossier (cd ...)
-- supprimer le pdf existant
 - jouer : `pandoc Manuel.md --pdf-engine=xelatex --from=markdown --to=latex --output=Manuel.pdf;open Manuel.pdf`
 
 Pour trouver précisément où peut se trouver un problème, on peut passer par

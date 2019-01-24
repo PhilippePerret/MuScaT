@@ -18,11 +18,62 @@ const Page = {
     message(' ');
   },
 
+  /**
+   * On doit s'assurer que les images sont bien chargées. Dans le cas
+   * contraire, on signale une erreur à l'utilisateur.
+   * Il y a deux méthodes pour gérer ça :
+   *  - `wait_for_images`, qui est utilisée lorsque le code ne contient
+   *    pas d'image-séquence.
+   *  - `wait_to_treate_images_spaces` qui est utilisée lorsque le code
+   *    contient une image-séquence.
+   */
+  wait_for_images: function(){
+    var my = this ;
+    my.counts = {
+        images:  $('#tags img').length
+      , loaded:  0
+      , treated: 0
+      , errors:  new Array()
+    };
+    $('#tags img')
+      .on('load', function(){
+        // On passe ici chaque fois qu'une image est chargée
+        my.counts.loaded ++ ;
+        my.counts.treated ++ ;
+        if(my.counts.treated == my.counts.images){ my.conclusions_images() }
+      })
+      .on('error', function(){
+        // On passe ici chaque fois qu'une image pose problème
+        my.counts.errors.push($(this)[0].src) ;
+        my.counts.treated ++ ;
+        if(my.counts.treated == my.counts.images){ my.conclusions_images() }
+        return true ;
+      })
+  },
+  conclusions_images: function(){
+    var my = this ;
+    // Si des erreurs sont survenues
+    if(my.counts.errors.length){
+      var errs = new Array();
+      // On va réduire le path à son path relatif dans le dossier
+      // images de la table d'analyse.
+      for(var path of my.counts.errors){
+        var spath = new Array();
+        for(var pname of path.split('/').reverse()){
+          if(pname == '_table_analyse_'){break};
+          spath.push(pname);
+        }
+        errs.push(spath.reverse().slice(2, spath.length).join('/'));
+      }
+      var msg = `Des erreurs sont survenues avec les images suivantes (introuvables) :${RC}  - ${errs.join(RC+'  - ')}${RC+RC}Merci de corriger le texte de votre analyse.`
+      error(msg);
+    }
+  },
   wait_to_treate_images_spaces: function(){
     var my = this ;
     var unloadeds = $('#tags img').length ;
     $('#tags img')
-      .on('load', function(){
+      .on('load error', function(){
         -- unloadeds ;
         if(!unloadeds){my.treate_images_spaces()};
       });

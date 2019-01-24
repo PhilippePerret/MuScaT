@@ -6,15 +6,18 @@ var testCreateImage = new Test('Création des images');
 testCreateImage.current_itest = 0 ;
 
 testCreateImage.suite_tests = [
-    'rang_images_sans_espacement_defini'
-  , 'un_rang_dimages_est_cree_normalement'
-  , 'avec_taille_sans_unite'
-  , 'avec_taille_et_unite'
-  , 'avec_taille_en_pourcentage'
+  'premier_pour_virgule'
+  // , 'rang_images_sans_espacement_defini'
+  // , 'un_rang_dimages_est_cree_normalement'
+  // , 'avec_taille_sans_unite'
+  // , 'avec_taille_et_unite'
+  // , 'avec_taille_en_pourcentage'
+  , 'avec_images_introuvables'
 ];
 
 testCreateImage.run_async = function() {
   var tname = this.suite_tests[this.current_itest++];
+  // console.log(`tname = "${tname}"`);
   if(tname){
     // On joue le test
     testCreateImage[`before_${tname}`]();
@@ -24,14 +27,23 @@ testCreateImage.run_async = function() {
   }
 };
 
+testCreateImage.before_premier_pour_virgule=function(){
+  this.run_async();
+}
 // Méthode qui attend, pour lancer le test +fn+, que les images
 // soient toutes chargées
 testCreateImage.wait_for_images = function(fn){
   var unloadeds = $('#tags img').length ;
-  $('#tags img').on('load', function(){
-    -- unloadeds ;
-    if(!unloadeds){fn()};
-  });
+  $('#tags img')
+    .on('load', function(){
+      -- unloadeds ;
+      if(!unloadeds){fn()};
+    })
+    .on('error', function(){
+      -- unloadeds ;
+      if(!unloadeds){fn()};
+    })
+  ;
 };
 
 testCreateImage.before_rang_images_sans_espacement_defini = function(){
@@ -160,5 +172,23 @@ testCreateImage.avec_taille_en_pourcentage = function(){
     , "La taille des images a bien été mise à '40%'"
     , `La taille des images aurait dû être mise à '40%', elle est de ${widths.join(', ')}`
   );
+  testCreateImage.run_async();
+};
+
+testCreateImage.before_avec_images_introuvables = function(){
+  M.reset_for_tests();
+  option('code');
+  Tags=`
+  sco ${image_path('image-1.png')} id=1 x=100 y=100
+  sco badimage-2.png id=2 x=200 y=100
+  sco test/autrebad.png id=2 x=200 y=100
+  tex Un_problème_d'image_erronée x=150 y=80 w=200%
+  `;
+  M.relaunch_for_tests();
+  this.wait_for_images(this.avec_images_introuvables);
+};
+testCreateImage.avec_images_introuvables = function(){
+  given("Avec des noms de fichier d'image erronés");
+  assert_error(['Des erreurs sont survenues avec les images suivantes', 'badimage-2.png', 'test/autrebad.png']);
   testCreateImage.run_async();
 };
