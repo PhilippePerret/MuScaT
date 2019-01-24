@@ -7,13 +7,10 @@ const CTags = {
 
   on_select: function(itag, with_maj){
     var my = this ;
-    if (my.selection == itag){
+    if (itag.selected){
       // Si c'est une reselection de l'élément déjà sélectionné,
       // on le désélectionne
-      itag.deselect();
-      my.selections.pop();
-      my.selection = null;
-      my.desactiveOnKey();
+      my.remove_from_selection(itag);
     } else {
       if (false == with_maj) { my.deselect_all() }
       my.selections.push(itag);
@@ -27,6 +24,29 @@ const CTags = {
     my.selections.forEach(function(el){el.deselect()})
     my.selections = new Array();
     my.selection  = null ;
+  },
+
+  /**
+   * Pour retirer le tag +itag+ de la sélection courante
+   * (lorsqu'il n'est pas le tag courant)
+   */
+  remove_from_selection: function(itag){
+    var my = this ;
+    if(itag == my.selection){
+      // Si le tag est le tag courant
+      my.selections.pop();
+      my.selection = null;
+    } else {
+      // Si le tag n'est pas le tag courant
+      var new_selections = new Array();
+      for(var tg of my.selections){
+        if(tg.id == itag.id){continue};
+        new_selections.push(tg);
+      }
+      my.selections = new_selections;
+    };
+    // Et on finit par le déselectionner
+    itag.deselect();
   },
 
   // Méthode appelée quand on veut aligner des éléments
@@ -63,15 +83,21 @@ const CTags = {
     }
   },
 
-  // Méthode appelée par le on('click')
+  /**
+   * Méthode directement appelée lorsque l'on clique sur un TAG
+   * quelconque
+   */
   onclick: function(ev){
     // On ferme la boite d'outils si elle était ouverte
     if(UI.tools_are_opened()){UI.hide_tools()}
     // On traite le clic sur l'élément courant
     var itag = ITags[$(this)[0].id] ;
-    if( !itag.locked ) { itag.onClick(ev) } ;
-    ev.stopPropagation();
-    ev.preventDefault();
+    if( !itag.locked ) {
+      message('Tag non verrouillé. Je peux le sélectionner');
+      itag.onClick(ev)
+    }
+    else {message('Tag verrouillé. Impossible de le sélectionner.')}
+    return stop(ev);
   },
 
   // ---------------------------------------------------------------------

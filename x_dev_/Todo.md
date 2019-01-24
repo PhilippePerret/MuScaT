@@ -1,6 +1,5 @@
 # Todo list
 
-* [BUG] On ne doit pas pouvoir sélectionner un tag verrouillé (s'il est sélectionné quand on le verrouille, penser à le déselectionner)
 * [BUG] Ne pas toucher aux commentaires (des _ sont ajoutés)
 * [BUG] Voir comment gérer toutes les erreurs qui peuvent être générées par un tags.js qui ne définirait que :
 
@@ -19,6 +18,7 @@
 
 ## Développements futurs
 
+* CTRL META UP et DOWN doit permettre de descendre et remonter un tag quand on est dans le champ de code
 * Faire les différents styles
 * Magnétiser les lignes repères si on se trouve à moins de x de leur position (note : s'assurer que l'option pour démagnéser — désaimanter — existe).
 * Voir peut-être si on doit poser des sauts de page

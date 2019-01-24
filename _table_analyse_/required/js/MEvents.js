@@ -27,7 +27,7 @@ const MEvents = {
    * champ de code
    */
   onkeypress_on_code_field: function(ev){
-    console.log('-> onkeypress_on_code_field');
+    // console.log('-> onkeypress_on_code_field');
     var my = CodeField ;
     if(ev.keyCode == 13 && ev.altKey){
       Page.update();
@@ -58,7 +58,7 @@ const MEvents = {
    * ne se trouve pas dans le champ de code
    */
   onkeypress_with_selection: function(ev){
-    console.log('-> onkeypress_with_selection');
+    // console.log('-> onkeypress_with_selection');
     switch (ev.keyCode) {
       case 37: // left
         CTags.moveLeftSelection(ev);return stop(ev);

@@ -30,7 +30,8 @@ function Tag(data_line) {
   this.text = null ; // Le texte de la cadence, de l'accord, etc.
   this.type = null ; // Le type de la cadence, de la ligne, etc.
 
-  this.locked = locked ; // indicateur de verrouillage
+  this.locked   = locked ; // indicateur de verrouillage
+  this.selected = false ; // Indicateur de sélection
 
   // === Nature ===
   var nature = data_line.shift() ;
@@ -239,8 +240,8 @@ const MODUL_SOUS_TEXT_ATTRS = {
 // Méthodes de transformation
 
 // Actualisation du tag dans le DOM
-Tag.prototype.update = function(prop) {
-  var my = this ;
+Tag.prototype.update = function(prop, new_value) {
+  var my = ITags[this.domId];
   if(undefined == prop){
     // Appel de la méthode sans argument
     my.updateXY(); // ça fait tout, normalement
@@ -250,22 +251,22 @@ Tag.prototype.update = function(prop) {
     switch (prop) {
       case 'y':
       case 'top':
-        this.updateY();break;
+        my.updateY();break;
       case 'x':
       case 'left':
-        this.updateX();break;
+        my.updateX();break;
       case 'h':
       case 'height':
-        this.updateH();break;
+        my.updateH();break;
       case 'w':
       case 'width':
-        this.updateW();break;
+        my.updateW();break;
       case 'text':
-        this.updateText();break;
+        my.updateText();break;
       case 'src':
-        this.updateSrc();break;
+        my.updateSrc();break;
       case 'locked':
-        this.updateLock();break;
+        my.updateLock(new_value);break;
     }
   }
 }
@@ -301,7 +302,7 @@ Tag.prototype.updateW = function(){
   this.jqObj.css({'width': this.w}) ;
 }
 Tag.prototype.updateText = function(){
-  var my = this ;
+  var my = ITags[this.domId];
   if(my.type == 'modulation'){
     var [t, st] = my.text.split('/');
     my.main_text = t || '' ;
@@ -315,14 +316,15 @@ Tag.prototype.updateText = function(){
 Tag.prototype.updateSrc = function(){
   this.domObj.src = `analyse/images/${this.src}` ;
 }
-Tag.prototype.updateLock = function(){
-  var my = this ;
+Tag.prototype.updateLock = function(new_value){
+  // Note : je ne sais pas pourquoi, ici, je dois utiliser cette
+  // tournure avec new_value alors que pour les autres valeurs, ça
+  // semble se faire normalement.
+  var my = ITags[this.domId];
+  my.locked = new_value ;
   my.jqObj[my.locked ? 'addClass' : 'removeClass']('locked');
-  if(my.locked){
-    my.unobserve();
-  } else {
-    my.observe();
-  };
+  if(my.locked && my.selected){CTags.remove_from_selection(my)};
+  my[my.locked ? 'unobserve' : 'observe']();
 }
 
 Tag.prototype.setXAt = function(value) {
@@ -367,7 +369,6 @@ Tag.prototype.code_line_by_type = function() {
 // déduire les données connues
 Tag.prototype.decompose = function(){
   var my = this;
-  // console.log('decompose :', this.data_line);
   if(my.is_comment_line){
     this.text = this.data_line.join(' ');
     return ;
@@ -542,8 +543,7 @@ Tag.prototype.compare_and_update = function(tagComp) {
   this.modified = false ;
   for(var prop of TAG_PROPERTIES_LIST){
     if (tagComp[prop] != this[prop]){
-      // console.log(`La propriété "${prop}" est différente. Avant : ${tagComp[prop]}. Maintenant ${this[prop]}.`);
-      this.update(prop) ;
+      this.update(prop, this[prop]) ;
       this.modified = true ;
     }
   }
@@ -577,12 +577,11 @@ Tag.prototype.unobserve = function(){
     my.is_draggabled = true ;
   }
   my.jqObj.draggable('option', 'disabled', true) ;
-  my.jqObj.on('click', null) ;
+  my.jqObj.off('click') ;
 }
 
 Tag.prototype.onClick = function(ev){
   var my = this ;
-  // console.log(ev);
   var withMaj = ev.shiftKey;
   CTags.on_select(my, ev.shiftKey);
 }
@@ -590,6 +589,7 @@ Tag.prototype.select = function(){
   var my = this ;
   my.jqObj.addClass('selected');
   if(Options.get('code beside')){my.selectCodeLine()};
+  my.selected = true ;
 }
 // Méthode qui sélectionne le code du tag dans codeSource
 Tag.prototype.selectCodeLine = function(){
@@ -610,6 +610,7 @@ Tag.prototype.selectCodeLine = function(){
 Tag.prototype.deselect = function(){
   var my = this ;
   my.jqObj.removeClass('selected');
+  my.selected = false ;
 }
 
 // ---------------------------------------------------------------------
