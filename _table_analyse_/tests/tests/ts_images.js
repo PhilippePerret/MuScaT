@@ -6,12 +6,12 @@ var testCreateImage = new Test('Création des images');
 testCreateImage.current_itest = 0 ;
 
 testCreateImage.suite_tests = [
-  'premier_pour_virgule'
-  // , 'rang_images_sans_espacement_defini'
-  // , 'un_rang_dimages_est_cree_normalement'
-  // , 'avec_taille_sans_unite'
-  // , 'avec_taille_et_unite'
-  // , 'avec_taille_en_pourcentage'
+    'premier_juste_pour_virgule'
+  , 'rang_images_sans_espacement_defini'
+  , 'un_rang_dimages_est_cree_normalement'
+  , 'avec_taille_sans_unite'
+  , 'avec_taille_et_unite'
+  , 'avec_taille_en_pourcentage'
   , 'avec_images_introuvables'
 ];
 
@@ -27,7 +27,7 @@ testCreateImage.run_async = function() {
   }
 };
 
-testCreateImage.before_premier_pour_virgule=function(){
+testCreateImage.before_premier_juste_pour_virgule=function(){
   this.run_async();
 }
 // Méthode qui attend, pour lancer le test +fn+, que les images

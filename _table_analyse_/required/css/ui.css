@@ -81,6 +81,7 @@ section#rcolumn {
   width: 40%;
   max-width: 40%;
   min-width: 40%;
+  z-index: 500; /* rappel : lignes repère 500 */
 }
 
 section#rcolumn textarea#codeSource {
@@ -103,13 +104,13 @@ div.refline {
   z-index: 400;
 }
 div#refline_h {
-  width:2px;
+  width:4px;
   height: 4000px;
   top: -10px;
   left: 20px;
 }
 div#refline_v {
-  height:2px;
+  height:4px;
   width: 200%;
   left: -10px;
   top: 20px;

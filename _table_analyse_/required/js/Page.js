@@ -158,7 +158,7 @@ const Page = {
   onClickOut: function(ev){
     // console.log(ev);
     if(UI.tools_are_opened()){UI.hide_tools()};
-    CTags.desectionne_all();
+    CTags.deselect_all();
     this.getCoordonates(ev);
   },
 

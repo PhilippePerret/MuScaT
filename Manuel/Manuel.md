@@ -45,7 +45,7 @@ Elle est semi-graphique, et permet d'ajuster très finement les TAGs — au pix
   * [Renommage des fichiers images (Mac/Unix)](#utils_renommer_fichiers)
   * [Création d'une nouvelle analyse (Mac)](#create_new_analyse)
   * [Activation d'une analyse (Mac)](#activate_analyse)
-
+  * [Pour aller plus loing](#aller_plus_loin)
 
 ## Synopsis général de l'analyse {#synopsis_fabrication}
 
@@ -803,3 +803,40 @@ Le script `analyse.rb` permet d'activer une analyse se trouvant dans le dossier 
   * taper `./analyse.rb -h` et la touche Entrée pour tout savoir du script.
   * taper `./analyse.rb` pour obtenir la liste des analyses et en choisir une,
   * taper `./analyse.rb "Mon_analyse"` pour ouvrir l'analyse qui commence par ce titre.
+
+
+### Pour aller plus loing {#aller_plus_loin}
+
+Pour aller plus loin, si vous êtes sur Mac et que vous vous sentez à l'aise avec le Terminal, vous pouvez créer un alias dans votre `profil bash` pour ne pas avoir à rejoindre chaque fois le dossier de l'application et même utiliser les commandes plus simplement.
+
+Il vous suffit pour ça d'éditer votre fichier et d'ajouter la ligne `alias mus="/path/to/dossier/MuScat/utils"` en remplaçant "mus" par le mot que vous voudrez et "/path/to_dossier" par le chemin d'accès réel à votre dossier MuScaT.
+
+Chez moi, cela revient à faire :
+
+```
+  vim ~/.bash_profile
+
+```
+
+… pour éditer mon bash profile avec [Vim](https://fr.wikipedia.org/wiki/Vim).
+
+Dans ce fichier `.bash_profile`, j'ajoute la ligne :
+
+```bash
+
+alias mus="/Users/philippeperret/Programmation/MuScaT/utils/run.rb"
+
+```
+
+> Note : pour obtenir facilement la ligne ci-dessus sans aucune erreur, il suffit par exemple de glisser le fichier ou le dossier dans une fenêtre de Terminal. Le chemin d'accès s'y inscrit aussitôt.
+
+J'enregistre le fichier avec la combinaison traditionnelle `:wq` et j'ouvre une nouvelle fenêtre de Terminal (ouvrir une nouvelle fenêtre de Terminal est indispensable pour prendre en compte les changements du profil bash).
+
+Et maintenant, je peux, sans me trouver dans le dossier **MuScaT**, taper :
+
+```
+mus analyse "Analyse Sonate Haydn"
+
+```
+
+… pour ouvrir l'analyse « Analyse Sonate Haydn»

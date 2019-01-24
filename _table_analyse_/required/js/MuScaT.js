@@ -52,7 +52,7 @@ const MuScaT = {
 
     // Quand on clique sur la partition, en dehors d'un élément,
     // ça déselectionne tout
-    // $('#tags').on('click', function(ev){CTags.desectionne_all()})
+    // $('#tags').on('click', function(ev){CTags.deselect_all()})
     if(!Options.get('crop image')){
       $('#tags').on('click', $.proxy(Page, 'onClickOut'))
     }
@@ -238,7 +238,7 @@ const MuScaT = {
       , rg
       ;
     my.onEachTagsLine(function(line){
-      if(rg = line.match(/^[^\/](.*)\[([0-9]+)\-([0-9]+)\]([^ ]+)( (.*))?$/)){
+      if(rg = line.match(/^([^\/].*)\[([0-9]+)\-([0-9]+)\]([^ ]+)( (.*))?$/)){
         my.treate_as_sequence_images(rg, lines_finales);
       } else {
         lines_finales.push(line);

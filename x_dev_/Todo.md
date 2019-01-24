@@ -1,6 +1,16 @@
 # Todo list
 
-* Mettre en place un système de Flash plus sympa pour l'user (et plus contrôlable pour les tests)
+* [BUG] On ne doit pas pouvoir sélectionner un tag verrouillé (s'il est sélectionné quand on le verrouille, penser à le déselectionner)
+* [BUG] Ne pas toucher aux commentaires (des _ sont ajoutés)
+* [BUG] Voir comment gérer toutes les erreurs qui peuvent être générées par un tags.js qui ne définirait que :
+
+```javascript
+  Tags=`
+// sco sonate_haydn-[1-5].png
+  `;
+```
+    Noter que la ligne sera transformée en sco_sonate_haydn-[1-5].png #1#
+    Détacher le "sco_" (en supprimant le trait plat) comme si on croyait que ça allait résoudre le problème (voir les erreurs et les gérer).
 * Pouvoir grouper des éléments pour qu'ils réagissent ensemble aux déplacements
 * Pouvoir supprimer un élément (avec la touche erase)
 * Pouvoir sélectionner plusieurs objets par sélection rectangle à la souris

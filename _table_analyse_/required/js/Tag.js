@@ -131,7 +131,6 @@ Tag.prototype.build_and_watch = function(){
 }
 // Méthode qui construit l'élément dans la page
 Tag.prototype.build = function(){
-  var my = this ;
   Page.add(this);
 }
 // Pour transformer le tag en code HTML
@@ -585,27 +584,27 @@ Tag.prototype.onClick = function(ev){
   var my = this ;
   // console.log(ev);
   var withMaj = ev.shiftKey;
-  CTags.on_select(my, ev.shiftKey) ;
+  CTags.on_select(my, ev.shiftKey);
 }
 Tag.prototype.select = function(){
   var my = this ;
   my.jqObj.addClass('selected');
-  my.selectCodeLine();
+  if(Options.get('code beside')){my.selectCodeLine()};
 }
 // Méthode qui sélectionne le code du tag dans codeSource
 Tag.prototype.selectCodeLine = function(){
   var my = this, offStart, offEnd ;
-  if(false == Options.get('code beside')){return}
-  CodeField.domObj.focus();
+  CF.domObj.focus();
   if ( my.index_line > 0){
-    offStart = MuScaT.lines.slice(0, my.index_line).join(RC).length + 1 ;
+    offStart = M.lines.slice(0, my.index_line).join(RC).length + 1 ;
   } else { offStart = 0 }
-  offEnd = offStart + MuScaT.lines[my.index_line].length ;
-  CodeField.domObj.setSelectionRange(offStart,offEnd);
+  offEnd = offStart + M.lines[my.index_line].length ;
+  CF.domObj.setSelectionRange(offStart,offEnd);
+
   var timer = setTimeout(function(){
-    my.domObj.focus();
-    CodeField.domObj.setSelectionRange(offStart,offStart);
-  }, 2000);
+    CF.domObj.setSelectionRange(offStart,offStart);
+    CF.domObj.blur();
+  }, 1000);
 }
 
 Tag.prototype.deselect = function(){
@@ -626,7 +625,8 @@ Object.defineProperties(Tag.prototype,{
       if( ! this._nature ){
         if(this.is_comment_line || this.is_empty_line){return null};
         if(!NATURES[this.nature_init]){
-          throw(`La nature de tag "${this.nature_init}" est inconnue. Merci de corriger le code.`);
+          error(`La nature de tag "${this.nature_init}" est inconnue. Merci de corriger le code.`);
+          return null ;
         }
         this._nature = NATURES[this.nature_init].aka || this.nature_init ;
         // Certaines natures sont des raccourcis, par exemple :

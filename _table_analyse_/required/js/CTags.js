@@ -2,7 +2,7 @@
 // Objet gérant les Tags dans leur ensemble (à commencer par
 // les sélection)
 const CTags = {
-  selection: null,    // La sélection courante (Tag)
+  selection: null,   // La sélection courante (Tag)
   selections: [],   // Les sélections (Tag(s))
 
   on_select: function(itag, with_maj){
@@ -15,51 +15,18 @@ const CTags = {
       my.selection = null;
       my.desactiveOnKey();
     } else {
-      if (false == with_maj) {my.desectionne_all()}
+      if (false == with_maj) { my.deselect_all() }
       my.selections.push(itag);
       itag.select();
       my.selection = itag;
-      my.activeOnKey();
     }
   }, // on_select
 
-  desectionne_all: function(){
+  deselect_all: function(){
     var my = this ;
     my.selections.forEach(function(el){el.deselect()})
     my.selections = new Array();
-    my.desactiveOnKey();
-  },
-
-  // Quand on a une sélection, on peut activer les touches propres
-  // aux sélections de tags
-  activeOnKey: function(ev){
-    var my = this ;
-    my.old_on_keypress = window.onkeypress ;
-    window.onkeypress = this.onKeySelection
-  },
-  // Quand on n'a plus de sélection, on désactive les touches propres
-  // aux sélections de tags
-  desactiveOnKey: function(ev){
-    var my = this ;
-    window.on_keypress = my.old_on_keypress ;
-    my.old_on_keypress = null;
-  },
-  // Méthode évènementielle qui reçoit les touches pressées quand il y
-  // a une sélection
-  onKeySelection: function(ev){
-    // console.log('kcode:'+ev.keyCode + ' | charCode:' + ev.charCode + ' | maj: ' + ev.shiftKey);
-    switch (ev.keyCode) {
-      case 37: // left
-        CTags.moveLeftSelection(ev.shiftKey);return stop(ev);
-      case 38: // up
-        CTags.moveUpSelection(ev.shiftKey);return stop(ev);
-      case 39: // right
-        CTags.moveRightSelection(ev.shiftKey);return stop(ev);
-      case 40: // down
-        CTags.moveDownSelection(ev.shiftKey);return stop(ev);
-      default:
-      // Rien pour le moment
-    }
+    my.selection  = null ;
   },
 
   // Méthode appelée quand on veut aligner des éléments
@@ -110,31 +77,37 @@ const CTags = {
   // ---------------------------------------------------------------------
   // Méthode d'action sur la sélection
 
-  moveUpSelection: function(dem) {
-    var   my = this
-        , pas = -10 ;
-    my.changeSelection('y', pas, dem) ;
+  /**
+   * Retourne la valeur du pas en fonction des modifiers qui sont
+   * activés :
+   *  - La touche majuscule aggrandit le pas
+   *  - La touche ALT le diminue
+   */
+  pas_by_modifiers: function(ev){
+    if(ev.shiftKey){
+      return 50 ;
+    } else if (ev.altKey) {
+      return 1 ;
+    } else {
+      return 10 ;
+    }
   },
-  moveDownSelection: function(dem) {
-    var   my = this
-        , pas = 10 ;
-    my.changeSelection('y', pas, dem) ;
+  moveUpSelection: function(ev) {
+    this.changeSelection('y', -this.pas_by_modifiers(ev)) ;
   },
-  moveRightSelection: function(dem) {
-    var   my = this
-        , pas = 10;
-    my.changeSelection('x', pas, dem) ;
+  moveDownSelection: function(ev) {
+    this.changeSelection('y', this.pas_by_modifiers(ev)) ;
   },
-  moveLeftSelection: function(dem) {
-    var   my = this
-        , pas = -10 ;
-    my.changeSelection('x', pas, dem) ;
+  moveRightSelection: function(ev) {
+    this.changeSelection('x', this.pas_by_modifiers(ev)) ;
   },
-  changeSelection: function(prop, value, dem){
+  moveLeftSelection: function(ev) {
+    this.changeSelection('x', -this.pas_by_modifiers(ev)) ;
+  },
+  changeSelection: function(prop, value){
     var my = this;
-    dem = dem ? 5 : 1
     my.selections.forEach(function(itag){
-      itag[prop] += value * dem ;
+      itag[prop] += value ;
       itag.update();
     })
   },
