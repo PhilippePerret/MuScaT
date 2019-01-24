@@ -13,7 +13,7 @@ J'ai mis en place un système très simple de test pour cette application entiè
 
 ## Fonctionnement {#fonctionnement}
 
-Les tests sont chargés directement avec l'application. Mais c'est un nouveau fichier HTML qui est construit, pour ne pas toucher l'application elle-même. Donc, un fichier `test.html` est fabriqué à partir du fichier `partition.html`, en remplaçant la marque `<!-- TEST -->` par les balises script d'inclusion.
+Les tests sont chargés directement avec l'application. Mais c'est un nouveau fichier HTML qui est construit, pour ne pas toucher l'application elle-même. Donc, un fichier `test.html` est fabriqué à partir du fichier `TABLE_ANALYSE.html`, en remplaçant la marque `<!-- TEST -->` par les balises script d'inclusion.
 
 Parmi ces scripts, il y a les scripts `tests/system` qui chargent l'objet `Tests` qui va gérer les tests. Au chargement de la page (à la fin), la méthode `Tests.run` est appelée, qui va lancer tous les tests instanciés.
 

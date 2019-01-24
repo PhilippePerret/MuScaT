@@ -1,9 +1,7 @@
 #!/usr/bin/env ruby
 # encoding: UTF-8
 =begin
-  L'idée ici est de faire un petit module de test.
-
-  Pour le lancer :
+  Pour lancer les tests :
 
     - Se rendre dans ce dossier `utils`
     - jouer `test.rb` ou `test.rb chemin/vers/test/depuis/tests`
@@ -15,8 +13,7 @@ require 'fileutils'
 
 begin
   # Inscription de tous les fichiers de tests (système et tests) dans
-  # le corps de partition.html (renommé 'test.html')
-  PARTITION_PATH  = File.expand_path('../_table_analyse_/partition.html')
+  # le corps de TABLE_ANALYSE.html (renommé 'test.html')
   TEST_FILE_PATH  = File.expand_path('../_table_analyse_/test.html')
   FOLDER_TESTS    = File.expand_path('../_table_analyse_/tests')
 

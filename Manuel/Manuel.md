@@ -138,7 +138,7 @@ Pour se faire, il faudra certainement détruire le dossier `analyse` qui se trou
 
 Les heureux possesseurs de Mac ont un script qui permet d'activer très simplement n'importe quelle analyse. Il suffit de jouer `./utils/analyse.rb` lorsqu'on se trouve dans le dossier de **MuScaT** ou simplement `analyse.rb` si on se trouve dans le dossier `MuScaT/utils/`.
 
-Pour les autres, il faut donc faire une duplication du dossier `analyse`, la placer dans le dossier `_table_analyse_` et enfin ouvrir le fichier `_table_analyse_/partition.html` dans un navigateur internet pour travailler l'analyse (Firefox est le meilleur choix, pour **MuScaT**).
+Pour les autres, il faut donc faire une duplication du dossier `analyse`, la placer dans le dossier `_table_analyse_` et enfin ouvrir le fichier `_table_analyse_/TABLE_ANALYSE.html` dans un navigateur internet pour travailler l'analyse (Firefox est le meilleur choix, pour **MuScaT**).
 
 On peut placer les éléments aux bons endroits simplement en les déplaçant à la souris, ou avec les flèches de son clavier. On peut en ajouter des nouveaux en dupliquant les lignes de code ou les ajoutant explicitement dans le code.
 
@@ -591,7 +591,7 @@ On insert la première dans le code du fichier `tags.js`, avec l'option `crop im
 
 ```
 
-On ouvre le fichier `partition.html` dans Firefox.
+On ouvre le fichier `TABLE_ANALYSE.html` dans Firefox.
 
 Maintenant, il suffit de sélectionner, à la souris, la zone de l'image à prendre puis de coller le code du presse-papier dans la console du Terminal. Puis de jouer ce code.
 

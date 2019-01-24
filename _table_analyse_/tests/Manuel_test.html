@@ -90,7 +90,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 id="introduction">Introduction</h2>
 <p>J’ai mis en place un système très simple de test pour cette application entièrement en javascript.</p>
 <h2 id="fonctionnement">Fonctionnement</h2>
-<p>Les tests sont chargés directement avec l’application. Mais c’est un nouveau fichier HTML qui est construit, pour ne pas toucher l’application elle-même. Donc, un fichier <code>test.html</code> est fabriqué à partir du fichier <code>partition.html</code>, en remplaçant la marque <code>&lt;!-- TEST --&gt;</code> par les balises script d’inclusion.</p>
+<p>Les tests sont chargés directement avec l’application. Mais c’est un nouveau fichier HTML qui est construit, pour ne pas toucher l’application elle-même. Donc, un fichier <code>test.html</code> est fabriqué à partir du fichier <code>TABLE_ANALYSE.html</code>, en remplaçant la marque <code>&lt;!-- TEST --&gt;</code> par les balises script d’inclusion.</p>
 <p>Parmi ces scripts, il y a les scripts <code>tests/system</code> qui chargent l’objet <code>Tests</code> qui va gérer les tests. Au chargement de la page (à la fin), la méthode <code>Tests.run</code> est appelée, qui va lancer tous les tests instanciés.</p>
 <p>Chaque fichier est une instance de <code>Test</code>, mais on peut très bien imaginer d’avoir plusieurs instances de tets dans le même fichier. Instancier un test consiste à utiliser la méthode <code>new</code> et à définir la méthode <code>run</code> :</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb1-1" title="1"></a>
