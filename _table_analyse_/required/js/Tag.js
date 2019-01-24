@@ -446,7 +446,7 @@ Tag.prototype.recompose = function(){
   aLine.push(my.nature_init) ; // par exemple 'image', line', 'part', 'mesure'
   // Deuxième mot, la source ou le texte, ou rien
   my.src  && aLine.push(my.src) ;
-  my.text && aLine.push(my.text.replace(/ /g,'_')) ;
+  my.text && aLine.push(my.is_comment_line ? my.text : my.text.replace(/ /g,'_')) ;
 
   // L'identifiant
   aLine.push(my.real ? `id=${my.id}` : `#${my.id}#`);
