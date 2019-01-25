@@ -245,16 +245,17 @@ Tag.prototype.update = function(prop, new_value) {
   if(undefined == prop){
     // Appel de la méthode sans argument
     my.updateXY(); // ça fait tout, normalement
+
   } else {
     // Appelé avec un argument, c'est la propriété qu'il faut
     // actualiser
     switch (prop) {
       case 'y':
       case 'top':
-        my.updateY();break;
+        my.updateY(new_value);break;
       case 'x':
       case 'left':
-        my.updateX();break;
+        my.updateX(new_value);break;
       case 'h':
       case 'height':
         my.updateH(new_value);break;
@@ -262,9 +263,9 @@ Tag.prototype.update = function(prop, new_value) {
       case 'width':
         my.updateW(new_value);break;
       case 'text':
-        my.updateText();break;
+        my.updateText(new_value);break;
       case 'src':
-        my.updateSrc();break;
+        my.updateSrc(new_value);break;
       case 'locked':
         my.updateLock(new_value);break;
     }
@@ -307,8 +308,9 @@ Tag.prototype.updateW = function(neww){
   if (my.type == 'modulation'){return F.error(t('no w pour modulation'))};
   this.jqObj.css({'width': this.w}) ;
 }
-Tag.prototype.updateText = function(){
+Tag.prototype.updateText = function(newt){
   var my = ITags[this.domId];
+  if(undefined != newt){ my.text = newt };
   if(my.type == 'modulation'){
     var [t, st] = my.text.split('/');
     my.main_text = t || '' ;
@@ -319,7 +321,8 @@ Tag.prototype.updateText = function(){
     my.domObj.innerHTML = my.text ;
   }
 }
-Tag.prototype.updateSrc = function(){
+Tag.prototype.updateSrc = function(news){
+  if(undefined != news){ this.src = news };
   this.domObj.src = `${IMAGES_FOLDER}/${this.src}` ;
 }
 Tag.prototype.updateLock = function(new_value){
