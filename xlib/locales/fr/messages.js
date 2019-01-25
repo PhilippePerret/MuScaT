@@ -16,6 +16,9 @@ Object.assign(MSG,{
 
   , 'code to run': "Code à jouer en console : %{code} (copié dans le presse-papier)"
 
+  // OPTIONS
+  , 'memo guides offsets': "Dois-je mémoriser la position courante des repères ?"
+
   // ---------------------------------------------------------------------
   //  === ERRORS ===
 

@@ -17,6 +17,10 @@ Object.assign(MSG,{
 
   , 'code to run': "Code to play in Terminal: %{code} (copied in the clipboard)"
 
+  // OPTIONS
+  , 'memo guides offsets': "Must I remember current position of the guide lines?"
+
+
   // ---------------------------------------------------------------------
   //  === ERRORS ===
 

@@ -1,11 +1,9 @@
 # Todo list
 
 * [BUG] Le réglage de la hauteur des modulations ne fonctionne pas
-* [BUG] Les options données sont trop nombreuses
 * [TEST] Options : 'vertical line offset', 600, 'horizontal line offset', 100
 * Pouvoir annuler un déplacement (garder toujours une copie du code initial ou simplement du code qui vient d'être changé — garder l'historique, puisque c'est simple)
-* quand on donne tout le code, donner aussi les coordonnées des repères (si l'option est activée)
-* Traduire tous les textes des scripts (il faut un système spécial comme i18n, mais sans passer par là)
+* Traduire tous les textes des scripts utilitaires (il faut un système spécial comme i18n, mais sans passer par là)
 
 ## Développements futurs
 

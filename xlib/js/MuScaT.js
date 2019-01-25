@@ -375,13 +375,13 @@ const MuScaT = {
    * Méthode qui affecte les indices de lignes et les identifiants (aux
    * nouvelles lignes)
    */
-  set_ids_and_index: function(){
-    var my = this ;
-    my.onEachTag(function(itag, idx){
-      itag.index_line = idx ;
-      if(itag.id == null){ itag.id = ++ my.last_tag_id };
-    });
-  },
+  , set_ids_and_index: function(){
+      var my = this ;
+      my.onEachTag(function(itag, idx){
+        itag.index_line = idx ;
+        if(itag.id == null){ itag.id = ++ my.last_tag_id };
+      });
+    }
 
   /**
    * Méthode qui construit les tags sur la table
@@ -389,106 +389,109 @@ const MuScaT = {
    * Note les watchers ne sont pas placés, ici, car ils le seront
    * d'un seul coup (cette méthode est seulement appelée par load)
    */
-  build_tags: function(){
-    var my = this ;
-    my.onEachTag(function(itag){
-      my.lines.push(itag.to_line()) ; // p.e. ajout de l'id
-      if(itag.real){itag.build()};
-    });
-  },
+  , build_tags: function(){
+      var my = this ;
+      my.onEachTag(function(itag){
+        my.lines.push(itag.to_line()) ; // p.e. ajout de l'id
+        if(itag.real){itag.build()};
+      });
+    }
 
-  prepare_crop_image: function(){
-    itag = ITags['obj1'];
-    itag.x = 0 ; itag.y = 0 ; itag.update();
-    itag.jqObj.css({'position': 'absolute', 'top': 0, 'left': 0});
-    message(t('crop image ready'));
-    this.set_observers_mode_crop();
-    // Pour indicer chaque image
-    my.indice_cropped_image = 0 ;
-  },
+  , prepare_crop_image: function(){
+      itag = ITags['obj1'];
+      itag.x = 0 ; itag.y = 0 ; itag.update();
+      itag.jqObj.css({'position': 'absolute', 'top': 0, 'left': 0});
+      message(t('crop image ready'));
+      this.set_observers_mode_crop();
+      // Pour indicer chaque image
+      my.indice_cropped_image = 0 ;
+    }
 
   // Méthode qui actualise une ligne de donnée (appelée par une instance
   // Tag après son déplacement, par exemple)
-  update_line: function(idx, new_line) {
-    var   my = this ;
-    my.lines[idx] = new_line ;
-    // On met la nouvelle ligne dans le clipboard pour la copier-coller
-    navigator.clipboard.writeText(new_line + RC) ;
-    // On l'actualise immédiatement dans le champ de saisie
-    my.update_code();
-  },
-
-  // Méthode qui insert une nouvelle ligne de donnée (lorsqu'il y a copie)
-  insert_line: function(itag){
-    var   my = this
-        , idx = itag.index_line
-        , new_line = itag.to_line()
-
-    if (idx == -1) {
-      my.lines.push(new_line);
-      my.tags.push(itag)
-      idx = my.tags.length - 1 ;
-      itag.index_line = idx ;
-      console.log(`Ligne insérée : "${new_line}" à la fin`);
-    } else {
-      my.lines.splice(idx, 0, new_line) ;
-      my.tags.splice(idx, 0, itag);
-      console.log(`Ligne insérée : "${new_line}" à l'index ${idx}`);
-
-      // Après l'insertion d'une nouvelle ligne, il faut modifier l'index
-      // de tous les tags suivants
-      var i   = idx + 1
-        , len = my.tags.length
-        ;
-      for(i;i<len;++i ){
-        var tg = my.tags[i] ;
-        console.log(`- +1 à index de ligne ${tg.index_line} (${tg.to_line()})`);
-        tg.index_line += 1 ;
-      }
-
+  , update_line: function(idx, new_line) {
+      var   my = this ;
+      my.lines[idx] = new_line ;
+      // On met la nouvelle ligne dans le clipboard pour la copier-coller
+      navigator.clipboard.writeText(new_line + RC) ;
+      // On l'actualise immédiatement dans le champ de saisie
+      my.update_code();
     }
 
-    // On met la nouvelle ligne dans le clipboard pour la copier-coller
-    navigator.clipboard.writeText(new_line + RC) ;
+  // Méthode qui insert une nouvelle ligne de donnée (lorsqu'il y a copie)
+  , insert_line: function(itag){
+      var   my = this
+          , idx = itag.index_line
+          , new_line = itag.to_line()
 
-    // On l'actualise immédiatement dans le champ de saisie
-    my.update_code() ;
-  },
+      if (idx == -1) {
+        my.lines.push(new_line);
+        my.tags.push(itag)
+        idx = my.tags.length - 1 ;
+        itag.index_line = idx ;
+        console.log(`Ligne insérée : "${new_line}" à la fin`);
+      } else {
+        my.lines.splice(idx, 0, new_line) ;
+        my.tags.splice(idx, 0, itag);
+        console.log(`Ligne insérée : "${new_line}" à l'index ${idx}`);
 
-  update_code: function(){
-    var my = this ;
-    my.codeField().value = my.full_code() ;
-  },
+        // Après l'insertion d'une nouvelle ligne, il faut modifier l'index
+        // de tous les tags suivants
+        var i   = idx + 1
+          , len = my.tags.length
+          ;
+        for(i;i<len;++i ){
+          var tg = my.tags[i] ;
+          console.log(`- +1 à index de ligne ${tg.index_line} (${tg.to_line()})`);
+          tg.index_line += 1 ;
+        }
+
+      }
+
+      // On met la nouvelle ligne dans le clipboard pour la copier-coller
+      navigator.clipboard.writeText(new_line + RC) ;
+
+      // On l'actualise immédiatement dans le champ de saisie
+      my.update_code() ;
+    }
+
+  , update_code: function(){
+      var my = this ;
+      my.codeField().value = my.full_code() ;
+    }
 
   // Retourne le code entier du fichier tags.js, mais sans "Tags = `"
-  full_code: function(){
-    var my = this ;
-    var str_code = my.lines.join(RC) ;
-    return str_code ;
-  },
+  , full_code: function(){
+      var my = this ;
+      var str_code = my.lines.join(RC) ;
+      return str_code ;
+    }
 
-  // Retourne le code entier du fichier tags.js, même avec "Tags ="
-  // et les options définies
-  very_full_code: function(){
-    return Options.to_tags_js() + 'Tags = `'+ RC + this.full_code() + RC + '`;'
-  },
+  /**
+   * Construit (de façon asychrone) le code complet du fichier tags.js
+   */
+  , build_very_full_code: function(options_to_tags_js){
+      var my = this ;
+      if (undefined === options_to_tags_js){
+        return Options.to_tags_js();
+      };
+      var vfc = options_to_tags_js + 'Tags = `'+ RC + this.full_code() + RC + '`;' ;
+      navigator.clipboard.writeText(vfc);
+    }
 
-  codeField: function(){
-    return document.getElementById('codeSource');
-  },
+  , codeField: function(){
+      return document.getElementById('codeSource');
+    }
 
   // Méthode appelée par le bouton pour afficher le code source
   // On met le code dans un champ de saisie (et dans le clipboard) pour
   // qu'il soit copié-collé
-  show_code: function(message){
+  , show_code: function(message){
     var my = this ;
     if (!message){message = t('full code in clipboard')};
     F.notice(message);
-
-    navigator.clipboard.writeText(my.very_full_code() + RC) ;
-
+    my.build_very_full_code();
   },
-
 
   // ---------------------------------------------------------------------
   // Méthodes fonctionnelles

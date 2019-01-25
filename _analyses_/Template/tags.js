@@ -1,5 +1,6 @@
 option('code', 'guides');
 option('lang', 'fr');
+option('vertical line offset', 200);
 Tags = `
 sco sonate_haydn-0.png id=1 x=50 y=100
 sco sonate_haydn-1.png id=2 x=62 y=384

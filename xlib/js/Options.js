@@ -106,12 +106,37 @@ const Options = {
 
   // Construit et retourne le texte qui doit être inscrit dans le
   // code de tags.js
-  to_tags_js: function(){
+  to_tags_js: function(memo_guides){
     var   my = this
         , opts = new Array()
         , opt
         , val
         ;
+    // Dans le cas spécial des repères, on demande s'il faut prendre
+    // la nouvelle position ou garder l'ancienne
+    if (undefined === memo_guides){
+      opt_vline = OPTIONS['vertical line offset'].value ;
+      opt_hline = OPTIONS['horizontal line offset'].value ;
+      if (opt_vline || opt_hline){
+        cur_vline = $('#refline_v').offset().top  ;
+        cur_hline = $('#refline_h').offset().left ;
+        req_vline = opt_vline && opt_vline != cur_vline ;
+        req_hline = opt_hline && opt_hline != cur_hline ;
+        if (req_vline || req_hline){
+          dask = {
+            onOK: $.proxy(my, 'to_tags_js', true),
+            onCancel: $.proxy(my, 'to_tags_js', false)
+          }
+          F.ask(t('memo guides offsets'), dask);
+          return ; // en attendant de revenir
+        }
+      }
+    } else {
+      if (memo_guides === true){
+        OPTIONS['vertical line offset'].value = $('#refline_v').offset().top;
+        OPTIONS['horizontal line offset'].value = $('#refline_h').offset().left;
+      }
+    }
     for(opt in OPTIONS){
       if(OPTIONS[opt].aka){continue};
       if(OPTIONS[opt].boolean){
@@ -126,7 +151,7 @@ const Options = {
     } else {
       opts = '' ;
     };
-    return opts ;
+    M.build_very_full_code(opts); // ~asynchrone
   },
 
   // Pour remettre toutes les options à false (utile pour les tests)

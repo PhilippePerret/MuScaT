@@ -136,8 +136,6 @@ const Page = {
 
    },
 
-
-
    assure_lines_draggable: function(){
      $('#refline_h').css('position','fixed');
      $('#refline_v').css('position','fixed');
