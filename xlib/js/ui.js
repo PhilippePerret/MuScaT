@@ -21,6 +21,9 @@ const UI = {
     if(CTags.selections.length > 1){
       // Pour tous les champs/textes qui en ont besoin
       $('.selected_count').text(CTags.selections.length);
+      // Pour le verbe grouper ou dégrouper, suivant que la sélection est
+      // grouper ou non
+      $('#verbe_grouper').text(CTags.selections[0].group ? 'Dégrouper' : 'Grouper');
       // Pour 'l'alignement
       $('#fs_alignment').removeClass('undisplayed');
       // Pour le regroupement

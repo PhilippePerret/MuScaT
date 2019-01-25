@@ -96,21 +96,16 @@ const CTags = {
 
   /**
    * Méthode appelée par le bouton outil "Grouper", quand il y a plusieurs
-   * sélections, pour les groupes
+   * sélections, pour les grouper ou les dégrouper.
    */
   grouper_selected: function(){
     UI.hide_tools();
-    // Il faut voir d'abord si aucun n'élément n'appartient à un groupe
-    var stop = false ;
-    this.onEachSelected(function(itag){
-      if(itag.group != null){
-        F.error("Impossible de grouper ces éléments. Certains sont déjà groupés.")
-        stop = true ;
-      }
-    });
-    if(stop){return;};
-    var new_group = new TagsGroup();
-    this.onEachSelected(function(itag){itag.add_in_group(new_group)});
+    if ( !this.selections[0].group ) {
+      var new_group = new TagsGroup();
+      this.onEachSelected(function(itag){itag.add_in_group(new_group)});
+    } else {
+      this.selections[0].group.ungroup();
+    }
   },
 
   /**

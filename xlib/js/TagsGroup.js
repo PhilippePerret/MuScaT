@@ -27,3 +27,11 @@ TagsGroup.prototype.remove_tag = function(itag){
   }
   my.tags = newtags ;
 };
+/**
+ * Pour dégrouper les éléments
+ */
+TagsGroup.prototype.ungroup = function(){
+  var my = this, itag ;
+  my.onEachTag(function(itag){itag.ungroup()});
+  delete TagsGroups.groups[my.id];
+};

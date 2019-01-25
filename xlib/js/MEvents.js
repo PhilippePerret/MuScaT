@@ -8,6 +8,13 @@
 const MEvents = {
 
   /**
+   * Pour écrire en console les données importantes de l'évènement
+   * keypress
+   */
+  console_key: function(ev){
+    console.log(`keyCode:${ev.keyCode} | charCode:${ev.charCode} | which:${ev.which}`);
+  },
+  /**
    * Gestionnaire général des touches.
    * Normalement, on ne devrait faire appel qu'à lui, quelle que soit
    * la circonstance.
@@ -59,21 +66,31 @@ const MEvents = {
    */
   onkeypress_with_selection: function(ev){
     // console.log('-> onkeypress_with_selection');
-    switch (ev.keyCode) {
-      case 37: // left
+    if ( ev.metaKey ){
+      switch(ev.charCode){
+        case 103: // CMD G => Grouper/dégropuer
+          CTags.grouper_selected();return stop(ev);
+          break;
+        default:
+          this.console_key(ev);
+      }
+    } else {
+      switch (ev.keyCode) {
+        case 37: // left
         CTags.moveLeftSelection(ev);return stop(ev);
-      case 38: // up
+        case 38: // up
         CTags.moveUpSelection(ev);return stop(ev);
-      case 39: // right
+        case 39: // right
         CTags.moveRightSelection(ev);return stop(ev);
-      case 40: // down
+        case 40: // down
         CTags.moveDownSelection(ev);return stop(ev);
-      case 8:  // ERASE
+        case 8:  // ERASE
         CTags.ask_for_erase(ev);return stop(ev);
-      default:
-      // Rien pour le moment
-      // console.log(`keyCode:${ev.keyCode} | charCode:${ev.charCode} | which:${ev.which}`);
-    };
+        default:
+        // Rien pour le moment
+          this.console_key(ev);
+      };
+    }
     return true ;
   },
 

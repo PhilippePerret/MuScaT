@@ -637,9 +637,8 @@ Tag.prototype.add_in_group = function(igroup) {
   my.jqObj.addClass('grouped');
   igroup.tags.push(my);
 };
-Tag.prototype.remove_from_group = function(){
+Tag.prototype.ungroup = function(){
   var my = ITags[this.domId];
-  my.group.remove_tag(my);
   my.group = null ;
   my.jqObj.removeClass('grouped');
 };

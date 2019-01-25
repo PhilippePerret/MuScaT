@@ -33,7 +33,6 @@ Elle est semi-graphique, et permet d'ajuster très finement les TAGs — au pix
 * [Synopsis général de création d'une analyse](#synopsis_fabrication)
 * [Synopsis détaillé](#synopsis_detailled)
 * [L'interface](#user_interface)
-  * [La boite à outils](#toolbox)
 * [Composition d'un tag](#composition_dun_tag)
 * [Les Images](#les_images)
   * [Définition de la taille d'une image](#defining_image_size)
@@ -297,6 +296,30 @@ Enfin, on imprime la page HTML du navigateur en choisissant le format PDF. Sur M
 
 Et voilà, c'est fait ! Et vous pourrez retoucher à votre analyse à n'importe quel moment en la remettant en analyse courante.
 
+---
+
+## L'interface {#user_interface}
+
+* [La boite à outils](#toolbox)
+* [Le champ de code](#code_field)
+
+Voyons un peu de quoi est constitué l'interface de **MuScaT**, que nous appelons la « table d'analyse ».
+
+Cette table, c'est déjà la surface de la page elle-même.
+
+### La boite à outils {#toolbox}
+
+Sur la gauche en haut de l'écran, on trouve un petit picto qui permet d'ouvrir la boite à outils.
+
+![Picto de la boite à outils](img/picto_toolbox.png)
+
+### Le champ de code {#code_field}
+
+Si [l'option `guides`](#option_line_of_reference) est activée, un champ de code est ouvert à droite de la page, contenant le code défini dans votre fichier `tags.js` (seulement celui dans `Tags`, pas le code intégral).
+
+
+
+---
 
 ## Composition d'un tag {#composition_dun_tag}
 
@@ -343,7 +366,7 @@ Tags = `
 
 ```
 
-L'intégralité des natures d'éléments [est détaillé ici](#natures).
+L'intégralité des natures de TAG [est détaillé ici](#natures).
 
 Vous observerez que tout de suite après la création, un identifiant est ajouté à toutes les lignes, mêmes les lignes vides. Il contient de ne pas y toucher, sous peine de voir son travail réduit à néant.
 
@@ -351,7 +374,7 @@ Ainsi, le code ci-dessous, au final, donnera :
 
 ```javascript
 
-  # Contenu intégral du fichier tags.js
+  // Contenu intégral du fichier tags.js
   option('code'); // pour voir ce code à côté de la partition
 
   Tags = `
@@ -386,14 +409,14 @@ Par exemple, pour une *modulation* vers la tonalité de SOL mineur (G min.) qui 
 
 ## Les Images {#les_images}
 
-Il existe trois mots clés pour indiquer la nature d'une image, mais ils sont identiques en réalité : `image`, `score` ou `partition`. C'est le premier mot à trouver sur la ligne d'une image. Juste après, on doit trouver le nom de cette image, ou son chemin relatif depuis le dossier `image` du dossier de votre analyse.
+Il existe trois mots clés pour indiquer la nature d'une image, mais ils sont identiques en réalité : `image`, `score` ou `partition`. C'est le premier mot à trouver sur la ligne d'une image. Juste après, on doit trouver le nom de cette image, ou son chemin relatif depuis le dossier `images` du dossier de l'analyse.
 
 ```
-  partition haydn/premier_mouvement.png [...]
+  partition premier_mouvement/image-12.png [...]
 
 ```
 
-Ci-dessus, l'image `premier_mouvement.png` doit donc se trouver dans le dossier `./analyse/images/haydn/` de votre dossier d'analyse.
+Ci-dessus, l'image `image-12.png` doit donc se trouver dans le dossier `MuScaT/_analyses_/<mon analyse>/images/premier_mouvement/`.
 
 ### Définition de la taille d'une image {#defining_image_size}
 
@@ -470,11 +493,10 @@ Astuce : si votre écran et assez grand et que vous adoptez [l'option `code besi
 
 ## Nature des tags {#natures}
 
-Détaillons toutes les natures de TAGs qu'on peut trouver.
+Détaillons toutes les natures de TAGs qu'on peut utiliser.
 
 Dans la ligne, le premier mot définit la `<nature>` du tag.
 
-Cette nature peut être (note : les deux mots, français et anglais, sont utilisables) :
 
 ```
   partition     `image <source> x=... y=... z=...`
@@ -522,7 +544,7 @@ Cette nature peut être (note : les deux mots, français et anglais, sont utilis
 
 ### Contenu du tag (second mot) {#second_mot}
 
-Le seconde « mot » définit le plus souvent le contenu textuel ou, pour les images, le nom du fichier dans le dossier `analyse/images`. C'est aussi, souvent, un accord ou son chiffrage.
+Le seconde « mot » définit le plus souvent le contenu textuel ou, pour les images, le nom du fichier dans le dossier `images` de l'analyse. C'est aussi, souvent, un accord ou son chiffrage.
 
 On peut par exemple écrire un texte quelconque à une position quelconque avec la ligne :
 
@@ -545,18 +567,18 @@ Les deux autres informations capitales sont les positions verticale et horizonta
 
 NOTE IMPORTANTE : dans votre fichier `tags.js`, ces valeurs peuvent dans un premier temps être approximatives, et seront affinées directement à l'écran.
 
-On définit position verticale avec `y=` et la position horizontale avec `x=`, comme nous l'avons vu dans les exemples précédents. Le nombre est exprimé en pixels.
+On définit la position verticale avec `y=` et la position horizontale avec `x=`, comme nous l'avons vu dans les exemples précédents. Le nombre est exprimé en pixels.
 
-Pour les lignes et les cadences par exemple, on peut définir aussi la largeur avec la lettre « w » qui signifie « width » (largeur) en anglais : `w=200`. Le nombre correspond là aussi au nombre de pixels.
+Pour les lignes et les cadences par exemple, on peut définir aussi la largeur avec la lettre « w » qui signifie « width » (largeur) en anglais : `w=200`. Le nombre correspond là aussi au nombre de pixels, mais il peut être exprimé avec une autre unité, notamment le pourcentage — ce qui n'est pas possible avec `x` et `y`.
 
 Ensuite, on peut définir certaines choses comme le « type » du tag. On l'a vu pour la cadence, par exemple. Les autres tags pouvant définir leur type sont le `texte` ou la `ligne` (bien que la `ligne` se définit plutôt par son contenu).
 
 
 ### Écrire des textes {#write_texts}
 
-Ce que l'on appelle les « textes », ici, ce sont tous les textes hors des accords, modulations, chiffrage, etc. Ce sont vraiment des textes qu'on peut placer n'importe où. À commencer pour définir les parties de l'ouvrage (« Introduction », « Coda », etc.).
+Ce que l'on appelle les « textes », ici, ce sont tous les textes hors des accords, modulations, chiffrage, etc. Ce sont vraiment des textes qu'on peut placer n'importe où. À commencer par la définition des grandes parties de la pièce (« Introduction », « Coda », etc.).
 
-Dans un texte, il est impérative de remplacer toutes les espaces par des traits plats (on les obtient, sur mac, à l'aide de Maj+tiret).
+Dans un texte, il est impératif de remplacer toutes les espaces par des traits plats (on les obtient, sur mac, à l'aide de Maj+tiret).
 
 Par exemple, pour écrire sur la partition :
 
@@ -566,47 +588,18 @@ Par exemple, pour écrire sur la partition :
 
 ```
 
-Il faut définir la ligne :
+Il faut impérativement définir la ligne :
 
 ```
 
-    ligne Premier_couplet type=partie y= 50 x=200
+    texte Premier_couplet y= 50 x=200
 
 ```
 
-Note : ici, c'est le type `partie` qui fera que le texte s'écrit de travers, dans une boite.
-
----
-
-## Opérations sur les tags {#operation_on_tags}
-
-### Verrouillage des tags {#lock_tags}
-
-On peut « verrouiller » un TAG, c'est-à-dire empêcher totalement ses modifications, aussi bien sa position que son contenu, en ajoutant un astérisque, un rond (ALT #) ou même un 🔒 au tout début de sa ligne (suivi ou non par une espace).
-
-**MuScaT** ajoutera un vrai cadenas (🔒) qui rendra ce verrouillage très visuel.
-
-Une fois verrouillé, le TAG ne peut plus être déplacé à la souris. En revanche, il peut tout à fait être modifiée dans le code (sa position, son contenu, etc) pour un ajustement très précis.
-
-Pour deverrouiller un TAG et le rendre à nouveau mobile, il suffit tout simplement de retirer cette marque de verrouillage dans le code.
-
-### Grouper et dégrouper des tags {#grouper_tags}
-
-« Grouper » des tags permet de les considérer comme un seul élément. On peut de cette manière les déplacer ensemble ou les supprimer tous ensemble.
-
-Pour grouper :
-
-* sélectionner les TAGs les uns après les autres en maintenant la touche MAJ appuyée,
-* activer le bouton « Grouper les x tags sélectionnés » dans [la boite d'outils](#toolbox) ou jouez la combinaison clavier CMD G (Ctrl G sur Windows)
-
-Pour dégrouper :
-
-* sélectionner un groupe en sélectionnant un de ses éléments
-* activer le bouton « Dégrouper les tags » dans [la boite d'outils](#toolbox) ou jouez la combinaison clavier CMD G (Ctrl G sur Windows).
-
----
 
 ## Les types de textes {#types_de_textes}
+
+En dehors des textes « normaux » ou simples, on peut utiliser :
 
 * [Les parties](#type_texte_partie)
 * [Les modulations](#type_texte_modulation)
@@ -671,6 +664,39 @@ Le premier élément définit le `type` de la ligne. On trouve les types suivant
 
 On peut ensuite définir sa taille et sa position avec les lettres habituelles `x` (position horizontale), `y` (position verticale) et `w` (largeur en pixels).
 
+
+---
+
+## Opérations sur les tags {#operation_on_tags}
+
+* [Verrouiller les tags](#lock_tags)
+* [Grouper et dégrouper des tags](#grouper_tags)
+
+### Verrouillage des tags {#lock_tags}
+
+On peut « verrouiller » un TAG, c'est-à-dire empêcher totalement ses modifications, aussi bien sa position que son contenu, en ajoutant un astérisque, un rond (ALT #) ou même un 🔒 au tout début de sa ligne (suivi ou non par une espace).
+
+**MuScaT** ajoutera un vrai cadenas (🔒) qui rendra ce verrouillage très visuel.
+
+Une fois verrouillé, le TAG ne peut plus être déplacé à la souris. En revanche, il peut tout à fait être modifiée dans le code (sa position, son contenu, etc) pour un ajustement très précis.
+
+Pour deverrouiller un TAG et le rendre à nouveau mobile, il suffit tout simplement de retirer cette marque de verrouillage dans le code.
+
+### Grouper et dégrouper des tags {#grouper_tags}
+
+« Grouper » des tags permet de les considérer comme un seul élément. On peut de cette manière les déplacer ensemble ou les supprimer tous ensemble.
+
+Pour grouper :
+
+* sélectionner les TAGs les uns après les autres en maintenant la touche MAJ appuyée,
+* activer le bouton « Grouper les x tags sélectionnés » dans [la boite à outils](#toolbox) ou jouez la combinaison clavier CMD G (Ctrl G sur Windows)
+
+Pour dégrouper :
+
+* sélectionner un groupe en sélectionnant un de ses éléments
+* activer le bouton « Dégrouper les tags » dans [la boite à outils](#toolbox) ou jouez la combinaison clavier CMD G (Ctrl G sur Windows).
+
+---
 
 ## Procédure de découpage de la partition {#procedure_crop_partition}
 
@@ -845,7 +871,7 @@ Cette option fait passer dans un mode d'utilisation qui va permettre de découpe
 
 ### Option « lignes de repère » {#option_line_of_reference}
 
-Option : `repères`, `reperes`, `lines of reference`
+Option : `repères`, `reperes`, `lines of reference`, `guides`
 
 Type : booléen
 
@@ -947,18 +973,20 @@ Ce script, qui se trouve dans le dossier `utils` de l'application, permet de ren
 Pour utiliser ce script :
 
 * ouvrir l'application Terminal,
-* rejoindre (commande `cd`) le dossier de l'application MuScaT (ATTENTION : ça n'est pas le dossier de l'analyse, ici, c'est bien le dossier de l'application),
+* rejoindre (commande `cd`) le dossier de l'application MuScaT,
 * se placer dans le dossier utilitaires (`cd utils`)
 * taper `./rename_images.rb -h` et la touche Entrée pour tout savoir du script.
 
+> Noter que l'option `-h` ou `--help` permet toujours d'obtenir l'aide.
+
 ### Changement du dossier des captures écran (Mac) {#utils_change_captures_folder}
 
-Par défaut, les captures d'écran sont enregistrés sur le bureau. Ça n'est pas gênant en soit, il suffit de les glisser ensuite dans le dossier `image` de l'analyse. Mais si on veut encore gagner du temps, ce script permet de changer le dossier de destination.
+Par défaut, les captures d'écran sont enregistrés sur le bureau. Ça n'est pas gênant en soit, il suffit de les glisser ensuite dans le dossier `images` de l'analyse. Mais si on veut encore gagner du temps, ce script permet de changer le dossier de destination.
 
 Voici la procédure :
 
 * ouvrir l'application Terminal,
-* rejoindre (commande `cd`) le dossier `utils` de l'application MuScaT (ATTENTION : ça n'est pas le dossier de l'analyse, ici, c'est bien le dossier de l'application),
+* rejoindre (commande `cd`) le dossier `utils` de l'application MuScaT,
 * taper `./change_folder_captures.rb -h` et la touche Entrée pour tout savoir du script.
 
 Pour remettre la valeur par défaut (le bureau), jouer simplement `./utils/change_folder_captures.rb` sans aucun autre argument.
@@ -992,7 +1020,18 @@ Le script `analyse.rb` permet d'activer une analyse se trouvant dans le dossier 
 
 Pour aller plus loin, si vous êtes sur Mac et que vous vous sentez à l'aise avec le Terminal, vous pouvez créer un alias dans votre `profil bash` pour ne pas avoir à rejoindre chaque fois le dossier de l'application et même utiliser les commandes plus simplement.
 
-Il vous suffit pour ça d'éditer votre fichier et d'ajouter la ligne `alias mus="/path/to/dossier/MuScat/utils"` en remplaçant "mus" par le mot que vous voudrez et "/path/to_dossier" par le chemin d'accès réel à votre dossier MuScaT.
+Grâce à cet alias, vous pouvez jouer tous les scripts ci-dessus sans autre forme de procès. Par exemple, si vous utilisez l'alias `mus`, alors il suffit d'ouvrir une nouvelle fenêtre de Terminal et de taper :
+
+```bash
+
+> mus analyse "Ma_Dernière_analyse"
+
+```
+
+… pour ouvrir cette analyse.
+
+
+Pour créer cet alias, il suffit d'éditer le fichier de profil bash et d'ajouter la ligne `alias mus="/path/to/dossier/MuScat/utils"` en remplaçant "mus" par le mot que vous voudrez et "/path/to_dossier" par le chemin d'accès réel à votre dossier MuScaT.
 
 Chez moi, cela revient à faire :
 
@@ -1022,4 +1061,4 @@ mus analyse "Analyse Sonate Haydn"
 
 ```
 
-… pour ouvrir l'analyse « Analyse Sonate Haydn»
+… pour ouvrir l'analyse « Analyse Sonate Haydn».

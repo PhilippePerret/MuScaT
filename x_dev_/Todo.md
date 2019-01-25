@@ -1,6 +1,7 @@
 # Todo list
 
 * [BUG] Le réglage de la hauteur des modulations ne fonctionne pas
+* Remettre les tests en place (peut-être faire chaque fois une copie du dossier test à la racine pour ne pas avoir à la voir dans le dossier principal)
 * [TEST] Options : 'vertical line offset', 600, 'horizontal line offset', 100
 * Modifier les scripts pour tenir compte des modifications
 * Mettre en place le dégroupement des tags
