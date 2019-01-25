@@ -470,28 +470,7 @@ const MuScaT = {
   // Retourne le code entier du fichier tags.js, même avec "Tags ="
   // et les options définies
   very_full_code: function(){
-    var   my = this
-        , opts = new Array()
-        , opt ;
-    for(opt in OPTIONS){
-      if (!OPTIONS[opt].aka){
-        if(OPTIONS[opt].boolean){
-          if (OPTIONS[opt].value) {opts.push("'" + opt + "'")};
-        } else {
-          var val = OPTIONS[opt].value ;
-          if ('string' == typeof(val)){ val= "'"+val+"'"}
-          opts.push("'" + opt + "', " + val);
-        }
-
-      };
-    };
-    if (opts.length){
-      opts = 'options(' + opts.join(', ') + ') ;' + RC ;
-    } else {
-      opts = '' ;
-    };
-    // Le code complet re-composé
-    return opts + 'Tags = `'+ RC + my.full_code() + RC + '`;'
+    return Options.to_tags_js() + 'Tags = `'+ RC + this.full_code() + RC + '`;'
   },
 
   codeField: function(){

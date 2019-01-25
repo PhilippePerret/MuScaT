@@ -104,6 +104,31 @@ const Options = {
     }
   },
 
+  // Construit et retourne le texte qui doit être inscrit dans le
+  // code de tags.js
+  to_tags_js: function(){
+    var   my = this
+        , opts = new Array()
+        , opt
+        , val
+        ;
+    for(opt in OPTIONS){
+      if(OPTIONS[opt].aka){continue};
+      if(OPTIONS[opt].boolean){
+        if (OPTIONS[opt].value) {opts.push("'" + opt + "'")};
+      } else if (val = OPTIONS[opt].value) {
+        if ('string' == typeof(val)){ val= "'"+val+"'"}
+        opts.push("'" + opt + "', " + val);
+      };
+    };
+    if (opts.length){
+      opts = 'options(' + opts.join(', ') + ') ;' + RC + RC ;
+    } else {
+      opts = '' ;
+    };
+    return opts ;
+  },
+
   // Pour remettre toutes les options à false (utile pour les tests)
   reset: function(){
     for(var k in OPTIONS){
