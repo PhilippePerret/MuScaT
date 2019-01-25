@@ -2,11 +2,10 @@
 # encoding: UTF-8
 
 
-APPFOLDER       = File.expand_path(File.dirname(__dir__))
-ANALYSES_FOLDER = File.join(APPFOLDER,'_analyses_')
-TABLE_FOLDER    = File.join(APPFOLDER, '_table_analyse_')
-CURRENT_ANALYSE_FOLDER = File.join(TABLE_FOLDER,'analyse')
-PARTITION_PATH  = File.join(TABLE_FOLDER, 'TABLE_ANALYSE.html')
+APPFOLDER         = File.expand_path(File.dirname(__dir__))
+ANALYSES_FOLDER   = File.join(APPFOLDER,'_analyses_')
+PARTITION_PATH    = File.join(APPFOLDER,'_TABLE_ANALYSE_.html')
+CUR_ANALYSE_FILE  = File.join(APPFOLDER,'analyse.js')
 
 
 class String

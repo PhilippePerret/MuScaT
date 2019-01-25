@@ -687,6 +687,7 @@ Ce mode d'emploi n'étant pas destiné à maitriser Gimp, je vous renvoie au man
 
 ## Options {#all_options}
 
+* [Options de la langue](#choix_langue)
 * [Option « code à côté »](#option_code_beside)
 * [Option « découpe image »](#option_crop_image)
 * [Option « lignes de repère »](#option_line_of_reference)
@@ -738,6 +739,14 @@ Dans les arguments de la méthode `option`, la valeur des options non booléenne
   option('marge haut', 100);
 
 ```
+
+### Option « langue » {#choix_langue}
+
+Option : `lang`, `langue`
+
+Type : les deux lettres de la langue, par exemple `fr` (français) ou `en` (anglais).
+
+Pour définir la langue parlée par l'application. Pour le moment, l'application ne sait que parler français et anglais, mais nous espérons rapidement voir d'autres langues se développer. Avis aux amateurs traducteurs même inexpérimentés !
 
 ### Option « code à côté » {#option_code_beside}
 

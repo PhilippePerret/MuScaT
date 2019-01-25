@@ -45,6 +45,37 @@ const MuScaT = {
     for(i;i<len;++i){method(this.lines[i])};
   },
 
+  /**
+   * Cette méthode est appelée par toutes celles qui lancent des chargements,
+   * à commencer par le chargement des langues et de l'analyse courante.
+   * Une fois que tout est OK, la méthode lance `start_and_run`
+   * Note : cette méthode fonctionne en parallèle de `loading_error` qui est
+   * appelée en cas d'erreur.
+   */
+  loadings: {'messages': false, 'things': false, 'ui': false, 'analyse': false, count: 4},
+  test_if_ready: function(loading_id){
+    this.loadings[loading_id] = true ;
+    -- this.loadings.count ;
+    // On doit d'abord attendre que le fichier tags.js soit chargé, avant
+    // de charger les locales, car elles dépendent de la langue choisie.
+    if(loading_id == 'analyse'){
+      Locales.load();
+    } else if ( this.loadings.count == 0 ){
+      this.start_and_run();
+    }
+  },
+
+  loading_error: function(){
+    F.error(function(){
+      switch(M.lang){
+        case 'en':
+          return 'An error occured. I can’t launch MuScaT, sorry.';
+          break;
+        default:
+          return 'Une erreur fatale est malheureusement survenue. Je ne peux pas lancer MuScaT…';
+        }
+      }());
+  },
 
   // Première méthode appelée par document.ready
   //
@@ -216,11 +247,7 @@ const MuScaT = {
       // Si des lignes ont été créées au cours ud processus,
       // on demande à l'utilisateur de sauver le code
       if (my.motif_lines_added) {
-        my.show_code(`
-  Des lignes de code ont été ajoutées (${my.motif_lines_added}), le nouveau code
-  a été copié dans le presse-papier pour pouvoir être collé dans votre fichier
-  tags.js.
-        `);
+        my.show_code(t('code lines added', {motif: my.motif_lines_added}));
       }
     }
 
@@ -316,7 +343,7 @@ const MuScaT = {
       data_img.y += voffset ;
       lines_finales.push(bef_name + i + suffix + my.data_in_line_to_str(data_img));
     };
-    M.motif_lines_added = 'images fournies par expression régulière';
+    M.motif_lines_added = t('image-sequentielle');
   },
 
   // Reçoit {x: 120, y: 130} et retourne " x=120 y=130"
@@ -651,7 +678,13 @@ const MuScaT = {
     // console.log(x + ' / ' + y);
     return stop(ev);
   },
-}
+};
+Object.defineProperties(MuScaT,{
+  // Langue de l'application
+  lang:{
+    get: function(){ return Options.get('lang').toLowerCase() } // 'fr par défaut'
+  }
+})
 
 // Alias
 const M = MuScaT ;

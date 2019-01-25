@@ -7,89 +7,6 @@ require 'io/console'
 require 'fileutils'
 require_relative 'required'
 
-puts ARGV.inspect
-
-# Méthode pour sauver l'analyse courante dans son dossier
-def save_current_analyse
-  puts "Sauvegarde de l'analyse courante…"
-  folder_original_current_analyse = File.join(ANALYSES_FOLDER,INFOS[:analyse_name],'analyse')
-  FileUtils.rm_rf(folder_original_current_analyse)
-  FileUtils.cp_r(CURRENT_ANALYSE_FOLDER,folder_original_current_analyse)
-  puts "Analyse courante sauvegardée."
-end
-
-def faire_un_choix question
-
-  question = <<-EOF
-
-  #{question.split(RC).join(RC+INDENT)}
-  Que faire ?
-    s: sauvegarder les changements de l'analyse courante,
-    q: renoncer
-    o/y: perdre les changements et activer l'analyse « #{ANALYSE_NAME} ».
-
-  EOF
-  puts question.vert
-  print 'Votre choix : '
-  choix = STDIN.getch()
-  return choix
-end
-
-# Méthode qui détruit la nouvelle analyse après avoir fait toutes les
-# vérifications possibles
-def detruire_analyse_courante
-  infos_path = File.join(CURRENT_ANALYSE_FOLDER,'.infos.rb')
-  if File.exist?(infos_path)
-    require infos_path # => INFOS
-
-    puts "L'analyse courante est : #{INFOS[:analyse_name]} de #{INFOS[:author]}"
-    folder_original_current_analyse = File.join(ANALYSES_FOLDER,INFOS[:analyse_name],'analyse')
-    if File.exist?(folder_original_current_analyse)
-      tags_js_original = File.join(folder_original_current_analyse,'tags.js')
-      if File.exist?(tags_js_original)
-        tags_js_courant = File.join(CURRENT_ANALYSE_FOLDER,'tags.js')
-        if File.stat(tags_js_courant).mtime > File.stat(tags_js_original).mtime
-          choix = faire_un_choix("Le fichier tags.js de l'analyse « #{INFOS[:analyse_name]} » a été modifié.\nSi vous activez la nouvelle analyse, vous allez perdre les changements.")
-          case choix.downcase
-          when 'q'
-            return false # s'arrêter là
-          when 'o','y'
-            return true # Détruire l'analyse sans rien faire
-          when 's'
-            save_current_analyse
-            return true # on peut le détruire, maintenant
-          end
-        end
-      end
-      folder_images_original = File.join(folder_original_current_analyse,'images')
-      if File.exist?(folder_images_original)
-        folder_images_current = File.join(CURRENT_ANALYSE_FOLDER,'images')
-        if File.stat(folder_images_current).mtime > File.stat(folder_images_original).mtime
-          choix = faire_un_choix("Le dossier images de l'analyse « #{INFOS[:analyse_name]} » a été modifié.\nSi vous activez la nouvelle analyse, vous allez perdre tous les changements.")
-          case choix.downcase
-          when 'q'
-            return false # s'arrêter là
-          when 'o','y'
-            return true # Détruire l'analyse sans rien faire
-          when 's'
-            save_current_analyse
-            return true # on peut le détruire, maintenant
-          end
-        end
-      end
-      # Finalement, si tout est OK, on peut la détruire
-      return true
-    else
-      # Le dossier original a été détruit depuis
-      return true
-    end
-  else
-    # Pas de fichier .infos => pas de sauvegarde possible
-    return true
-  end
-  return false
-end
-
 unless ARGV.include?('-h') || ARGV.include?('--help')
   begin
 
@@ -112,7 +29,7 @@ unless ARGV.include?('-h') || ARGV.include?('--help')
     if analyse_name.nil?
       names = names_list
     elsif File.exist?(File.join(ANALYSES_FOLDER,analyse_name))
-      analyse_folder = File.join(ANALYSES_FOLDER,analyse_name,'analyse')
+      analyse_folder = File.join(ANALYSES_FOLDER,analyse_name)
     else
       # Mauvais nom ou
       names = Array.new
@@ -122,7 +39,7 @@ unless ARGV.include?('-h') || ARGV.include?('--help')
         end
       end
       if names.count == 1
-        analyse_folder = File.join(ANALYSES_FOLDER,names.first,'analyse')
+        analyse_folder = File.join(ANALYSES_FOLDER,names.first)
       elsif names.count == 0
         puts "Aucun dossier d'analyse n'a été trouvé avec « #{analyse_name} »".vert
         names = names_list
@@ -144,30 +61,22 @@ unless ARGV.include?('-h') || ARGV.include?('--help')
         exit 1
       end
       choix = choix.ord - 97
-      analyse_folder = File.join(ANALYSES_FOLDER,names[choix],'analyse')
+      analyse_folder = File.join(ANALYSES_FOLDER,names[choix])
     end
 
     ANALYSE_FOLDER  = analyse_folder
-    ANALYSE_NAME    = File.basename(File.dirname(analyse_folder))
+    ANALYSE_NAME    = File.basename(analyse_folder)
 
     if analyse_folder
-      puts "Dossier choisi : #{analyse_folder.inspect}"
-      # On ouvre le dossier (ou plutôt, on le met en dossier courant)
+      puts "Vous avez choisi le dossier d'analyse : #{ANALYSE_NAME.inspect}"
+      # Pour activer une analyse, il suffit de modifier le fichier
+      # analyse.js en racine
 
-      # Si le dossier analyse courant a un fichier indiquant son nom,
-      # je dois m'assurer qu'il a bien été sauvegarder (date). Si ce n'est
-      # pas le cas, je le confie à l'utilisateur.
-      if detruire_analyse_courante
-        # On peut procéder au changement
-        if File.exist?(CURRENT_ANALYSE_FOLDER)
-          FileUtils.rm_rf(CURRENT_ANALYSE_FOLDER)
-        end
-        FileUtils.cp_r(analyse_folder, CURRENT_ANALYSE_FOLDER)
-        # Enfin, on ouvre la partition
-        `open -a Firefox "#{PARTITION_PATH}"`
-      else
-        puts "Je ne détruis pas l'analyse courante."
-      end
+      File.open(CUR_ANALYSE_FILE,'wb'){|f|f.write("const ANALYSE=\"#{ANALYSE_NAME}\";")}
+
+      # On ouvre l'analyse
+      `open -a Firefox "#{PARTITION_PATH}"`
+
     else
       puts "Dossier inconnu, je ne peux rien faire pour vous…"
     end
@@ -202,7 +111,7 @@ puts <<-HELP
     même début, la commande permet de choisir lequel utiliser.
 
     Si aucun argument n'est mis, c'est la liste de tous les dossiers
-    qui est présentée.
+    qui est présentée, pour en choisir une.
 
 HELP
 

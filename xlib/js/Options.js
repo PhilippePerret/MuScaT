@@ -15,6 +15,10 @@
    , 'repères':               {aka: 'lines of reference'}
    , 'reperes':               {aka: 'lines of reference'}
    , 'guides':                {aka: 'lines of reference'}
+   , 'lang':                  {boolean: false, value: 'fr'}
+   , 'langue':                {aka: 'lang'}
+   , 'language':              {aka: 'lang'}
+   , 'langage':               {aka: 'lang'}
    , 'lines of reference':    {boolean: true, value: false} // si true, affiche les lignes de guide
    , 'espacement images':     {aka: 'space between scores'}
    , 'space between scores':  {boolean: false, value: null}
