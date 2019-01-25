@@ -1,5 +1,5 @@
-var t = new Test('Ajout de tags');
-t.run = function(){
+var test = new Test('Ajout de tags');
+test.run = function(){
 
   this.check_ligne_copied_pasted_without_same_id();
 
@@ -12,7 +12,7 @@ t.run = function(){
   this.check_line_at_the_end_and_empty_line_before();
 
 };
-t.check_ligne_copied_pasted_without_same_id = function(){
+test.check_ligne_copied_pasted_without_same_id = function(){
   given('Deux lignes qui ont le même ID (après un copié-collé par exemple)');
 
   M.reset_for_tests();
@@ -50,7 +50,7 @@ acc G x=100 y=100
   )
 }
 
-t.check_line_copied_pasted_after_new_empty_line = function(){
+test.check_line_copied_pasted_after_new_empty_line = function(){
 
   given('Une ligne copiée après une ligne vide');
 
@@ -72,7 +72,7 @@ acc G id=1 x=100 y=100
 
 };
 
-t.check_new_line_at_the_end = function(){
+test.check_new_line_at_the_end = function(){
 
   given("Quand on ajoute un nouveau tag (copié) à la fin");
   M.reset_for_tests();
@@ -99,7 +99,7 @@ sco extrait-analyse/sonate-haydn-2.png id=2 x=38 y=127
 
 };
 
-t.check_two_new_lines_at_the_end = function(){
+test.check_two_new_lines_at_the_end = function(){
 
   given("Quand on ajoute deux nouveaux tags (copiés) à la fin");
 
@@ -135,7 +135,7 @@ sco extrait-analyse/sonate-haydn-2.png id=2 x=38 y=127
 
 };
 
-t.check_line_at_the_end_and_empty_line_before = function(){
+test.check_line_at_the_end_and_empty_line_before = function(){
   given("Quand on ajoute un nouveau tag à la fin et une ligne vide un peu plus haut");
 
   // Préambule

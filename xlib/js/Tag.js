@@ -281,12 +281,14 @@ Tag.prototype.updateXY = function(){
   my.jqObj.removeClass('warntag');
   MuScaT.update_line(my.index_line, my.to_line()) ;
 }
-Tag.prototype.updateY = function(){
+Tag.prototype.updateY = function(newy){
+  if(undefined != newy){this.y = newy}
   this.jqObj.css({'top': this.y + 'px'});
-}
-Tag.prototype.updateX = function(){
+};
+Tag.prototype.updateX = function(newx){
+  if(undefined != newx){this.x = newx}
   this.jqObj.css({'left': this.x + 'px'});
-}
+};
 Tag.prototype.updateH = function(){
   var my = this ;
   // Traitement particulier pour les modulations
@@ -510,12 +512,12 @@ Tag.prototype.onStopMoving = function(){
   // Que ce soit pour une copie ou pour un déplacement, il faut actualiser
   // les données de l'élément
   my.updateXY();
-}
+};
 
 Tag.prototype.onStartMoving = function(ev, ui){
   var my = this ;
-  my.pour_copie = ev.altKey == true ;
-}
+  my.pour_copie = (ev.altKey == true) ;
+};
 
 // ---------------------------------------------------------------------
 //  Méthodes de création

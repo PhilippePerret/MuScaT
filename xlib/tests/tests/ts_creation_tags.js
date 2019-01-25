@@ -2,9 +2,9 @@
  * Pour tester la fabrication simple d'une analyse
  */
 
-var t = new Test('Création du tag');
+var tes = new Test('Création du tag');
 
-t.run = function(){
+tes.run = function(){
 
    this.check_definition_forme_normale();
 
@@ -12,7 +12,7 @@ t.run = function(){
 
 };
 
-t.check_definition_forme_normale = function(){
+tes.check_definition_forme_normale = function(){
   given('Avec un code ne définissant qu’un simple texte dans sa forme normale');
 
   M.reset_for_tests();
@@ -53,7 +53,7 @@ t.check_definition_forme_normale = function(){
 };
 
 
-t.check_definition_forme_raccourcie = function(){
+tes.check_definition_forme_raccourcie = function(){
 
   given("Avec un code définissant le tag de façon raccourcie");
   M.reset_for_tests();

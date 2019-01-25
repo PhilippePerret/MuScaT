@@ -1,6 +1,6 @@
-var t = new Test('Option Repères');
+var tes = new Test('Option Repères');
 
-t.run = function(){
+tes.run = function(){
 
   for(var opt of ['repères', 'reperes', 'guides', 'lines of reference']){
     this.les_lignes_reperes_existent(opt);
@@ -9,7 +9,7 @@ t.run = function(){
   // this.on_peut_bouger_les_lignes_reperes();
 
 }
-t.les_lignes_reperes_existent = function(opt){
+tes.les_lignes_reperes_existent = function(opt){
 
   given(`Sans l'option "${opt}"`);
   M.reset_for_tests();
@@ -49,17 +49,17 @@ t.les_lignes_reperes_existent = function(opt){
   );
 };
 //
-// t.mouveMouse = function(){
-//   t.y ++ ;
+// tes.mouveMouse = function(){
+//   tes.y ++ ;
 //   var e = $.Event('mousemove');
-//   e.pageY = t.y ;
+//   e.pageY = tes.y ;
 //   $(document).trigger(e);
-//   if(t.y > 200){
+//   if(tes.y > 200){
 //     console.log('-> fin déplacement');
-//     clearInterval(t.timer);
+//     clearInterval(tes.timer);
 //   }
 // }
-// t.on_peut_bouger_les_lignes_reperes = function() {
+// tes.on_peut_bouger_les_lignes_reperes = function() {
 //
 //   // // Je ne sais pas encore faire ça…
 //   given("Avec l'option 'repères'")
@@ -79,8 +79,8 @@ t.les_lignes_reperes_existent = function(opt){
 //   lineh.trigger(e);
 //
 //   try {
-//     t.y = lineh.offset().top ;
-//     t.timer = setInterval(t.mouveMouse, 10);
+//     tes.y = lineh.offset().top ;
+//     tes.timer = setInterval(tes.mouveMouse, 10);
 //   } catch (err) {
 //     console.error(err);
 //   } finally {

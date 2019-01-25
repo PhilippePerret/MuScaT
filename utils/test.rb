@@ -14,12 +14,12 @@ require 'fileutils'
 begin
   # Inscription de tous les fichiers de tests (système et tests) dans
   # le corps de TABLE_ANALYSE.html (renommé 'test.html')
-  TEST_FILE_PATH  = File.expand_path(File.join(APPFOLDER,'_table_analyse_','test.html'))
-  FOLDER_TESTS    = File.expand_path(File.join(APPFOLDER,'_table_analyse_','tests'))
+  TEST_FILE_PATH  = File.join(APPFOLDER,'test.html')
+  FOLDER_TESTS    = File.join(APPFOLDER,'xlib','tests')
 
   # On récupère tous les fichiers js système
   all_js_tags = Dir["#{FOLDER_TESTS}/system/**/*.js"].collect do |pth|
-    '<script type="text/javascript" src="%s"></script>' % [pth.sub(/^#{FOLDER_TESTS}/,'./tests')]
+    '<script type="text/javascript" src="%s"></script>' % [pth.sub(/^#{APPFOLDER}\//,'')]
   end
   # On récupère les feuilles de tests
   paths_tests = nil
@@ -38,7 +38,7 @@ begin
   paths_tests ||= Dir["#{FOLDER_TESTS}/tests/**/*.js"].shuffle
 
   all_js_tags += paths_tests.collect do |pth|
-    '<script type="text/javascript" src="%s"></script>' % [pth.sub(/^#{FOLDER_TESTS}/,'./tests/')]
+    '<script type="text/javascript" src="%s"></script>' % [pth.sub(/^#{APPFOLDER}\//,'')]
   end
 
   # puts all_js_tags.join("\n")

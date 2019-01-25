@@ -4,11 +4,7 @@
 * Remettre les tests en place (peut-être faire chaque fois une copie du dossier test à la racine pour ne pas avoir à la voir dans le dossier principal)
 * [TEST] Options : 'vertical line offset', 600, 'horizontal line offset', 100
 * Modifier les scripts pour tenir compte des modifications
-* Mettre en place le dégroupement des tags
-* Mettre en place le groupage par META-G
-* Mettre en place les versions multilinguales
 * Pouvoir annuler un déplacement (garder toujours une copie du code initial ou simplement du code qui vient d'être changé — garder l'historique, puisque c'est simple)
-* Faire un script pour "updater" l'analyse courante, c'est-à-dire copier son fichier actuellement édité (sur la table d'analyse) dans son dossier d'analyse dans `_analyses_`.
 
 ## Développements futurs
 

@@ -15,15 +15,37 @@ window.message = function(str){
 // Mis dans un object pour pouvoir être réaffectées lors de l'update
 // des tags sur la partition.
 const DATA_DRAGGABLE = {
-  delay: 300,
+    delay: 300
   // 'classes.ui-draggable': 'dragged'
-  cursor: 'crosshair',
-  // grid: [50, 50], // Fonctionne très mal => le faire en code
-  start: function(ev, ui){
-    ITags[ui.helper[0].id].onStartMoving(ev, ui);
-  },
-  stop: function(ev, ui){
-    ITags[ui.helper[0].id].onStopMoving(ev, ui);
+  , cursor: 'crosshair'
+    // grid: [50, 50], // Fonctionne très mal => le faire en code
+  , start: function(ev, ui){
+      var my = this ;
+      my._tag = ITags[ui.helper[0].id];
+      my._tag.onStartMoving(ev, ui);
+      if(my._tag.group){
+        my._tag.group.onEachTag(function(tg){tg.startX=tg.x;tg.startY=tg.y});
+      }
+    }
+  , stop: function(ev, ui){
+      this._tag.onStopMoving(ev, ui);
+      my._tag.group.onEachTag(function(tg){
+        if(tg.id == my._tag.id){return};
+        tg.updateXY();
+      })
+    }
+  , drag: function(ev, ui){
+      var my = this ;
+      if(my._tag.group){
+        // Si le tag courant est dans un group, il faut reproduire
+        // sur chaque élément le déplacement
+        var deltaX = my._tag.getX() - my._tag.startX ;
+        var deltaY = my._tag.getY() - my._tag.startY ;
+        my._tag.group.onEachTag(function(tg){
+          if(tg.id == my._tag.id){return};
+          tg.updateX(tg.startX + deltaX);tg.updateY(tg.startY + deltaY);
+        })
+      }
   }
 }
 
