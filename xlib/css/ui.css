@@ -15,6 +15,15 @@ section#tools {
 .displayed {display: block;}
 .undisplayed {display: none;}
 
+span#analyse_name {
+  position: fixed;
+  top: 10px;
+  left: 140px;
+  opacity: 0.3;
+  font-size: 24pt;
+  font-style: italic;
+}
+
 /* Quand les outils sont masqués */
 section#tools.closed div#picto_tools {
   display: block;
@@ -35,9 +44,13 @@ section#tools.opened .masked {
 
 
 @media print {
-  section#tools   {display: none;}
-  section#footer  {display: none;}
   section#tags    {padding-bottom: 0;}
+  section#tools,
+  section#rcolumn,
+  span#analyse_name,
+  section#footer,
+  div.refline
+  {display: none;}
 }
 
 
@@ -97,6 +110,7 @@ section#rcolumn textarea#codeSource {
 
 /* --------------------------------------------------------------------- */
 /* Lignes de référence */
+
 div.refline {
   position: fixed;
   background-color: green;

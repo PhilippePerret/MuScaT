@@ -57,14 +57,16 @@ Elle est semi-graphique, et permet d'ajuster très finement les TAGs — au pix
 
 Commençons par un aperçu du processus général qui va permettre de produire une analyse musicale à l'aide de **MuScaT**. Noter que chaque item de cette liste est cliquable et permet de rejoindre la partie détaillée correspondante.
 
-1. [Chargement de l'application **MuScaT**](#download_muscat)
-1. [Création du dossier de l'analyse](#creation_dossier_analyse),
-1. [découpage de la partition en « images-systèmes»](#syn_crop_score),
-1. [inscription des images-systèmes dans l'analyse](#syn_inscription_images_systemes),
-1. [ajouts des accords, des chiffrages, des cadences, de tous les éléments d'analyse](#syn_def_analysis_elements),
-1. [Positionnement des éléments graphiques](#syn_ajustement_elements),
-1. [récupération du code final](#syn_recuperation_code_final),
-1. [impression en PDF](#syn_print_pdf).
+1. [Charger de l'application **MuScaT**](#download_muscat)
+1. [Créer du dossier de l'analyse](#creation_dossier_analyse),
+1. [Mettre l'analyse en analyse courante](#set_analyse_courante),
+1. [Découper la partition en « images-systèmes»](#syn_crop_score),
+1. [Inscrire les images-systèmes dans l'analyse](#syn_inscription_images_systemes),
+1. [Ajouter les accords, les chiffrages, les cadences, tous les éléments d'analyse](#syn_def_analysis_elements),
+1. [Positionner les éléments graphiques](#syn_ajustement_elements),
+1. [Les lignes repères](#ligne_reperes)
+1. [Récupérer du code final](#syn_recuperation_code_final),
+1. [Imprimer en PDF](#syn_print_pdf).
 
 ## Synopsis détaillé {#synopsis_detailled}
 
@@ -95,7 +97,7 @@ Le plus simple pour créer une nouvelle analyse — et donc son dossier — es
 
 Sans ce script, la procédure est à peine plus compliquée :
 
-* dupliquer le dossier `Template` qui se trouve dans le dossier `MuScaT/_analyses_` (ce dossier est le dossier peut contenir toutes les analyses),
+* dupliquer le dossier `Template` qui se trouve dans le dossier `MuScaT/_analyses_` (ce dossier est le dossier qui peut contenir toutes les analyses),
 
 ![Dossier Template](img/3.Template_Analyse.png)
 
@@ -109,14 +111,6 @@ Voyons-en rapidement le contenu.
 
 ![Contenu du dossier d'analyse](img/6.1.Inner_Dossier_analyse_Mozart.png)
 
-Il ne contient à sa racine que le dossier « analyse » et un fichier « README.md » qui peut être utile pour se rafraichir la mémoire sur l'utilisation de **MuScaT**.
-
-Dans ce dossier, vous pouvez mettre, à la racine, votre partition en PDF ou en image.
-
-![Parition originale](img/6.5.Partition.png)
-
-C'est surtout le dossier « analyse » qui nous intéresse, qui va contenir tous les éléments de l'analyse.
-
 On trouve pour commencer un fichier « aspect.css », que vous ne toucherez pas au départ, et qui permet de rectifier l'aspect des analyses pour obtenir la présentation idéale souhaitée.
 
 ![Fichier aspect.css](img/6.2.Fichier_Aspect_css.png)
@@ -125,29 +119,46 @@ On trouve en dessous le dossier « images » qui comme son nom l'indique va ra
 
 ![Dossier images](img/6.3.Dossier_images.png)
 
-Et enfin, on trouve le fichier le plus important, le fichier « tags.js » qui va contenir la définition précise de l'analyse.
+On trouve le fichier le plus important, le fichier « tags.js » qui va contenir la définition précise de l'analyse.
 
 ![Fichier tags.js](img/6.4.Fichier_Tags.png)
 
 Nous aurons à y revenir en détail très vite.
 
-### Point important
+On trouve aussi un fichier `analyse.js` qu'il suffit, pour activer cette analyse, de glisser à la racine du dossier **MuScaT** en remplacement du fichier qui s'y trouve déjà.
 
-Il faut noter un point important dès à présent, qui sera répété car il n'est pas évident : pour travailler une analyse et l'afficher, il faudra déposer le dossier « analyse » que nous venons de voir sur la table d'analyse. Cette table, qu'on trouve dans le dossier `MuScaT/_table_analyse_`, porte le nom `TABLE_ANALYSE.html` et c'est ce fichier qu'on ouvre pour voir et travailler une analyse. Pour peu qu'on lui ait fourni le dossier d'analyse adéquat.
+![Fichier analyse.js](img/6.6.Analyse_js.png)
 
-Nous y reviendrons, l'important et de comprendre qu'il faudra déplacer notre dossier « analyse ».
+Dans ce dossier, vous pouvez mettre enfin votre partition en PDF ou en image.
 
-### Découpage de la partition en « images-systèmes » {#syn_crop_score}
+![Parition originale](img/6.5.Partition.png)
+
+### Mettre l'analyse en analyse courante {#set_analyse_courante}
+
+Pour faire de cette nouvelle analyse l'analyse courante, il y a deux solutions.
+
+Soit on édite le fichier `MuScaT/analyse.js` et on met le nom de notre dossier d'analyse :
+
+```javascript
+
+const ANALYSE = "Analyse-Sonate-Haynd" ;
+
+```
+
+Soit on glisse le fichier `analyse.js` qui se trouve dans notre dossier d'analyse à la racine du dossier de l'application, en remplacement du fichier qui s'y trouve déjà.
+
+À vous de choisir la solution qui vous semble le plus pratique. En tout cas, la seconde est la plus sûr, les erreurs de typo sont impossibles.
+
+
+### Découper la partition en « images-systèmes » {#syn_crop_score}
 
 Si la partition que l'on s'apprête à analyser est suffisamment aérée (espace entre les systèmes), on peut la garder telle qu'elle. Dans le cas contraire (et le plus fréquent), il faut découper cette partition en systèmes, c'est-à-dire faire une image de chaque système pour les écarter sur la table d'analyse.
 
-Dans tous les cas, on place la ou les images dans le dossier `monAnalyse/analyse/images`.
+Dans tous les cas, on place la ou les images dans le dossier `_analyses_/<Nom analyse>/images/`.
 
-![](img/chantier-small.png)
+![Dossier images](img/6.3.Dossier_images.png)
 
-Notez que c'est ce dossier `analyse` que vous déplacerez dans le dossier `_table_analyse_` pour visualiser ou travailler votre analyse.
-
-### Inscription des images-systèmes {#syn_inscription_images_systemes}
+### Inscrire les images-systèmes {#syn_inscription_images_systemes}
 
 On ouvre ensuite son fichier `monAnalyse/analyse/tags.js`. C'est **le fichier principal de l'analyse**, celui qui va définir tous les éléments, les images, les marques de modulations, les accords, les cadences, les parties, tout ce qui constitue l'analyse.
 
@@ -178,48 +189,113 @@ Dans ce fichier `tags.js` On définit d'abord les images de la partition, en ajo
 > Note : l'option 'code', en haut du fichier `tags.js`, permet simplement de voir le code à côté de la table d'analyse.
 
 
-
-### Définition de tous les éléments de l'analyse {#syn_def_analysis_elements}
+### Définir tous les éléments de l'analyse {#syn_def_analysis_elements}
 
 L'élément graphique de base de l'application **MuScaT** est le « TAG » (comme on en parle sur les murs des villes). Une analyse avec **MuScaT** consiste donc à « tagguer » une partition (remarquez que les partitions elles-mêmes, ou les images de leurs systèmes, sont aussi des « TAGs »). C'est la raison pour laquelle le fichier qui va les définir s'appelle `tags.js`.
 
-On définit tous les autres éléments graphiques, tous les *tags* (cf. pour le détail de la procédure, voir [Composition d'un tag](#composition_dun_tag)) : marque de parties, accords, chiffrages, numéros de portée, cadences, textes divers, etc. Le mieux est de s'arranger pour les placer, dans `tags.js`, à peu près en fonction des positions dans l'analyse. Si une cadence doit se produire sur le troisième système, il vaut mieux la définir après la ligne insérant l'image de ce troisième système (remarquez cependant qu'il n'y a aucune obligation là-dessus, vous pouvez aussi, rassembler tous les accords d'un côté, toutes les cadences de l'autre, etc. à votre guise).
+On définit tous les autres éléments graphiques, tous les *tags* (cf. pour le détail de la procédure, voir [Composition d'un tag](#composition_dun_tag)) : marque de parties, accords, chiffrages, numéros de portée, degrés de la gamme, cadences, textes divers, etc.
+
+Chacun des éléments, chaque « tag », va être représenter dans le code par une unique ligne.
+
+Une image de système pourra être :
+
+```javascript
+
+Tags = `
+// ... d'autres données ici
+
+score systeme-1.png x=50 y=3098
+
+// ... d'autres données là
+`;
+
+```
+
+Une modulation pourra être inscrite par :
+
+```javascript
+
+Tags = `
+// ... d'autres données ici
+
+mod G_min x=150 y=539
+
+// ... d'autres données là
+`;
+
+```
+
+Le mieux est de s'arranger pour définir ces tags à peu près en fonction des positions sur la table d'analyse (i.e. sur l'analyse). Si une cadence doit se produire sur le troisième système, il vaut mieux la définir après la ligne insérant l'image de ce troisième système (remarquez cependant qu'il n'y a aucune obligation là-dessus, vous pouvez aussi, rassembler tous les accords d'un côté, toutes les cadences de l'autre, etc. à votre guise).
+
+### Activer l'analyse
+
+Pour activer cette nouvelle analyse, nous allons donc copier-coller son fichier `analyse.js` à la racine du dossier de l'application **MuScaT**. Vous pouvez par exemple sélectionner le fichier dans le Findre ou sur votre bureau, sélectionner le dossier `MuScaT` et coller. Le bureau vous demandera de confirmer le remplacement (un autre fichier `analyse.js` existe déjà à cet endroit, celui de l'analyse courante).
+
+Pensez en tout cas à faire une duplication du fichier, ne le glissez pas.
+
+Seconde solution, vous pouvez également éditer le fichier `MuScaT/analyse.js` principal et mettre le nom de votre dossier dans la constante `ANALYSE`.
+
+```javascript
+
+  // Dans Le fichier MuScaT/analyse.js principal
+
+  const ANALYSE = "<METTRE_ICI_LE_NOM_DU_DOSSIER_DE_VOTRE_ANALYSE>"
+
+
+```
+
+> Attention ! Il est capital de ne pas mettre d'espaces dans ce nom, ou ça ne fonctionnera pas. Il en va de même qu'une adresse dans votre navigateur.
+
+Noter que les heureux possesseurs de Mac peuvent utiliser un script permettant d'activer très simplement n'importe quelle analyse. Il suffit de rejoindre, dans l'application Terminal, le dossier de **MuScaT** et de taper `> ./utils/analyse.rb`. Nous y reviendrons en parlant des [utilitaires](#les_utilitaires).
+
 
 ### Positionnement des éléments graphiques {#syn_ajustement_elements}
 
-Pour activer cette nouvelle analyse, nous allons placer son dossier `analyse` dans le dossier `_table_analyse_` de **MuScaT**.
+Une fois l'analyse désignée comme analyse courante, il faut ouvrir le fichier `_TABLE_ANALYSE_.html` dans votre navigateur.
 
-Pour se faire, il faudra certainement détruire le dossier `analyse` qui se trouve déjà là. C'est la raison pour laquelle il est vivement conseillé de travailler avec des duplicatas plutôt qu'avec les dossiers d'analyse originaux.
+![Fichier Table d'analyse](img/10.Fichier_Table_analyse.png)
 
-Les heureux possesseurs de Mac ont un script qui permet d'activer très simplement n'importe quelle analyse. Il suffit de jouer `./utils/analyse.rb` lorsqu'on se trouve dans le dossier de **MuScaT** ou simplement `analyse.rb` si on se trouve dans le dossier `MuScaT/utils/`.
-
-Pour les autres, il faut donc faire une duplication du dossier `analyse`, la placer dans le dossier `_table_analyse_` et enfin ouvrir le fichier `_table_analyse_/TABLE_ANALYSE.html` dans un navigateur internet pour travailler l'analyse (Firefox est le meilleur choix, pour **MuScaT**).
+Firefox est vivement recommandé, l'application n'a pas été testée en profondeur dans les autres navigateur.
 
 On peut placer les éléments aux bons endroits simplement en les déplaçant à la souris, ou avec les flèches de son clavier. On peut en ajouter des nouveaux en dupliquant les lignes de code ou les ajoutant explicitement dans le code.
 
 ![Exemple de déplacement d'élément](./img/move_score.png)
 
-Sans l'option `option('code')` activée, il faut modifier le code directement dans le fichier `tags.js` puis recharger la page dans Firefox.
+Sans l'option `option('code')` activée, il faut modifier le code directement dans le fichier `tags.js` puis recharger la page dans Firefox pour voir les changements.
 
-#### Lignes repères
+#### Lignes repères {#ligne_reperes}
 
 Pour faciliter l'alignement des TAGs — par exemple l'alignement des dernières mesures de fin des systèmes — on peut utiliser des lignes de répère. Pour cela, il suffit d'activer l'option `repères` (ou `reperes` ou `lines of reference`).
 
-Cela ajoute deux lignes à l'écran, une verticale et une horizontale, qu'on peut déplacer à loisir.
+Cela ajoute deux lignes à l'écran, une verticale et une horizontale, qu'on peut déplacer à loisir à la souris.
 
-### Récupération du code final {#syn_recuperation_code_final}
+Vous pouvez également définir leur emplacement exact avec les options `position repère vertical` (ou `vertical line offset`) et `position repère horizontal` (ou `horizontal line offset`) :
+
+```javascript
+
+  // Dans le fichier tags.js de l'analyse
+  option('code');
+   // à 120 pixels du haut et 200 de la gauche
+  option('vertical line offset', 120, 'horizontal line offset', 200);
+
+```
+
+### Récupérer le code final {#syn_recuperation_code_final}
 
 Si l'on a travaillé dans le champ de texte à côté de la table d'analyse, on doit copier le code final dans le fichier `tags.js`, au risque de perdre tous les changements. Pour se faire, on clique sur le bouton des outils — en haut à gauche — et on demande à mettre le code complet dans le presse-papier. On colle ce code dans le fichier `tags.js`, en remplaçant l'intégralité de son contenu.
 
-On n'oublie pas de faire une duplication dans l'autre sens, vers le dossier `_analyses_/monAnalyse/` pour conserver les modifications opérées.
+### Imprimer l'analyse en PDF {#syn_print_pdf}
 
-### Impression de l'analyse en PDF {#syn_print_pdf}
+Enfin, on imprime la page HTML du navigateur en choisissant le format PDF. Sur Mac :
 
-On imprime la page HTML du navigateur en choisissant le format PDF (ou on enregistre la page au format HTML et on utilise un outil de transformation des pages HTML en PDF).
+* dans Firefox, demander l'impression,
+* dans la fenêtre qui s'ouvre, choisir, dans le menu en bas à gauche : « Imprimer au format PDF » ou autre indication similaire.
+
+(sur PC, enregistrer la page au format HTML et utiliser un outil de transformation des pages HTML en PDF)
 
 ### Et voilà
 
-Et voilà, c'est fait ! Et vous pourrez retoucher à votre analyse à n'importe quel moment grâce au dossier `analyse` qui contient tous les éléments de l'analyse et qu'il suffit de mettre sur la table d'analyse (comprendre : dans le dossier `_table_analyse_`).
+Et voilà, c'est fait ! Et vous pourrez retoucher à votre analyse à n'importe quel moment en la remettant en analyse courante.
 
 
 ## Composition d'un tag {#composition_dun_tag}
@@ -691,6 +767,7 @@ Ce mode d'emploi n'étant pas destiné à maitriser Gimp, je vous renvoie au man
 * [Option « code à côté »](#option_code_beside)
 * [Option « découpe image »](#option_crop_image)
 * [Option « lignes de repère »](#option_line_of_reference)
+  * [Position des lignes repères](#position_lignes_reperes)
 * [Option « espacement images »](#option_space_between_scores)
 * [Option « marge haut »](#option_top_first_score)
 * [Option « marge gauche »](#option_left_margin)
@@ -773,6 +850,29 @@ Option : `repères`, `reperes`, `lines of reference`
 Type : booléen
 
 Ajoute une ligne horizontale et une ligne verticale qu'on peut déplacer et qui peuvent servir de guide, de repère, pour placer les TAGs.
+
+### Position des lignes repères (#position_lignes_reperes)
+
+Pour la position de la ligne verticale :
+
+Option : `position repère vertical`, `vertical line offset`
+
+Type : nombre de pixels
+
+Pour la position de la ligne horizontale :
+
+Option : `position repère horizontal`, `horizontal line offset`
+
+Exemple :
+
+```javascript
+
+  // Dans le fichier tags.js de l'analyse
+   // à 120 pixels du haut et 200 de la gauche
+  option('vertical line offset', 120, 'horizontal line offset', 200);
+
+```
+
 
 ### Option « Espacement entre images » {#option_space_between_scores}
 

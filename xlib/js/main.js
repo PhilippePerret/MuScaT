@@ -1,7 +1,6 @@
 /*
   Script principal
 */
-console.log(document.cookie);
 
 // Dans le cas où l'utilisateur n'aurait pas Firebug ou autre.
 if ('undefined'==typeof(console)){

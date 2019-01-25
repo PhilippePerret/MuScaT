@@ -5,27 +5,31 @@
  */
  // Les options utilisables
  OPTIONS = {
-     'code beside':           {boolean: true, value: false}
-   , 'code à côté':           {aka: 'code beside'}
-   , 'code':                  {aka: 'code beside'}
-   , 'crop image':            {boolean: true, value: false}
-   , 'images PNG':            {boolean: true, value: false} // true si on veut des noms de fichier ne png (pour convert par exemple)
-   , 'découpe image':         {aka: 'crop image'}
-   , 'coordonates':           {boolean: true, value: false} // afficher les coordonnées lors des déplacementss
-   , 'repères':               {aka: 'lines of reference'}
-   , 'reperes':               {aka: 'lines of reference'}
-   , 'guides':                {aka: 'lines of reference'}
-   , 'lang':                  {boolean: false, value: 'fr'}
-   , 'langue':                {aka: 'lang'}
-   , 'language':              {aka: 'lang'}
-   , 'langage':               {aka: 'lang'}
-   , 'lines of reference':    {boolean: true, value: false} // si true, affiche les lignes de guide
-   , 'espacement images':     {aka: 'space between scores'}
-   , 'space between scores':  {boolean: false, value: null}
-   , 'top first score':       {boolean: false, value: null}
-   , 'marge haut':            {aka: 'top first score'}
-   , 'left margin':           {boolean: false, valeu: null}
-   , 'marge gauche':          {aka: 'left margin'}
+     'code beside':                 {boolean: true, value: false}
+   , 'code à côté':                 {aka: 'code beside'}
+   , 'code':                        {aka: 'code beside'}
+   , 'crop image':                  {boolean: true, value: false}
+   , 'images PNG':                  {boolean: true, value: false} // true si on veut des noms de fichier ne png (pour convert par exemple)
+   , 'découpe image':               {aka: 'crop image'}
+   , 'coordonates':                 {boolean: true, value: false} // afficher les coordonnées lors des déplacementss
+   , 'repères':                     {aka: 'lines of reference'}
+   , 'reperes':                     {aka: 'lines of reference'}
+   , 'guides':                      {aka: 'lines of reference'}
+   , 'lang':                        {boolean: false, value: 'fr'}
+   , 'langue':                      {aka: 'lang'}
+   , 'language':                    {aka: 'lang'}
+   , 'langage':                     {aka: 'lang'}
+   , 'lines of reference':          {boolean: true, value: false} // si true, affiche les lignes de guide
+   , 'espacement images':           {aka: 'space between scores'}
+   , 'space between scores':        {boolean: false, value: null}
+   , 'top first score':             {boolean: false, value: null}
+   , 'marge haut':                  {aka: 'top first score'}
+   , 'left margin':                 {boolean: false, value: null}
+   , 'marge gauche':                {aka: 'left margin'}
+   , 'vertical line offset':        {boolean: false, value: null}
+   , 'horizontal line offset':      {boolean: false, value: null}
+   , 'position repère vertical':    {aka: 'vertical line offset'}
+   , 'position repère horizontal':  {aka: 'horizontal line offset'}
  }
 
  // pour ajouter une option

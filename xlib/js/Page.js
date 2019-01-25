@@ -124,13 +124,16 @@ const Page = {
      $('#refline_v').show();
      $('#refline_h').draggable({axis: 'x', stop:function(ev,ui){Cook.set('hline-left', ui.helper.offset().left)}});
      $('#refline_v').draggable({axis: 'y', stop:function(ev,ui){Cook.set('vline-top', ui.helper.offset().top)}});
-     // Si leur position était définie en cookie, il faut la remettre
-     if(pos = Cook.get('hline-left')){
-       $('#refline_h').css('left', pos + 'px');
-     }
-     if(pos = Cook.get('vline-top')){
-       $('#refline_v').css('top', pos + 'px');
-     }
+
+     // La position des lignes repères peut être explicitement définie
+     // dans le fichier tags.js (option), ou par cookie, après un premier
+     // déplacement. La définition dans le fichier tags.js est toujours
+     // prioritaire.
+     var vpos = Options.get('vertical line offset') || Cook.get('vline-top');
+     if(vpos){$('#refline_v').css('top', vpos + 'px')};
+     var hpos = Options.get('horizontal line offset') || Cook.get('hline-left');
+     if(hpos){$('#refline_h').css('left', hpos + 'px')};
+
    },
 
 

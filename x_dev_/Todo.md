@@ -1,12 +1,9 @@
 # Todo list
 
-* Modifier entièrement le mode d'emploi pour tenir compte des modifications
-* Utiliser un autre système plus simple : un fichier "analyse.js" dans lequel se trouve le nom de l'analyse. Le programme le lit pour déterminer :
-  * les paths des images
-  * le path du fichier tags.js
-  Les balises sont donc créées dynamiquement.
-  PLUS DE DUPLICATION DE DOSSIER À FAIRE ! :-D
-* Mettre en place le dégroupement
+* [BUG] Le réglage de la hauteur des modulations ne fonctionne pas
+* [TEST] Options : 'vertical line offset', 600, 'horizontal line offset', 100
+* Modifier les scripts pour tenir compte des modifications
+* Mettre en place le dégroupement des tags
 * Mettre en place le groupage par META-G
 * Mettre en place les versions multilinguales
 * Pouvoir annuler un déplacement (garder toujours une copie du code initial ou simplement du code qui vient d'être changé — garder l'historique, puisque c'est simple)

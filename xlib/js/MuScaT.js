@@ -85,6 +85,9 @@ const MuScaT = {
     // le fichier tag.js
     this.load() ;
 
+    // On met le titre
+    $('span#analyse_name').text(ANALYSE);
+
     // Pour une raison pas encore expliquée, il arrive que les
     // éléments se bloquent et ne prenent plus leur position
     // absolute (bug dans le draggable de jQuery).
@@ -218,7 +221,7 @@ const MuScaT = {
     // Il faut d'abord s'assurer que le fichier tags.js a été correctement
     // défini.
     if ('undefined' == typeof Tags) {
-      alert('Il faut définir les images et les « tags » à poser dans le fichier `tag.js`');
+      alert(t('tags undefined'));
       return ;
     }
 
@@ -398,7 +401,7 @@ const MuScaT = {
     itag = ITags['obj1'];
     itag.x = 0 ; itag.y = 0 ; itag.update();
     itag.jqObj.css({'position': 'absolute', 'top': 0, 'left': 0});
-    message("La découpe de l'image est prête.");
+    message(t('crop image ready'));
     this.set_observers_mode_crop();
     // Pour indicer chaque image
     my.indice_cropped_image = 0 ;
@@ -500,17 +503,7 @@ const MuScaT = {
   // qu'il soit copié-collé
   show_code: function(message){
     var my = this ;
-    if (!message){
-      message = `
-  Le code complet de votre partition tagguée est copié dans
-  le presse-papier.
-
-  Il vous suffit de le coller dans votre fichier tags.js
-  en remplaçant tout le code (p.e. sélectionnez tout l'ancien
-  code avant de coller le nouveau).
-      `
-    }
-
+    if (!message){message = t('full code in clipboard')};
     F.notice(message);
 
     navigator.clipboard.writeText(my.very_full_code() + RC) ;
@@ -663,7 +656,7 @@ const MuScaT = {
     var extensionImg = Options.get('images PNG') ? 'png' : 'jpg' ;
     codeConvert = 'convert ' + scoreTag.src + ' ' + codeConvert + ' ' + scoreTag.src + '-'+indiceImg+'.'+extensionImg;
     navigator.clipboard.writeText(codeConvert);
-    message('Code à jouer en console : ' + codeConvert + ' (copié dans le presse-papier)');
+    message(t('code to run', {code: codeConvert}));
     return stop(ev);
   },
   onMouseMoveModeCrop: function(ev){
@@ -680,7 +673,7 @@ const MuScaT = {
   },
 };
 Object.defineProperties(MuScaT,{
-  // Langue de l'application
+  // Langue de l'application (on la change avec l'option 'lang'/'langue')
   lang:{
     get: function(){ return Options.get('lang').toLowerCase() } // 'fr par défaut'
   }
