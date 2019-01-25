@@ -356,20 +356,21 @@ const MuScaT = {
     for(var k in h){arr.push(`${k}=${h[k]}`)};
     return ' ' + arr.join(' ')
   },
+
   get_data_in_line: function(str){
-    var h = {} ;
-    str = str.trim().replace(/\t/g, ' ') ;
-    str = str.replace(/ +/g, ' ') ;
-    str.split(' ').forEach(function(paire){
-      [prop, value] = paire.split('=');
-      h[prop] = value || true ;
-    });
-    if (h.left)   { h.x = delete h.left   };
-    if (h.top)    { h.y = delete h.top    };
-    if (h.width)  { h.w = delete h.width  };
-    if (h.height) { h.h = delete h.height };
-    return h ;
-  },
+      var h = {} ;
+      str = str.trim().replace(/\t/g, ' ') ;
+      str = str.replace(/ +/g, ' ') ;
+      str.split(' ').forEach(function(paire){
+        [prop, value] = paire.split('=');
+        h[prop] = value || true ;
+      });
+      if (h.left)   { h.x = delete h.left   };
+      if (h.top)    { h.y = delete h.top    };
+      if (h.width)  { h.w = delete h.width  };
+      if (h.height) { h.h = delete h.height };
+      return h ;
+    }
 
   /**
    * Méthode qui affecte les indices de lignes et les identifiants (aux
