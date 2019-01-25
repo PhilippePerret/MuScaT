@@ -6,6 +6,7 @@
 
 const Historique = {
   items: new Array(),
+  max_items: 100, // nombre maximum d'opérations (pourra être changé par options)
 
   /**
    * Méthode pour ajouter un élément
@@ -33,7 +34,7 @@ const Historique = {
    * Supprime la ligne d'historique d'index +idx+, c'est-à-dire
    * défait l'opération, remet l'état précédent.
    */
-  remove: function(idx){
+  undo: function(idx){
 
   },
 };

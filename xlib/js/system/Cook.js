@@ -22,6 +22,7 @@ const Cook = {
   parse: function(){
     var my = this ;
     my.data = {};
+    if(!document.cookie.trim().length){return};
     for(var pair of document.cookie.split(';')){
       [key, value] = pair.trim().split('=');
       my.data[key.trim()] = value.trim() ;

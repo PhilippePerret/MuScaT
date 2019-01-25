@@ -29,6 +29,23 @@ const DATA_DRAGGABLE = {
 }
 
 $(document).ready(function(){
+
+  // On charge les éléments de l'analyse courante
+  var nodecss = document.body.appendChild(document.createElement('link'));
+  nodecss.href = `_analyses_/${ANALYSE}/aspect.css`;
+  var nodetags = document.body.appendChild(document.createElement('script'));
+  nodetags.src = `_analyses_/${ANALYSE}/tags.js`;
+
   Cook.parse();
-  MuScaT.start_and_run()
+
+  $(nodetags)
+    .on('load', function(){
+      // console.log('Fichier tags.js chargé !')
+      // Fichier tags.js chargé, on peut commencer les hostilités
+      MuScaT.start_and_run();
+    })
+    .on('error',function(e){
+      F.error(`Impossible de charger le fichier des tags. Vous avez dû commettre une erreur sur le nom du dossier de l'analyse<br><br><span class="smaller">(dans "MuScaT/_analyses_/${ANALYSE}/tags.js", le "${ANALYSE}" doit être erroné)</span>.`);
+      console.error(e);
+    });
 });

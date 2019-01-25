@@ -175,7 +175,7 @@ Tag.prototype.to_html = function() {
 
   switch (my.nature) {
     case 'score':
-      return `<img id="${my.domId}" class="${classes.join(' ')}" src="analyse/images/${my.src}" style="${css}" />`
+      return `<img id="${my.domId}" class="${classes.join(' ')}" src="${IMAGES_FOLDER}/${my.src}" style="${css}" />`
     case 'cadence':
     case 'text':
       // classes.push('typed') ; // permet d'ajouter du texte après
@@ -314,7 +314,7 @@ Tag.prototype.updateText = function(){
   }
 }
 Tag.prototype.updateSrc = function(){
-  this.domObj.src = `analyse/images/${this.src}` ;
+  this.domObj.src = `${IMAGES_FOLDER}/${this.src}` ;
 }
 Tag.prototype.updateLock = function(new_value){
   // Note : je ne sais pas pourquoi, ici, je dois utiliser cette

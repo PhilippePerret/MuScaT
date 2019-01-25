@@ -84,3 +84,6 @@ const ITags = {} ;
 const DEFAULT_SCORE_LEFT_MARGIN = 50  ;
 const DEFAULT_SCORE_TOP_MARGIN  = 100 ;
 const DEFAULT_SCORES_SPACES     = 0 ; // espace entre les images de système
+
+// Dossier (dynamique) des images de l'analyse courante
+const IMAGES_FOLDER = `_analyses_/${ANALYSE}/images`;

@@ -1,10 +1,18 @@
 # Todo list
 
+* Utiliser un autre système plus simple : un fichier "analyse.js" dans lequel se trouve le nom de l'analyse. Le programme le lit pour déterminer :
+  * les paths des images
+  * le path du fichier tags.js
+  Les balises sont donc créées dynamiquement.
+  PLUS DE DUPLICATION DE DOSSIER À FAIRE ! :-D
+* Mettre en place le dégroupage
+* Mettre en place le groupage par META-G
 * Pouvoir annuler un déplacement (garder toujours une copie du code initial ou simplement du code qui vient d'être changé — garder l'historique, puisque c'est simple)
 * Faire un script pour "updater" l'analyse courante, c'est-à-dire copier son fichier actuellement édité (sur la table d'analyse) dans son dossier d'analyse dans `_analyses_`.
 
 ## Développements futurs
 
+* Pouvoir changer le nombre d'opérations mémorisées par l'historique ('historique', <nombre>)
 * CTRL META UP et DOWN doit permettre de descendre et remonter la ligne d'un tag quand on est dans le champ de code
 * Faire les différents styles
 * Magnétiser les lignes repères si on se trouve à moins de x de leur position (note : s'assurer que l'option pour démagnéser — désaimanter — existe).

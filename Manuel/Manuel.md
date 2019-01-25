@@ -4,7 +4,8 @@
 <!--
 Pour actualiser le fichier PDF:
 - se placer dans ce dossier (cd ...)
-- jouer : `pandoc Manuel.md --pdf-engine=xelatex --from=markdown --to=latex --output=Manuel.pdf;open Manuel.pdf`
+- jouer :
+pandoc Manuel.md --pdf-engine=xelatex --from=markdown --to=latex --output=Manuel.pdf;open Manuel.pdf
 
 Pour trouver précisément où peut se trouver un problème, on peut passer par
 le document LaTex et le composer. Pour le produire :
@@ -25,20 +26,25 @@ C'est ainsi qu'est née l'idée de **MuScaT** — dont le nom est composé de �
 
 En bref, **MuScaT** permet de **réaliser rapidement, de façon très propre et très pratique, des analyses de partitions musicales** comme l'extrait ci-dessous.
 
-![Extrait d’analyse musicale avec MuScaT](img/manuel/extrait_analyse.png)
+![Extrait d’analyse musicale avec MuScaT](img/extrait_analyse.png)
 
 Elle est semi-graphique, et permet d'ajuster très finement les TAGs — au pixel près — de façon visuelle et agréable.
 
-* [Synopsis général de fabrication](#synopsis_fabrication)
+* [Synopsis général de création d'une analyse](#synopsis_fabrication)
+* [Synopsis détaillé](#synopsis_detailled)
+* [L'interface](#user_interface)
+  * [La boite à outils](#toolbox)
 * [Composition d'un tag](#composition_dun_tag)
-  * [Verrouillage des tags](#lock_tags)
 * [Les Images](#les_images)
   * [Définition de la taille d'une image](#defining_image_size)
   * [Séquence d'images](#sequence_images)
-* [Tous les types (natures) d'éléments](#natures)
+* [Tous les types de tags (natures de tags)](#natures)
   * [Second mot (contenu, accord)](#second_mot)
   * [Autres données de la ligne](#autres_data_ligne)
   * [Les types de textes](#types_de_textes)
+* [Opérations sur les tags](#operation_on_tags)
+  * [Verrouillage des tags](#lock_tags)
+  * [Grouper et dégrouper des tags](#grouper_tags)
 * [Les Options](#all_options)
 * [Les Utilitaires](#les_utilitaires)
   * [Changement du dossier des captures écran (Mac)](#utils_change_captures_folder)
@@ -47,10 +53,11 @@ Elle est semi-graphique, et permet d'ajuster très finement les TAGs — au pix
   * [Activation d'une analyse (Mac)](#activate_analyse)
   * [Pour aller plus loing](#aller_plus_loin)
 
-## Synopsis général de l'analyse {#synopsis_fabrication}
+## Synopsis général de création d'une analyse {#synopsis_fabrication}
 
-Commençons par un aperçu du processus général qui va permettre de produire une analyse musicale à l'aide de **MuScaT**.
+Commençons par un aperçu du processus général qui va permettre de produire une analyse musicale à l'aide de **MuScaT**. Noter que chaque item de cette liste est cliquable et permet de rejoindre la partie détaillée correspondante.
 
+1. [Chargement de l'application **MuScaT**](#download_muscat)
 1. [Création du dossier de l'analyse](#creation_dossier_analyse),
 1. [découpage de la partition en « images-systèmes»](#syn_crop_score),
 1. [inscription des images-systèmes dans l'analyse](#syn_inscription_images_systemes),
@@ -59,11 +66,25 @@ Commençons par un aperçu du processus général qui va permettre de produire u
 1. [récupération du code final](#syn_recuperation_code_final),
 1. [impression en PDF](#syn_print_pdf).
 
-## Synopsis détaillé de l'analyse {#synopsis_detailled}
+## Synopsis détaillé {#synopsis_detailled}
+
+### Chargement de l'application **MuScaT** {#download_muscat}
+
+La toute première chose à faire, bien sûr, est de charger **MuScaT**. Pour le moment, on peut le faire par le biais de son [repository Github de **MuScaT**](https://github.com/PhilippePerret/MuScaT).
+
+Il suffit de cliquer sur le bouton « Clone or download », de choisir « Download ZIP » et d'attendre la fin du téléchargement (l'application fait plusieurs mégaoctets, donc suivant l'état de votre connexion, l'opération peut être plus ou moins longue).
+
+![Bouton « Clone or download »](img/Bouton_clone_or_download.jpg)
+
+![Bouton « Download ZIP »](img/Bouton_Download_ZIP.jpg)
+
+On se retrouve alors avec le dossier de l'application.
+
+![Dossier MuScaT](img/1.Dossier_Muscat.png)
 
 ### Création du dossier de l'analyse {#creation_dossier_analyse}
 
-Si vous êtes sur Mac, le plus simple est d'utiliser le script `create.rb` qui fait tout le travail pour vous, simplement en lui donnant le nom de l'analyse.
+Le plus simple pour créer une nouvelle analyse — et donc son dossier — est d'utiliser le script `create.rb` (ruby doit être installé sur votre ordinateur) qui fait tout le travail pour vous, simplement en lui donnant le nom de l'analyse.
 
 ```bash
 
@@ -72,15 +93,49 @@ Si vous êtes sur Mac, le plus simple est d'utiliser le script `create.rb` qui f
 
 ```
 
-Si vous n'êtes pas sur Mac, la procédure est à peine plus compliquée : vous dupliquez le dossier `Template` qui se trouve dans le dossier `MuScaT/_analyses_` (ce dossier est le dossier qui contient toutes les analyses ; même si vous pouvez les ranger où vous voulez).
+Sans ce script, la procédure est à peine plus compliquée :
 
-![](img/chantier-small.png)
+* dupliquer le dossier `Template` qui se trouve dans le dossier `MuScaT/_analyses_` (ce dossier est le dossier peut contenir toutes les analyses),
 
-Appelons ce dossier `monAnalyse` pour illustrer.
+![Dossier Template](img/3.Template_Analyse.png)
 
-![](img/chantier-small.png)
+* le renommer du nom de l'analyse, par exemple « Analyse-Sonate-Mozart ».
 
-Dans ce dossier, vous pouvez mettre, au même niveau que le dossier `analyse`, votre partition en PDF ou en image.
+![Dossier analyse Mozart](img/4.Dossier_Analyse_Mozart.png)
+
+> Note : il est vivement recommandé de ne pas mettre d'espaces vides dans les noms de dossier ou de fichiers pour une raison qui sera expliquée plus tard. Personnellement, j'aime les remplacer par des traits plats (« Analyse_Sonnate_Mozart »)
+
+Voyons-en rapidement le contenu.
+
+![Contenu du dossier d'analyse](img/6.1.Inner_Dossier_analyse_Mozart.png)
+
+Il ne contient à sa racine que le dossier « analyse » et un fichier « README.md » qui peut être utile pour se rafraichir la mémoire sur l'utilisation de **MuScaT**.
+
+Dans ce dossier, vous pouvez mettre, à la racine, votre partition en PDF ou en image.
+
+![Parition originale](img/6.5.Partition.png)
+
+C'est surtout le dossier « analyse » qui nous intéresse, qui va contenir tous les éléments de l'analyse.
+
+On trouve pour commencer un fichier « aspect.css », que vous ne toucherez pas au départ, et qui permet de rectifier l'aspect des analyses pour obtenir la présentation idéale souhaitée.
+
+![Fichier aspect.css](img/6.2.Fichier_Aspect_css.png)
+
+On trouve en dessous le dossier « images » qui comme son nom l'indique va rassembler toutes les images utiles à l'analyse, c'est-à-dire les partitions, les *systèmes*.
+
+![Dossier images](img/6.3.Dossier_images.png)
+
+Et enfin, on trouve le fichier le plus important, le fichier « tags.js » qui va contenir la définition précise de l'analyse.
+
+![Fichier tags.js](img/6.4.Fichier_Tags.png)
+
+Nous aurons à y revenir en détail très vite.
+
+### Point important
+
+Il faut noter un point important dès à présent, qui sera répété car il n'est pas évident : pour travailler une analyse et l'afficher, il faudra déposer le dossier « analyse » que nous venons de voir sur la table d'analyse. Cette table, qu'on trouve dans le dossier `MuScaT/_table_analyse_`, porte le nom `TABLE_ANALYSE.html` et c'est ce fichier qu'on ouvre pour voir et travailler une analyse. Pour peu qu'on lui ait fourni le dossier d'analyse adéquat.
+
+Nous y reviendrons, l'important et de comprendre qu'il faudra déplacer notre dossier « analyse ».
 
 ### Découpage de la partition en « images-systèmes » {#syn_crop_score}
 
@@ -96,7 +151,7 @@ Notez que c'est ce dossier `analyse` que vous déplacerez dans le dossier `_tabl
 
 On ouvre ensuite son fichier `monAnalyse/analyse/tags.js`. C'est **le fichier principal de l'analyse**, celui qui va définir tous les éléments, les images, les marques de modulations, les accords, les cadences, les parties, tout ce qui constitue l'analyse.
 
-![Exemple d’images dans tags.js](./img/manuel/images_in_tags_js.png)
+![Exemple d’images dans tags.js](./img/images_in_tags_js.png)
 
 Vous devez ouvrir ce fichier en texte simple, c'est-à-dire ne surtout pas utiliser de traitement de texte, ou alors en s'assurant d'exporter le fichier final au format « SimpleText » (`.txt`).
 
@@ -142,7 +197,7 @@ Pour les autres, il faut donc faire une duplication du dossier `analyse`, la pla
 
 On peut placer les éléments aux bons endroits simplement en les déplaçant à la souris, ou avec les flèches de son clavier. On peut en ajouter des nouveaux en dupliquant les lignes de code ou les ajoutant explicitement dans le code.
 
-![Exemple de déplacement d'élément](./img/manuel/move_score.png)
+![Exemple de déplacement d'élément](./img/move_score.png)
 
 Sans l'option `option('code')` activée, il faut modifier le code directement dans le fichier `tags.js` puis recharger la page dans Firefox.
 
@@ -252,16 +307,6 @@ Par exemple, pour une *modulation* vers la tonalité de SOL mineur (G min.) qui 
   mod G_min 200 450
 
 ```
-
-### Verrouillage des tags {#lock_tags}
-
-On peut « verrouiller » un TAG, c'est-à-dire empêcher totalement ses modifications, aussi bien sa position que son contenu, en ajoutant un astérisque, un rond (ALT #) ou même un 🔒 au tout début de sa ligne (suivi ou non par une espace).
-
-**MuScaT** ajoutera un vrai cadenas (🔒) qui rendra ce verrouillage très visuel.
-
-Une fois verrouillé, le TAG ne peut plus être déplacé à la souris. En revanche, il peut tout à fait être modifiée dans le code (sa position, son contenu, etc) pour un ajustement très précis.
-
-Pour deverrouiller un TAG et le rendre à nouveau mobile, il suffit tout simplement de retirer cette marque de verrouillage dans le code.
 
 ## Les Images {#les_images}
 
@@ -455,8 +500,37 @@ Il faut définir la ligne :
 
 Note : ici, c'est le type `partie` qui fera que le texte s'écrit de travers, dans une boite.
 
+---
 
-### Les types de textes {#types_de_textes}
+## Opérations sur les tags {#operation_on_tags}
+
+### Verrouillage des tags {#lock_tags}
+
+On peut « verrouiller » un TAG, c'est-à-dire empêcher totalement ses modifications, aussi bien sa position que son contenu, en ajoutant un astérisque, un rond (ALT #) ou même un 🔒 au tout début de sa ligne (suivi ou non par une espace).
+
+**MuScaT** ajoutera un vrai cadenas (🔒) qui rendra ce verrouillage très visuel.
+
+Une fois verrouillé, le TAG ne peut plus être déplacé à la souris. En revanche, il peut tout à fait être modifiée dans le code (sa position, son contenu, etc) pour un ajustement très précis.
+
+Pour deverrouiller un TAG et le rendre à nouveau mobile, il suffit tout simplement de retirer cette marque de verrouillage dans le code.
+
+### Grouper et dégrouper des tags {#grouper_tags}
+
+« Grouper » des tags permet de les considérer comme un seul élément. On peut de cette manière les déplacer ensemble ou les supprimer tous ensemble.
+
+Pour grouper :
+
+* sélectionner les TAGs les uns après les autres en maintenant la touche MAJ appuyée,
+* activer le bouton « Grouper les x tags sélectionnés » dans [la boite d'outils](#toolbox) ou jouez la combinaison clavier CMD G (Ctrl G sur Windows)
+
+Pour dégrouper :
+
+* sélectionner un groupe en sélectionnant un de ses éléments
+* activer le bouton « Dégrouper les tags » dans [la boite d'outils](#toolbox) ou jouez la combinaison clavier CMD G (Ctrl G sur Windows).
+
+---
+
+## Les types de textes {#types_de_textes}
 
 * [Les parties](#type_texte_partie)
 * [Les modulations](#type_texte_modulation)
@@ -477,7 +551,7 @@ Note : ici, c'est le type `partie` qui fera que le texte s'écrit de travers, da
 
 Les marques de partie s'indiquent avec le tag `partie` (ou `par` ou `part`). Ce sont des textes dans des boites inclinées qui ont cet aspect :
 
-![Marque de partie](img/manuel/marque_partie.png)
+![Marque de partie](img/marque_partie.png)
 
 #### Les mesures {#type_texte_mesure}
 
@@ -489,7 +563,7 @@ On peut mettre un texte au-dessus de la barre inclinée (en général la tonalit
 
 Pour séparer les deux textes, on utilise tout simplement la barre inclinée, appelée « balance ». Ainsi, pour obtenir :
 
-![Modulation avec sous-titre](img/manuel/Modulation_sous_texte.png)
+![Modulation avec sous-titre](img/Modulation_sous_texte.png)
 
 … on utilisera simplement :
 
@@ -673,7 +747,7 @@ Type : booléen
 
 L'option « code à côté » permet d'avoir le fichier contenant le code juste à côté de la partition, ce qui est très pratique pour le modifier sans avoir à changer d'application. On le voit ci-dessous dans la boite noir.
 
-![Code à côté de la partition](img/manuel/option_code_beside.png)
+![Code à côté de la partition](img/option_code_beside.png)
 
 ### Option « découpe image » {#option_crop_image}
 
