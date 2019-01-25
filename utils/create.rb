@@ -3,48 +3,15 @@
 =begin
   Script pour renommer les fichiers du dossier donné en argument.
 =end
+require 'fileutils'
 require_relative 'required'
-
-TAGS_JS_DEFAULT_CODE = <<-EOT
-// L'option 'code' permet de voir le code à côté de l'analyse
-// sur la table
-// L'option 'guides' affiche les deux lignes qui
-// permettent d'aligner les éléments
-option('code', 'guides');
-
-// Définir ci-dessous tous les TAGs
-
-Tags = `
-// -- TAGS --
-tex Ma_première_analyse x=200 y=200
-`;
-
-EOT
-
-ASPECT_CSS_DEFAULT_CODE = <<-EOT
-/**
-  * Définir ici les aspects propre à cette analyse, si nécessaire.
-  * Ou remplacer ce fichier par un thème proposé.
-  */
-section#tags {
-  /* Aspect de la table d'analyse sur laquelle se trouvent tous les TAGs */
-}
-EOT
-
-READ_ME_CODE = <<-EOT
-
-Pour pouvoir travailler ou voir cette analyse, dupliquer (sur Mac, déplacer avec la touche ALT appuyée) le dossier `analyse` dans le dossier `_table_analyse_` puis lancer simplement le fichier `TABLE_ANALYSE.html` de ce dossier `_table_analyse_`.
-
-Vous pouvez faire cela de façon automatique en jouant dans le terminal : `./analyse.rb "%{analyse_name}"` (il faut pour cela que vous vous trouviez dans le dossier `MuScaT/utils/`).
-
-EOT
 
 INFOS_CODE = <<-EOT
 INFOS = {
   analyse_name:   "%{analyse_name}",
   author:          "#{File.basename(Dir.home)}",
   created_at:     #{Time.now.to_i},
-  muscat_version:  "#{File.read(File.join(APPFOLDER,'VERSION')).strip}"
+  muscat_version:  "#{File.read(File.join(APPFOLDER,'xlib','VERSION')).strip}"
 }
 EOT
 unless ARGV.include?('-h') || ARGV.include?('--help')
@@ -68,54 +35,47 @@ unless ARGV.include?('-h') || ARGV.include?('--help')
       `mkdir -p "#{ANALYSES_FOLDER}"`
       puts "Dossier des analyses construit."
     end
-    unless File.exist?(TABLE_FOLDER)
-      `mkdir -p "#{TABLE_FOLDER}"`
-      puts "Table des analyses construite avec succès."
+
+    ANALYSE_FOLDER  = File.join(ANALYSES_FOLDER,analyse_name)
+    puts "Dossier analyse: #{ANALYSE_FOLDER}"
+    if File.exist?(ANALYSE_FOLDER)
+      raise "Ce dossier d'analyse existe déjà.\n\t\tDétruisez-le ou choisissez un autre nom."
+    end
+    TEMPLATE_FOLDER = File.join(ANALYSES_FOLDER,'Template')
+
+    FileUtils.cp_r("#{TEMPLATE_FOLDER}/", ANALYSE_FOLDER)
+
+    analyse_tags_file = File.join(ANALYSE_FOLDER,'analyse.js')
+    File.open(analyse_tags_file,'wb'){|f| f.write('const ANALYSE="%s";' % [analyse_name])}
+    infos_file = File.join(ANALYSE_FOLDER,'.infos.rb')
+    File.open(infos_file,'wb'){|f|f.write(INFOS_CODE % {analyse_name: analyse_name})}
+
+    if ARGV.include?('-o') || ARGV.include?('--open')
+      `open "#{analyse_folder}"`
     end
 
-    # On se place toujours dans le dossier principal de Muscat pour
-    # faire ces opérations
-    Dir.chdir(APPFOLDER) do
-
-      analyse_folder = File.join(ANALYSES_FOLDER, analyse_name)
-      if File.exist?(analyse_folder)
-        raise "Un dossier d'analyse de même nom existe déjà. Vous devez le détruire « à la main » pour en recréer un de même nom."
-      end
-      `mkdir -p "#{File.join(analyse_folder,'analyse','images')}"`
-      read_me_file = File.join(analyse_folder,'README.md')
-      File.open(read_me_file,'wb'){|f| f.write(READ_ME_CODE % {analyse_name: analyse_name})}
-      analyse_tags_file = File.join(analyse_folder,'analyse','tags.js')
-      File.open(analyse_tags_file,'wb'){|f| f.write(TAGS_JS_DEFAULT_CODE)}
-      analyse_css_file = File.join(analyse_folder, 'analyse','aspect.css')
-      File.open(analyse_css_file,'wb'){|f| f.write(ASPECT_CSS_DEFAULT_CODE)}
-      infos_file = File.join(analyse_folder,'analyse','.infos.rb')
-      File.open(infos_file,'wb'){|f|f.write(INFOS_CODE % {analyse_name: analyse_name})}
-
-      if ARGV.include?('-o') || ARGV.include?('--open')
-        `open "#{analyse_folder}"`
-      end
-
-      puts <<-EOT
+    msg_confirm = <<-EOT
 
 
 La nouvelle analyse a été créée avec succès.
 
 Vous pouvez ouvrir le fichier `tags.js` pour la modifier.
 
-Pour pouvoir voir cette analyse et la travailler, vous devez dupliquer
-son dossier `analyse` (contenant `tags.js` et le dossier `images`) sur
-la table d'analyse (le dossier `_table_analyse_`) en détruisant l'ana-
-lyse qui s'y trouve (si c'est une duplication) ou en replaçant son
-dossier `analyse` dans son dossier principal.
+Pour voir cette analyse et la travailler, copier-colle son fichier
+`analyse.js` à la racine du dossier de MuScaT ou, mieux, utiliser la
+commande `analyse` suivi du nom de cette analyse.
 
-Notez que vous pouvez activer une analyse de façon très simple grâce
-au script `./analyse.rb <nom_de_lanalyse>` qui fait toutes ces opéra-
-tions pour vous.
+Sans alias :
+    > cd "#{APPFOLDER}"
+    > ./utils/analyse.rb #{analyse_name}
+
+Avec un alias :
+    > mus analyse #{analyse_name}
 
 
-      EOT
-    end
+    EOT
 
+    puts msg_confirm.vert
 
   rescue Exception => e
     puts "\n\n\tERREUR: #{e.message}\n\n(pour obtenir de l'aide, jouez `./create.rb --help` — ou `-h`)\n\n".blanc_sur_fond_rouge

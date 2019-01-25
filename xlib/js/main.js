@@ -28,11 +28,14 @@ const DATA_DRAGGABLE = {
       }
     }
   , stop: function(ev, ui){
+      var my = this ;
       this._tag.onStopMoving(ev, ui);
-      my._tag.group.onEachTag(function(tg){
-        if(tg.id == my._tag.id){return};
-        tg.updateXY();
-      })
+      if(my._tag.group){
+        my._tag.group.onEachTag(function(tg){
+          if(tg.id == my._tag.id){return};
+          tg.updateXY();
+        });
+      };
     }
   , drag: function(ev, ui){
       var my = this ;

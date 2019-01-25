@@ -1,10 +1,10 @@
 # Todo list
 
 * [BUG] Le réglage de la hauteur des modulations ne fonctionne pas
-* Remettre les tests en place (peut-être faire chaque fois une copie du dossier test à la racine pour ne pas avoir à la voir dans le dossier principal)
+* [BUG] Les options données sont trop nombreuses
 * [TEST] Options : 'vertical line offset', 600, 'horizontal line offset', 100
-* Modifier les scripts pour tenir compte des modifications
 * Pouvoir annuler un déplacement (garder toujours une copie du code initial ou simplement du code qui vient d'être changé — garder l'historique, puisque c'est simple)
+* quand on donne tout le code, donner aussi les coordonnées des repères (si l'option est activée)
 
 ## Développements futurs
 
