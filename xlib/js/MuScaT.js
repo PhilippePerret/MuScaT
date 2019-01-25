@@ -391,13 +391,37 @@ const MuScaT = {
    * d'un seul coup (cette méthode est seulement appelée par load)
    */
   , build_tags: function(){
-      var my = this ;
-      my.onEachTag(function(itag){
+      var my = this
+        , animated = false
+        ;
+
+      my.onEachTag(function(itag, idx){
+        if(animated){return};
         my.lines.push(itag.to_line()) ; // p.e. ajout de l'id
-        if(itag.real){itag.build()};
+        if(itag.real){itag.build()}
+        else if(itag.is_comment_line && itag.text.match(/START/)){
+          animated = true ;
+          my.build_tags_for_anim(idx);
+        }
       });
     }
-
+  , build_tags_for_anim: function(tag_idx){
+      var my    = this
+        , itag  = my.tags[tag_idx] ;
+      if (my.timer){clearTimeout(my.timer)};
+      if(!itag){return};
+      my.lines.push(itag.to_line());
+      if(itag.real){
+        itag.build();
+        my.timer = setTimeout($.proxy(MuScaT,'build_tags_for_anim',++tag_idx), 2000);
+      } else {
+        // Si ce n'est pas un vrai tag
+        // TODO : si c'est un commentaire avec STOP, on définit que la
+        // méthode onSpace doit appeler cette méthode avec l'index réel suivant
+        // 
+        my.build_tags_for_anim(++tag_idx);
+      }
+    }
   , prepare_crop_image: function(){
       itag = ITags['obj1'];
       itag.x = 0 ; itag.y = 0 ; itag.update();
