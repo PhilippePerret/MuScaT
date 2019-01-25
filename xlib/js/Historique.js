@@ -5,58 +5,73 @@
  */
 
 const Historique = {
-  items: new Array(),
-  max_items: 100, // nombre maximum d'opérations (pourra être changé par options)
+    items: new Array()
+  , max_items: 100 // nombre maximum d'opérations (pourra être changé par options)
 
   /**
    * Méthode pour ajouter un élément
    */
-  add: function(hdata){
-    this.items.push(new Histo(hdata));
-  },
+  , add: function(props_list){
+      this.items.push(new Histo(props_list));
+      if(this.items.length > 100) { this.items.shift() };
+      console.log(this.items);
+    }
 
   /**
    * Revenir en arrière
    */
-  backward: function(){
+  ,backward: function(){
 
-  },
+    }
 
   /**
    * Afficher l'historique
    */
-  display: function(){
+  , display: function(){
 
-  },
+    }
 
+  /**
+  * Supprimer la dernière opération d'historique
+  **/
+  , undo_last: function(){
+      if(this.items.length){
+        this.undo(this.items.length - 1);
+      };
+    }
   /**
    * Supprimer une opération de l'historique
    * Supprime la ligne d'historique d'index +idx+, c'est-à-dire
    * défait l'opération, remet l'état précédent.
    */
-  undo: function(idx){
-
-  },
+  , undo: function(idx){
+      var ope = this.items.splice(idx,1)[0];
+      ope.onEachProp(function(iprop){iprop.revert()});
+    }
 };
 
-const Histo = function(hdata){
-  this.data = hdata ;
-  this.subject = hdata.subject ; // p.e. 'tag' pour un TAG
-  this.subj_id = hdata.subj_id ; // id du sujet, p.e. l'id du TAG
-  this.props   = hdata.props ; // liste des propriétés modifiées (HistoProp)
-  /*
-  prop = {
-    name:   nom de la propriété p.e. 'x'
-    prev_value:   valeur avant
-    next_value:   valeur actuelle
-  }
-   */
+const Histo = function(props_list){
+  var firstprop     = props_list[0] ;
+  this.subject      = firstprop.subject ;
+  this.props_list   = props_list ; // liste des propriétés modifiées (HistoProp)
+};
+Histo.prototype.onEachProp = function(method){
+  for(var instprop of this.props_list){
+    method(instprop);
+  };
+  M.update_line(this.subject.index_line);
 };
 
-const HistoProp = function() {
-  this.name       = null ; // nom de la propriété, p.e. 'x', ou 'locked'
-  this.prev_state = null ; // la valeur avant l'opération, p.e. 120 ou false
-  this.next_state = null ; // La valeur après l'opération, p.e. 130 ou true
+const HistoProp = function(subject, prop, prev_state, next_state) {
+  this.subject    = subject ;
+  this.prop       = prop ; // nom de la propriété, p.e. 'x', ou 'locked'
+  this.prev_state = prev_state ; // la valeur avant l'opération, p.e. 120 ou false
+  this.next_state = next_state ; // La valeur après l'opération, p.e. 130 ou true
+};
+// Méthode qui permet de revenir à l'état précédent de la
+// propriété du sujet
+HistoProp.prototype.revert = function(){
+  this.subject.update(this.prop, this.prev_state, {no_histo: true});
 };
 
 const H = Historique ;

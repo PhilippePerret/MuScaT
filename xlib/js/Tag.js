@@ -240,13 +240,16 @@ const MODUL_SOUS_TEXT_ATTRS = {
 // Méthodes de transformation
 
 // Actualisation du tag dans le DOM
-Tag.prototype.update = function(prop, new_value) {
+Tag.prototype.update = function(prop, new_value, options) {
   var my = ITags[this.domId];
   if(undefined == prop){
     // Appel de la méthode sans argument
     my.updateXY(); // ça fait tout, normalement
 
   } else {
+    if (!options || !options.no_histo){
+      H.add([new HistoProp(my, prop, my[prop], new_value)]) ;
+    }
     // Appelé avec un argument, c'est la propriété qu'il faut
     // actualiser
     switch (prop) {

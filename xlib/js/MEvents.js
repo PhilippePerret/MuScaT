@@ -20,6 +20,7 @@ const MEvents = {
    * la circonstance.
    */
   onkeypress: function(ev) {
+    if (!this.onkeypress_always(ev)){ return };
     if(CodeField.focused){
       this.onkeypress_on_code_field(ev);
     } else if (CTags.selection) {
@@ -27,13 +28,29 @@ const MEvents = {
     } else {
       this.onkeypress_else(ev);
     }
-  },
+  }
 
+  /**
+   * Gestionnaire de touches qui est toujours appelé
+   * S'il retourne true, on poursuit avec les autres gestionnaires, sinon
+   * on s'arrête là.
+   */
+  , onkeypress_always: function(ev){
+      if (ev.metaKey){
+        switch(ev.charCode){
+          case 122: // CMD Z / Annulation
+            Historique.undo_last();
+            return stop(ev);
+        };
+        // this.console_key(ev);
+      }
+      return true ;
+    }
   /**
    * Gestionnaire de touches pressées quand on se trouve dans le
    * champ de code
    */
-  onkeypress_on_code_field: function(ev){
+  , onkeypress_on_code_field: function(ev){
     // console.log('-> onkeypress_on_code_field');
     var my = CodeField ;
     if(ev.keyCode == 13 && ev.altKey){

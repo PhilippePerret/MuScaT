@@ -412,6 +412,7 @@ const MuScaT = {
   // Tag après son déplacement, par exemple)
   , update_line: function(idx, new_line) {
       var   my = this ;
+      if(undefined == new_line){ new_line = my.tags[idx].to_line() };
       my.lines[idx] = new_line ;
       // On met la nouvelle ligne dans le clipboard pour la copier-coller
       navigator.clipboard.writeText(new_line + RC) ;
