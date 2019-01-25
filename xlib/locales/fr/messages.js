@@ -26,4 +26,6 @@ Object.assign(MSG,{
 
   , 'tags undefined': 'Il faut définir les images et les « TAGs » à poser (dans le fichier `tag.js`)'
 
+  , 'no w pour modulation': 'La largeur d’une modulation ne se modifie pas. Utiliser `h` pour modifier la hauteur de sa ligne verticale.'
+
 });

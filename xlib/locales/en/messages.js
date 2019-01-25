@@ -28,4 +28,7 @@ Object.assign(MSG,{
 
   , 'tags undefined': 'You have to define TAGs and scores lines (in `tag.js` file)!'
 
+
+  , 'no w pour modulation': 'Width of a modulation can’t change. Use `h` to modify the height of its vertical line.'
+
 });

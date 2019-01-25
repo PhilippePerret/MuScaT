@@ -208,8 +208,8 @@ Tag.prototype.buildAsModulation = function(classes, css){
   xmlns:xlink="http://www.w3.org/1999/xlink">
     <text class="main" font-size=16 x="0" y="56" transform="rotate(-28 0 0)">${my.main_text || my.text}</text>
     <text class="sous" font-size=14 x="2" y="84" transform="rotate(-28 0 20)">${my.sous_text || ''}</text>
-    <line class="bias" stroke-width="2" x1="18" y1="64" x2="88" y2="26" stroke="black" stroke-linecap="round" />
-    <line class="vert" stroke-width="2" x1="18" y1="${vly1}" x2="18" y2="${vly2}" stroke="black" stroke-linecap="round" />
+    <line class="biasline" stroke-width="2" x1="18" y1="64" x2="88" y2="26" stroke="black" stroke-linecap="round" />
+    <line class="vertline" stroke-width="2" x1="18" y1="${vly1}" x2="18" y2="${vly2}" stroke="black" stroke-linecap="round" />
   </svg>
 </div>`
   return code;
@@ -257,10 +257,10 @@ Tag.prototype.update = function(prop, new_value) {
         my.updateX();break;
       case 'h':
       case 'height':
-        my.updateH();break;
+        my.updateH(new_value);break;
       case 'w':
       case 'width':
-        my.updateW();break;
+        my.updateW(new_value);break;
       case 'text':
         my.updateText();break;
       case 'src':
@@ -289,18 +289,22 @@ Tag.prototype.updateX = function(newx){
   if(undefined != newx){this.x = newx}
   this.jqObj.css({'left': this.x + 'px'});
 };
-Tag.prototype.updateH = function(){
+Tag.prototype.updateH = function(newh){
   var my = this ;
+  if(undefined != newh) { my.h = newh } ;
   // Traitement particulier pour les modulations
   if(my.type == 'modulation'){
     my.jqObj.find('svg')[0].setAttribute('height', this.h + 50) ;
-    var line = my.jqObj.find('svg line.vert')[0]
+    var line = my.jqObj.find('svg line.vertline')[0] ;
     line.setAttribute('y2', Number.parseInt(line.getAttribute('y1'),10) + this.h);
   } else {
     this.jqObj.css({'height': this.h + 'px'})
   }
 }
-Tag.prototype.updateW = function(){
+Tag.prototype.updateW = function(neww){
+  var my = ITags[this.domId];
+  if(undefined != neww) { my.w = neww };
+  if (my.type == 'modulation'){return F.error(t('no w pour modulation'))};
   this.jqObj.css({'width': this.w}) ;
 }
 Tag.prototype.updateText = function(){
