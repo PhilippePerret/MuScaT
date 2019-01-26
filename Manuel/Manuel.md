@@ -71,7 +71,15 @@ Commençons par un aperçu du processus général qui va permettre de produire u
 
 La toute première chose à faire, bien sûr, est de charger **MuScaT**. Pour le moment, on peut le faire par le biais de son [repository Github de **MuScaT**](https://github.com/PhilippePerret/MuScaT).
 
-Il suffit de cliquer sur le bouton « Clone or download », de choisir « Download ZIP » et d'attendre la fin du téléchargement (l'application fait plusieurs mégaoctets, donc suivant l'état de votre connexion, l'opération peut être plus ou moins longue).
+Il suffit de cliquer sur le bouton « Clone or download »,
+
+![Bouton Clone ou download](img/Bouton_clone_or_download.jpg)
+
+… de choisir « Download ZIP »
+
+![Bouton Download ZIP](img/Bouton_Download_ZIP.jpg)
+
+… et d'attendre la fin du téléchargement (l'application fait plusieurs mégaoctets, donc suivant l'état de votre connexion, l'opération peut être plus ou moins longue).
 
 On se retrouve alors avec le dossier de l'application.
 
@@ -153,7 +161,7 @@ Dans tous les cas, on place la ou les images dans le dossier `_analyses_/<Nom an
 
 ### Inscrire les images-systèmes {#syn_inscription_images_systemes}
 
-On ouvre ensuite son fichier `monAnalyse/analyse/tags.js`. C'est **le fichier principal de l'analyse**, celui qui va définir tous les éléments, les images, les marques de modulations, les accords, les cadences, les parties, tout ce qui constitue l'analyse.
+On ouvre ensuite son fichier `monAnalyse/tags.js`. C'est **le fichier principal de l'analyse**, celui qui va définir tous les éléments, les images, les marques de modulations, les accords, les cadences, les parties, tout ce qui constitue l'analyse.
 
 ![Exemple d’images dans tags.js](./img/images_in_tags_js.png)
 
@@ -222,9 +230,19 @@ Le mieux est de s'arranger pour définir ces tags à peu près en fonction des p
 
 ### Activer l'analyse
 
-Pour activer cette nouvelle analyse, nous allons donc copier-coller son fichier `analyse.js` à la racine du dossier de l'application **MuScaT**. Vous pouvez par exemple sélectionner le fichier dans le Findre ou sur votre bureau, sélectionner le dossier `MuScaT` et coller. Le bureau vous demandera de confirmer le remplacement (un autre fichier `analyse.js` existe déjà à cet endroit, celui de l'analyse courante).
+Pour activer cette nouvelle analyse, nous allons donc copier-coller son fichier `analyse.js` à la racine du dossier de l'application **MuScaT**. Assurez-vous d'abord que dans ce fichier, c'est bien votre analyse qui est indiqué. Si vous avez simplement dupliqué le dossier Template, l'analye s'appellera `Template` et c'est elle qui s'ouvrira.
 
-Pensez en tout cas à faire une duplication du fichier, ne le glissez pas.
+Si votre analyse s'appelle (son dossier) `monAnalyse`, alors le fichier `analyse.js` doit impérativement contenir :
+
+```javascript
+
+const ANALYSE = "monAnalyse";
+
+```
+
+Vous pouvez ensuite, par exemple, sélectionner le fichier `analyse.js` dans le Finder ou sur votre bureau, sélectionner le dossier `MuScaT` et coller. Le bureau vous demandera de confirmer le remplacement (un autre fichier `analyse.js` existe déjà à cet endroit, celui de l'analyse courante).
+
+Pensez en tout cas à faire une duplication du fichier, ne le glissez pas, il risquerait d'être perdu.
 
 Seconde solution, vous pouvez également éditer le fichier `MuScaT/analyse.js` principal et mettre le nom de votre dossier dans la constante `ANALYSE`.
 
@@ -241,10 +259,19 @@ Seconde solution, vous pouvez également éditer le fichier `MuScaT/analyse.js` 
 
 Noter que les heureux possesseurs de Mac peuvent utiliser un script permettant d'activer très simplement n'importe quelle analyse. Il suffit de rejoindre, dans l'application Terminal, le dossier de **MuScaT** et de taper `> ./utils/analyse.rb`. Nous y reviendrons en parlant des [utilitaires](#les_utilitaires).
 
+Et, plus loin, si [vous avez installé un alias](#aller_plus_loin) (par exemple `mus`), il vous suffit de taper :
+
+```bash
+
+> mus analyse
+
+```
+
+… et de choisir dans la liste l'analyse à ouvrir.
 
 ### Positionnement des éléments graphiques {#syn_ajustement_elements}
 
-Une fois l'analyse désignée comme analyse courante, il faut ouvrir le fichier `_TABLE_ANALYSE_.html` dans votre navigateur.
+Une fois l'analyse désignée comme analyse courante, on ouvre le fichier `_TABLE_ANALYSE_.html` dans Firefox.
 
 ![Fichier Table d'analyse](img/10.Fichier_Table_analyse.png)
 
@@ -253,6 +280,8 @@ Firefox est vivement recommandé, l'application n'a pas été testée en profond
 On peut placer les éléments aux bons endroits simplement en les déplaçant à la souris, ou avec les flèches de son clavier. On peut en ajouter des nouveaux en dupliquant les lignes de code ou les ajoutant explicitement dans le code.
 
 ![Exemple de déplacement d'élément](./img/move_score.png)
+
+À tout moment on peut annuler une opération pour revenir en arrière en jouant CMD Z (sur Mac) ou Ctrl Z (sur Windows).
 
 Sans l'option `option('code')` activée, il faut modifier le code directement dans le fichier `tags.js` puis recharger la page dans Firefox pour voir les changements.
 

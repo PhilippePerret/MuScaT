@@ -33,8 +33,8 @@ testCreateImage.before_premier_juste_pour_virgule=function(){
 // Méthode qui attend, pour lancer le test +fn+, que les images
 // soient toutes chargées
 testCreateImage.wait_for_images = function(fn){
-  var unloadeds = $('#tags img').length ;
-  $('#tags img')
+  var unloadeds = $('.tags img').length ;
+  $('.tags img')
     .on('load', function(){
       -- unloadeds ;
       if(!unloadeds){fn()};
@@ -89,9 +89,9 @@ testCreateImage.un_rang_dimages_est_cree_normalement = function(){
   var tags = assert_nombre_tags(3);
 
   assert(
-    $('#tags img').length == 3,
+    $('.tags img').length == 3,
     "Ce sont bien 3 images qui ont été créées",
-    `3 images auraient dû être créées (il y en a ${$('#tags img').length})`
+    `3 images auraient dû être créées (il y en a ${$('.tags img').length})`
   );
   var pos = [];
   for(var i=0;i<3;++i){pos.push(tags[i].style.top)};

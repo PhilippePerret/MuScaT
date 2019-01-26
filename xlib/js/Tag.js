@@ -249,6 +249,9 @@ Tag.prototype.to_html = function() {
   else {classes.push('drag')}
 
   switch (my.nature) {
+    case 'page-break':
+      css += `margin-top:${my.y};`
+      return `<p id="${my.domId}" class="${classes.join(' ')}" style="${css}">&nbsp;P-B&nbsp;</p>`
     case 'score':
       return `<img id="${my.domId}" class="${classes.join(' ')}" src="${IMAGES_FOLDER}/${my.src}" style="${css}" />`
     case 'cadence':
@@ -778,6 +781,9 @@ Object.defineProperties(Tag.prototype,{
   },
   is_empty_line: {
     get: function(){return this.nature_init == ''}
+  },
+  is_page_break: {
+    get: function(){return this.nature == 'page-break'}
   },
   is_image: {
     get: function(){return this.nature == 'score' }

@@ -1,12 +1,19 @@
 @media print {
-  section#tags{
+  section.tags{
     padding-bottom: 0;
     height: auto!important;
+    margin-left: -2cm;
   }
   section#tools,
   section#rcolumn,
   span#analyse_name,
   section#footer,
+  div.page-break,
+  div.mark-margin,
   div.refline
   {display: none;}
+
+  div.mark-margin{
+    height: auto!important;
+  }
 }

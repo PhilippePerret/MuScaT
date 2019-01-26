@@ -42,6 +42,9 @@ const UI = {
 
     /**
      * Méthode pour définir l'interface en fonction de la langue
+     *
+     * C'est aussi cette méthode qui dessine des lignes repères pour
+     * les sauts de page.
      */
   , set_ui: function(){
       // Le mieux, c'est la tournure ci-dessous, où l'on met "t-<id locale>"
@@ -58,6 +61,10 @@ const UI = {
       $('.to-left').text(t('to-left'));
       $('.to-right').text(t('to-right'));
       $('.the').text(t('the'));
+
+      $('body').append(`<div class="page-break" style="top:29.7cm;">&nbsp;&nbsp;</div>`);
+      $('body').append(`<div class="mark-margin" style="left:2cm;"></div>`);
+      $('body').append(`<div class="mark-margin" style="left:19cm;"></div>`);
     }
 };
 Object.defineProperties(UI,{

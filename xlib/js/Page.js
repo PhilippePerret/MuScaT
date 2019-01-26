@@ -27,12 +27,12 @@ const Page = {
   wait_for_images: function(){
     var my = this ;
     my.counts = {
-        images:  $('#tags img').length
+        images:  $('.tags img').length
       , loaded:  0
       , treated: 0
       , errors:  new Array()
     };
-    $('#tags img')
+    $('.tags img')
       .on('load', function(){
         // On passe ici chaque fois qu'une image est chargée
         my.counts.loaded ++ ;
@@ -68,8 +68,8 @@ const Page = {
   },
   wait_to_treate_images_spaces: function(){
     var my = this ;
-    var unloadeds = $('#tags img').length ;
-    $('#tags img')
+    var unloadeds = $('.tags img').length ;
+    $('.tags img')
       .on('load error', function(){
         -- unloadeds ;
         if(!unloadeds){my.treate_images_spaces()};
@@ -152,7 +152,8 @@ const Page = {
     // le fait plus, ça pose trop de problèmes.
     // Si on est en mode animation, on doit faire apparaitre l'élément
     // doucement.
-    $('section#tags').append(M.animated ? $(itag.to_html()).fadeIn() : itag.to_html()) ;
+    var xpage = 1 ;
+    $(`section#tags-page-${xpage}.tags`).append(M.animated ? $(itag.to_html()).fadeIn() : itag.to_html()) ;
 
     ITags[itag.domId] = itag ;
 

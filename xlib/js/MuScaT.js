@@ -103,9 +103,9 @@ const MuScaT = {
 
     // Quand on clique sur la partition, en dehors d'un élément,
     // ça déselectionne tout
-    // $('#tags').on('click', function(ev){CTags.deselect_all()})
+    // $('.tags').on('click', function(ev){CTags.deselect_all()})
     if(!Options.get('crop image')){
-      $('#tags').on('click', $.proxy(Page, 'onClickOut'))
+      $('.tags').on('click', $.proxy(Page, 'onClickOut'))
     }
 
     // Si l'option 'code beside' a été activée, il faut préparer la
@@ -610,7 +610,7 @@ const MuScaT = {
     my.lines  = new Array();
     my.errors = new Array();
     my.last_tag_id = 0 ; // commence à 1
-    $('section#tags')[0].innerHTML = '' ;
+    $('section.tags')[0].innerHTML = '' ;
     my.treate_images_spaces = false ;
     my.motif_lines_added = null ;
     // ITags = {};
@@ -618,13 +618,13 @@ const MuScaT = {
 
   set_observers: function(){
     // On rend tous les éléments sensibles au click (mais sans propagation)
-    $('section#tags .tag').on('click', CTags.onclick);
+    $('section.tags .tag').on('click', CTags.onclick);
     // On ajout un observateur de clic sur les images (ils en ont déjà un
     // par .tag) pour qu'ils donnent les coordonnées au clic de la souris,
     // ce qui peut servir à place un élément sur l'image directement
-    $('section#tags img').on('click', $.proxy(Page,'getCoordonates'))
+    $('section.tags img').on('click', $.proxy(Page,'getCoordonates'))
     // On rend tous les éléments draggable
-    $('section#tags .drag').draggable(DATA_DRAGGABLE)
+    $('section.tags .drag').draggable(DATA_DRAGGABLE)
   },
 
   /**
@@ -643,7 +643,7 @@ const MuScaT = {
     if (this._cropper) {
       return this._cropper;
     } else {
-      $('#tags').append('<div id="cropper" style="position:absolute;border:1px dashed green;"></div>');
+      $('.tags').append('<div id="cropper" style="position:absolute;border:1px dashed green;"></div>');
       return this.cropper();
     }
   },

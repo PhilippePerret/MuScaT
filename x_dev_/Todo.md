@@ -1,7 +1,8 @@
 # Todo list
 
-* Documenter l'annulation
-* Pouvoir ajouter des pages-breaks (il faut que ce soit des tags aussi, qu'on peut déplacer de la même manière que les autres tags - en @media screen, ils affichent le texte "page break" et en @media print, ils ajoutent un saut de page)
+* Essayer de placer un div (en position relative), en jouant sur le margin-top pour le placer très bas (plus d'une page) pour obliger l'impression à tenir compte de la taille de la table d'analyse.
+* [BUG] Une seule page s'affiche, il faut utiliser une autre fonctionnement : à la QuarkXPress, avec des pages l'une au bout de l'autre, qui représentent les différentes pages
+* Lorsqu'on a une séquence d'images, ajouter leur largeur à 17.01cm.
 * Traduire tous les textes des scripts utilitaires (il faut un système spécial comme i18n, mais sans passer par là)
 
 ## TEST
