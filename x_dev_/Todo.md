@@ -1,11 +1,18 @@
 # Todo list
 
+* Ne pas détruire vraiment un tag, utiliser plutôt une propriété "destroyed" qui pourra être mémorisée dans l'historique, avec une méthode 'updateDestroyed' qui pourra reconstruire l'élément
 * [TEST] Options : 'vertical line offset', 600, 'horizontal line offset', 100
 * Pouvoir annuler un déplacement (garder toujours une copie du code initial ou simplement du code qui vient d'être changé — garder l'historique, puisque c'est simple)
 * Traduire tous les textes des scripts utilitaires (il faut un système spécial comme i18n, mais sans passer par là)
 
 ## Développements futurs
 
+* Faire le script 'open' pour :
+  * ouvrir le dossier de l'animation sur le bureau
+  * ouvrir le tags.js dans un éditeur
+  * ouvrir le aspect.css dans un éditeur ?
+* Mémoriser les dernières analyses, mettre la dernière en courante, comme pour scriv
+* Lignes : essayer de faire des flèches avec "->" et "<-" et "<->" (en notant qu'une flèche vers le haut ou le bas est comme celles-ci). Utiliser ensuite les h et les w pour jouer sur l'angle ou utiliser plutôt une autre propriété pour la rotation
 * Pouvoir entrer le titre et d'autres informations pour la première page (ou même une image de première page). Si informations textuelles, créer cette première page avec un @media qui ne rendrait pas les éléments visibles par défaut sur la page, mais les imprimeraient.
 * Pouvoir changer le nombre d'opérations mémorisées par l'historique ('historique', <nombre>)
 * CTRL META UP et DOWN doit permettre de descendre et remonter la ligne d'un tag quand on est dans le champ de code

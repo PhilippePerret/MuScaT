@@ -20,6 +20,9 @@ Object.assign(MSG,{
   // OPTIONS
   , 'memo guides offsets': "Must I remember current position of the guide lines?"
 
+  // ANIMATION
+  , 'press space animation': "Press SPACE bar to continue animation."
+
 
   // ---------------------------------------------------------------------
   //  === ERRORS ===

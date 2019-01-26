@@ -5,7 +5,9 @@
  */
  // Les options utilisables
  OPTIONS = {
-     'code beside':                 {boolean: true, value: false}
+     'animation speed':             {boolean: false, value: null, default: 50}
+   , 'vitesse animation':           {aka: 'animation speed'}
+   , 'code beside':                 {boolean: true, value: false}
    , 'code à côté':                 {aka: 'code beside'}
    , 'code':                        {aka: 'code beside'}
    , 'crop image':                  {boolean: true, value: false}
@@ -21,7 +23,7 @@
    , 'langage':                     {aka: 'lang'}
    , 'lines of reference':          {boolean: true, value: false} // si true, affiche les lignes de guide
    , 'espacement images':           {aka: 'space between scores'}
-   , 'space between scores':        {boolean: false, value: null}
+   , 'space between scores':        {boolean: false, value: null, default: 0}
    , 'top first score':             {boolean: false, value: null}
    , 'marge haut':                  {aka: 'top first score'}
    , 'left margin':                 {boolean: false, value: null}
@@ -40,7 +42,8 @@
 
 const Options = {
   /**
-   * Retourne la valeur de l'option d'identifiant opt_id
+   * Retourne la valeur de l'option d'identifiant opt_id ou sa valeur
+   * par défaut si elle est définie,
    * Ou undefined si l'option n'existe pas
    */
   get: function(opt_id, options) {
@@ -53,7 +56,7 @@ const Options = {
     } else if (OPTIONS[opt_id].aka){
       opt_id = OPTIONS[opt_id].aka ;
     }
-    return OPTIONS[opt_id].value ;
+    return OPTIONS[opt_id].value || OPTIONS[opt_id].default ;
   },
 
   set: function(){

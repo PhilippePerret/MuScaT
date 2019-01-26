@@ -43,7 +43,12 @@ const MEvents = {
             return stop(ev);
         };
         // this.console_key(ev);
-      }
+      };
+      if(ev.charCode == 18 && this.onSpaceBar){
+        this.onSpaceBar();
+        this.onSpaceBar = null ;
+      };
+      this.console.key(ev);
       return true ;
     }
   /**

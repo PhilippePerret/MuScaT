@@ -43,10 +43,19 @@ EOT
 
 # ---------------------------------------------------------------------
 # TRAITEMENT DE LA LIGNE DE COMMANDE
+COMMAND_LANG = {
+  'aide':                     'help',
+  'ouvre':                    'open',
+  'créer':                    'create',
+  'renommer_images':          'rename_images',
+  'change_dossier_captures':  'change_folder_caputres'
+}
 
-COMMAND = ARGV.shift
+# La commande
+cmd = ARGV.shift
+COMMAND = COMMAND_LANG[cmd] || cmd
 
-if !COMMAND || COMMAND == 'help' || COMMAND == 'aide'
+if !COMMAND || COMMAND == 'help'
   # Afficher l'aide
   # puts "\033c"
   puts AIDE
@@ -56,7 +65,7 @@ elsif File.exist?(File.join(APPFOLDER,'utils',"#{COMMAND}.rb"))
   Dir.chdir(APPFOLDER) do
     require_relative COMMAND
   end
-  
+
 else
   puts "\n\nDésolé, je ne connais pas la commande `#{COMMAND}`…\nPour obtenir de l'aide, mettre `help` ou `aide` en premier argument.\n\n".rouge
 end

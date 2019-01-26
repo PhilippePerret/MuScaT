@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Manuel MuScaT</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="manuel.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<h1 id="muscat">MuScaT</h1>
+<h1 id="manuel-dutilisation">Manuel d’utilisation</h1>
+<!--
+
+pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel MuScaT" --from=markdown --output=Manuel.html
+
+Pour actualiser le fichier PDF:
+- se placer dans ce dossier (cd ...)
+- jouer :
+pandoc Manuel.md --pdf-engine=xelatex --from=markdown --to=latex --output=Manuel.pdf;open Manuel.pdf
+
+Pour trouver précisément où peut se trouver un problème, on peut passer par
+le document LaTex et le composer. Pour le produire :
+
+pandoc -s Manuel.md --from=markdown --to=latex --output=Manuel.tex;open Manuel.tex
+
+-->
+<h2 id="introduction-histoire">Introduction (histoire)</h2>
+<p>Suite à la diffusion de mon <a href="https://www.youtube.com/channel/UCX3XhJw9x1RsVx1s3GNYceA">Initiation à l’analyse musicale</a> — et son « succès » que je n’aurais jamais imaginé aussi grand — nombreux ont été les professeurs et autres pédagogues ou musicologues à me demander le logiciel que j’avais utilisé pour en créer l’animation.</p>
+<p>C’est malheureusement une application personnelle un peu trop… personnelle (comprendre : indomptable pour qui ne l’a pas créé), une usine à gaz ne fonctionnant qu’à la ligne de code (son créateur ne sait même pas toujours par quel bout la prendre).</p>
+<p>Mais pour répondre à ces marques d’intérêts et à mes propres besoin, j’ai voulu concevoir un outil plus simple et plus pratique qui permettrait de réaliser rapidement des analyses de partitions (entendu que c’est toujours un peu fastidieux et que le résultat manque souvent d’homogénéité).</p>
+<p>C’est ainsi qu’est née l’idée de <strong>MuScaT</strong> — dont le nom est composé de « Mu » pour « Musique », « Sc » pour « Score » (« partition » en anglais) et « Ta » à l’envers pour « Tag », le sens en français, comme les tags qu’on <em>taggue</em> sur les murs.</p>
+<p>En bref, <strong>MuScaT</strong> permet de <strong>réaliser rapidement, de façon très propre et très pratique, des analyses de partitions musicales</strong> comme l’extrait ci-dessous.</p>
+<figure>
+<img src="img/extrait_analyse.png" alt="Extrait d’analyse musicale avec MuScaT" /><figcaption>Extrait d’analyse musicale avec MuScaT</figcaption>
+</figure>
+<p>Elle est semi-graphique, et permet d’ajuster très finement les TAGs — au pixel près — de façon visuelle et agréable.</p>
+<ul>
+<li><a href="#synopsis_fabrication">Synopsis général de création d’une analyse</a></li>
+<li><a href="#synopsis_detailled">Synopsis détaillé</a></li>
+<li><a href="#user_interface">L’interface</a></li>
+<li><a href="#composition_dun_tag">Composition d’un tag</a></li>
+<li><a href="#les_images">Les Images</a>
+<ul>
+<li><a href="#defining_image_size">Définition de la taille d’une image</a></li>
+<li><a href="#sequence_images">Séquence d’images</a></li>
+</ul></li>
+<li><a href="#natures">Tous les types de tags (natures de tags)</a>
+<ul>
+<li><a href="#second_mot">Second mot (contenu, accord)</a></li>
+<li><a href="#autres_data_ligne">Autres données de la ligne</a></li>
+<li><a href="#types_de_textes">Les types de textes</a></li>
+</ul></li>
+<li><a href="#operation_on_tags">Opérations sur les tags</a>
+<ul>
+<li><a href="#lock_tags">Verrouillage des tags</a></li>
+<li><a href="#grouper_tags">Grouper et dégrouper des tags</a></li>
+</ul></li>
+<li><a href="#animation_analyse">Animation d’une analyse</a></li>
+<li><a href="#all_options">Les Options</a></li>
+<li><a href="#les_utilitaires">Les Utilitaires</a>
+<ul>
+<li><a href="#utils_change_captures_folder">Changement du dossier des captures écran (Mac)</a></li>
+<li><a href="#utils_renommer_fichiers">Renommage des fichiers images (Mac/Unix)</a></li>
+<li><a href="#create_new_analyse">Création d’une nouvelle analyse (Mac)</a></li>
+<li><a href="#activate_analyse">Activation d’une analyse (Mac)</a></li>
+<li><a href="#aller_plus_loin">Pour aller plus loing</a></li>
+</ul></li>
+</ul>
+<h2 id="synopsis_fabrication">Synopsis général de création d’une analyse</h2>
+<p>Commençons par un aperçu du processus général qui va permettre de produire une analyse musicale à l’aide de <strong>MuScaT</strong>. Noter que chaque item de cette liste est cliquable et permet de rejoindre la partie détaillée correspondante.</p>
+<ol type="1">
+<li><a href="#download_muscat">Charger de l’application <strong>MuScaT</strong></a></li>
+<li><a href="#creation_dossier_analyse">Créer du dossier de l’analyse</a>,</li>
+<li><a href="#set_analyse_courante">Mettre l’analyse en analyse courante</a>,</li>
+<li><a href="#syn_crop_score">Découper la partition en « images-systèmes»</a>,</li>
+<li><a href="#syn_inscription_images_systemes">Inscrire les images-systèmes dans l’analyse</a>,</li>
+<li><a href="#syn_def_analysis_elements">Ajouter les accords, les chiffrages, les cadences, tous les éléments d’analyse</a>,</li>
+<li><a href="#syn_ajustement_elements">Positionner les éléments graphiques</a>,</li>
+<li><a href="#ligne_reperes">Les lignes repères</a></li>
+<li><a href="#syn_recuperation_code_final">Récupérer du code final</a>,</li>
+<li><a href="#syn_print_pdf">Imprimer en PDF</a>.</li>
+</ol>
+<h2 id="synopsis_detailled">Synopsis détaillé</h2>
+<h3 id="download_muscat">Chargement de l’application <strong>MuScaT</strong></h3>
+<p>La toute première chose à faire, bien sûr, est de charger <strong>MuScaT</strong>. Pour le moment, on peut le faire par le biais de son <a href="https://github.com/PhilippePerret/MuScaT">repository Github de <strong>MuScaT</strong></a>.</p>
+<p>Il suffit de cliquer sur le bouton « Clone or download », de choisir « Download ZIP » et d’attendre la fin du téléchargement (l’application fait plusieurs mégaoctets, donc suivant l’état de votre connexion, l’opération peut être plus ou moins longue).</p>
+<p>On se retrouve alors avec le dossier de l’application.</p>
+<figure>
+<img src="img/1.Dossier_Muscat.png" alt="Dossier MuScaT" /><figcaption>Dossier MuScaT</figcaption>
+</figure>
+<h3 id="creation_dossier_analyse">Création du dossier de l’analyse</h3>
+<p>Le plus simple pour créer une nouvelle analyse — et donc son dossier — est d’utiliser le script <code>create.rb</code> (ruby doit être installé sur votre ordinateur) qui fait tout le travail pour vous, simplement en lui donnant le nom de l’analyse.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" title="1"></a>
+<a class="sourceLine" id="cb1-2" title="2">  <span class="op">&gt;</span> <span class="bu">cd</span> /chemin/vers/dossier/MuScaT</a>
+<a class="sourceLine" id="cb1-3" title="3">  <span class="op">&gt;</span> <span class="ex">./utils/create.rb</span> <span class="st">&quot;Ma première analyse&quot;</span></a></code></pre></div>
+<p>Sans ce script, la procédure est à peine plus compliquée :</p>
+<ul>
+<li>dupliquer le dossier <code>Template</code> qui se trouve dans le dossier <code>MuScaT/_analyses_</code> (ce dossier est le dossier qui peut contenir toutes les analyses),</li>
+</ul>
+<figure>
+<img src="img/3.Template_Analyse.png" alt="Dossier Template" /><figcaption>Dossier Template</figcaption>
+</figure>
+<ul>
+<li>le renommer du nom de l’analyse, par exemple « Analyse-Sonate-Mozart ».</li>
+</ul>
+<figure>
+<img src="img/4.Dossier_Analyse_Mozart.png" alt="Dossier analyse Mozart" /><figcaption>Dossier analyse Mozart</figcaption>
+</figure>
+<blockquote>
+<p>Note : il est vivement recommandé de ne pas mettre d’espaces vides dans les noms de dossier ou de fichiers pour une raison qui sera expliquée plus tard. Personnellement, j’aime les remplacer par des traits plats (« Analyse_Sonnate_Mozart »)</p>
+</blockquote>
+<p>Voyons-en rapidement le contenu.</p>
+<figure>
+<img src="img/6.1.Inner_Dossier_analyse_Mozart.png" alt="Contenu du dossier d’analyse" /><figcaption>Contenu du dossier d’analyse</figcaption>
+</figure>
+<p>On trouve pour commencer un fichier « aspect.css », que vous ne toucherez pas au départ, et qui permet de rectifier l’aspect des analyses pour obtenir la présentation idéale souhaitée.</p>
+<figure>
+<img src="img/6.2.Fichier_Aspect_css.png" alt="Fichier aspect.css" /><figcaption>Fichier aspect.css</figcaption>
+</figure>
+<p>On trouve en dessous le dossier « images » qui comme son nom l’indique va rassembler toutes les images utiles à l’analyse, c’est-à-dire les partitions, les <em>systèmes</em>.</p>
+<figure>
+<img src="img/6.3.Dossier_images.png" alt="Dossier images" /><figcaption>Dossier images</figcaption>
+</figure>
+<p>On trouve le fichier le plus important, le fichier « tags.js » qui va contenir la définition précise de l’analyse.</p>
+<figure>
+<img src="img/6.4.Fichier_Tags.png" alt="Fichier tags.js" /><figcaption>Fichier tags.js</figcaption>
+</figure>
+<p>Nous aurons à y revenir en détail très vite.</p>
+<p>On trouve aussi un fichier <code>analyse.js</code> qu’il suffit, pour activer cette analyse, de glisser à la racine du dossier <strong>MuScaT</strong> en remplacement du fichier qui s’y trouve déjà.</p>
+<figure>
+<img src="img/6.6.Analyse_js.png" alt="Fichier analyse.js" /><figcaption>Fichier analyse.js</figcaption>
+</figure>
+<p>Dans ce dossier, vous pouvez mettre enfin votre partition en PDF ou en image.</p>
+<figure>
+<img src="img/6.5.Partition.png" alt="Parition originale" /><figcaption>Parition originale</figcaption>
+</figure>
+<h3 id="set_analyse_courante">Mettre l’analyse en analyse courante</h3>
+<p>Pour faire de cette nouvelle analyse l’analyse courante, il y a deux solutions.</p>
+<p>Soit on édite le fichier <code>MuScaT/analyse.js</code> et on met le nom de notre dossier d’analyse :</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb2-1" title="1"></a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="kw">const</span> ANALYSE <span class="op">=</span> <span class="st">&quot;Analyse-Sonate-Haynd&quot;</span> <span class="op">;</span></a></code></pre></div>
+<p>Soit on glisse le fichier <code>analyse.js</code> qui se trouve dans notre dossier d’analyse à la racine du dossier de l’application, en remplacement du fichier qui s’y trouve déjà.</p>
+<p>À vous de choisir la solution qui vous semble le plus pratique. En tout cas, la seconde est la plus sûr, les erreurs de typo sont impossibles.</p>
+<h3 id="syn_crop_score">Découper la partition en « images-systèmes »</h3>
+<p>Si la partition que l’on s’apprête à analyser est suffisamment aérée (espace entre les systèmes), on peut la garder telle qu’elle. Dans le cas contraire (et le plus fréquent), il faut découper cette partition en systèmes, c’est-à-dire faire une image de chaque système pour les écarter sur la table d’analyse.</p>
+<p>Dans tous les cas, on place la ou les images dans le dossier <code>_analyses_/&lt;Nom analyse&gt;/images/</code>.</p>
+<figure>
+<img src="img/6.3.Dossier_images.png" alt="Dossier images" /><figcaption>Dossier images</figcaption>
+</figure>
+<h3 id="syn_inscription_images_systemes">Inscrire les images-systèmes</h3>
+<p>On ouvre ensuite son fichier <code>monAnalyse/analyse/tags.js</code>. C’est <strong>le fichier principal de l’analyse</strong>, celui qui va définir tous les éléments, les images, les marques de modulations, les accords, les cadences, les parties, tout ce qui constitue l’analyse.</p>
+<figure>
+<img src="./img/images_in_tags_js.png" alt="Exemple d’images dans tags.js" /><figcaption>Exemple d’images dans tags.js</figcaption>
+</figure>
+<p>Vous devez ouvrir ce fichier en texte simple, c’est-à-dire ne surtout pas utiliser de traitement de texte, ou alors en s’assurant d’exporter le fichier final au format « SimpleText » (<code>.txt</code>).</p>
+<p>Dans ce fichier <code>tags.js</code> On définit d’abord les images de la partition, en ajoutant des commentaires pour pouvoir se retrouver, plus tard, lorsque le fichier deviendra conséquent. Par exemple :</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb3-1" title="1"></a>
+<a class="sourceLine" id="cb3-2" title="2">  <span class="co">// Dans tags.js</span></a>
+<a class="sourceLine" id="cb3-3" title="3">  <span class="at">option</span>(<span class="st">&#39;code&#39;</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb3-4" title="4"></a>
+<a class="sourceLine" id="cb3-5" title="5">  Tags <span class="op">=</span> <span class="vs">`</span></a>
+<a class="sourceLine" id="cb3-6" title="6"><span class="vs">  // Premier système, les mesures de 1 à 10</span></a>
+<a class="sourceLine" id="cb3-7" title="7"><span class="vs">  partition system-1-mes-1-10.png</span></a>
+<a class="sourceLine" id="cb3-8" title="8"></a>
+<a class="sourceLine" id="cb3-9" title="9"><span class="vs">  // Deuxième système, les mesures de 11 à 16</span></a>
+<a class="sourceLine" id="cb3-10" title="10"><span class="vs">  partition system-2-mes-11-16.png</span></a>
+<a class="sourceLine" id="cb3-11" title="11"></a>
+<a class="sourceLine" id="cb3-12" title="12"><span class="vs">  // Troisième système</span></a>
+<a class="sourceLine" id="cb3-13" title="13"><span class="vs">  // ... etc.</span></a>
+<a class="sourceLine" id="cb3-14" title="14"></a>
+<a class="sourceLine" id="cb3-15" title="15"><span class="vs">  `</span><span class="op">;</span></a></code></pre></div>
+<blockquote>
+<p>Note : l’option ‘code’, en haut du fichier <code>tags.js</code>, permet simplement de voir le code à côté de la table d’analyse.</p>
+</blockquote>
+<h3 id="syn_def_analysis_elements">Définir tous les éléments de l’analyse</h3>
+<p>L’élément graphique de base de l’application <strong>MuScaT</strong> est le « TAG » (comme on en parle sur les murs des villes). Une analyse avec <strong>MuScaT</strong> consiste donc à « tagguer » une partition (remarquez que les partitions elles-mêmes, ou les images de leurs systèmes, sont aussi des « TAGs »). C’est la raison pour laquelle le fichier qui va les définir s’appelle <code>tags.js</code>.</p>
+<p>On définit tous les autres éléments graphiques, tous les <em>tags</em> (cf. pour le détail de la procédure, voir <a href="#composition_dun_tag">Composition d’un tag</a>) : marque de parties, accords, chiffrages, numéros de portée, degrés de la gamme, cadences, textes divers, etc.</p>
+<p>Chacun des éléments, chaque « tag », va être représenter dans le code par une unique ligne.</p>
+<p>Une image de système pourra être :</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb4-1" title="1"></a>
+<a class="sourceLine" id="cb4-2" title="2">Tags <span class="op">=</span> <span class="vs">`</span></a>
+<a class="sourceLine" id="cb4-3" title="3"><span class="vs">// ... d&#39;autres données ici</span></a>
+<a class="sourceLine" id="cb4-4" title="4"></a>
+<a class="sourceLine" id="cb4-5" title="5"><span class="vs">score systeme-1.png x=50 y=3098</span></a>
+<a class="sourceLine" id="cb4-6" title="6"></a>
+<a class="sourceLine" id="cb4-7" title="7"><span class="vs">// ... d&#39;autres données là</span></a>
+<a class="sourceLine" id="cb4-8" title="8"><span class="vs">`</span><span class="op">;</span></a></code></pre></div>
+<p>Une modulation pourra être inscrite par :</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb5-1" title="1"></a>
+<a class="sourceLine" id="cb5-2" title="2">Tags <span class="op">=</span> <span class="vs">`</span></a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="vs">// ... d&#39;autres données ici</span></a>
+<a class="sourceLine" id="cb5-4" title="4"></a>
+<a class="sourceLine" id="cb5-5" title="5"><span class="vs">mod G_min x=150 y=539</span></a>
+<a class="sourceLine" id="cb5-6" title="6"></a>
+<a class="sourceLine" id="cb5-7" title="7"><span class="vs">// ... d&#39;autres données là</span></a>
+<a class="sourceLine" id="cb5-8" title="8"><span class="vs">`</span><span class="op">;</span></a></code></pre></div>
+<p>Le mieux est de s’arranger pour définir ces tags à peu près en fonction des positions sur la table d’analyse (i.e. sur l’analyse). Si une cadence doit se produire sur le troisième système, il vaut mieux la définir après la ligne insérant l’image de ce troisième système (remarquez cependant qu’il n’y a aucune obligation là-dessus, vous pouvez aussi, rassembler tous les accords d’un côté, toutes les cadences de l’autre, etc. à votre guise).</p>
+<h3 id="activer-lanalyse">Activer l’analyse</h3>
+<p>Pour activer cette nouvelle analyse, nous allons donc copier-coller son fichier <code>analyse.js</code> à la racine du dossier de l’application <strong>MuScaT</strong>. Vous pouvez par exemple sélectionner le fichier dans le Findre ou sur votre bureau, sélectionner le dossier <code>MuScaT</code> et coller. Le bureau vous demandera de confirmer le remplacement (un autre fichier <code>analyse.js</code> existe déjà à cet endroit, celui de l’analyse courante).</p>
+<p>Pensez en tout cas à faire une duplication du fichier, ne le glissez pas.</p>
+<p>Seconde solution, vous pouvez également éditer le fichier <code>MuScaT/analyse.js</code> principal et mettre le nom de votre dossier dans la constante <code>ANALYSE</code>.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb6-1" title="1"></a>
+<a class="sourceLine" id="cb6-2" title="2">  <span class="co">// Dans Le fichier MuScaT/analyse.js principal</span></a>
+<a class="sourceLine" id="cb6-3" title="3"></a>
+<a class="sourceLine" id="cb6-4" title="4">  <span class="kw">const</span> ANALYSE <span class="op">=</span> <span class="st">&quot;&lt;METTRE_ICI_LE_NOM_DU_DOSSIER_DE_VOTRE_ANALYSE&gt;&quot;</span></a>
+<a class="sourceLine" id="cb6-5" title="5"></a></code></pre></div>
+<blockquote>
+<p>Attention ! Il est capital de ne pas mettre d’espaces dans ce nom, ou ça ne fonctionnera pas. Il en va de même qu’une adresse dans votre navigateur.</p>
+</blockquote>
+<p>Noter que les heureux possesseurs de Mac peuvent utiliser un script permettant d’activer très simplement n’importe quelle analyse. Il suffit de rejoindre, dans l’application Terminal, le dossier de <strong>MuScaT</strong> et de taper <code>&gt; ./utils/analyse.rb</code>. Nous y reviendrons en parlant des <a href="#les_utilitaires">utilitaires</a>.</p>
+<h3 id="syn_ajustement_elements">Positionnement des éléments graphiques</h3>
+<p>Une fois l’analyse désignée comme analyse courante, il faut ouvrir le fichier <code>_TABLE_ANALYSE_.html</code> dans votre navigateur.</p>
+<figure>
+<img src="img/10.Fichier_Table_analyse.png" alt="Fichier Table d’analyse" /><figcaption>Fichier Table d’analyse</figcaption>
+</figure>
+<p>Firefox est vivement recommandé, l’application n’a pas été testée en profondeur dans les autres navigateur.</p>
+<p>On peut placer les éléments aux bons endroits simplement en les déplaçant à la souris, ou avec les flèches de son clavier. On peut en ajouter des nouveaux en dupliquant les lignes de code ou les ajoutant explicitement dans le code.</p>
+<figure>
+<img src="./img/move_score.png" alt="Exemple de déplacement d’élément" /><figcaption>Exemple de déplacement d’élément</figcaption>
+</figure>
+<p>Sans l’option <code>option('code')</code> activée, il faut modifier le code directement dans le fichier <code>tags.js</code> puis recharger la page dans Firefox pour voir les changements.</p>
+<h4 id="ligne_reperes">Lignes repères</h4>
+<p>Pour faciliter l’alignement des TAGs — par exemple l’alignement des dernières mesures de fin des systèmes — on peut utiliser des lignes de répère. Pour cela, il suffit d’activer l’option <code>repères</code> (ou <code>reperes</code> ou <code>lines of reference</code>).</p>
+<p>Cela ajoute deux lignes à l’écran, une verticale et une horizontale, qu’on peut déplacer à loisir à la souris.</p>
+<p>Vous pouvez également définir leur emplacement exact avec les options <code>position repère vertical</code> (ou <code>vertical line offset</code>) et <code>position repère horizontal</code> (ou <code>horizontal line offset</code>) :</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb7-1" title="1"></a>
+<a class="sourceLine" id="cb7-2" title="2">  <span class="co">// Dans le fichier tags.js de l&#39;analyse</span></a>
+<a class="sourceLine" id="cb7-3" title="3">  <span class="at">option</span>(<span class="st">&#39;code&#39;</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb7-4" title="4">   <span class="co">// à 120 pixels du haut et 200 de la gauche</span></a>
+<a class="sourceLine" id="cb7-5" title="5">  <span class="at">option</span>(<span class="st">&#39;vertical line offset&#39;</span><span class="op">,</span> <span class="dv">120</span><span class="op">,</span> <span class="st">&#39;horizontal line offset&#39;</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></a></code></pre></div>
+<h3 id="syn_recuperation_code_final">Récupérer le code final</h3>
+<p>Si l’on a travaillé dans le champ de texte à côté de la table d’analyse, on doit copier le code final dans le fichier <code>tags.js</code>, au risque de perdre tous les changements. Pour se faire, on clique sur le bouton des outils — en haut à gauche — et on demande à mettre le code complet dans le presse-papier. On colle ce code dans le fichier <code>tags.js</code>, en remplaçant l’intégralité de son contenu.</p>
+<h3 id="syn_print_pdf">Imprimer l’analyse en PDF</h3>
+<p>Enfin, on imprime la page HTML du navigateur en choisissant le format PDF. Sur Mac :</p>
+<ul>
+<li>dans Firefox, demander l’impression,</li>
+<li>dans la fenêtre qui s’ouvre, choisir, dans le menu en bas à gauche : « Imprimer au format PDF » ou autre indication similaire.</li>
+</ul>
+<p>(sur PC, enregistrer la page au format HTML et utiliser un outil de transformation des pages HTML en PDF)</p>
+<h3 id="et-voilà">Et voilà</h3>
+<p>Et voilà, c’est fait ! Et vous pourrez retoucher à votre analyse à n’importe quel moment en la remettant en analyse courante.</p>
+<hr />
+<h2 id="user_interface">L’interface</h2>
+<ul>
+<li><a href="#toolbox">La boite à outils</a></li>
+<li><a href="#code_field">Le champ de code</a></li>
+</ul>
+<p>Voyons un peu de quoi est constitué l’interface de <strong>MuScaT</strong>, que nous appelons la « table d’analyse ».</p>
+<p>Cette table, c’est déjà la surface de la page elle-même.</p>
+<h3 id="toolbox">La boite à outils</h3>
+<p>Sur la gauche en haut de l’écran, on trouve un petit picto qui permet d’ouvrir la boite à outils.</p>
+<figure>
+<img src="img/picto_toolbox.png" alt="Picto de la boite à outils" /><figcaption>Picto de la boite à outils</figcaption>
+</figure>
+<h3 id="code_field">Le champ de code</h3>
+<p>Si <a href="#option_line_of_reference">l’option <code>guides</code></a> est activée, un champ de code est ouvert à droite de la page, contenant le code défini dans votre fichier <code>tags.js</code> (seulement celui dans <code>Tags</code>, pas le code intégral).</p>
+<hr />
+<h2 id="composition_dun_tag">Composition d’un tag</h2>
+<p>Voyons plus en détail comment se compose une ligne du fichier <code>tags.js</code>, une ligne définissant un <em>tag</em> ou une partition.</p>
+<p>Un <em>TAG</em> — image de la partition comprise — se compose d’une ligne dans le fichier de données.</p>
+<p>Cette ligne a le format général suivant :</p>
+<pre><code>  &lt;nature&gt;[ &lt;contenu&gt;][ &lt;coordonnées&gt;][ &lt;options, type&gt;]
+</code></pre>
+<p>Par exemple, pour une cadence (nature = ‘cadence’) de « V I » (contenu = ‘V_I’) qu’on veut placer à 200 pixels depuis le haut (coordonnée y = 200) et 100 pixels de la gauche (coordonnées x = 100), de type « cadence parfaite » (type = ‘parfaite’), on insèrera dans son fichier <code>tags.js</code>, sous la définition de l’image (« score ») :</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb9-1" title="1"></a>
+<a class="sourceLine" id="cb9-2" title="2">Tags <span class="op">=</span> <span class="vs">`</span></a>
+<a class="sourceLine" id="cb9-3" title="3"></a>
+<a class="sourceLine" id="cb9-4" title="4"><span class="vs">  score ma_partition.jpg y=100 x=10</span></a>
+<a class="sourceLine" id="cb9-5" title="5"></a>
+<a class="sourceLine" id="cb9-6" title="6"><span class="vs">  cadence V_I type=parfaite y=200 x=100</span></a>
+<a class="sourceLine" id="cb9-7" title="7"></a>
+<a class="sourceLine" id="cb9-8" title="8"><span class="vs">  modulation G_min x=200 y=100</span></a>
+<a class="sourceLine" id="cb9-9" title="9"></a>
+<a class="sourceLine" id="cb9-10" title="10"><span class="vs">`</span><span class="op">;</span></a></code></pre></div>
+<p>Une « nature » de TAG (le premier mot), peut toujours être exprimé par ses trois premières lettres (exception faite du terme « partition » qui rentrerait en conflit avec « partie »). Ainsi, on peut écrire le code ci-dessous :</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb10-1" title="1"></a>
+<a class="sourceLine" id="cb10-2" title="2">Tags <span class="op">=</span> <span class="vs">`</span></a>
+<a class="sourceLine" id="cb10-3" title="3"></a>
+<a class="sourceLine" id="cb10-4" title="4"><span class="vs">  sco ma_partition.jpg y=100 x=10</span></a>
+<a class="sourceLine" id="cb10-5" title="5"></a>
+<a class="sourceLine" id="cb10-6" title="6"><span class="vs">  cad V_I type=parfaite y=200 x=100</span></a>
+<a class="sourceLine" id="cb10-7" title="7"></a>
+<a class="sourceLine" id="cb10-8" title="8"><span class="vs">  mod G_min x=200 y=100</span></a>
+<a class="sourceLine" id="cb10-9" title="9"></a>
+<a class="sourceLine" id="cb10-10" title="10"><span class="vs">`</span><span class="op">;</span></a></code></pre></div>
+<p>L’intégralité des natures de TAG <a href="#natures">est détaillé ici</a>.</p>
+<p>Vous observerez que tout de suite après la création, un identifiant est ajouté à toutes les lignes, mêmes les lignes vides. Il contient de ne pas y toucher, sous peine de voir son travail réduit à néant.</p>
+<p>Ainsi, le code ci-dessous, au final, donnera :</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb11-1" title="1"></a>
+<a class="sourceLine" id="cb11-2" title="2">  <span class="co">// Contenu intégral du fichier tags.js</span></a>
+<a class="sourceLine" id="cb11-3" title="3">  <span class="at">option</span>(<span class="st">&#39;code&#39;</span>)<span class="op">;</span> <span class="co">// pour voir ce code à côté de la partition</span></a>
+<a class="sourceLine" id="cb11-4" title="4"></a>
+<a class="sourceLine" id="cb11-5" title="5">  Tags <span class="op">=</span> <span class="vs">`</span></a>
+<a class="sourceLine" id="cb11-6" title="6"><span class="vs">    sco ma_partition.jpg id=2 y=100 x=10</span></a>
+<a class="sourceLine" id="cb11-7" title="7"><span class="vs">    #3#</span></a>
+<a class="sourceLine" id="cb11-8" title="8"><span class="vs">    cad V_I type=parfaite id=4 y=200 x=100</span></a>
+<a class="sourceLine" id="cb11-9" title="9"><span class="vs">    #5#</span></a>
+<a class="sourceLine" id="cb11-10" title="10"><span class="vs">    mod G_min id=6 y=100 x=200</span></a>
+<a class="sourceLine" id="cb11-11" title="11"><span class="vs">  `</span><span class="op">;</span></a></code></pre></div>
+<h3 id="forme-raccourcie-décriture">Forme raccourcie d’écriture</h3>
+<p>Pour la première définition du TAG, on peut utiliser une version raccourcie de définition qui la rend très simple et très rapide. Elle consiste à utiliser :</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb12-1" title="1"></a>
+<a class="sourceLine" id="cb12-2" title="2">Tags <span class="op">=</span> <span class="vs">`</span></a>
+<a class="sourceLine" id="cb12-3" title="3"><span class="vs">&lt;version 3 lettres|normale&gt; &lt;contenu|source&gt; &lt;valeur x&gt; &lt;valeur y&gt;</span></a>
+<a class="sourceLine" id="cb12-4" title="4"><span class="vs">`</span><span class="op">;</span></a></code></pre></div>
+<p>Par exemple, pour une <em>modulation</em> vers la tonalité de SOL mineur (G min.) qui doit se situer à 200 pixels du haut et 450 pixels de la gauche, on pourra écrire simplement :</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb13-1" title="1"></a>
+<a class="sourceLine" id="cb13-2" title="2">  mod G_min <span class="dv">200</span> <span class="dv">450</span></a></code></pre></div>
+<h2 id="les_images">Les Images</h2>
+<p>Il existe trois mots clés pour indiquer la nature d’une image, mais ils sont identiques en réalité : <code>image</code>, <code>score</code> ou <code>partition</code>. C’est le premier mot à trouver sur la ligne d’une image. Juste après, on doit trouver le nom de cette image, ou son chemin relatif depuis le dossier <code>images</code> du dossier de l’analyse.</p>
+<pre><code>  partition premier_mouvement/image-12.png [...]
+</code></pre>
+<p>Ci-dessus, l’image <code>image-12.png</code> doit donc se trouver dans le dossier <code>MuScaT/_analyses_/&lt;mon analyse&gt;/images/premier_mouvement/</code>.</p>
+<h3 id="defining_image_size">Définition de la taille d’une image</h3>
+<p>On peut définir la taille d’une image à l’aide du paramètre <code>w</code> (ou <code>width</code>, « largeur », en anglais). Sa valeur peut être explicite avec une unité, explicite sans unité ou en pourcentage. Par exemple :</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb15-1" title="1"></a>
+<a class="sourceLine" id="cb15-2" title="2">  <span class="co">// Dans tags.js</span></a>
+<a class="sourceLine" id="cb15-3" title="3">  Tags <span class="op">=</span> <span class="vs">`</span></a>
+<a class="sourceLine" id="cb15-4" title="4"><span class="vs">  sco image-0.png</span></a>
+<a class="sourceLine" id="cb15-5" title="5"><span class="vs">  sco image-1.png w=200</span></a>
+<a class="sourceLine" id="cb15-6" title="6"><span class="vs">  sco image-2.png w=10cm</span></a>
+<a class="sourceLine" id="cb15-7" title="7"><span class="vs">  sco image-3.png w=50%</span></a>
+<a class="sourceLine" id="cb15-8" title="8"><span class="vs">  `</span><span class="op">;</span></a></code></pre></div>
+<p>Avec le code ci-dessus, l’image <code>0</code> aura sa taille normale, <code>image-1</code> fera 200 pixels de large, <code>image-2</code> fera 10 centimètres de large et <code>image-3</code> sera mise à 50% de sa largeur.</p>
+<h3 id="sequence_images">Séquence d’images</h3>
+<p>Bien souvent, une analyse n’est pas constituée d’une seule image pour toute la partition. Il y a trop peu d’espace entre les systèmes. On conseille donc fortement de découper les partitions en autant de systèmes qu’elles en comportent (vous trouverez des indications sur la <a href="#procedure_crop_partition">procédure de découpage de la partition</a> ci-dessous).</p>
+<p>Mais il serait fastidieux d’entrer la ligne de chaque image de système dans notre fichier <code>tags.js</code>. Une partition même courte peut très vite comporter de 10 à 15 systèmes et ce serait autant de lignes de partition qu’il faudrait introduire dans le code…</p>
+<p>Au lieu de ça, si les images des systèmes ont été nommés en respectant une règle simple (avec des suites de nombres), une seule ligne suffira pour entrer tous les systèmes de la partition. Par exemple :</p>
+<pre><code>
+  score mouvement_1/image-[1-35].png
+</code></pre>
+<p>Le texte ci-dessus indique qu’il y a 35 images de système dans ce mouvement. Le code qui en résultera sera :</p>
+<pre><code>
+  score mouvement_1/image-1.png
+  score mouvement_1/image-2.png
+  score mouvement_1/image-3.png
+  score mouvement_1/image-4.png
+  ...
+  ...
+  score mouvement_1/image-35.png
+</code></pre>
+<p>Nous vous invitons vivement à commencer par cette opération avant l’insertion de toute autre marque sur la partition.</p>
+<p>Quand <strong>MuScaT</strong> place les images sur la table d’analyse, il les répartit pour obtenir l’aspect initial de la partition. On peut modifier ce comportement en définissant explicitement un espace (vertical) entre chaque système ou chaque image, grâce à l’option <code>espacement images</code> :</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb18-1" title="1"></a>
+<a class="sourceLine" id="cb18-2" title="2">  <span class="co">// Code intégrale du fichier tags.js</span></a>
+<a class="sourceLine" id="cb18-3" title="3">  <span class="at">option</span>(<span class="st">&#39;code&#39;</span>)<span class="op">;</span><span class="at">option</span>(<span class="st">&#39;espacement images&#39;</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb18-4" title="4"></a>
+<a class="sourceLine" id="cb18-5" title="5">  Tags<span class="op">=</span><span class="vs">`</span></a>
+<a class="sourceLine" id="cb18-6" title="6"><span class="vs">  sco haydn/mouvement_1-[1-35].png</span></a>
+<a class="sourceLine" id="cb18-7" title="7"><span class="vs">  `</span><span class="op">;</span></a></code></pre></div>
+<blockquote>
+<p>Notez la version raccourci de la nature du TAG : <code>sco</code> pour <code>score</code>.</p>
+</blockquote>
+<blockquote>
+<p>Notez également l’usage de l’option <code>code</code> qui permet d’afficher le code à côté de la table de l’analyse, pour pouvoir le modifier.</p>
+</blockquote>
+<p>Grâce à l’option <code>espacement images</code> défini ci-dessus, chaque image (chaque système) sera séparé de 50 pixels.</p>
+<p>Une fois ce code établi, vous pouvez déplacer les images dans la page pour les ajuster à vos besoins. Cela créra automatiquement les <code>x</code> et les <code>y</code> des coordonnées spatiales de chaque système au bout des lignes de score.</p>
+<p>Astuce : si votre écran et assez grand et que vous adoptez <a href="#option_code_beside">l’option <code>code beside</code> (ou <code>code à côté</code>)</a>, vous pourrez voir en direct votre code s’actualiser.</p>
+<hr />
+<h2 id="natures">Nature des tags</h2>
+<p>Détaillons toutes les natures de TAGs qu’on peut utiliser.</p>
+<p>Dans la ligne, le premier mot définit la <code>&lt;nature&gt;</code> du tag.</p>
+<pre><code>  partition     `image &lt;source&gt; x=... y=... z=...`
+                Exemple : `image monScore.png z=50 x=100 y=100`
+                - &quot;z&quot; désigne le zoom en pourcentage
+                - l&#39;image doit se trouver dans le dossier &#39;images&#39;
+                Alias : &#39;score&#39;, &#39;image&#39;
+                Note : un astérisque (&quot;*&quot;) indique au départ une
+                suite d&#39;image (image1, image2, image3 etc.)
+
+  mesure       `mesure &lt;nombre&gt; x=... y=...`
+  mes           Exemple : `mes 13 x=100 y=234`
+                Alias : &#39;measure&#39;
+
+  accord        `accord &lt;nom&gt; x=... y=...`
+  acc           Exemple : `accord Cm7 x=230 y=520`
+                Alias : &#39;chord&#39;
+
+  harmonie      `harmonie &lt;degré accord et renversement&gt; x=... y=...`
+  har           Exemple : `harmonie II** x=200 y=230`
+                Alias : &#39;harmony&#39;, &#39;chiffrage&#39;
+
+  modulation    `modulation &lt;Ton[/sous-texte]&gt; x=HH y=VV h=HH`
+  mod           Exemple : `modulation D_Maj/Sous–dom. x=100 y=100 h=60`
+                « h », ici, permet de définir la longueur du trait qui
+                rejoint la partition (le trait vertical).
+
+  cadence       `cadence &lt;degré accord&gt; type=&lt;type cadence&gt; x=... y=... w=...`
+  cad           Exemple : `cadence I type=italienne w=200 x=12 y=100`
+
+  ligne         `ligne &lt;type ligne&gt; x=... y=... w=...`
+  lig           Exemples : `ligne U w=120 x=100 y=50`
+                           `line |---| w=50 x=100 y=50`
+                Alias : &#39;line&#39;
+
+  degré         `degre &lt;indice&gt; x=... y=...`
+  deg           Exemple : `degre 5 x=100 y=120`
+                Alias : &#39;degree&#39;
+
+  texte         `texte &lt;contenu&gt; x=... y=... type=...`
+  tex           Exemple : `texte Exposition x=100 y=50 type=partie`
+                Alias : &#39;text&#39;
+</code></pre>
+<h3 id="second_mot">Contenu du tag (second mot)</h3>
+<p>Le seconde « mot » définit le plus souvent le contenu textuel ou, pour les images, le nom du fichier dans le dossier <code>images</code> de l’analyse. C’est aussi, souvent, un accord ou son chiffrage.</p>
+<p>On peut par exemple écrire un texte quelconque à une position quelconque avec la ligne :</p>
+<pre><code>Tags = `
+
+  texte Et_si_j&#39;étais_un_texte_quelconque x=300 y=400
+
+`;
+</code></pre>
+<blockquote>
+<p>Remarquez comme les espaces ont été remplacées par des tirets plats (qu’on obtient sur Mac avec la combinaison de touches Maj- — touche majuscule et tiret).</p>
+</blockquote>
+<p>Ce deuxième « mot » de la ligne sert aussi par exemple à définir le type des lignes à obtenir (cf. <a href="#types_de_lignes">Dessiner des lignes</a>).</p>
+<h3 id="autres_data_ligne">Autres données de la ligne</h3>
+<p>Les deux autres informations capitales sont les positions verticale et horizontale du tag à poser (ou de la partition).</p>
+<p>NOTE IMPORTANTE : dans votre fichier <code>tags.js</code>, ces valeurs peuvent dans un premier temps être approximatives, et seront affinées directement à l’écran.</p>
+<p>On définit la position verticale avec <code>y=</code> et la position horizontale avec <code>x=</code>, comme nous l’avons vu dans les exemples précédents. Le nombre est exprimé en pixels.</p>
+<p>Pour les lignes et les cadences par exemple, on peut définir aussi la largeur avec la lettre « w » qui signifie « width » (largeur) en anglais : <code>w=200</code>. Le nombre correspond là aussi au nombre de pixels, mais il peut être exprimé avec une autre unité, notamment le pourcentage — ce qui n’est pas possible avec <code>x</code> et <code>y</code>.</p>
+<p>Ensuite, on peut définir certaines choses comme le « type » du tag. On l’a vu pour la cadence, par exemple. Les autres tags pouvant définir leur type sont le <code>texte</code> ou la <code>ligne</code> (bien que la <code>ligne</code> se définit plutôt par son contenu).</p>
+<h3 id="write_texts">Écrire des textes</h3>
+<p>Ce que l’on appelle les « textes », ici, ce sont tous les textes hors des accords, modulations, chiffrage, etc. Ce sont vraiment des textes qu’on peut placer n’importe où. À commencer par la définition des grandes parties de la pièce (« Introduction », « Coda », etc.).</p>
+<p>Dans un texte, il est impératif de remplacer toutes les espaces par des traits plats (on les obtient, sur mac, à l’aide de Maj+tiret).</p>
+<p>Par exemple, pour écrire sur la partition :</p>
+<pre><code>
+      Premier couplet
+</code></pre>
+<p>Il faut impérativement définir la ligne :</p>
+<pre><code>
+    texte Premier_couplet y= 50 x=200
+</code></pre>
+<h2 id="types_de_textes">Les types de textes</h2>
+<p>En dehors des textes « normaux » ou simples, on peut utiliser :</p>
+<ul>
+<li><a href="#type_texte_partie">Les parties</a></li>
+<li><a href="#type_texte_modulation">Les modulations</a></li>
+<li><a href="#type_texte_mesure">Les mesures</a></li>
+</ul>
+<pre><code>
+    type        anglais     Description
+  ------------------------------------------------------------------
+    partie      part        Titre de partie, comme Exposition ou Coda
+    mesure      measure     Numéro de mesure, dans un carré.
+    modulation  (id.)       Marque de modulation, en haut de partition,
+                            inclinée.
+</code></pre>
+<h4 id="type_texte_partie">Les parties</h4>
+<p>Les marques de partie s’indiquent avec le tag <code>partie</code> (ou <code>par</code> ou <code>part</code>). Ce sont des textes dans des boites inclinées qui ont cet aspect :</p>
+<figure>
+<img src="img/marque_partie.png" alt="Marque de partie" /><figcaption>Marque de partie</figcaption>
+</figure>
+<h4 id="type_texte_mesure">Les mesures</h4>
+<p>Les numéros de mesure, s’il ne sont pas indiqués sur la partition elle-même, peuvent être ajoutés à l’aide du tag <code>mesure</code> (ou <code>measure</code>, ou <code>mes</code>), suivant du numéro de mesure puis des coordonnées.</p>
+<h4 id="type_texte_modulation">Les modulations</h4>
+<p>On peut mettre un texte au-dessus de la barre inclinée (en général la tonalité vers laquelle on module) et un texte en dessous (en général la fonction de cette tonalité).</p>
+<p>Pour séparer les deux textes, on utilise tout simplement la barre inclinée, appelée « balance ». Ainsi, pour obtenir :</p>
+<figure>
+<img src="img/Modulation_sous_texte.png" alt="Modulation avec sous-titre" /><figcaption>Modulation avec sous-titre</figcaption>
+</figure>
+<p>… on utilisera simplement :</p>
+<pre><code>  modulation Sol_min/(sous-dom.) x=200 y=300
+
+  ou
+
+  mod Sol_min/(sous-dom.) 200 300
+</code></pre>
+<h3 id="types_de_lignes">Dessiner des lignes</h3>
+<p>Les lignes se définissent par <code>line</code> ou <code>ligne</code>.</p>
+<p>Le premier élément définit le <code>type</code> de la ligne. On trouve les types suivants.</p>
+<pre><code>
+    U ou |___|      Ligne inféfieure et trait vertical avant/après
+    N ou |---|      Ligne supérieure et trait vertical avant/après
+    L ou |___       Ligne inférieure et trait vertical avant
+    K ou |---       Ligne supérieure et trait vertical avant
+    V ou ___|       (Virgule) Trait inférieur et trait vertical après
+    ^ ou ---|       (Virgule inversée) Trait supérieur et trait vertical après
+</code></pre>
+<p>On peut ensuite définir sa taille et sa position avec les lettres habituelles <code>x</code> (position horizontale), <code>y</code> (position verticale) et <code>w</code> (largeur en pixels).</p>
+<hr />
+<h2 id="operation_on_tags">Opérations sur les tags</h2>
+<ul>
+<li><a href="#lock_tags">Verrouiller les tags</a></li>
+<li><a href="#grouper_tags">Grouper et dégrouper des tags</a></li>
+</ul>
+<h3 id="lock_tags">Verrouillage des tags</h3>
+<p>On peut « verrouiller » un TAG, c’est-à-dire empêcher totalement ses modifications, aussi bien sa position que son contenu, en ajoutant un astérisque, un rond (ALT #) ou même un <img src="img/cadenas.png" alt="cadenas" /> au tout début de sa ligne (suivi ou non par une espace).</p>
+<p><strong>MuScaT</strong> ajoutera un vrai cadenas (<img src="img/cadenas.png" alt="cadenas" />) qui rendra ce verrouillage très visuel.</p>
+<p>Une fois verrouillé, le TAG ne peut plus être déplacé à la souris. En revanche, il peut tout à fait être modifiée dans le code (sa position, son contenu, etc) pour un ajustement très précis.</p>
+<p>Pour deverrouiller un TAG et le rendre à nouveau mobile, il suffit tout simplement de retirer cette marque de verrouillage dans le code.</p>
+<h3 id="grouper_tags">Grouper et dégrouper des tags</h3>
+<p>« Grouper » des tags permet de les considérer comme un seul élément. On peut de cette manière les déplacer ensemble ou les supprimer tous ensemble.</p>
+<p>Pour grouper :</p>
+<ul>
+<li>sélectionner les TAGs les uns après les autres en maintenant la touche MAJ appuyée,</li>
+<li>activer le bouton « Grouper les x tags sélectionnés » dans <a href="#toolbox">la boite à outils</a> ou jouez la combinaison clavier CMD G (Ctrl G sur Windows)</li>
+</ul>
+<p>Pour dégrouper :</p>
+<ul>
+<li>sélectionner un groupe en sélectionnant un de ses éléments</li>
+<li>activer le bouton « Dégrouper les tags » dans <a href="#toolbox">la boite à outils</a> ou jouez la combinaison clavier CMD G (Ctrl G sur Windows).</li>
+</ul>
+<hr />
+<h2 id="procedure_crop_partition">Procédure de découpage de la partition</h2>
+<p>Voyons quelques méthodes de découpage de la partition en « images-systèmes ». Je les présente ici de la meilleure à la moins bonne. Cette qualité a été définie fonction des deux critères suivants :</p>
+<ul>
+<li>rapidité d’exécution,</li>
+<li>précision du découpage.</li>
+</ul>
+<h3 id="avec-capture-sélection-dans-aperçu-mac">Avec capture sélection dans Aperçu (Mac)</h3>
+<p>Méthode la plus rapide, mais également la moins précise. Ce manque de précision oblige parfois à reprendre des systèmes pour mieux les découper. Cependant, elle est tellement plus rapide que les autres que je la privilégie sans problème.</p>
+<ul>
+<li>Ouvrir la partition PDF dans l’application Aperçu,</li>
+<li>jouer <code>CMD Maj 4</code> pour activer la sélection par souris,</li>
+<li>sélectionner la zone de la partition à capturer (un système),</li>
+<li>recommencer l’opération pour tous les systèmes,</li>
+<li>récupérer les captures sur le bureau — sauf si l’astuce ci-dessous (1) a été utilisée — et les mettre dans le dossier <code>images</code> de votre analyse,</li>
+<li>modifier les noms des fichiers — sauf si vous avez utilisé l’astuce ci-dessous (1) — en les indiçant de 1 (ou 0) à N pour les insérer plus facilement dans l’analyse.</li>
+</ul>
+<ol type="1">
+<li>Astuce : pour aller encore plus vite, vous pouvez :</li>
+</ol>
+<ul>
+<li>utiliser l’<a href="#utils_change_captures_folder">utilitaire Muscat <code>change_folder_captures</code></a> pour définir le dossier des captures écran ou consulter la <a href="https://www.laptopmag.com/articles/change-macs-default-screenshot-directory">procédure décrite ici</a>. Vos captures iront directement dans ce dossier,</li>
+<li>effectuer les captures,</li>
+<li>utiliser l’<a href="#utils_renommer_fichiers">utilitaire Muscat <code>rename_images</code></a> pour renommer instantannément vos fichiers.</li>
+</ul>
+<p>Note : vous pouvez voir ou revoir la procédure dans les tutoriels consacrés sur <a href="">ma chaine YouTube</a>.</p>
+<h3 id="avec-sélection-rectangulaire-dans-aperçu-mac">Avec sélection rectangulaire dans Aperçu (Mac)</h3>
+<p>Une méthode qui ressemble à la précédente et permet d’être plus précis. Mais cette précision se fait au détriment du temps, notamment pour l’enregistrement des fichiers images.</p>
+<ul>
+<li>ouvrir la partition PDF dans Aperçu,</li>
+<li>choisir la sélection rectangle (p.e. Outils &gt; Sélection rectangulaire),</li>
+<li>sélectionner le système grossièrement,</li>
+<li>ajuster parfaitement la sélection à l’aide des poignées,</li>
+<li>copier la sélection (<code>CMD C</code>),</li>
+<li>activer la combinaison <code>CMD N</code> pour créer une nouvelle image à partir du presse-papier,</li>
+<li>enregistrer l’image (<code>CMD S</code>) avec le nom voulu, dans le dossier voulu, en choisissant le format voulu.</li>
+</ul>
+<h3 id="avec-aperçu-sélection-souris-et-rectangle-mac">Avec Aperçu, sélection souris et rectangle (Mac)</h3>
+<p>On peut bien entendu imaginer une méthode intermédiaire qui reprendrait les deux méthodes précédentes. Lorsque la découpe est facile, on utilise la première, lorsque la découpe demande plus de précision, on privilégie la seconde.</p>
+<h3 id="avec-muscat-et-convert">Avec <strong>MuScaT</strong> et <code>convert</code></h3>
+<p>C’est une méthode qui souffre parfois d’un manque de qualité de rendu.</p>
+<p>On tire déjà les images du PDF à l’aide de la commande à jouer dans le Terminal (adapter la qualité du traitement en fonction du résultat) :</p>
+<pre><code>
+  # Se trouver dans le dossier contenant la partition (cd ...)
+  convert[ options] partition.pdf partition.jpg # ou .png
+</code></pre>
+<p>Autant d’images que de pages sont produites.</p>
+<p>On insert la première dans le code du fichier <code>tags.js</code>, avec l’option <code>crop image</code> :</p>
+<pre><code>
+    # Dans tags.js
+    option(&#39;crop image&#39;)
+    Tags=`
+    partition partition-0.jpg
+    `;
+</code></pre>
+<p>On ouvre le fichier <code>TABLE_ANALYSE.html</code> dans Firefox.</p>
+<p>Maintenant, il suffit de sélectionner, à la souris, la zone de l’image à prendre puis de coller le code du presse-papier dans la console du Terminal. Puis de jouer ce code.</p>
+<p>Répéter l’opération avec chaque système, puis avec chaque page de la partition.</p>
+<h3 id="avec-gimpphotoshop-ou-autre-logiciel-de-traitement-de-limage">Avec Gimp/Photoshop (ou autre logiciel de traitement de l’image)</h3>
+<p>Si Gimp présente une précision de découpage inégalable, l’application offre en revanche la méthode la plus chronophage, même avec l’habitude du logiciel.</p>
+<ul>
+<li>ouvrir le PDF dans Gimp,</li>
+<li>sélectionner chaque système en le découpant,</li>
+<li>le placer en haut,</li>
+<li>« cropper » l’image à la taille du plus haut système,</li>
+<li>exporter chaque image-système (avec le bon nom).</li>
+</ul>
+<p>Ce mode d’emploi n’étant pas destiné à maitriser Gimp, je vous renvoie au manuel d’utilisation de l’application.</p>
+<hr />
+<h2 id="animation_analyse">Animation d’une analyse</h2>
+<ul>
+<li><a href="#starting_animation">Démarrage de l’animaton</a></li>
+<li><a href="#pause_animation">Pause de l’animation</a></li>
+<li><a href="#set_animation_speed">Réglage de la vitesse de l’animation</a></li>
+</ul>
+<p>Serait-ce la cerise sur le gâteau de <strong>MuScaT</strong> ?… L’application ne permet pas seulement de faire une analyse statique, elle permet aussi de créer une animation qu’on peut utiliser pour YouTube ou pour donner un cours physique à la manière d’un power-point.</p>
+<p>Les fonctionnalités de l’animation sont limitées cependant, puisqu’on ne peut que faire apparaitre les éléments les uns après les autres. On ne peut pas (ou pas encore) les déplacer, les coloriser, etc. Avec un peu d’imagination et en exploitant toutes les possibilités de <strong>MuScaT</strong>, on peut cependant parvenir à des choses assez complexe.</p>
+<p>Vous pouvez en trouver des illustrations sur les vidéos de ma chaine : https://www.youtube.com/channel/UCX3XhJw9x1RsVx1s3GNYceA.</p>
+<h3 id="starting_animation">Démarrage de l’animaton</h3>
+<p>Pour lancer une animation, il n’y a rien de plus simple à faire que d’ajouter le commentaire <code>// START</code> à l’endroit où l’on veut qu’elle démarre. À partir de ce <code>START</code>, tous les groupes de TAGs non espacés seront affichés ensemble et l’animation fera une pause lorsqu’elle rencontrera une ligne vide.</p>
+<h3 id="pause_animation">Pause de l’animation</h3>
+<p>Pour une utilisation « en live », comme un power-point, il peut être intéressant de mettre l’animation en pause, c’est-à-dire de l’arrête jusqu’à ce qu’une touche soit pressée. Pour cela, on utilise tout simplement la ligne <code>// PAUSE</code> à l’endroit où l’on veut que ça se fasse.</p>
+<h3 id="set_animation_speed">Réglage de la vitesse de l’animation</h3>
+<p>On peut régler la vitesse de l’animation à l’aide de l’option <code>vitesse animation</code> ou <code>animation speed</code>. C’est un nombre de 1 à 100. Plus il est élevé et plus l’animation est rapide (i.e. plus les pauses sont courtes).</p>
+<hr />
+<h2 id="all_options">Options</h2>
+<ul>
+<li><a href="#choix_langue">Options de la langue</a></li>
+<li><a href="#option_code_beside">Option « code à côté »</a></li>
+<li><a href="#option_crop_image">Option « découpe image »</a></li>
+<li><a href="#option_line_of_reference">Option « lignes de repère »</a>
+<ul>
+<li><a href="#position_lignes_reperes">Position des lignes repères</a></li>
+</ul></li>
+<li><a href="#option_space_between_scores">Option « espacement images »</a></li>
+<li><a href="#option_top_first_score">Option « marge haut »</a></li>
+<li><a href="#option_left_margin">Option « marge gauche »</a></li>
+<li><a href="#vitesse_animation">Vitesse de l’animation</a></li>
+</ul>
+<p>Comme les tags et les partitions, les options se règle dans le fichier <code>tags.js</code>. On utilise tout naturellement la fonction <code>option</code> (ou <code>options</code>) avec en argument les options à activer.</p>
+<p>Ci-dessous, par exemple, on active l’option <code>guide</code> qui affiche deux lignes repère déplaçables pour aligner des éléments à la souris (ou par magnétisation).</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb28-1" title="1"></a>
+<a class="sourceLine" id="cb28-2" title="2">  <span class="co">// Dans tags.js</span></a>
+<a class="sourceLine" id="cb28-3" title="3">  <span class="at">option</span>(<span class="st">&#39;guide&#39;</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb28-4" title="4">  Tags<span class="op">=</span><span class="vs">`</span></a>
+<a class="sourceLine" id="cb28-5" title="5"><span class="vs">    ...</span></a>
+<a class="sourceLine" id="cb28-6" title="6"><span class="vs">  `</span><span class="op">;</span>  </a></code></pre></div>
+<p>Dans la méthode <code>option</code>, on peut passer toutes les options les unes à la place des autres, ou utiliser plusieurs fois la méthode <code>option</code>. Les deux formulations suivantes sont équivalentes :</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb29-1" title="1"></a>
+<a class="sourceLine" id="cb29-2" title="2">  <span class="co">// Dans tags.js</span></a>
+<a class="sourceLine" id="cb29-3" title="3">  <span class="at">option</span>(<span class="st">&#39;guide&#39;</span><span class="op">,</span> <span class="st">&#39;code&#39;</span><span class="op">,</span> <span class="st">&#39;marge haut&#39;</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></a></code></pre></div>
+<p>… équivaut à :</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb30-1" title="1"></a>
+<a class="sourceLine" id="cb30-2" title="2">  <span class="co">// Dans tags.js</span></a>
+<a class="sourceLine" id="cb30-3" title="3">  <span class="at">option</span>(<span class="st">&#39;guide&#39;</span>)<span class="op">;</span><span class="at">option</span>(<span class="st">&#39;code&#39;</span>)<span class="op">;</span><span class="at">option</span>(<span class="st">&#39;marge haut&#39;</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></a></code></pre></div>
+<blockquote>
+<p>Note : les points virgules sont optionnels.</p>
+</blockquote>
+<p>Vous noterez qu’il existe deux types d’options. Les options dites « booléenne » qu’on active simplement en indiquant leur nom en argument (par exemple <code>guide</code> ou <code>code</code>) et il y a les options non booléennes qui attendent une valeur précise (par exemple <code>marge haut</code> attend la valeur de cette marge haut).</p>
+<p>Dans les arguments de la méthode <code>option</code>, la valeur des options non booléennes doit suivre immédiatement le nombre de l’option :</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb31-1" title="1"></a>
+<a class="sourceLine" id="cb31-2" title="2">  <span class="co">// Dans tags.js</span></a>
+<a class="sourceLine" id="cb31-3" title="3">  <span class="at">option</span>(<span class="st">&#39;marge haut&#39;</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></a></code></pre></div>
+<h3 id="choix_langue">Option « langue »</h3>
+<p>Option : <code>lang</code>, <code>langue</code></p>
+<p>Type : les deux lettres de la langue, par exemple <code>fr</code> (français) ou <code>en</code> (anglais).</p>
+<p>Pour définir la langue parlée par l’application. Pour le moment, l’application ne sait que parler français et anglais, mais nous espérons rapidement voir d’autres langues se développer. Avis aux amateurs traducteurs même inexpérimentés !</p>
+<h3 id="option_code_beside">Option « code à côté »</h3>
+<p>Option : <code>code beside</code>, <code>code à côté</code></p>
+<p>Type : booléen</p>
+<p>L’option « code à côté » permet d’avoir le fichier contenant le code juste à côté de la partition, ce qui est très pratique pour le modifier sans avoir à changer d’application. On le voit ci-dessous dans la boite noir.</p>
+<figure>
+<img src="img/option_code_beside.png" alt="Code à côté de la partition" /><figcaption>Code à côté de la partition</figcaption>
+</figure>
+<h3 id="option_crop_image">Option « découpe image »</h3>
+<p>Option : <code>crop image</code>, <code>découpe image</code></p>
+<p>Type : booléen</p>
+<p>Cette option fait passer dans un mode d’utilisation qui va permettre de découper l’image de façon aisée (par simple [copié-]collé).</p>
+<h3 id="option_line_of_reference">Option « lignes de repère »</h3>
+<p>Option : <code>repères</code>, <code>reperes</code>, <code>lines of reference</code>, <code>guides</code></p>
+<p>Type : booléen</p>
+<p>Ajoute une ligne horizontale et une ligne verticale qu’on peut déplacer et qui peuvent servir de guide, de repère, pour placer les TAGs.</p>
+<h3 id="position-des-lignes-repères-position_lignes_reperes">Position des lignes repères (#position_lignes_reperes)</h3>
+<p>Pour la position de la ligne verticale :</p>
+<p>Option : <code>position repère vertical</code>, <code>vertical line offset</code></p>
+<p>Type : nombre de pixels</p>
+<p>Pour la position de la ligne horizontale :</p>
+<p>Option : <code>position repère horizontal</code>, <code>horizontal line offset</code></p>
+<p>Exemple :</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb32-1" title="1"></a>
+<a class="sourceLine" id="cb32-2" title="2">  <span class="co">// Dans le fichier tags.js de l&#39;analyse</span></a>
+<a class="sourceLine" id="cb32-3" title="3">   <span class="co">// à 120 pixels du haut et 200 de la gauche</span></a>
+<a class="sourceLine" id="cb32-4" title="4">  <span class="at">option</span>(<span class="st">&#39;vertical line offset&#39;</span><span class="op">,</span> <span class="dv">120</span><span class="op">,</span> <span class="st">&#39;horizontal line offset&#39;</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></a></code></pre></div>
+<h3 id="option_space_between_scores">Option « Espacement entre images »</h3>
+<p>Option : <code>espacement images</code>, <code>space between scores</code></p>
+<p>Type : non booléen, la valeur est le nombre de pixels</p>
+<p>Permet de régler l’espacement en pixels entre deux images lorsque l’<a href="#sequence_images">écriture séquentielle des images</a> a été adoptée.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb33-1" title="1"></a>
+<a class="sourceLine" id="cb33-2" title="2">  <span class="co">// Dans tags.js</span></a>
+<a class="sourceLine" id="cb33-3" title="3">  <span class="at">option</span>(<span class="st">&#39;espacement images&#39;</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb33-4" title="4">  Tags<span class="op">=</span><span class="vs">`</span></a>
+<a class="sourceLine" id="cb33-5" title="5"><span class="vs">    ...</span></a>
+<a class="sourceLine" id="cb33-6" title="6"><span class="vs">  `</span><span class="op">;</span>  </a></code></pre></div>
+<p>Avec le code ci-dessus, l’espace entre les différents systèmes sera de 100 pixels.</p>
+<h3 id="option_top_first_score">Option « marge haut »</h3>
+<p>Option : <code>marge haut</code>, <code>top first score</code></p>
+<p>Type : non booléen, la valeur est le nombre de pixels</p>
+<p>Lors de l’<a href="#sequence_images">écriture séquentielle des images</a>, cette valeur permet de déterminer à quelle hauteur doit être placée la première image (le premier système ou la partition).</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb34-1" title="1"></a>
+<a class="sourceLine" id="cb34-2" title="2">  <span class="co">// Dans tags.js</span></a>
+<a class="sourceLine" id="cb34-3" title="3">  <span class="at">option</span>(<span class="st">&#39;marge haut&#39;</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb34-4" title="4">  Tags<span class="op">=</span><span class="vs">`</span></a>
+<a class="sourceLine" id="cb34-5" title="5"><span class="vs">    ...</span></a>
+<a class="sourceLine" id="cb34-6" title="6"><span class="vs">  `</span><span class="op">;</span>  </a></code></pre></div>
+<p>Avec le code ci-dessus, la première image de partition sera placée à 200 pixels du haut.</p>
+<h3 id="option_left_margin">Option « marge gauche »</h3>
+<p>Option : <code>marge gauche</code>, <code>left margin</code></p>
+<p>Type : non booléen, la valeur est le nombre de pixels</p>
+<p>Lors de l’<a href="#sequence_images">écriture séquentielle des images</a>, cette valeur détermine la marge gauche où placer l’image (son <code>x</code>).</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb35-1" title="1"></a>
+<a class="sourceLine" id="cb35-2" title="2">  <span class="co">// Dans tags.js</span></a>
+<a class="sourceLine" id="cb35-3" title="3">  <span class="at">option</span>(<span class="st">&#39;marge gauche&#39;</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb35-4" title="4">  Tags<span class="op">=</span><span class="vs">`</span></a>
+<a class="sourceLine" id="cb35-5" title="5"><span class="vs">    ...</span></a>
+<a class="sourceLine" id="cb35-6" title="6"><span class="vs">  `</span><span class="op">;</span>  </a></code></pre></div>
+<p>Avec le code ci-dessus, toutes les images de la séquence seront placées à 50 pixels de la gauche.</p>
+<h3 id="vitesse_animation">Vitesse de l’animation</h3>
+<p>Option : <code>vitesse animation</code>, <code>animation speed</code></p>
+<p>Type : un nombre de 1 à 100.</p>
+<p><code>1</code> correspond au plus lent, <code>100</code> au plus rapide.</p>
+<p>Pour le détail, cf. <a href="#animation_analyse">animation d’une analyse</a></p>
+<hr />
+<h2 id="les_utilitaires">Utilitaires</h2>
+<p>L’application <strong>MuScaT</strong>, comme tout bon vin, est fournie avec quelques utilitaires pour se faciliter la vie, en tout cas sur Mac. En voici la liste avec leur mode d’utilisation.</p>
+<h3 id="utils_renommer_fichiers">Renommage des fichiers images (Mac/Unix)</h3>
+<p>Ce script, qui se trouve dans le dossier <code>utils</code> de l’application, permet de renommer les images d’un dossier de façon cohérente et indexée.</p>
+<p>Pour utiliser ce script :</p>
+<ul>
+<li>ouvrir l’application Terminal,</li>
+<li>rejoindre (commande <code>cd</code>) le dossier de l’application MuScaT,</li>
+<li>se placer dans le dossier utilitaires (<code>cd utils</code>)</li>
+<li>taper <code>./rename_images.rb -h</code> et la touche Entrée pour tout savoir du script.</li>
+</ul>
+<blockquote>
+<p>Noter que l’option <code>-h</code> ou <code>--help</code> permet toujours d’obtenir l’aide.</p>
+</blockquote>
+<h3 id="utils_change_captures_folder">Changement du dossier des captures écran (Mac)</h3>
+<p>Par défaut, les captures d’écran sont enregistrés sur le bureau. Ça n’est pas gênant en soit, il suffit de les glisser ensuite dans le dossier <code>images</code> de l’analyse. Mais si on veut encore gagner du temps, ce script permet de changer le dossier de destination.</p>
+<p>Voici la procédure :</p>
+<ul>
+<li>ouvrir l’application Terminal,</li>
+<li>rejoindre (commande <code>cd</code>) le dossier <code>utils</code> de l’application MuScaT,</li>
+<li>taper <code>./change_folder_captures.rb -h</code> et la touche Entrée pour tout savoir du script.</li>
+</ul>
+<p>Pour remettre la valeur par défaut (le bureau), jouer simplement <code>./utils/change_folder_captures.rb</code> sans aucun autre argument.</p>
+<h3 id="create_new_analyse">Création d’une nouvelle analyse (Mac)</h3>
+<p>Le script <code>create.rb</code> permet de créer une nouvelle analyse dans le dossier <code>_analyses_</code> de <strong>MuScaT</strong>.</p>
+<ul>
+<li>ouvrir l’application Terminal,</li>
+<li>rejoindre (commande <code>cd</code>) le dossier <code>utils</code> de l’application MuScaT,</li>
+<li>puis, au choix :
+<ul>
+<li>taper <code>./create.rb -h</code> et la touche Entrée pour tout savoir du script,</li>
+<li>taper <code>./create.rb "Ma nouvelle analyses" -o</code> pour créer l’analyse et l’ouvrir dans le finder.</li>
+</ul></li>
+</ul>
+<p>Notez que pour l’activer, il faut l’ouvrir dans le navigateur avec le script <code>./analyse.rb</code>.</p>
+<h3 id="activate_analyse">Activation d’une analyse (Mac)</h3>
+<p>Le script <code>analyse.rb</code> permet d’activer une analyse se trouvant dans le dossier <code>_analyses_</code> de <strong>MuScaT</strong>.</p>
+<ul>
+<li>ouvrir l’application Terminal,</li>
+<li>rejoindre (commande <code>cd</code>) le dossier <code>utils</code> de l’application MuScaT,</li>
+<li>puis, au choix :
+<ul>
+<li>taper <code>./analyse.rb -h</code> et la touche Entrée pour tout savoir du script.</li>
+<li>taper <code>./analyse.rb</code> pour obtenir la liste des analyses et en choisir une,</li>
+<li>taper <code>./analyse.rb "Mon_analyse"</code> pour ouvrir l’analyse qui commence par ce titre.</li>
+</ul></li>
+</ul>
+<h3 id="aller_plus_loin">Pour aller plus loing</h3>
+<p>Pour aller plus loin, si vous êtes sur Mac et que vous vous sentez à l’aise avec le Terminal, vous pouvez créer un alias dans votre <code>profil bash</code> pour ne pas avoir à rejoindre chaque fois le dossier de l’application et même utiliser les commandes plus simplement.</p>
+<p>Grâce à cet alias, vous pouvez jouer tous les scripts ci-dessus sans autre forme de procès. Par exemple, si vous utilisez l’alias <code>mus</code>, alors il suffit d’ouvrir une nouvelle fenêtre de Terminal et de taper :</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb36-1" title="1"></a>
+<a class="sourceLine" id="cb36-2" title="2"><span class="op">&gt;</span> <span class="ex">mus</span> analyse <span class="st">&quot;Ma_Dernière_analyse&quot;</span></a></code></pre></div>
+<p>… pour ouvrir cette analyse.</p>
+<p>L’autre avantage de l’utilisation de cet alias, c’est qu’on peut utiliser les termes de différentes langues. Voir les <a href="#corresp_linguistiques">correspondances linguistiques</a>.</p>
+<h4 id="creation_alias_mus">Création de l’alias</h4>
+<p>Pour créer cet alias, il suffit d’éditer le fichier de profil bash et d’ajouter la ligne <code>alias mus="/path/to/dossier/MuScat/utils"</code> en remplaçant “mus” par le mot que vous voudrez et “/path/to_dossier” par le chemin d’accès réel à votre dossier MuScaT.</p>
+<p>Chez moi, cela revient à faire :</p>
+<pre><code>  vim ~/.bash_profile
+</code></pre>
+<p>… pour éditer mon bash profile avec <a href="https://fr.wikipedia.org/wiki/Vim">Vim</a>.</p>
+<p>Dans ce fichier <code>.bash_profile</code>, j’ajoute la ligne :</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb38-1" title="1"></a>
+<a class="sourceLine" id="cb38-2" title="2"><span class="bu">alias</span> mus=<span class="st">&quot;/Users/philippeperret/Programmation/MuScaT/utils/run.rb&quot;</span></a></code></pre></div>
+<blockquote>
+<p>Note : pour obtenir facilement la ligne ci-dessus sans aucune erreur, il suffit par exemple de glisser le fichier ou le dossier dans une fenêtre de Terminal. Le chemin d’accès s’y inscrit aussitôt.</p>
+</blockquote>
+<p>J’enregistre le fichier avec la combinaison traditionnelle <code>:wq</code> et j’ouvre une nouvelle fenêtre de Terminal (ouvrir une nouvelle fenêtre de Terminal est indispensable pour prendre en compte les changements du profil bash).</p>
+<p>Et maintenant, je peux, sans me trouver dans le dossier <strong>MuScaT</strong>, taper :</p>
+<pre><code>mus analyse &quot;Analyse Sonate Haydn&quot;
+</code></pre>
+<p>… pour ouvrir l’analyse « Analyse Sonate Haydn».</p>
+<h4 id="corresp_linguistiques">correspondances linguistiques</h4>
+<p>Quand on utilise l’alias ci-dessus, on peut utiliser des termes dans sa langue.</p>
+<table style="width:71%;">
+<colgroup>
+<col style="width: 34%" />
+<col style="width: 36%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td>Anglais</td>
+<td>Français</td>
+</tr>
+<tr class="even">
+<td>create open rename_images change_folder_captures</td>
+<td>créer ouvrir renommer_images change_dossier_captures</td>
+</tr>
+</tbody>
+</table>
+<table style="width:67%;">
+<colgroup>
+<col style="width: 22%" />
+<col style="width: 20%" />
+<col style="width: 23%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td>Espagnol</td>
+<td>Allemand</td>
+<td>Mandarin</td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

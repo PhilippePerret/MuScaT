@@ -1,0 +1,20 @@
+body{
+  margin:2cm;
+  font-family: Avenir;
+  font-size: 14pt;
+  width: 17cm;
+}
+a, a:link, a:visited {
+  text-decoration: none !important;
+  color: #000077!important;
+}
+img{
+  max-width: 15cm;
+}
+figcaption {display: none;}
+ul {list-style: none;}
+ul li:before {
+  /* content:'♯' ;/*content:'♮'; /*content:'♭'; */
+  content: '🌀';
+  color: blue;
+  opacity: 0.55; font-size: 8pt; margin-right:0.5em;}

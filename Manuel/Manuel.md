@@ -1,17 +1,13 @@
-# MuScaT
-# Manuel d'utilisation
+# MuScaT<br>Manuel d'utilisation
 
 <!--
-Pour actualiser le fichier PDF:
-- se placer dans ce dossier (cd ...)
-- jouer :
-pandoc Manuel.md --pdf-engine=xelatex --from=markdown --to=latex --output=Manuel.pdf;open Manuel.pdf
+Pour actualiser le PDF
 
-Pour trouver précisément où peut se trouver un problème, on peut passer par
-le document LaTex et le composer. Pour le produire :
+1. Jouer cette commande dans le Terminal
 
-pandoc -s Manuel.md --from=markdown --to=latex --output=Manuel.tex;open Manuel.tex
+pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel" --from=markdown --output=Manuel.html;open Manuel.html;
 
+2. Exporter le fichier en PDF (Safari offre un menu directement dans « Fichier »)
 -->
 
 ## Introduction (histoire)
@@ -44,6 +40,7 @@ Elle est semi-graphique, et permet d'ajuster très finement les TAGs — au pix
 * [Opérations sur les tags](#operation_on_tags)
   * [Verrouillage des tags](#lock_tags)
   * [Grouper et dégrouper des tags](#grouper_tags)
+* [Animation d'une analyse](#animation_analyse)
 * [Les Options](#all_options)
 * [Les Utilitaires](#les_utilitaires)
   * [Changement du dossier des captures écran (Mac)](#utils_change_captures_folder)
@@ -74,10 +71,6 @@ Commençons par un aperçu du processus général qui va permettre de produire u
 La toute première chose à faire, bien sûr, est de charger **MuScaT**. Pour le moment, on peut le faire par le biais de son [repository Github de **MuScaT**](https://github.com/PhilippePerret/MuScaT).
 
 Il suffit de cliquer sur le bouton « Clone or download », de choisir « Download ZIP » et d'attendre la fin du téléchargement (l'application fait plusieurs mégaoctets, donc suivant l'état de votre connexion, l'opération peut être plus ou moins longue).
-
-![Bouton « Clone or download »](img/Bouton_clone_or_download.jpg)
-
-![Bouton « Download ZIP »](img/Bouton_Download_ZIP.jpg)
 
 On se retrouve alors avec le dossier de l'application.
 
@@ -674,9 +667,9 @@ On peut ensuite définir sa taille et sa position avec les lettres habituelles `
 
 ### Verrouillage des tags {#lock_tags}
 
-On peut « verrouiller » un TAG, c'est-à-dire empêcher totalement ses modifications, aussi bien sa position que son contenu, en ajoutant un astérisque, un rond (ALT #) ou même un 🔒 au tout début de sa ligne (suivi ou non par une espace).
+On peut « verrouiller » un TAG, c'est-à-dire empêcher totalement ses modifications, aussi bien sa position que son contenu, en ajoutant un astérisque, un rond (ALT #) ou même un ![cadenas](img/cadenas.png) au tout début de sa ligne (suivi ou non par une espace).
 
-**MuScaT** ajoutera un vrai cadenas (🔒) qui rendra ce verrouillage très visuel.
+**MuScaT** ajoutera un vrai cadenas (![cadenas](img/cadenas.png)) qui rendra ce verrouillage très visuel.
 
 Une fois verrouillé, le TAG ne peut plus être déplacé à la souris. En revanche, il peut tout à fait être modifiée dans le code (sa position, son contenu, etc) pour un ajustement très précis.
 
@@ -787,6 +780,32 @@ Ce mode d'emploi n'étant pas destiné à maitriser Gimp, je vous renvoie au man
 
 ---
 
+## Animation d'une analyse {#animation_analyse}
+
+* [Démarrage de l'animaton](#starting_animation)
+* [Pause de l'animation](#pause_animation)
+* [Réglage de la vitesse de l'animation](#set_animation_speed)
+
+Serait-ce la cerise sur le gâteau de **MuScaT** ?… L'application ne permet pas seulement de faire une analyse statique, elle permet aussi de créer une animation qu'on peut utiliser pour YouTube ou pour donner un cours physique à la manière d'un power-point.
+
+Les fonctionnalités de l'animation sont limitées cependant, puisqu'on ne peut que faire apparaitre les éléments les uns après les autres. On ne peut pas (ou pas encore) les déplacer, les coloriser, etc. Avec un peu d'imagination et en exploitant toutes les possibilités de **MuScaT**, on peut cependant parvenir à des choses assez complexe.
+
+Vous pouvez en trouver des illustrations sur les vidéos de ma chaine : https://www.youtube.com/channel/UCX3XhJw9x1RsVx1s3GNYceA.
+
+### Démarrage de l'animaton {#starting_animation}
+
+Pour lancer une animation, il n'y a rien de plus simple à faire que d'ajouter le commentaire `// START` à l'endroit où l'on veut qu'elle démarre. À partir de ce `START`, tous les groupes de TAGs non espacés seront affichés ensemble et l'animation fera une pause lorsqu'elle rencontrera une ligne vide.
+
+### Pause de l'animation {#pause_animation}
+
+Pour une utilisation « en live », comme un power-point, il peut être intéressant de mettre l'animation en pause, c'est-à-dire de l'arrête jusqu'à ce qu'une touche soit pressée. Pour cela, on utilise tout simplement la ligne `// PAUSE` à l'endroit où l'on veut que ça se fasse.
+
+### Réglage de la vitesse de l'animation {#set_animation_speed}
+
+On peut régler la vitesse de l'animation à l'aide de l'option `vitesse animation` ou `animation speed`. C'est un nombre de 1 à 100. Plus il est élevé et plus l'animation est rapide (i.e. plus les pauses sont courtes).
+
+---
+
 ## Options {#all_options}
 
 * [Options de la langue](#choix_langue)
@@ -797,6 +816,7 @@ Ce mode d'emploi n'étant pas destiné à maitriser Gimp, je vous renvoie au man
 * [Option « espacement images »](#option_space_between_scores)
 * [Option « marge haut »](#option_top_first_score)
 * [Option « marge gauche »](#option_left_margin)
+* [Vitesse de l'animation](#vitesse_animation)
 
 Comme les tags et les partitions, les options se règle dans le fichier `tags.js`. On utilise tout naturellement la fonction `option` (ou `options`) avec en argument les options à activer.
 
@@ -960,6 +980,16 @@ Lors de l'[écriture séquentielle des images](#sequence_images), cette valeur d
 
 Avec le code ci-dessus, toutes les images de la séquence seront placées à 50 pixels de la gauche.
 
+### Vitesse de l'animation {#vitesse_animation}
+
+Option : `vitesse animation`, `animation speed`
+
+Type : un nombre de 1 à 100.
+
+`1` correspond au plus lent, `100` au plus rapide.
+
+Pour le détail, cf. [animation d'une analyse](#animation_analyse)
+
 ---
 
 ## Utilitaires {#les_utilitaires}
@@ -1030,6 +1060,9 @@ Grâce à cet alias, vous pouvez jouer tous les scripts ci-dessus sans autre for
 
 … pour ouvrir cette analyse.
 
+L'autre avantage de l'utilisation de cet alias, c'est qu'on peut utiliser les termes de différentes langues. Voir les [correspondances linguistiques](#corresp_linguistiques).
+
+#### Création de l'alias {#creation_alias_mus}
 
 Pour créer cet alias, il suffit d'éditer le fichier de profil bash et d'ajouter la ligne `alias mus="/path/to/dossier/MuScat/utils"` en remplaçant "mus" par le mot que vous voudrez et "/path/to_dossier" par le chemin d'accès réel à votre dossier MuScaT.
 
@@ -1062,3 +1095,23 @@ mus analyse "Analyse Sonate Haydn"
 ```
 
 … pour ouvrir l'analyse « Analyse Sonate Haydn».
+
+#### correspondances linguistiques {#corresp_linguistiques}
+
+Quand on utilise l'alias ci-dessus, on peut utiliser des termes dans sa langue.
+
++------------------------+-------------------------+
+| Anglais                | Français                |
++------------------------+-------------------------+
+| create                 | créer                   |
+| open                   | ouvrir                  |
+| rename_images          | renommer_images         |
+| change_folder_captures | change_dossier_captures |
++------------------------+-------------------------+
+
++---------------+--------------+----------------+
+| Espagnol      | Allemand     | Mandarin       |
++---------------+--------------+----------------+
+|               |              |                |
+|               |              |                |
++---------------+--------------+----------------+
