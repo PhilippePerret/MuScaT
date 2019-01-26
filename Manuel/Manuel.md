@@ -40,6 +40,7 @@ Elle est semi-graphique, et permet d'ajuster très finement les TAGs — au pix
 * [Opérations sur les tags](#operation_on_tags)
   * [Verrouillage des tags](#lock_tags)
   * [Grouper et dégrouper des tags](#grouper_tags)
+  * [Ligne de code du tag](#tag_code_line)
 * [Animation d'une analyse](#animation_analyse)
 * [Les Options](#all_options)
 * [Les Utilitaires](#les_utilitaires)
@@ -777,6 +778,14 @@ Si Gimp présente une précision de découpage inégalable, l'application offre 
 * exporter chaque image-système (avec le bon nom).
 
 Ce mode d'emploi n'étant pas destiné à maitriser Gimp, je vous renvoie au manuel d'utilisation de l'application.
+
+### Ligne de code du tag {#tag_code_line}
+
+On peut obtenir la ligne de code d'un tag ou même de plusieurs tags de cette manière :
+
+* sélectionner sur la table d'analyse le ou les tags dont on veut les codes,
+* jouer la combinaison ALT C,
+* coller le code mis dans le presse-papier.
 
 ---
 

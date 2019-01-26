@@ -463,11 +463,10 @@ const MuScaT = {
       if(undefined == new_line){ new_line = my.tags[idx].to_line() };
       my.lines[idx] = new_line ;
       // On met la nouvelle ligne dans le clipboard pour la copier-coller
-      navigator.clipboard.writeText(new_line + RC) ;
+      clip(new_line + RC);
       // On l'actualise immédiatement dans le champ de saisie
       my.update_code();
     }
-
   // Méthode qui insert une nouvelle ligne de donnée (lorsqu'il y a copie)
   , insert_line: function(itag){
       var   my = this
@@ -539,7 +538,7 @@ const MuScaT = {
   , show_code: function(message){
     var my = this ;
     if (!message){message = t('full-code-in-clipboard')};
-    F.notice(message);
+    F.notify(message);
     my.build_very_full_code();
   },
 

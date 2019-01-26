@@ -11,7 +11,13 @@ window.message = function(str){
   var dom = document.getElementById('message');
   dom.className = 'notice';
   dom.innerHTML = str;
-}
+};
+
+// Pour mettre dans le presse-papier
+function clip(str){
+  navigator.clipboard.writeText(str) ;
+};
+
 // Mis dans un object pour pouvoir être réaffectées lors de l'update
 // des tags sur la partition.
 const DATA_DRAGGABLE = {

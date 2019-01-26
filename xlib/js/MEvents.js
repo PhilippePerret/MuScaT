@@ -97,6 +97,16 @@ const MEvents = {
         default:
           this.console_key(ev);
       }
+    } else if (ev.altKey) {
+      // Avec la touche ALT
+      switch(ev.charCode){
+        case 169: // ALT C => code copié dans le presse papier
+          CTags.lines_selected_in_clipboard();
+          break;
+        default:
+          // Rien pour le moment
+          this.console_key(ev);
+      };
     } else {
       switch (ev.keyCode) {
         case 37: // left

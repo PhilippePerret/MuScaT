@@ -8,6 +8,7 @@ Object.assign(MSG,{
 
   // TAGS
   , 'full-code-in-clipboard' : "The full code of your tagged analysis is copied in the clipboard.\n\nYou can paste it in your `tags.js` file (select the whole code and replace it)."
+  , 'code-lines-in-clipboard': "Line code of selected tags put in clipboard. You can paste it in your tags.js file."
 
 
   // IMAGES

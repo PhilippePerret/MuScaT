@@ -1,7 +1,6 @@
 # Todo list
 
 * Documenter l'annulation
-* Pouvoir obtenir le code du tag sélectionné seulement
 * Pouvoir ajouter des pages-breaks (il faut que ce soit des tags aussi, qu'on peut déplacer de la même manière que les autres tags - en @media screen, ils affichent le texte "page break" et en @media print, ils ajoutent un saut de page)
 * Traduire tous les textes des scripts utilitaires (il faut un système spécial comme i18n, mais sans passer par là)
 

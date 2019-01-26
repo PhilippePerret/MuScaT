@@ -8,7 +8,7 @@ Object.assign(MSG,{
 
   // TAGS
   , 'full-code-in-clipboard' : "Le code complet de votre partition tagguée est copié dans le presse-papier.\n\nIl vous suffit de le coller dans votre fichier tags.js en remplaçant tout le code (p.e. sélectionnez tout l'ancien code avant de coller le nouveau)."
-
+  , 'code-lines-in-clipboard': "Le code des lignes des tags sélectionnés a été mis dans le presse-papier pour un collé."
   // IMAGES
   , 'image-sequentielle': 'expression régulière dans l’image de la partition'
 

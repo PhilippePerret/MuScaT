@@ -8,58 +8,78 @@
  * Alias : F
  */
 const Flash = {
-  built: false,
+    built: false
 
-  onOK_method: null,      // la méthode à appeler quand OK est cliqué (if any)
-  onCancel_method: null,  // idem pour Renoncer
+  , onOK_method: null      // la méthode à appeler quand OK est cliqué (if any)
+  , onCancel_method: null  // idem pour Renoncer
   //////////////////////////////////////////////////////////////////////////
   //  Méthodes d'affichage
 
-  // Affiche d'une simple notification
-  notice: function(str){
-    this.display(str, 'jqNotice');
-  },
-  // Affichage d'une erreur
-  error: function(str){
-    this.display(str, 'jqWarning');
-  },
-  ask: function(msg, args){
+  // Affiche d'une simple notification mais avec bouton pour
+  // la fermer
+  , notice: function(str){
+      this.display(str, 'jqNotice');
+    }
+  // Une notification, qui se ferme toute seule
+  , notify: function(str){
+      this.display(str, 'jqNotice', {no_buttons: true});
+      this.timer = setTimeout($.proxy(Flash,'denotify'), 5*1000);
+    }
+  , denotify: function(){
+      clearTimeout(this.timer);
+      delete this.timer;
+      this.close();
+    }
+    // Affichage d'une erreur
+  , error: function(str){
+      this.display(str, 'jqWarning');
+    }
+    // Pour poser une question
+  , ask: function(msg, args){
     this.onOK_method = args.onOK ;
     this.display(msg, 'jqAsk');
-  },
+  }
 
   // L'affichage commun de n'importe quel type de texte
-  display: function(msg, jqIn) {
-    if(!this.built){this.build()};
-    jqIn = this[jqIn];
-    this.reset();
-    jqIn.html(this.treat_message(msg)).show();
-    this.open();
-  },
+  , display: function(msg, jqIn, options) {
+      if(!this.built){this.build()};
+      jqIn = this[jqIn];
+      this.reset();
+      jqIn.html(this.treat_message(msg)).show();
+      if(options && options.no_buttons){ this.hide_buttons(); }
+      else { this.show_buttons() };
+      this.open();
+    }
 
-  open: function(){
-    this.old_onkeypress = window.onkeypress ;
-    window.onkeypress = $.proxy(Flash,'onKeypress');
-    this.show();
-  },
-  close: function(){
-    window.onkeypress = this.old_onkeypress;
-    this.hide();
-  },
+  , open: function(){
+      this.old_onkeypress = window.onkeypress ;
+      window.onkeypress = $.proxy(Flash,'onKeypress');
+      this.show();
+    }
+  , close: function(){
+      window.onkeypress = this.old_onkeypress;
+      this.hide();
+    }
 
-  show: function() {
-    this.jqObj.show();
-  },
-  hide: function() {
-    this.jqObj.hide();
-  },
-
-  reset: function() {
-    this.jqObj.hide();
-    this.jqNotice.html('').hide();
-    this.jqWarning.html('').hide();
-    this.jqAsk.html('').hide();
-  },
+  , show: function() {
+      this.jqObj.show();
+    }
+  , hide: function() {
+      this.jqObj.fadeOut();
+      // this.jqObj.hide();
+    }
+  , hide_buttons: function(){
+      $('section#flash-buttons').hide();
+    }
+  , show_buttons: function(){
+      $('section#flash-buttons').show();
+    }
+  , reset: function() {
+      this.jqObj.hide();
+      this.jqNotice.html('').hide();
+      this.jqWarning.html('').hide();
+      this.jqAsk.html('').hide();
+    },
 
   /////////////////////////////////////////////////////////////////
   // MÉTHODES ÉVÈNEMENTIELLES
@@ -122,7 +142,7 @@ const Flash = {
         <div id="flash-notice" class="msg" style="display:none;"></div>
         <div id="flash-warning" class="msg" style="display:none;"></div>
         <div id="flash-ask" class="msg" style="display:none;"></div>
-        <section id="buttons">
+        <section id="flash-buttons">
           <button id="cancel-btn" class="btn" onclick="$.proxy(Flash,'onCancel')()">Annuler</button>
           <button id="ok-btn" class="btn" onclick="$.proxy(Flash,'onOK')()">OK</button>
         </section>
@@ -145,9 +165,9 @@ Object.defineProperties(Flash,{
       #flash #flash-notice {color: blue; background-color:#CCCCFF;}
       #flash #flash-warning {color: red; background-color: #FFCCCC; border: 1px solid red;}
       #flash #flash-ask {color: green; background-color: #CCFFCC; border: 1px solid green;}
-      #flash #buttons {text-align:right;padding-top:1em;background-color:white;padding:0.5em 1em;}
-      #flash #buttons #cancel-btn {float: left;}
-      #flash #buttons .btn {font-size: 16pt; padding: 8px;}
+      #flash #flash-buttons {text-align:right;padding-top:1em;background-color:white;padding:0.5em 1em;}
+      #flash #flash-buttons #cancel-btn {float: left;}
+      #flash #flash-buttons .btn {font-size: 16pt; padding: 8px;}
       </style>
     `
   }}

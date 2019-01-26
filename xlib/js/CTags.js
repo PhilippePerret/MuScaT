@@ -1,6 +1,6 @@
 
 // Objet gérant les Tags dans leur ensemble (à commencer par
-// les sélection)
+// les sélections)
 const CTags = {
   selection: null,    // La sélection courante (Tag)
   selections: [],     // Les sélections (Tag(s))
@@ -175,14 +175,22 @@ const CTags = {
       msg = `l'élément « ${M.lines[my.selections[0].index_line]} »`;
     }
     F.ask('Dois-je vraiment détruire ' + msg, {onOK: $.proxy(CTags,'erase_selections')});
-  },
+  }
 
-  erase_selections: function(){
-    var my = this ;
-    my.onEachSelected(function(itag){itag.update('destroyed', true)});
-    M.update_code();
-  },
+  , erase_selections: function(){
+      var my = this ;
+      my.onEachSelected(function(itag){itag.update('destroyed', true)});
+      M.update_code();
+    }
 
+  , lines_selected_in_clipboard: function(){
+      var my = this, arr = new Array() ;
+      my.onEachSelected(function(itag){
+        arr.push(itag.to_line());
+      });
+      clip(arr.join(RC));
+      F.notify(t('code-lines-in-clipboard'));
+    }
   // ---------------------------------------------------------------------
   //  Méthodes de calcul
   /**
@@ -191,20 +199,20 @@ const CTags = {
    * Cette méthode sert notamment pour la copie d'un tag (et plus tard pour
    * sa création), pour trouver où placer la nouvelle ligne.
    */
-  get_index_line_before: function(y, x) {
-    var last_tid, tid, itag ;
-    for(tid in ITags){
-      itag = ITags[tid] ;
-      if (itag.y > y) {
-        // On a trouvé un tag plus bas, il sera forcément après
-        return itag.index_line ;
-      } else if (itag.y == y && itag.x > x) {
-        // On a trouvé un tag à la même hauteur, mais plus à droite
-        // Il sera forcément après
-        return itag.index_line ;
+  , get_index_line_before: function(y, x) {
+      var last_tid, tid, itag ;
+      for(tid in ITags){
+        itag = ITags[tid] ;
+        if (itag.y > y) {
+          // On a trouvé un tag plus bas, il sera forcément après
+          return itag.index_line ;
+        } else if (itag.y == y && itag.x > x) {
+          // On a trouvé un tag à la même hauteur, mais plus à droite
+          // Il sera forcément après
+          return itag.index_line ;
+        }
+        last_tid = tid ; // on le mémorise, si on ne trouve rien
       }
-      last_tid = tid ; // on le mémorise, si on ne trouve rien
+      return ITags[last_tid].index_line + 1 ; // au pire, à la fin
     }
-    return ITags[last_tid].index_line + 1 ; // au pire, à la fin
-  }
 }
