@@ -176,9 +176,10 @@ const CTags = {
     }
     F.ask('Dois-je vraiment détruire ' + msg, {onOK: $.proxy(CTags,'erase_selections')});
   },
+
   erase_selections: function(){
     var my = this ;
-    my.onEachSelected(function(itag){itag.destroy_everywhere()});
+    my.onEachSelected(function(itag){itag.update('destroyed', true)});
     M.update_code();
   },
 

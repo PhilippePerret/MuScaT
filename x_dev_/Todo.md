@@ -1,9 +1,14 @@
 # Todo list
 
-* Ne pas détruire vraiment un tag, utiliser plutôt une propriété "destroyed" qui pourra être mémorisée dans l'historique, avec une méthode 'updateDestroyed' qui pourra reconstruire l'élément
-* [TEST] Options : 'vertical line offset', 600, 'horizontal line offset', 100
-* Pouvoir annuler un déplacement (garder toujours une copie du code initial ou simplement du code qui vient d'être changé — garder l'historique, puisque c'est simple)
+* Pouvoir obtenir le code du tag sélectionné seulement
+* Pouvoir ajouter des pages-breaks (il faut que ce soit des tags aussi, qu'on peut déplacer de la même manière que les autres tags - en @media screen, ils affichent le texte "page break" et en @media print, ils ajoutent un saut de page)
+* Traduire les textes de la boite à outils
 * Traduire tous les textes des scripts utilitaires (il faut un système spécial comme i18n, mais sans passer par là)
+
+## TEST
+
+* Destruction d'un tag (et annulation de destruction)
+* [TEST] Options : 'vertical line offset', 600, 'horizontal line offset', 100
 
 ## Développements futurs
 

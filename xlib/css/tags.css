@@ -12,10 +12,6 @@ section#tags {
   z-index: 0;
   height: 20000cm;
 }
-@media print {
-  
-}
-
 /* image, div {
   position: absolute;
 } */

@@ -2,9 +2,6 @@
   * Pour la gestion de la page
   */
 const Page = {
-  current_y: 0, // La position verticale courante
-  current_x: 0, // La position horizontale courante
-  prev_itag: null, // par exemple 'image'
 
   /**
    * Méthode appelée par le bouton "Actualiser" pour prendre le code dans
@@ -161,11 +158,8 @@ const Page = {
 
     // Si on est en mode animation, il faut voir si le tag est bien
     // placé dans la page (on doit le voir entièrement)
-    itag.setVisibleInWindow();
+    if(M.animated){itag.setVisibleInWindow()};
 
-    my.prev_itag = itag ;
-    my.current_x = 0 + itag.x ;
-    my.current_y = 0 + itag.y ;
   },
 
   /**

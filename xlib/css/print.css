@@ -1,6 +1,8 @@
 @media print {
-  section#tags    {padding-bottom: 0; height: auto;}
-
+  section#tags{
+    padding-bottom: 0;
+    height: auto!important;
+  }
   section#tools,
   section#rcolumn,
   span#analyse_name,

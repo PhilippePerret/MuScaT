@@ -30,8 +30,9 @@ function Tag(data_line) {
   this.text = null ; // Le texte de la cadence, de l'accord, etc.
   this.type = null ; // Le type de la cadence, de la ligne, etc.
 
-  this.locked   = locked ; // indicateur de verrouillage
-  this.selected = false ; // Indicateur de sélection
+  this.locked     = locked ; // indicateur de verrouillage
+  this.selected   = false ; // Indicateur de sélection
+  this.destroyed  = false ; // Indicateur de destruction
 
   // === Nature ===
   var nature = data_line.shift() ;
@@ -82,6 +83,51 @@ function Tag(data_line) {
   * MÉTHODES DE DONNÉES
   *
   **/
+
+/**
+ * Grand méthode d'actualisation du TAg
+ * C'est devenu la méthode incontournable puisqu'elle gère aussi
+ * l'historique des opérations (pour les annulations)
+ *
+ */
+Tag.prototype.update = function(prop, new_value, options) {
+  var my = ITags[this.domId];
+  if(undefined == prop){
+    // Appel de la méthode sans argument
+    my.updateXY(); // ça fait tout, normalement
+
+  } else {
+    if (!options || !options.no_histo){
+      H.add([new HistoProp(my, prop, my[prop], new_value)]) ;
+    }
+    // Appelé avec un argument, c'est la propriété qu'il faut
+    // actualiser
+    switch (prop) {
+      case 'y':
+      case 'top':
+        my.updateY(new_value);break;
+      case 'x':
+      case 'left':
+        my.updateX(new_value);break;
+      case 'h':
+      case 'height':
+        my.updateH(new_value);break;
+      case 'w':
+      case 'width':
+        my.updateW(new_value);break;
+      case 'text':
+        my.updateText(new_value);break;
+      case 'src':
+        my.updateSrc(new_value);break;
+      case 'locked':
+        my.updateLock(new_value);break;
+      case 'destroyed':
+        my.updateDestroyed(new_value);break;
+    }
+  }
+};
+
+
 
 // Reset de l'identifiant (quand copie, par exemple)
 Tag.prototype.reset_id = function() {
@@ -162,7 +208,7 @@ Tag.prototype.build_and_watch = function(){
 // Méthode qui construit l'élément dans la page
 Tag.prototype.build = function(){
   Page.add(this);
-}
+};
 // Pour transformer le tag en code HTML
 // +params+ est un hash qui définit les codes css à utiliser
 // en plus de ceux définis par l'instance courante. C'est par exemple la
@@ -268,42 +314,6 @@ const MODUL_SOUS_TEXT_ATTRS = {
 // ---------------------------------------------------------------------
 // Méthodes de transformation
 
-// Actualisation du tag dans le DOM
-Tag.prototype.update = function(prop, new_value, options) {
-  var my = ITags[this.domId];
-  if(undefined == prop){
-    // Appel de la méthode sans argument
-    my.updateXY(); // ça fait tout, normalement
-
-  } else {
-    if (!options || !options.no_histo){
-      H.add([new HistoProp(my, prop, my[prop], new_value)]) ;
-    }
-    // Appelé avec un argument, c'est la propriété qu'il faut
-    // actualiser
-    switch (prop) {
-      case 'y':
-      case 'top':
-        my.updateY(new_value);break;
-      case 'x':
-      case 'left':
-        my.updateX(new_value);break;
-      case 'h':
-      case 'height':
-        my.updateH(new_value);break;
-      case 'w':
-      case 'width':
-        my.updateW(new_value);break;
-      case 'text':
-        my.updateText(new_value);break;
-      case 'src':
-        my.updateSrc(new_value);break;
-      case 'locked':
-        my.updateLock(new_value);break;
-    }
-  }
-}
-
 Tag.prototype.updateXY = function(){
   var my = this ;
   my.updateX();
@@ -367,6 +377,33 @@ Tag.prototype.updateLock = function(new_value){
   if(my.locked && my.selected){CTags.remove_from_selection(my)};
   my[my.locked ? 'unobserve' : 'observe']();
 }
+
+Tag.prototype.updateDestroyed = function(value){
+  var my = ITags[this.domId];
+  my.destroyed = value ;
+  if(my.destroyed){
+      if(my.real){
+        my.jqObj.remove() ;
+        M.lines.splice(my.index_line,1);
+        M.tags.splice(my.index_line,1);
+      };
+  } else {
+    // Annulation de destruction. Il faut remettre l'objet à
+    // sa place, à sa ligne
+    if (my.index_line < M.tags.length){
+      M.tags .splice(my.index_line, 0, my);
+      M.lines.splice(my.index_line, 0, my.to_line());
+    } else {
+      M.tags.push(my);
+      M.lines.push(my.to_line());
+      my.index_line = M.lines.length - 1;
+    };
+    my.build();
+  };
+  M.update_index_line_from(my.index_line);
+};
+
+// ---------------------------------------------------------------------
 
 Tag.prototype.setXAt = function(value) {
   var my = this ;
@@ -591,25 +628,6 @@ Tag.prototype.compare_and_update = function(tagComp) {
   return this.modified == true ; // seulement pour les messages, je crois
 };
 
-Tag.prototype.destroy = function(){
-  var my = this ;
-  if(my.real){
-    my.jqObj.remove() ;
-    delete ITags[my.domId] ;
-  };
-};
-/**
- * Alors que la méthode précédente ne détruit le tag que
- * sur la table et dans ITags, cette méthode le détruit aussi dans
- * le code (sans actualiser l'affichage de ce code, ce qui sera fait
- * une fois que tous les tags à détruire seront détruits)
- */
-Tag.prototype.destroy_everywhere = function(){
-  var my = this ;
-  my.destroy() ;
-  M.lines.splice(my.index_line,1);
-  M.update_index_line_from(my.index_line);
-};
 
 // Méthode qui place les observeurs sur l'élément, lorsqu'il a été
 // créé après la première fabrication (copies)
