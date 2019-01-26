@@ -1,4 +1,4 @@
-options('animation speed', 20, 'lang', 'fr', 'space between scores', 80) ;
+options('animation speed', 20, 'lang', 'en', 'space between scores', 80) ;
 option('code');
 Tags = `
 sco sonate_haydn-0.png id=1 x=50 y=100

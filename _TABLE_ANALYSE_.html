@@ -33,7 +33,6 @@
   <body>
     <section id="tags">
       <!-- Tous les tags seront déposés ici -->
-      <div style="clear:both;"></div>
     </section>
     <span id="analyse_name"></span>
 
@@ -41,7 +40,7 @@
     <section id="rcolumn" style="display:none;">
       <textarea name="codeSource" id="codeSource"></textarea>
       <div class="right">
-        <button type="button" onclick="$.proxy(Page,'update')()">Actualiser (ALT ↩︎)</button>
+        <button id="btn-update-table" type="button" onclick="$.proxy(Page,'update')()"></button>
       </div>
     </section>
 
@@ -57,29 +56,28 @@
       <div class="masked">
 
         <fieldset id="fs_boutons">
-          <button type="button" id="btn-grouper" class="undisplayed" onclick="$.proxy(CTags,'grouper_selected')()"><span id="verbe_grouper">Grouper</span> les <span class="selected_count">0</span> tags sélectionnés</button>
+          <button type="button" id="btn-grouper" class="undisplayed" onclick="$.proxy(CTags,'grouper_selected')()"><span id="verbe_grouper">Grouper</span> <span class="the"></span> <span class="selected_count">0</span> <span class="t-selected-tags"></span></button>
         </fieldset>
         <fieldset id="fs_alignment" class="undisplayed">
-          <legend>Alignement</legend>
-          <span>Aligner les <span class="selected_count">0</span> éléments sélectionnés</span>
+          <legend id="fs-alignment-legend">Alignement</legend>
+          <span><span id="Align-the"></span> <span class="selected_count">0</span> <span class="t-selected-tags"></span></span>
           <select id="alignement">
-            <option value="up">en haut / top</option>
-            <option value="down">en bas / bottom</option>
-            <option value="left">à gauche / left</option>
-            <option value="right">à droite / right</option>
-          </select><br>
-          <span>du premier élément sélectionné</span>
+            <option value="up" class="to-up"></option>
+            <option value="down" class="to-down"></option>
+            <option value="left" class="to-left"></option>
+            <option value="right" class="to-right"></option>
+          </select>
           <div class="right">
-            <button type="button" onclick="$.proxy(CTags,'align')()">Aligner</button>
+            <button type="button" onclick="$.proxy(CTags,'align')()" class="Align"></button>
           </div>
         </fieldset>
 
         <fieldset id="fs_code">
-          <button type="button" onclick="$.proxy(MuScaT,'show_code')()">Code source -> presse-papier</button>
+          <button type="button" onclick="$.proxy(MuScaT,'show_code')()"><span class="t-source-code"></span> -> <span class="t-clipboard"><span></button>
         </fieldset>
 
         <fieldset id="fs_aide">
-          <a href="../Manuel.pdf" target="_new">Ouvrir l'aide</a>
+          <a href="../Manuel.pdf" target="_new"><span class="t-Open"></span> <span class="t-the-help"></span></a>
         </fieldset>
 
       </div>

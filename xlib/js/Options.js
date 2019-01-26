@@ -130,7 +130,7 @@ const Options = {
             onOK: $.proxy(my, 'to_tags_js', true),
             onCancel: $.proxy(my, 'to_tags_js', false)
           }
-          F.ask(t('memo guides offsets'), dask);
+          F.ask(t('memo-guides-offsets'), dask);
           return ; // en attendant de revenir
         }
       }

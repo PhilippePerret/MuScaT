@@ -1,22 +1,30 @@
 /**
  * Gestion des versions locales de l'application
  *
- * Usage:     t('<id msg dans MSG>'[, <table remplacement>])
+ * Usage:     t('<id-msg-dans-MSG>'[, <table remplacement>])
+ *
+ *  On peut mettre plusieurs <ids> dans le texte, séparés par des
+ * espaces, pour produire une phrase. Pe:
+ *    t('the help'); où 'the' et 'help' sont chacun des id de locales.
  *
  * Dans les textes, les remplacements sont codés "%{<clé>}"
  *
  */
 const Locales = {
-  translate: function(msg_id, args){
-    var msg, k, rg ;
-    msg = MSG[msg_id];
-    if(args){
-      for(var k in args){
-        rg = new RegExp(`%{${k}}`, 'gi');
-        msg = msg.replace(rg,args[k]);
+  translate: function(msg_ids, args){
+    var msg, k, rg, arr = new Array() ;
+    // msg_ids peut être composé de plusieurs mots
+    msg_ids.split(' ').forEach(function(msg_id){
+      msg = MSG[msg_id];
+      if(args){
+        for(var k in args){
+          rg = new RegExp(`%{${k}}`, 'gi');
+          msg = msg.replace(rg,args[k]);
+        }
       }
-    }
-    return msg;
+      arr.push(msg);
+    });
+    return arr.join(' ');
   },
 
   /**

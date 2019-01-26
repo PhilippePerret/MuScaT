@@ -80,6 +80,10 @@ const MuScaT = {
   // Première méthode appelée par document.ready
   //
   start_and_run: function(){
+
+    // On prépare l'interface (notamment au niveau de la langue)
+    UI.set_ui();
+
     // console.log('-> start_and_run');
     // On doit construire les éléments d'après les définitions faites dans
     // le fichier tag.js
@@ -221,7 +225,7 @@ const MuScaT = {
     // Il faut d'abord s'assurer que le fichier tags.js a été correctement
     // défini.
     if ('undefined' == typeof Tags) {
-      alert(t('tags undefined'));
+      alert(t('tags-undefined'));
       return ;
     }
 
@@ -250,7 +254,7 @@ const MuScaT = {
       // Si des lignes ont été créées au cours ud processus,
       // on demande à l'utilisateur de sauver le code
       if (my.motif_lines_added) {
-        my.show_code(t('code lines added', {motif: my.motif_lines_added}));
+        my.show_code(t('code-lines-added', {motif: my.motif_lines_added}));
       }
     }
 
@@ -427,7 +431,7 @@ const MuScaT = {
             break;
           };
         } else {
-          return message(t('fin anim'));
+          return message(t('fin-anim'));
         }
         my.update_code();
       };
@@ -436,7 +440,7 @@ const MuScaT = {
       if (itag.is_comment_line && (itag.text||'').match(/PAUSE/)){
         // On s'arrête là en attendant une touche
         MEvents.onSpaceBar = method_next ;
-        message(t('press space animation'));
+        message(t('press-space-animation'));
       } else {
         // On marque une pause et on reprend
         my.timer = setTimeout(method_next, 40 * my.animation_speed);
@@ -446,7 +450,7 @@ const MuScaT = {
       itag = ITags['obj1'];
       itag.x = 0 ; itag.y = 0 ; itag.update();
       itag.jqObj.css({'position': 'absolute', 'top': 0, 'left': 0});
-      message(t('crop image ready'));
+      message(t('crop-image-ready'));
       this.set_observers_mode_crop();
       // Pour indicer chaque image
       my.indice_cropped_image = 0 ;
@@ -534,7 +538,7 @@ const MuScaT = {
   // qu'il soit copié-collé
   , show_code: function(message){
     var my = this ;
-    if (!message){message = t('full code in clipboard')};
+    if (!message){message = t('full-code-in-clipboard')};
     F.notice(message);
     my.build_very_full_code();
   },
@@ -684,7 +688,7 @@ const MuScaT = {
     var extensionImg = Options.get('images PNG') ? 'png' : 'jpg' ;
     codeConvert = 'convert ' + scoreTag.src + ' ' + codeConvert + ' ' + scoreTag.src + '-'+indiceImg+'.'+extensionImg;
     navigator.clipboard.writeText(codeConvert);
-    message(t('code to run', {code: codeConvert}));
+    message(t('code-to-run', {code: codeConvert}));
     return stop(ev);
   },
   onMouseMoveModeCrop: function(ev){

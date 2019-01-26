@@ -347,7 +347,7 @@ Tag.prototype.updateH = function(newh){
 Tag.prototype.updateW = function(neww){
   var my = ITags[this.domId];
   if(undefined != neww) { my.w = neww };
-  if (my.type == 'modulation'){return F.error(t('no w pour modulation'))};
+  if (my.type == 'modulation'){return F.error(t('no-w-pour-modulation'))};
   this.jqObj.css({'width': this.w}) ;
 }
 Tag.prototype.updateText = function(newt){
