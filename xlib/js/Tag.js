@@ -120,7 +120,36 @@ Tag.prototype.hStyles = function(){
     }
   })
   return hstyles;
-}
+};
+
+// Méthode qui s'arrange pour rendre le tag visible dans la
+// fenêtre actuelle.
+Tag.prototype.setVisibleInWindow = function(){
+  var my = ITags[this.domId]
+    , top = my.jqObj.offset().top
+    , hei = my.domObj.offsetHeight
+    , bot = top + hei
+    , scro = window.scrollY
+    , winh = $(window).height()  // La hauteu visible
+    // Les hauteurs limites, en haut et en bas
+    , limVisibleTop = scro
+    , limVisibleBot = scro + winh
+    , scro_required
+    ;
+
+  if (top < limVisibleTop + 20 || bot > limVisibleBot - 20 ) {
+    if ( hei < winh ) {
+      // Si la dimension de l'objet n'excède pas la dimension de
+      // la fenêtre. On le place au centre.
+      scro_required = Number.parseInt(top - (hei/2) - 10, 10) ;
+    } else {
+      scro_required = top - 10 ;
+    }
+  }
+  // On scrolle pour voir l'élément
+  if (scro_required){window.scroll(0, scro_required)};
+
+};
 
 // ---------------------------------------------------------------------
 //  Méthodes de CONSTRUCTION

@@ -1,0 +1,10 @@
+@media print {
+  section#tags    {padding-bottom: 0; height: auto;}
+
+  section#tools,
+  section#rcolumn,
+  span#analyse_name,
+  section#footer,
+  div.refline
+  {display: none;}
+}

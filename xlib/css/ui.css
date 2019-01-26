@@ -42,19 +42,6 @@ section#tools.opened .masked {
   background-color: white;
 }
 
-
-@media print {
-  section#tags    {padding-bottom: 0;}
-  section#tools,
-  section#rcolumn,
-  span#analyse_name,
-  section#footer,
-  div.refline
-  {display: none;}
-}
-
-
-
 section#footer {
   position: fixed;
   bottom: 0;

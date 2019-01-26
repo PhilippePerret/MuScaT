@@ -22,7 +22,7 @@ Object.assign(MSG,{
 
   // ANIMATION
   , 'press space animation': "Press SPACE bar to continue animation."
-
+  , 'fin anim': 'The End'
 
   // ---------------------------------------------------------------------
   //  === ERRORS ===

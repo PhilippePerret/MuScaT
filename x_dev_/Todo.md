@@ -7,6 +7,7 @@
 
 ## Développements futurs
 
+* Animation : peut-être une mise en évidence de la nouvelle insertion (flash) (voir à l'usure, car ça peut être fatiguant => une option)
 * Faire le script 'open' pour :
   * ouvrir le dossier de l'animation sur le bureau
   * ouvrir le tags.js dans un éditeur

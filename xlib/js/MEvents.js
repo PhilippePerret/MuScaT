@@ -44,11 +44,12 @@ const MEvents = {
         };
         // this.console_key(ev);
       };
-      if(ev.charCode == 18 && this.onSpaceBar){
+      if(ev.charCode == 32 && this.onSpaceBar){
         this.onSpaceBar();
         this.onSpaceBar = null ;
+        return stop(ev);
       };
-      this.console.key(ev);
+      // this.console_key(ev);
       return true ;
     }
   /**

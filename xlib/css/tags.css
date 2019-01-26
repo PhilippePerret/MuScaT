@@ -10,6 +10,10 @@ section#tags {
   padding-bottom: 500px;
   background-color: white;
   z-index: 0;
+  height: 20000cm;
+}
+@media print {
+  
 }
 
 /* image, div {

@@ -396,12 +396,12 @@ const MuScaT = {
         ;
 
       my.onEachTag(function(itag, idx){
-        if(this.animated){return};
+        if(my.animated){return};
         my.lines.push(itag.to_line()) ; // p.e. ajout de l'id
         if(itag.real){itag.build()}
         else if(itag.is_comment_line && itag.text.match(/START/)){
-          this.animated = true ;
-          this.animation_speed = Options.get('animation speed');
+          my.animated = true ;
+          my.animation_speed = Options.get('animation speed');
           my.build_tags_for_anim(idx);
         }
       });
@@ -413,28 +413,34 @@ const MuScaT = {
         , i
         ;
       if (my.timer){clearTimeout(my.timer)};
-      if(!itag){return};
-      my.lines.push(itag.to_line());
 
       // On construit les tags jusqu'à trouver une ligne vide ou un
       // commentaire
-      for(i=tag_idx;i<nbtags;++i){
-        itag = my.tags[i];
-        if(itag.real){
-          itag.build();
-        } else {
-          var next_idx = 1+Number.parseInt(i,10) ;
-          var method_next = $.proxy(MuScaT,'build_tags_for_anim', next_idx) ;
-          if (itag.is_comment_line && itag.match(/PAUSE/)){
-            // On s'arrête là en attendant une touche
-            MEvents.onSpaceBar = method_next ;
-            message(t('press space animation'));
+      while(true) {
+        itag = my.tags[tag_idx];
+        if(itag){
+          my.lines.push(itag.to_line());
+          if ( itag.real ){
+            itag.build();
+            ++tag_idx ;
           } else {
-            // On marque une pause
-            my.timer = setTimeout(method_next, 40 * my.animation_speed);
-          }
+            break;
+          };
+        } else {
+          return message(t('fin anim'));
         }
-      }
+        my.update_code();
+      };
+      // Noter ci-dessous qu'on reprend le dernir index
+      var method_next = $.proxy(MuScaT,'build_tags_for_anim', ++tag_idx) ;
+      if (itag.is_comment_line && (itag.text||'').match(/PAUSE/)){
+        // On s'arrête là en attendant une touche
+        MEvents.onSpaceBar = method_next ;
+        message(t('press space animation'));
+      } else {
+        // On marque une pause et on reprend
+        my.timer = setTimeout(method_next, 40 * my.animation_speed);
+      };
     }
   , prepare_crop_image: function(){
       itag = ITags['obj1'];
@@ -583,7 +589,7 @@ const MuScaT = {
    */
   get_line_for_position: function(x, y){
     var my = this ;
-    var res = my.onEachTag(function(itag){
+    var res = my.onEachTag(function(itag, i){
       if(itag.real){
         if (itag.y > y) { return Number.parseInt(i,10)};
         if (itag.y == y && itag.x > x){ return Number.parseInt(i,10)};

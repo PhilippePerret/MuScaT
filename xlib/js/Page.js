@@ -153,11 +153,16 @@ const Page = {
     // Note : avant, on faisait des corrections pour les valeurs, pour que
     // la première fois des tags ne se retrouvent pas au même endroit. On ne
     // le fait plus, ça pose trop de problèmes.
-    $('section#tags').append(itag.to_html()) ;
+    // Si on est en mode animation, on doit faire apparaitre l'élément
+    // doucement.
+    $('section#tags').append(M.animated ? $(itag.to_html()).fadeIn() : itag.to_html()) ;
 
     ITags[itag.domId] = itag ;
 
-    // console.log(itag.domObj);
+    // Si on est en mode animation, il faut voir si le tag est bien
+    // placé dans la page (on doit le voir entièrement)
+    itag.setVisibleInWindow();
+
     my.prev_itag = itag ;
     my.current_x = 0 + itag.x ;
     my.current_y = 0 + itag.y ;
