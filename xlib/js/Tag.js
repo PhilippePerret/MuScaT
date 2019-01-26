@@ -583,6 +583,10 @@ Tag.prototype.onStopMoving = function(){
     // de x et y ci-dessus soit bien les nouvelles)
     my.x = prev_x ; my.y = prev_y ;
   } else {
+    // Gérer l'historique des opérations.
+    // Noter qu'il ne faut pas le faire pour la copie, puisque l'élément
+    // original ne bouge pas, dans ce cas-là.
+    H.add([new HistoProp(my, 'x', prev_x, my.x), new HistoProp(my, 'y', prev_y, my.y)]) ;
     message("Nouvelle position de l'élément #" + my.id + " (« "+(my.src || my.text)+" ») : " + my.hposition());
   }
   // Que ce soit pour une copie ou pour un déplacement, il faut actualiser
