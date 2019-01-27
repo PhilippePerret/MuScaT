@@ -7,5 +7,7 @@ Object.assign(MSG,{
 // ========================================
 , 'analyzed-by':  'Analyzed by'
 , 'le-of-date':   ''
+, 'operations':    'Operations'
+, 'sur':          'on'
 , 'tag':          'tag'
 });

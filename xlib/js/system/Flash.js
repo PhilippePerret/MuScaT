@@ -161,7 +161,7 @@ Object.defineProperties(Flash,{
     return `
       <style type="text/css">
       #flash {position:fixed; z-index:2000; top:100px; left: 35%; width:30%; border-radius:0.5em; shadow: background-color:grey;box-shadow: 10px 10px 10px grey;}
-      #flash div.msg {padding:2em 4em; font-family: Avenir, Helvetica; font-size: 16pt;}
+      #flash div.msg {padding:1em 2em; font-family: Avenir, Helvetica; font-size: 15pt;}
       #flash #flash-notice {color: blue; background-color:#CCCCFF;}
       #flash #flash-warning {color: red; background-color: #FFCCCC; border: 1px solid red;}
       #flash #flash-ask {color: green; background-color: #CCFFCC; border: 1px solid green;}

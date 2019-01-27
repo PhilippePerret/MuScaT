@@ -4,37 +4,39 @@ function  write(str) {
 }
 
 const UI = {
-  toggle_tools: function(){
-    if (this.tools_are_opened()){
-      this.hide_tools();
-    } else {
-      this.show_tools();
+    first: 'virgule'
+  , TOP_FIRST_PAGE_END: 1150
+  , HEIGTH_PRINTED_PAGE: 1230
+  , toggle_tools: function(){
+      if (this.tools_are_opened()){
+        this.hide_tools();
+      } else {
+        this.show_tools();
+      }
     }
-  },
 
-  tools_are_opened: function(){
-    return this.domTools.className == 'opened';
-  },
-
-  show_tools: function(){
-    this.set_ui(); // pour les textes pas encore mis
-    this.domTools.className = 'opened';
-    if(CTags.selections.length > 1){
-      // Pour tous les champs/textes qui en ont besoin
-      $('.selected_count').text(CTags.selections.length);
-      // Pour le verbe grouper ou dégrouper, suivant que la sélection est
-      // grouper ou non
-      $('#verbe_grouper').text(CTags.selections[0].group ? t('Ungroup') : t('Group'));
-      // Pour 'l'alignement
-      $('#fs_alignment').removeClass('undisplayed');
-      // Pour le regroupement
-      $('button#btn-grouper').removeClass('undisplayed');
-    } else {
-      $('#fs_alignment').addClass('undisplayed');
-      $('button#btn-grouper').addClass('undisplayed');
+  , tools_are_opened: function(){
+      return this.domTools.className == 'opened';
     }
-    // $('#selecteds_count').innerHTML = CTags.selections.length;
-  }
+
+  , show_tools: function(){
+      this.set_ui(); // pour les textes pas encore mis
+      this.domTools.className = 'opened';
+      var group_vis = ['#fs_alignment','#btn-grouper','#btn-repartir'];
+      var plusieurs_selections = CTags.selections.length > 1 ;
+      if(plusieurs_selections){
+        // Pour tous les champs/textes qui en ont besoin
+        $('.selected_count').text(CTags.selections.length);
+        // Pour le verbe grouper ou dégrouper, suivant que la sélection est
+        // grouper ou non
+        $('#verb-grouper').text(CTags.selections[0].group ? t('Ungroup') : t('Group'));
+        $('#verb-repartir').text(t('Arrange'));
+
+      };
+      var method = plusieurs_selections ? 'removeClass' : 'addClass' ;
+      group_vis.forEach(function(o){$(o)[method]('undisplayed')});
+      // $('#selecteds_count').innerHTML = CTags.selections.length;
+    }
 
   , hide_tools: function(){
       this.domTools.className = 'closed';
@@ -49,7 +51,7 @@ const UI = {
   , set_ui: function(){
       // Le mieux, c'est la tournure ci-dessous, où l'on met "t-<id locale>"
       // dans la classe de l'élément, qui renvoie à "<id locale>"
-      ['clipboard', 'source-code', 'selected-tags', 'Open', 'the-help'].forEach(function(tid){
+      ['clipboard', 'source-code', 'selected-tags', 'Open', 'the-help', 'sur', 'operations'].forEach(function(tid){
         $(`.t-${tid}`).text(t(tid));
       });
       $('#btn-update-table').text(`${t('update-alt-enter')} (ALT ↩︎)`);
@@ -61,10 +63,14 @@ const UI = {
       $('.to-left').text(t('to-left'));
       $('.to-right').text(t('to-right'));
       $('.the').text(t('the'));
+      // Pour pouvoir répartir les scores
+      $('#verb-repartir').text(t('Arrange'));
 
       // Les deux lignes qui indiquent les marges gauche/droite
-      $('body').append(`<div class="mark-margin" style="left:20mm;"></div>`);
-      $('body').append(`<div class="mark-margin" style="left:190mm;"></div>`);
+      for(var i = 0; i < 10 ; ++i){
+        var top = this.TOP_FIRST_PAGE_END + Number.parseInt(this.HEIGTH_PRINTED_PAGE * i) ; // +10 pour la marge top
+        $('body').append(`<div class="page-break" style="top:${top}px;"></div>`);
+      };
     }
 };
 Object.defineProperties(UI,{

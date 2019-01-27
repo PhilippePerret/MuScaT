@@ -106,13 +106,47 @@ const CTags = {
     } else {
       this.selections[0].group.ungroup();
     }
-  },
+  }
+
+  /**
+   * Appelée par un bouton outil pour répartir les images sélectionnées.
+   * Normalement, ce sont des images de système. On les répartit régulièrement
+   * entre le plus haut et le plus bas verticalement.
+   */
+  , repartir_selected: function(){
+    // Dans un premier temps, il faut trouver le plus haut
+    var my = this
+      , upper = null
+      , lower = null
+      ;
+    // On classe les éléments par hauteur
+    var sorteds = my.selections ;
+    sorteds.sort(function(a,b){
+      return a.y - b.y ;
+    });
+
+    var upper = sorteds[0] ;
+    var lower = sorteds[sorteds.length - 1];
+    var dist = lower.y - upper.y ;
+    console.log('dist:', dist);
+
+    // TODO Faut-il considérer la hauteur de l'élément le plus bas, pour
+    // répartir visuellement ?
+    var esp = Number.parseInt(dist / (my.selections.length - 1),10);
+
+    var i = 0 ;
+    sorteds.forEach(function(itag){
+      itag.update('y', upper.y + (i++ * esp)) ;
+    });
+
+    M.update_lines_and_code();
+  }
 
   /**
    * Méthode directement appelée lorsque l'on clique sur un TAG
    * quelconque
    */
-  onclick: function(ev){
+  , onclick: function(ev){
     // On ferme la boite d'outils si elle était ouverte
     if(UI.tools_are_opened()){UI.hide_tools()}
     // On traite le clic sur l'élément courant

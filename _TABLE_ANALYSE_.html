@@ -57,8 +57,11 @@
       <div class="masked">
 
         <fieldset id="fs_boutons">
-          <button type="button" id="btn-grouper" class="undisplayed" onclick="$.proxy(CTags,'grouper_selected')()"><span id="verbe_grouper">Grouper</span> <span class="the"></span> <span class="selected_count">0</span> <span class="t-selected-tags"></span></button>
+          <legend><span class="t-operations"></span> <span class="t-sur"></span> <span class="the"></span> <span class="selected_count">0</span> <span class="t-selected-tags"></span></legend>
+          <button type="button" id="btn-grouper" class="undisplayed" onclick="$.proxy(CTags,'grouper_selected')()"><span id="verb-grouper">Grouper</span></button>
+          <button type="button" id="btn-repartir" class="undisplayed" onclick="$.proxy(CTags,'repartir_selected')()"><span id="verb-repartir">Répartir</span></button>
         </fieldset>
+
         <fieldset id="fs_alignment" class="undisplayed">
           <legend id="fs-alignment-legend">Alignement</legend>
           <span><span id="Align-the"></span> <span class="selected_count">0</span> <span class="t-selected-tags"></span></span>

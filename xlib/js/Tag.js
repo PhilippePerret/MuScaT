@@ -267,9 +267,7 @@ Tag.prototype.to_html = function() {
       }
       // Si un style précis est défini, on le prend
       if (MTHEME[`${my.nature}.${my.type}`]){
-        console.log(`un style précis est défini pour "${my.nature}.${my.type}" : `, Th.get(`${my.nature}.${this.type}`));
         css += Th.get(`${my.nature}.${this.type}`, my.jqObj);
-        console.log('css final:', css);
       }
       break;
     case 'line':

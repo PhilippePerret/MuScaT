@@ -2,6 +2,7 @@ body {
   margin: 0;
   padding: 0;
   width: 21.01cm;
+  background-color: #DDDDDD;
 }
 section#tools {
   background-color: white;
@@ -120,25 +121,25 @@ div#refline_v {
   top: 20px;
 }
 
+fieldset#fs_boutons {
+
+}
+fieldset#fs_boutons button {
+  display: block;
+}
 /* --------------------------------------------------------------------- */
 
 div.page-break {
   position: absolute;
   width: 100%;
-  border-bottom: 2px solid red;
-  height: 1px;
-  padding: 0 0 0 1em;
+  height: 20px;
+  background-color: red;
+  opacity: 0.7;
 }
-div.page-break:after {
+div.page-break:before {
   content: 'page-break';
+  color: white;
   font-size: 9pt;
   font-variant: small-caps;
-}
-div.mark-margin {
-  position: absolute;
-  opacity: 0.2;
-  height: 2000cm;
-  top: 0;
-  width: 1px;
-  border-left: 2px solid red;
+  margin-left:1em;
 }

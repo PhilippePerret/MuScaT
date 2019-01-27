@@ -6,6 +6,8 @@ Object.assign(MSG,{
     'mess-id':  'Signification'
   // ========================================
   , 'analyzed-by':  'Analysé par'
-  , 'le-of-date':   'Le '
+  , 'le-of-date':   'le '
+  , 'operations':    'Opérations'
+  , 'sur':          'sur'
   , 'tag':          'tag'
 });

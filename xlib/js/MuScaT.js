@@ -494,6 +494,18 @@ const MuScaT = {
       my.update_code() ;
     }
 
+  , update_lines_and_code: function(){
+      var my = this;
+      my.update_lines();
+      my.update_code();
+    }
+    
+  , update_lines: function(){
+      var my = this;
+      my.lines = new Array();
+      my.onEachTag(function(itag){my.lines.push(itag.to_line())});
+    }
+
   , update_code: function(){
       var my = this ;
       my.codeField().value = my.full_code() ;

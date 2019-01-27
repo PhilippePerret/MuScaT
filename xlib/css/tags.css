@@ -9,10 +9,15 @@
 section#tags {
   position: relative;
   background-color: white;
+  /* background-color: #EEEEFF; */
+  width: 180.1mm;
+  margin-left:10mm;
+  margin-top:10mm;
+  /* background-color: white; */
   display: block;
   z-index: 0;
   height: 20000cm;
-  /* border:4px solid green; */
+  /* border:1px solid green; */
 }
 /* image, div {
   position: absolute;

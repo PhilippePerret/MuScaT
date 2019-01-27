@@ -1,3 +1,14 @@
+## Déroulé
+
+* Téléchargement de MuScaT (OK)
+* On regarde ce qu'il y a dans le dossier
+*
+* On rectifie les images avec Aperçu et le rectangle
+
+
+## À faire
+
+* Montrer comment placer d'abord les images dans la page puis regarder l'aperçu
 * [ANIMATION] Montrer qu'il suffit d'écarter le "S" du "T" dans "START" pour que l'animation ne démarre plus, pour pouvoir la travailler.
 * Montrer comment grouper des tags
 * Montrer les deux manières de placer l'analyse : 1. en dupliquant le dossier `template` ou 2. en mettant son fichier `_tags_.js` dans ce template à la place de l'autre (tellement moins gourmand en place que je me demande si ce n'est pas la formule définitive qu'il faut utiliser). Le seul problème de 2., c'est qu'il faut renommer son fichier (l'appelle `Analyse_de_Sonate_Haydn.js` pour le ranger et `_tags_.js` pour l'utiliser.) Ou alors faire un dossier s'appelant `analyses`, ou on place toutes les analyses et faire un script pour utiliser une de ces analyses : le script lit le contenu du dossier, propose la liste, l'utilisateur choisit le fichier, le script le met en _tags_.js dans template et ouvre le fichier.

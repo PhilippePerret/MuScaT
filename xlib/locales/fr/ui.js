@@ -14,10 +14,11 @@ Object.assign(MSG,{
 // === COLONNE DROITE ===
 , 'update': 'Actualiser'
 // === BOITE D'OUTILS ===
-, 'Ungroup':  'Dégrouper'
-, 'Group':  'Grouper'
-, 'alignment': 'Alignement'
+, 'Ungroup':    'Dégrouper'
+, 'Group':      'Grouper'
+, 'alignment':  'Alignement'
 , 'Align':      'Aligner'
+, 'Arrange':    'Disposer régulièrement'
 , 'selected-tags': "tags sélectionnés"
 
 , 'to-up':    "en haut"

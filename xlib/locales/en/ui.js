@@ -19,6 +19,7 @@ Object.assign(MSG,{
 , 'Group':    'Group'
 , 'alignment': 'Alignment'
 , 'Align':     'Align'
+, 'Arrange':    'Arrange'
 , 'selected-tags': "selected tags"
 
 , 'to-up':    'up'
