@@ -13,6 +13,8 @@ const NATURES = {
   , 'analyst':    {desc:  'Auteur de l’analyse', no_coor: true}
   , 'analyste':   {aka:   'analyst'}
   , 'analysis_date':  {desc: 'Date de l’analyse', no_coor: true}
+  , 'boite':      {aka:   'box'}
+  , 'box':        {desc:  'Pour dessiner une boite'}
   , 'cad':        {aka:   'cadence'}
   , 'cadence':    {desc:  'Pour la marque d’une cadence'}
   , 'chord' :     {desc:  'Pour la marque d’un accord'}

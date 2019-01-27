@@ -63,18 +63,24 @@ span.tag.harmony {
 
 }
 span.tag.cadence {
-  font-weight: bold;
-  border-width: 0 1px 1px 0;
-  border-color: black;
-  border-style: solid;
-  padding-right: 0.5em;
+  font-weight:    bold;
+  border-width:   0 1px 1px 0;
+  border-color:   black;
+  border-style:   solid;
+  padding-right:  0.5em;
   padding-bottom: 4px;
   padding:top:    1em;
   text-align:     right;
-  width:          60px!important;
+  background-color: transparent;
+  min-width:      60px;
 }
 span.tag.cadence.parfaite:after {
   content: 'Cad.Parf.';
+  position: absolute;
+  bottom: -1.6em;
+  right:  0px;
+  text-align: right;
+  font-weight: normal;
 }
 span.tag.cadence.imparfaite:after {
   content: 'Cad.Imp.';
@@ -93,38 +99,16 @@ span.tag.cadence.rompue:after {
 }
 span.tag.chord {
   font-family:    Helvetica, Arial;
+  z-index: 50;
 }
 
 /* --------------------------------------------------------------------- */
 
 /* Les textes  */
 
-span.text {
-
-}
-span.text.part {
-  font-variant: small-caps;
-  font-size:  1.1rem;
-  transform:  rotate(-38.9deg);
-  transform-origin: center;
-  border: 1px solid #333;
-  padding: 2px 4px;
-}
-span.text.measure {
-  font-size:  0.9rem;
-  border: 1px solid #333;
-  padding: 3px 3px 1px 2px;
-}
-
-div.tag.modulation svg {
-  /* position: absolute;
-  top:10px; left: 10px;
-  border:1px dashed red; */
-}
-
 /* --------------------------------------------------------------------- */
 
-/* Les lignes */
+/* Les lignes et les boites */
 span.line {
   background-color: transparent !important;
 }
@@ -139,4 +123,8 @@ span.line1T0, .line1T1, .line1B0, .line1B1 {
 }
 span.line0T1, .line1T1, .line0B1, .line1B1 {
   border-right: 1px solid black;
+}
+
+span.box {
+  background-color: #CCCCCC;
 }

@@ -17,4 +17,12 @@
   div.refline
   {display: none;}
 
+  span.tag {
+    opacity: 1!important; 
+  }
+  span.tag.box {
+    background-color: white ;
+
+  }
+
 }

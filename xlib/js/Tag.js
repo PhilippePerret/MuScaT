@@ -156,7 +156,7 @@ Tag.prototype.getY = function() {
 Tag.prototype.hStyles = function(){
   var domstl  = this.domObj.style ;
   var hstyles = {};
-  ['left', 'top','width', 'height'].forEach(function(prop){
+  ['left','top','width','height'].forEach(function(prop){
     if (domstl[prop]) {
       value = domstl[prop] ;
       if (value.match(/px/)){
@@ -229,10 +229,16 @@ Tag.prototype.to_html = function() {
       classes.push('warntag')
     }
   }
-  var w = my.w ? my.w : 'auto';
-  css.push('width:' + w) ;
+  css.push(`width:${my.w ? my.w : 'auto'}`) ;
 
-  css = css.join(';') + ';';
+  if (my.h){
+    var h = my.h ;
+    if('string' != typeof(my.h)){ h += 'px'};
+    console.log('h', h);
+    css.push(`height:${h}`)
+  }
+
+  css = css.join(';')+';';
 
   /*/
   // Ajouter un "/" ci-dessus pour débugger

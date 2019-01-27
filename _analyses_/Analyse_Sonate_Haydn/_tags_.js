@@ -1,4 +1,4 @@
-options('lang', 'fr', 'lines of reference') ;
+options('code beside', 'lang', 'fr', 'lines of reference') ;
 
 Tags = `
 // Infos #28#
@@ -11,8 +11,14 @@ date_analyse 27_janvier_2019 id=34
 #35#
 // === Début analyse === #36#
 score sonate_haydn-0.png id=1 x=5 y=271 w=175mm
-acc E_min id=37 x=189 y=204
+acc E_min id=37 x=81 y=271
+🔒 box id=38 x=65 y=282 h=20 w=60px
+#39#
+// Deuxième système #40#
 score sonate_haydn-1.png id=2 x=6 y=488 w=175mm
+cad I id=41 type=parfaite x=231 y=611 w=60px
+har V id=43 x=235 y=611
+#42#
 score sonate_haydn-2.png id=3 x=3 y=705 w=175mm
 score sonate_haydn-3.png id=4 x=6 y=922 w=175mm
 score sonate_haydn-4.png id=5 x=12 y=1263 w=175mm
