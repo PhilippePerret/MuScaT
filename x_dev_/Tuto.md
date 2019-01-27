@@ -3,7 +3,9 @@
 * Téléchargement de MuScaT (OK)
 * On regarde ce qu'il y a dans le dossier
 *
+* On définit une taille pour les images (175mm est bien)
 * On rectifie les images avec Aperçu et le rectangle
+
 
 
 ## À faire

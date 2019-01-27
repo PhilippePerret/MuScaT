@@ -28,16 +28,16 @@ Elle est semi-graphique, et permet d'ajuster très finement les TAGs — au pix
 
 * [Synopsis général de création d'une analyse](#synopsis_fabrication)
 * [Synopsis détaillé](#synopsis_detailled)
-  1. [Charger de l'application **MuScaT**](#download_muscat)
-  1. [Créer du dossier de l'analyse](#creation_dossier_analyse),
-  1. [Mettre l'analyse en analyse courante](#set_analyse_courante),
-  1. [Découper la partition en « images-systèmes»](#syn_crop_score),
-  1. [Inscrire les images-systèmes dans l'analyse](#syn_inscription_images_systemes),
-  1. [Ajouter les accords, les chiffrages, les cadences, tous les éléments d'analyse](#syn_def_analysis_elements),
-  1. [Positionner les éléments graphiques](#syn_ajustement_elements),
-  1. [Les lignes repères](#ligne_reperes)
-  1. [Récupérer du code final](#syn_recuperation_code_final),
-  1. [Imprimer en PDF](#syn_print_pdf).
+  * [Charger de l'application **MuScaT**](#download_muscat)
+  * [Créer du dossier de l'analyse](#creation_dossier_analyse),
+  * [Mettre l'analyse en analyse courante](#set_analyse_courante),
+  * [Découper la partition en « images-systèmes»](#syn_crop_score),
+  * [Inscrire les images-systèmes dans l'analyse](#syn_inscription_images_systemes),
+  * [Ajouter les accords, les chiffrages, les cadences, tous les éléments d'analyse](#syn_def_analysis_elements),
+  * [Positionner les éléments graphiques](#syn_ajustement_elements),
+  * [Les lignes repères](#ligne_reperes)
+  * [Récupérer du code final](#syn_recuperation_code_final),
+  * [Imprimer en PDF](#syn_print_pdf).
 * [L'interface](#user_interface)
 * [Composition d'un tag](#composition_dun_tag)
 * [Les Images](#les_images)
@@ -64,16 +64,16 @@ Elle est semi-graphique, et permet d'ajuster très finement les TAGs — au pix
 
 Commençons par un aperçu du processus général qui va permettre de produire une analyse musicale à l'aide de **MuScaT**. Noter que chaque item de cette liste est cliquable et permet de rejoindre la partie détaillée correspondante.
 
-1. [Charger de l'application **MuScaT**](#download_muscat)
-1. [Créer du dossier de l'analyse](#creation_dossier_analyse),
-1. [Mettre l'analyse en analyse courante](#set_analyse_courante),
-1. [Découper la partition en « images-systèmes»](#syn_crop_score),
-1. [Inscrire les images-systèmes dans l'analyse](#syn_inscription_images_systemes),
-1. [Ajouter les accords, les chiffrages, les cadences, tous les éléments d'analyse](#syn_def_analysis_elements),
-1. [Positionner les éléments graphiques](#syn_ajustement_elements),
-1. [Les lignes repères](#ligne_reperes)
-1. [Récupérer du code final](#syn_recuperation_code_final),
-1. [Imprimer en PDF](#syn_print_pdf).
+* [Charger de l'application **MuScaT**](#download_muscat)
+* [Créer du dossier de l'analyse](#creation_dossier_analyse),
+* [Mettre l'analyse en analyse courante](#set_analyse_courante),
+* [Découper la partition en « images-systèmes»](#syn_crop_score),
+* [Inscrire les images-systèmes dans l'analyse](#syn_inscription_images_systemes),
+* [Ajouter les accords, les chiffrages, les cadences, tous les éléments d'analyse](#syn_def_analysis_elements),
+* [Positionner les éléments graphiques](#syn_ajustement_elements),
+* [Les lignes repères](#ligne_reperes)
+* [Récupérer du code final](#syn_recuperation_code_final),
+* [Imprimer en PDF](#syn_print_pdf).
 
 ## Synopsis détaillé {#synopsis_detailled}
 
@@ -589,27 +589,40 @@ Détaillons toutes les natures de TAGs qu'on peut utiliser.
 
 Dans la ligne, le premier mot définit la `<nature>` du tag.
 
++-----------------+---------------------------------------------------+
+| *Tag*           | *Description*                                     |
++-----------------+---------------------------------------------------+
+| partition<br>   | `image <source> x=... y=... z=...`<br>            |
+| score<br>       | Exemple : `score monimage.src x=200 y=20 w=170mm` |
+| sco<br>         |                                                   |
+| image<br>       | L'image doit se trouver dans le dossier `images`  |
+|                 | de l'analyse.                                     |
+|                 |                                                   |
+|                 | Pour le détail : [Les Partitions](#scores)        |                       
++-----------------+---------------------------------------------------+
+| accord<br>      | Écriture d'un accord au-dessus de la partition.   |
+| chord<br>       |                                                   |
+| acc             | `accord <nom> x=... y=...`<br>                    |
+|                 | P.e. : `acc E_min x=100 y=200`                    |
+|                 |                                                   |
+|                 | Pour le détail : [Les Accords](#les_accords)      |
++-----------------+---------------------------------------------------+
+| harmonie<br>    | Écriture d'un chiffrage sous la partition.        |
+| harmony<br>     |
+| chiffrage<br>   |
+| har             |
++-----------------+---------------------------------------------------+
+| box<br>         | Dessine une boite à l'écran. Ces boites permettent|
+| boite           | de masquer des éléments de la partition. Bien que |
+|                 | ces boites apparaissent en gris sur la table      |
+|                 | d'analyse, elles seront invisibles dans le        |
+|                 | document PDF final ou l'impression.               |
++-----------------+---------------------------------------------------+
 
 ```
-  partition     `image <source> x=... y=... z=...`
-                Exemple : `image monScore.png z=50 x=100 y=100`
-                - "z" désigne le zoom en pourcentage
-                - l'image doit se trouver dans le dossier 'images'
-                Alias : 'score', 'image'
-                Note : un astérisque ("*") indique au départ une
-                suite d'image (image1, image2, image3 etc.)
-
   mesure       `mesure <nombre> x=... y=...`
   mes           Exemple : `mes 13 x=100 y=234`
                 Alias : 'measure'
-
-  accord        `accord <nom> x=... y=...`
-  acc           Exemple : `accord Cm7 x=230 y=520`
-                Alias : 'chord'
-
-  harmonie      `harmonie <degré accord et renversement> x=... y=...`
-  har           Exemple : `harmonie II** x=200 y=230`
-                Alias : 'harmony', 'chiffrage'
 
   modulation    `modulation <Ton[/sous-texte]> x=HH y=VV h=HH`
   mod           Exemple : `modulation D_Maj/Sous–dom. x=100 y=100 h=60`
@@ -1153,7 +1166,7 @@ Le script `analyse.rb` permet d'activer une analyse se trouvant dans le dossier 
   * taper `./analyse.rb "Mon_analyse"` pour ouvrir l'analyse qui commence par ce titre.
 
 
-### Pour aller plus loing {#aller_plus_loin}
+### Pour aller plus loin {#aller_plus_loin}
 
 Pour aller plus loin, si vous êtes sur Mac et que vous vous sentez à l'aise avec le Terminal, vous pouvez créer un alias dans votre `profil bash` pour ne pas avoir à rejoindre chaque fois le dossier de l'application et même utiliser les commandes plus simplement.
 

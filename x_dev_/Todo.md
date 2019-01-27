@@ -1,14 +1,6 @@
 # Todo list
 
-* Ajouter les lignes de pages :
-  La première page termine à  1151
-  La seconde page commence à  1153
-  La seconde page finit à     2380 => 2380-1150 = 1230
-
-  La troisième page commence à 1153 + 1230 = 2383
-  La quatrième page commence à 2383 + 1230 = 3613
-
-
+* Dans les images-séquences, si une width (w) est donnée, il faut la reporter sur toutes les images (voir si ça n'est pas déjà fait)
 * Thèmes
   * Faire au moins un autre thème
   * Documenter la fabrication d'un thème (programme ou utilisateur confirmé)

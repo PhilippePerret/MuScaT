@@ -16,5 +16,20 @@ ul {list-style: none;}
 ul li:before {
   /* content:'♯' ;/*content:'♮'; /*content:'♭'; */
   content: '🌀';
+  position: absolute;
+  margin-left: -2em;
+  margin-top: 2px;
   color: blue;
   opacity: 0.55; font-size: 8pt; margin-right:0.5em;}
+
+table tr td {
+  vertical-align: top;
+}
+table tr:first-child {
+}
+table tr:first-child td {
+  border-bottom: 1px solid;
+  font-style: italic;
+  font-weight: bold;
+  opacity: 0.6;
+}
