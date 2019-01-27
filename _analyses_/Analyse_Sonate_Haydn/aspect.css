@@ -2,6 +2,6 @@
   * Définir ici les aspects propre à cette analyse, si nécessaire.
   * Ou remplacer ce fichier par un thème proposé.
   */
-section.tags {
+section#tags {
   /* Aspect de la table d'analyse sur laquelle se trouvent tous les TAGs */
 }

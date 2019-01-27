@@ -1,21 +1,26 @@
 # Todo list
 
-* Essayer de placer un div (en position relative), en jouant sur le margin-top pour le placer très bas (plus d'une page) pour obliger l'impression à tenir compte de la taille de la table d'analyse.
-* [BUG] Une seule page s'affiche, il faut utiliser une autre fonctionnement : à la QuarkXPress, avec des pages l'une au bout de l'autre, qui représentent les différentes pages
-* Lorsqu'on a une séquence d'images, ajouter leur largeur à 17.01cm.
+* Thèmes
+  * Faire au moins un autre thème
+  * Documenter la fabrication d'un thème (programme ou utilisateur confirmé)
+* Un bouton pour répartir les systèmes sur la page (on les sélectionne, on clique le bouton et le programme les répartit par rapport au premier et au dernier).
+
+* Lorsqu'on a une séquence d'images, ajouter leur largeur à 17.01cm. (non : plutôt proposer d'ajouter le "w=" dans une séquence d'images)
 * Traduire tous les textes des scripts utilitaires (il faut un système spécial comme i18n, mais sans passer par là)
 
 ## TEST
 
+* L'application des thèmes
 * Destruction d'un tag (et annulation de destruction)
 * Options : 'vertical line offset', 600, 'horizontal line offset', 100
 
 ## Développements futurs
 
+* [BUG] Le cropper ne fonctionne plus (le mettre en option pour la version suivante)
 * Animation : peut-être une mise en évidence de la nouvelle insertion (flash) (voir à l'usure, car ça peut être fatiguant => une option)
 * Faire le script 'open' pour :
   * ouvrir le dossier de l'animation sur le bureau
-  * ouvrir le tags.js dans un éditeur
+  * ouvrir le _tags_.js dans un éditeur
   * ouvrir le aspect.css dans un éditeur ?
 * Mémoriser les dernières analyses, mettre la dernière en courante, comme pour scriv
 * Lignes : essayer de faire des flèches avec "->" et "<-" et "<->" (en notant qu'une flèche vers le haut ou le bas est comme celles-ci). Utiliser ensuite les h et les w pour jouer sur l'angle ou utiliser plutôt une autre propriété pour la rotation

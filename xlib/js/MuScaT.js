@@ -52,14 +52,15 @@ const MuScaT = {
    * Note : cette méthode fonctionne en parallèle de `loading_error` qui est
    * appelée en cas d'erreur.
    */
-  loadings: {'messages': false, 'things': false, 'ui': false, 'analyse': false, count: 4},
+  loadings: {'messages': false, 'things': false, 'ui': false, 'analyse': false, 'theme': false, count: 5},
   test_if_ready: function(loading_id){
     this.loadings[loading_id] = true ;
     -- this.loadings.count ;
-    // On doit d'abord attendre que le fichier tags.js soit chargé, avant
+    // On doit d'abord attendre que le fichier _tags_.js soit chargé, avant
     // de charger les locales, car elles dépendent de la langue choisie.
     if(loading_id == 'analyse'){
       Locales.load();
+      Theme.load(); // TODO vérifier si ça marche ou s'il faut charger plus tard
     } else if ( this.loadings.count == 0 ){
       this.start_and_run();
     }
@@ -89,7 +90,7 @@ const MuScaT = {
     // le fichier tag.js
     this.load() ;
 
-    // On met le titre
+    // On met le titre du dossier d'analyse
     $('span#analyse_name').text(ANALYSE);
 
     // Pour une raison pas encore expliquée, il arrive que les
@@ -103,11 +104,10 @@ const MuScaT = {
 
     // Quand on clique sur la partition, en dehors d'un élément,
     // ça déselectionne tout
-    // $('.tags').on('click', function(ev){CTags.deselect_all()})
+    // $('#tags').on('click', function(ev){CTags.deselect_all()})
     if(!Options.get('crop image')){
-      $('.tags').on('click', $.proxy(Page, 'onClickOut'))
+      Page.table_analyse.on('click', $.proxy(Page, 'onClickOut'));
     }
-
     // Si l'option 'code beside' a été activée, il faut préparer la
     // page
     if (Options.get('code beside')){
@@ -188,7 +188,7 @@ const MuScaT = {
     // Il doit rester dans htags les tags supprimés
     for(var id in my.htags){
       itag = my.htags[id] ;
-      itag.destroy() ;
+      itag.update('destroyed', true) ;
       // console.log(`Le tag #${itag.id} a été supprimé`);
     }
 
@@ -216,13 +216,13 @@ const MuScaT = {
 
 
   /**
-   * Chargement du fichier tags.js, analyse du code et construction de
+   * Chargement du fichier _tags_.js, analyse du code et construction de
    * l'analyse sur la table.
    */
   load: function(){
     var my = this ;
 
-    // Il faut d'abord s'assurer que le fichier tags.js a été correctement
+    // Il faut d'abord s'assurer que le fichier _tags_.js a été correctement
     // défini.
     if ('undefined' == typeof Tags) {
       alert(t('tags-undefined'));
@@ -247,7 +247,7 @@ const MuScaT = {
     }
 
     if (Options.get('crop image')){
-      my.prepare_crop_image();
+      my.loadModule('cropper', function(){$.proxy(MuScaT, 'prepare_crop_image')()});
     } else {
       // Placement des observers
       this.set_observers();
@@ -446,16 +446,6 @@ const MuScaT = {
         my.timer = setTimeout(method_next, 40 * my.animation_speed);
       };
     }
-  , prepare_crop_image: function(){
-      itag = ITags['obj1'];
-      itag.x = 0 ; itag.y = 0 ; itag.update();
-      itag.jqObj.css({'position': 'absolute', 'top': 0, 'left': 0});
-      message(t('crop-image-ready'));
-      this.set_observers_mode_crop();
-      // Pour indicer chaque image
-      my.indice_cropped_image = 0 ;
-    }
-
   // Méthode qui actualise une ligne de donnée (appelée par une instance
   // Tag après son déplacement, par exemple)
   , update_line: function(idx, new_line) {
@@ -509,7 +499,7 @@ const MuScaT = {
       my.codeField().value = my.full_code() ;
     }
 
-  // Retourne le code entier du fichier tags.js, mais sans "Tags = `"
+  // Retourne le code entier du fichier _tags_.js, mais sans "Tags = `"
   , full_code: function(){
       var my = this ;
       var str_code = my.lines.join(RC) ;
@@ -517,7 +507,7 @@ const MuScaT = {
     }
 
   /**
-   * Construit (de façon asychrone) le code complet du fichier tags.js
+   * Construit (de façon asychrone) le code complet du fichier _tags_.js
    */
   , build_very_full_code: function(options_to_tags_js){
       var my = this ;
@@ -547,7 +537,7 @@ const MuScaT = {
 
   /**
    * Méthode qui reçoit la ligne brute, telle qu'elle peut se trouver dans
-   * le Tags du fichier tags.js et qui retourne un objet contenant
+   * le Tags du fichier _tags_.js et qui retourne un objet contenant
    * :data et :locked
    * :data est la liste des parties de la ligne (split avec espace), sans
    * la marque de verrou.
@@ -610,7 +600,7 @@ const MuScaT = {
     my.lines  = new Array();
     my.errors = new Array();
     my.last_tag_id = 0 ; // commence à 1
-    $('section.tags')[0].innerHTML = '' ;
+    Page.table_analyse[0].innerHTML = '' ;
     my.treate_images_spaces = false ;
     my.motif_lines_added = null ;
     // ITags = {};
@@ -618,90 +608,33 @@ const MuScaT = {
 
   set_observers: function(){
     // On rend tous les éléments sensibles au click (mais sans propagation)
-    $('section.tags .tag').on('click', CTags.onclick);
+    Page.table_analyse.find('.tag').on('click', CTags.onclick);
     // On ajout un observateur de clic sur les images (ils en ont déjà un
     // par .tag) pour qu'ils donnent les coordonnées au clic de la souris,
     // ce qui peut servir à place un élément sur l'image directement
-    $('section.tags img').on('click', $.proxy(Page,'getCoordonates'))
+    Page.table_analyse.find('img').on('click', $.proxy(Page,'getCoordonates'))
     // On rend tous les éléments draggable
-    $('section.tags .drag').draggable(DATA_DRAGGABLE)
-  },
+    Page.table_analyse.find('.drag').draggable(DATA_DRAGGABLE)
+  }
 
   /**
-   * Placement des observers pour le mode crop qui permet de découper une
-   * image. Ou plus exactement, de définir les coordonnées de la découpe
+   * Chargement d'un module du dossier xlib/js/modules
+   *
+   * +module_name+  Le nom du module, sans 'js'
+   * +fn_callback+  La méthode à appeler. Penser que cette méthode ne peut
+   *                pas être une méthode du module puisqu'elle n'existe pas
+   *                encore au moment du chargement. En revanche, ça peut être
+   *                une fonction qui appelle cette méthode.
    */
-  set_observers_mode_crop: function(){
-    window.onmousedown = $.proxy(M,'onMouseDownModeCrop');
-    window.onmouseup   = $.proxy(M,'onMouseUpModeCrop');
-    window.onmousemove = $.proxy(M,'onMouseMoveModeCrop');
-
-    // console.log('<- set_observers_mode_crop');
-  },
-  cropper: function(){
-    this._cropper = document.getElementById('cropper');
-    if (this._cropper) {
-      return this._cropper;
-    } else {
-      $('.tags').append('<div id="cropper" style="position:absolute;border:1px dashed green;"></div>');
-      return this.cropper();
-    }
-  },
-  onMouseDownModeCrop:function(ev){
-    console.log('-> onMouseDownModeCrop');
-    var   my = this
-        , x = ev.pageX
-        , y = ev.pageY ;
-    my.cropStartX = x ;
-    my.cropStartY = y ;
-    var cropper = my.cropper();
-    cropper.style.left = my.cropStartX + 'px' ;
-    cropper.style.top = my.cropStartY + 'px' ;
-    cropper.style.borderStyle = 'dashed';
-    cropper.style.borderColor = 'green';
-    my.scropping = true ;
-    return stop(ev);
-  },
-  onMouseUpModeCrop: function(ev){
-    // Quand on passe par ici, c'est qu'on a fini de sélectionner
-    // la zone de l'image que l'on veut découper.
-    // La méthode donne le code à utiliser pour convert
-    // console.log('-> onMouseUpModeCrop');
-    var   my = this ;
-    my.cropEndX = ev.pageX ;
-    my.cropEndY = ev.pageY ;
-    my.scropping = false ;
-    var cropper = my.cropper();
-    cropper.style.borderStyle = 'solid';
-    cropper.style.borderColor = 'blue';
-
-    // Calcul des valeurs
-    var w = my.cropEndX - my.cropStartX ;
-    var h = my.cropEndY - my.cropStartY ;
-    var x = my.cropStartX ;
-    var y = my.cropStartY ;
-    // document.getElementById('tags').removeChild(my.cropper);
-    var scoreTag = ITags['obj1'] ;
-    var codeConvert = '-crop ' + w + 'x' + h + '+' + x + '+' + y ;
-    var indiceImg  = ++ my.indice_cropped_image ;
-    var extensionImg = Options.get('images PNG') ? 'png' : 'jpg' ;
-    codeConvert = 'convert ' + scoreTag.src + ' ' + codeConvert + ' ' + scoreTag.src + '-'+indiceImg+'.'+extensionImg;
-    navigator.clipboard.writeText(codeConvert);
-    message(t('code-to-run', {code: codeConvert}));
-    return stop(ev);
-  },
-  onMouseMoveModeCrop: function(ev){
-    var   my = this
-        , w = ev.pageX - my.cropStartX
-        , h = ev.pageY - my.cropStartY ;
-    if(my.scropping){
-      var cropper = my.cropper();
-      cropper.style.width  = w + 'px';
-      cropper.style.height = h + 'px';
-    }
-    // console.log(x + ' / ' + y);
-    return stop(ev);
-  },
+  , loadModule: function(module_name, fn_callback){
+      var nod = document.body.appendChild(document.createElement('script'));
+      nod.src = `xlib/js/modules/${module_name}.js`;
+      $(nod)
+        .on('load', function(){fn_callback();})
+        .on('error', function(){
+          F.error(t('loading-module-failed', {name: module_name}));
+        })
+    },
 };
 Object.defineProperties(MuScaT,{
   // Langue de l'application (on la change avec l'option 'lang'/'langue')

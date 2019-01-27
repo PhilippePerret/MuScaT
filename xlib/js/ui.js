@@ -62,9 +62,9 @@ const UI = {
       $('.to-right').text(t('to-right'));
       $('.the').text(t('the'));
 
-      $('body').append(`<div class="page-break" style="top:29.7cm;">&nbsp;&nbsp;</div>`);
-      $('body').append(`<div class="mark-margin" style="left:2cm;"></div>`);
-      $('body').append(`<div class="mark-margin" style="left:19cm;"></div>`);
+      // Les deux lignes qui indiquent les marges gauche/droite
+      $('body').append(`<div class="mark-margin" style="left:20mm;"></div>`);
+      $('body').append(`<div class="mark-margin" style="left:190mm;"></div>`);
     }
 };
 Object.defineProperties(UI,{

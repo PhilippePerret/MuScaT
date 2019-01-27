@@ -4,10 +4,10 @@
 if('undefined'==typeof(MSG)){MSG = {}};
 Object.assign(MSG,{
   'pour':'virgule'
-  , 'code-lines-added': "Des lignes de code ont été ajoutées (%{motif}), le nouveau code a été copié dans le presse-papier pour pouvoir être collé dans votre fichier tags.js."
+  , 'code-lines-added': "Des lignes de code ont été ajoutées (%{motif}), le nouveau code a été copié dans le presse-papier pour pouvoir être collé dans votre fichier _tags_.js."
 
   // TAGS
-  , 'full-code-in-clipboard' : "Le code complet de votre partition tagguée est copié dans le presse-papier.\n\nIl vous suffit de le coller dans votre fichier tags.js en remplaçant tout le code (p.e. sélectionnez tout l'ancien code avant de coller le nouveau)."
+  , 'full-code-in-clipboard' : "Le code complet de votre partition tagguée est copié dans le presse-papier.\n\nIl vous suffit de le coller dans votre fichier _tags_.js en remplaçant tout le code (p.e. sélectionnez tout l'ancien code avant de coller le nouveau)."
   , 'code-lines-in-clipboard': "Le code des lignes des tags sélectionnés a été mis dans le presse-papier pour un collé."
   // IMAGES
   , 'image-sequentielle': 'expression régulière dans l’image de la partition'
@@ -32,4 +32,5 @@ Object.assign(MSG,{
 
   , 'no-w-pour-modulation': 'La largeur d’une modulation ne se modifie pas. Utiliser `h` pour modifier la hauteur de sa ligne verticale.'
 
+  , 'loading-module-failed': "Navré, mais le chargement du module « %{name} » a échoué…"
 });

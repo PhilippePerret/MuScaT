@@ -1,7 +1,11 @@
 @media print {
-  section.tags{
+  body {
+    margin:20mm;
+  }
+  section#tags{
     padding-bottom: 0;
     height: auto!important;
+    /* height: 4400px!important; */
     margin-left: -2cm;
   }
   section#tools,
@@ -13,7 +17,4 @@
   div.refline
   {display: none;}
 
-  div.mark-margin{
-    height: auto!important;
-  }
 }

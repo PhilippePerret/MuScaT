@@ -1,0 +1,5 @@
+/**
+  * Styles de texte
+  */
+.tag.text.date:after{content:')'}
+.tag.text.date:before{content:'('}

@@ -188,13 +188,13 @@ const CTags = {
       my.onEachSelected(function(itag){
         arr.push(itag.to_line());
       });
-      clip(arr.join(RC));
+      clip(arr.join(RC) + RC);
       F.notify(t('code-lines-in-clipboard'));
     }
   // ---------------------------------------------------------------------
   //  Méthodes de calcul
   /**
-   * Retourne l'index, dans le fichier tags.js (i.e. la liste des lignes),
+   * Retourne l'index, dans le fichier _tags_.js (i.e. la liste des lignes),
    * de la ligne qui se trouve juste après les coordonnées +y+, +x+
    * Cette méthode sert notamment pour la copie d'un tag (et plus tard pour
    * sa création), pour trouver où placer la nouvelle ligne.

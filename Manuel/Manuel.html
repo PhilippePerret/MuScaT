@@ -194,9 +194,9 @@ pandoc -s Manuel.md --from=markdown --to=latex --output=Manuel.tex;open Manuel.t
 <figure>
 <img src="img/6.3.Dossier_images.png" alt="Dossier images" /><figcaption>Dossier images</figcaption>
 </figure>
-<p>On trouve le fichier le plus important, le fichier « tags.js » qui va contenir la définition précise de l’analyse.</p>
+<p>On trouve le fichier le plus important, le fichier « _tags_.js » qui va contenir la définition précise de l’analyse.</p>
 <figure>
-<img src="img/6.4.Fichier_Tags.png" alt="Fichier tags.js" /><figcaption>Fichier tags.js</figcaption>
+<img src="img/6.4.Fichier_Tags.png" alt="Fichier _tags_.js" /><figcaption>Fichier _tags_.js</figcaption>
 </figure>
 <p>Nous aurons à y revenir en détail très vite.</p>
 <p>On trouve aussi un fichier <code>analyse.js</code> qu’il suffit, pour activer cette analyse, de glisser à la racine du dossier <strong>MuScaT</strong> en remplacement du fichier qui s’y trouve déjà.</p>
@@ -221,14 +221,14 @@ pandoc -s Manuel.md --from=markdown --to=latex --output=Manuel.tex;open Manuel.t
 <img src="img/6.3.Dossier_images.png" alt="Dossier images" /><figcaption>Dossier images</figcaption>
 </figure>
 <h3 id="syn_inscription_images_systemes">Inscrire les images-systèmes</h3>
-<p>On ouvre ensuite son fichier <code>monAnalyse/analyse/tags.js</code>. C’est <strong>le fichier principal de l’analyse</strong>, celui qui va définir tous les éléments, les images, les marques de modulations, les accords, les cadences, les parties, tout ce qui constitue l’analyse.</p>
+<p>On ouvre ensuite son fichier <code>monAnalyse/analyse/_tags_.js</code>. C’est <strong>le fichier principal de l’analyse</strong>, celui qui va définir tous les éléments, les images, les marques de modulations, les accords, les cadences, les parties, tout ce qui constitue l’analyse.</p>
 <figure>
-<img src="./img/images_in_tags_js.png" alt="Exemple d’images dans tags.js" /><figcaption>Exemple d’images dans tags.js</figcaption>
+<img src="./img/images_in_tags_js.png" alt="Exemple d’images dans _tags_.js" /><figcaption>Exemple d’images dans _tags_.js</figcaption>
 </figure>
 <p>Vous devez ouvrir ce fichier en texte simple, c’est-à-dire ne surtout pas utiliser de traitement de texte, ou alors en s’assurant d’exporter le fichier final au format « SimpleText » (<code>.txt</code>).</p>
-<p>Dans ce fichier <code>tags.js</code> On définit d’abord les images de la partition, en ajoutant des commentaires pour pouvoir se retrouver, plus tard, lorsque le fichier deviendra conséquent. Par exemple :</p>
+<p>Dans ce fichier <code>_tags_.js</code> On définit d’abord les images de la partition, en ajoutant des commentaires pour pouvoir se retrouver, plus tard, lorsque le fichier deviendra conséquent. Par exemple :</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb3-1" title="1"></a>
-<a class="sourceLine" id="cb3-2" title="2">  <span class="co">// Dans tags.js</span></a>
+<a class="sourceLine" id="cb3-2" title="2">  <span class="co">// Dans _tags_.js</span></a>
 <a class="sourceLine" id="cb3-3" title="3">  <span class="at">option</span>(<span class="st">&#39;code&#39;</span>)<span class="op">;</span></a>
 <a class="sourceLine" id="cb3-4" title="4"></a>
 <a class="sourceLine" id="cb3-5" title="5">  Tags <span class="op">=</span> <span class="vs">`</span></a>
@@ -243,10 +243,10 @@ pandoc -s Manuel.md --from=markdown --to=latex --output=Manuel.tex;open Manuel.t
 <a class="sourceLine" id="cb3-14" title="14"></a>
 <a class="sourceLine" id="cb3-15" title="15"><span class="vs">  `</span><span class="op">;</span></a></code></pre></div>
 <blockquote>
-<p>Note : l’option ‘code’, en haut du fichier <code>tags.js</code>, permet simplement de voir le code à côté de la table d’analyse.</p>
+<p>Note : l’option ‘code’, en haut du fichier <code>_tags_.js</code>, permet simplement de voir le code à côté de la table d’analyse.</p>
 </blockquote>
 <h3 id="syn_def_analysis_elements">Définir tous les éléments de l’analyse</h3>
-<p>L’élément graphique de base de l’application <strong>MuScaT</strong> est le « TAG » (comme on en parle sur les murs des villes). Une analyse avec <strong>MuScaT</strong> consiste donc à « tagguer » une partition (remarquez que les partitions elles-mêmes, ou les images de leurs systèmes, sont aussi des « TAGs »). C’est la raison pour laquelle le fichier qui va les définir s’appelle <code>tags.js</code>.</p>
+<p>L’élément graphique de base de l’application <strong>MuScaT</strong> est le « TAG » (comme on en parle sur les murs des villes). Une analyse avec <strong>MuScaT</strong> consiste donc à « tagguer » une partition (remarquez que les partitions elles-mêmes, ou les images de leurs systèmes, sont aussi des « TAGs »). C’est la raison pour laquelle le fichier qui va les définir s’appelle <code>_tags_.js</code>.</p>
 <p>On définit tous les autres éléments graphiques, tous les <em>tags</em> (cf. pour le détail de la procédure, voir <a href="#composition_dun_tag">Composition d’un tag</a>) : marque de parties, accords, chiffrages, numéros de portée, degrés de la gamme, cadences, textes divers, etc.</p>
 <p>Chacun des éléments, chaque « tag », va être représenter dans le code par une unique ligne.</p>
 <p>Une image de système pourra être :</p>
@@ -291,18 +291,18 @@ pandoc -s Manuel.md --from=markdown --to=latex --output=Manuel.tex;open Manuel.t
 <figure>
 <img src="./img/move_score.png" alt="Exemple de déplacement d’élément" /><figcaption>Exemple de déplacement d’élément</figcaption>
 </figure>
-<p>Sans l’option <code>option('code')</code> activée, il faut modifier le code directement dans le fichier <code>tags.js</code> puis recharger la page dans Firefox pour voir les changements.</p>
+<p>Sans l’option <code>option('code')</code> activée, il faut modifier le code directement dans le fichier <code>_tags_.js</code> puis recharger la page dans Firefox pour voir les changements.</p>
 <h4 id="ligne_reperes">Lignes repères</h4>
 <p>Pour faciliter l’alignement des TAGs — par exemple l’alignement des dernières mesures de fin des systèmes — on peut utiliser des lignes de répère. Pour cela, il suffit d’activer l’option <code>repères</code> (ou <code>reperes</code> ou <code>lines of reference</code>).</p>
 <p>Cela ajoute deux lignes à l’écran, une verticale et une horizontale, qu’on peut déplacer à loisir à la souris.</p>
 <p>Vous pouvez également définir leur emplacement exact avec les options <code>position repère vertical</code> (ou <code>vertical line offset</code>) et <code>position repère horizontal</code> (ou <code>horizontal line offset</code>) :</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb7-1" title="1"></a>
-<a class="sourceLine" id="cb7-2" title="2">  <span class="co">// Dans le fichier tags.js de l&#39;analyse</span></a>
+<a class="sourceLine" id="cb7-2" title="2">  <span class="co">// Dans le fichier _tags_.js de l&#39;analyse</span></a>
 <a class="sourceLine" id="cb7-3" title="3">  <span class="at">option</span>(<span class="st">&#39;code&#39;</span>)<span class="op">;</span></a>
 <a class="sourceLine" id="cb7-4" title="4">   <span class="co">// à 120 pixels du haut et 200 de la gauche</span></a>
 <a class="sourceLine" id="cb7-5" title="5">  <span class="at">option</span>(<span class="st">&#39;vertical line offset&#39;</span><span class="op">,</span> <span class="dv">120</span><span class="op">,</span> <span class="st">&#39;horizontal line offset&#39;</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></a></code></pre></div>
 <h3 id="syn_recuperation_code_final">Récupérer le code final</h3>
-<p>Si l’on a travaillé dans le champ de texte à côté de la table d’analyse, on doit copier le code final dans le fichier <code>tags.js</code>, au risque de perdre tous les changements. Pour se faire, on clique sur le bouton des outils — en haut à gauche — et on demande à mettre le code complet dans le presse-papier. On colle ce code dans le fichier <code>tags.js</code>, en remplaçant l’intégralité de son contenu.</p>
+<p>Si l’on a travaillé dans le champ de texte à côté de la table d’analyse, on doit copier le code final dans le fichier <code>_tags_.js</code>, au risque de perdre tous les changements. Pour se faire, on clique sur le bouton des outils — en haut à gauche — et on demande à mettre le code complet dans le presse-papier. On colle ce code dans le fichier <code>_tags_.js</code>, en remplaçant l’intégralité de son contenu.</p>
 <h3 id="syn_print_pdf">Imprimer l’analyse en PDF</h3>
 <p>Enfin, on imprime la page HTML du navigateur en choisissant le format PDF. Sur Mac :</p>
 <ul>
@@ -326,15 +326,15 @@ pandoc -s Manuel.md --from=markdown --to=latex --output=Manuel.tex;open Manuel.t
 <img src="img/picto_toolbox.png" alt="Picto de la boite à outils" /><figcaption>Picto de la boite à outils</figcaption>
 </figure>
 <h3 id="code_field">Le champ de code</h3>
-<p>Si <a href="#option_line_of_reference">l’option <code>guides</code></a> est activée, un champ de code est ouvert à droite de la page, contenant le code défini dans votre fichier <code>tags.js</code> (seulement celui dans <code>Tags</code>, pas le code intégral).</p>
+<p>Si <a href="#option_line_of_reference">l’option <code>guides</code></a> est activée, un champ de code est ouvert à droite de la page, contenant le code défini dans votre fichier <code>_tags_.js</code> (seulement celui dans <code>Tags</code>, pas le code intégral).</p>
 <hr />
 <h2 id="composition_dun_tag">Composition d’un tag</h2>
-<p>Voyons plus en détail comment se compose une ligne du fichier <code>tags.js</code>, une ligne définissant un <em>tag</em> ou une partition.</p>
+<p>Voyons plus en détail comment se compose une ligne du fichier <code>_tags_.js</code>, une ligne définissant un <em>tag</em> ou une partition.</p>
 <p>Un <em>TAG</em> — image de la partition comprise — se compose d’une ligne dans le fichier de données.</p>
 <p>Cette ligne a le format général suivant :</p>
 <pre><code>  &lt;nature&gt;[ &lt;contenu&gt;][ &lt;coordonnées&gt;][ &lt;options, type&gt;]
 </code></pre>
-<p>Par exemple, pour une cadence (nature = ‘cadence’) de « V I » (contenu = ‘V_I’) qu’on veut placer à 200 pixels depuis le haut (coordonnée y = 200) et 100 pixels de la gauche (coordonnées x = 100), de type « cadence parfaite » (type = ‘parfaite’), on insèrera dans son fichier <code>tags.js</code>, sous la définition de l’image (« score ») :</p>
+<p>Par exemple, pour une cadence (nature = ‘cadence’) de « V I » (contenu = ‘V_I’) qu’on veut placer à 200 pixels depuis le haut (coordonnée y = 200) et 100 pixels de la gauche (coordonnées x = 100), de type « cadence parfaite » (type = ‘parfaite’), on insèrera dans son fichier <code>_tags_.js</code>, sous la définition de l’image (« score ») :</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb9-1" title="1"></a>
 <a class="sourceLine" id="cb9-2" title="2">Tags <span class="op">=</span> <span class="vs">`</span></a>
 <a class="sourceLine" id="cb9-3" title="3"></a>
@@ -360,7 +360,7 @@ pandoc -s Manuel.md --from=markdown --to=latex --output=Manuel.tex;open Manuel.t
 <p>Vous observerez que tout de suite après la création, un identifiant est ajouté à toutes les lignes, mêmes les lignes vides. Il contient de ne pas y toucher, sous peine de voir son travail réduit à néant.</p>
 <p>Ainsi, le code ci-dessous, au final, donnera :</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb11-1" title="1"></a>
-<a class="sourceLine" id="cb11-2" title="2">  <span class="co">// Contenu intégral du fichier tags.js</span></a>
+<a class="sourceLine" id="cb11-2" title="2">  <span class="co">// Contenu intégral du fichier _tags_.js</span></a>
 <a class="sourceLine" id="cb11-3" title="3">  <span class="at">option</span>(<span class="st">&#39;code&#39;</span>)<span class="op">;</span> <span class="co">// pour voir ce code à côté de la partition</span></a>
 <a class="sourceLine" id="cb11-4" title="4"></a>
 <a class="sourceLine" id="cb11-5" title="5">  Tags <span class="op">=</span> <span class="vs">`</span></a>
@@ -387,7 +387,7 @@ pandoc -s Manuel.md --from=markdown --to=latex --output=Manuel.tex;open Manuel.t
 <h3 id="defining_image_size">Définition de la taille d’une image</h3>
 <p>On peut définir la taille d’une image à l’aide du paramètre <code>w</code> (ou <code>width</code>, « largeur », en anglais). Sa valeur peut être explicite avec une unité, explicite sans unité ou en pourcentage. Par exemple :</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb15-1" title="1"></a>
-<a class="sourceLine" id="cb15-2" title="2">  <span class="co">// Dans tags.js</span></a>
+<a class="sourceLine" id="cb15-2" title="2">  <span class="co">// Dans _tags_.js</span></a>
 <a class="sourceLine" id="cb15-3" title="3">  Tags <span class="op">=</span> <span class="vs">`</span></a>
 <a class="sourceLine" id="cb15-4" title="4"><span class="vs">  sco image-0.png</span></a>
 <a class="sourceLine" id="cb15-5" title="5"><span class="vs">  sco image-1.png w=200</span></a>
@@ -397,7 +397,7 @@ pandoc -s Manuel.md --from=markdown --to=latex --output=Manuel.tex;open Manuel.t
 <p>Avec le code ci-dessus, l’image <code>0</code> aura sa taille normale, <code>image-1</code> fera 200 pixels de large, <code>image-2</code> fera 10 centimètres de large et <code>image-3</code> sera mise à 50% de sa largeur.</p>
 <h3 id="sequence_images">Séquence d’images</h3>
 <p>Bien souvent, une analyse n’est pas constituée d’une seule image pour toute la partition. Il y a trop peu d’espace entre les systèmes. On conseille donc fortement de découper les partitions en autant de systèmes qu’elles en comportent (vous trouverez des indications sur la <a href="#procedure_crop_partition">procédure de découpage de la partition</a> ci-dessous).</p>
-<p>Mais il serait fastidieux d’entrer la ligne de chaque image de système dans notre fichier <code>tags.js</code>. Une partition même courte peut très vite comporter de 10 à 15 systèmes et ce serait autant de lignes de partition qu’il faudrait introduire dans le code…</p>
+<p>Mais il serait fastidieux d’entrer la ligne de chaque image de système dans notre fichier <code>_tags_.js</code>. Une partition même courte peut très vite comporter de 10 à 15 systèmes et ce serait autant de lignes de partition qu’il faudrait introduire dans le code…</p>
 <p>Au lieu de ça, si les images des systèmes ont été nommés en respectant une règle simple (avec des suites de nombres), une seule ligne suffira pour entrer tous les systèmes de la partition. Par exemple :</p>
 <pre><code>
   score mouvement_1/image-[1-35].png
@@ -415,7 +415,7 @@ pandoc -s Manuel.md --from=markdown --to=latex --output=Manuel.tex;open Manuel.t
 <p>Nous vous invitons vivement à commencer par cette opération avant l’insertion de toute autre marque sur la partition.</p>
 <p>Quand <strong>MuScaT</strong> place les images sur la table d’analyse, il les répartit pour obtenir l’aspect initial de la partition. On peut modifier ce comportement en définissant explicitement un espace (vertical) entre chaque système ou chaque image, grâce à l’option <code>espacement images</code> :</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb18-1" title="1"></a>
-<a class="sourceLine" id="cb18-2" title="2">  <span class="co">// Code intégrale du fichier tags.js</span></a>
+<a class="sourceLine" id="cb18-2" title="2">  <span class="co">// Code intégrale du fichier _tags_.js</span></a>
 <a class="sourceLine" id="cb18-3" title="3">  <span class="at">option</span>(<span class="st">&#39;code&#39;</span>)<span class="op">;</span><span class="at">option</span>(<span class="st">&#39;espacement images&#39;</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span></a>
 <a class="sourceLine" id="cb18-4" title="4"></a>
 <a class="sourceLine" id="cb18-5" title="5">  Tags<span class="op">=</span><span class="vs">`</span></a>
@@ -490,7 +490,7 @@ pandoc -s Manuel.md --from=markdown --to=latex --output=Manuel.tex;open Manuel.t
 <p>Ce deuxième « mot » de la ligne sert aussi par exemple à définir le type des lignes à obtenir (cf. <a href="#types_de_lignes">Dessiner des lignes</a>).</p>
 <h3 id="autres_data_ligne">Autres données de la ligne</h3>
 <p>Les deux autres informations capitales sont les positions verticale et horizontale du tag à poser (ou de la partition).</p>
-<p>NOTE IMPORTANTE : dans votre fichier <code>tags.js</code>, ces valeurs peuvent dans un premier temps être approximatives, et seront affinées directement à l’écran.</p>
+<p>NOTE IMPORTANTE : dans votre fichier <code>_tags_.js</code>, ces valeurs peuvent dans un premier temps être approximatives, et seront affinées directement à l’écran.</p>
 <p>On définit la position verticale avec <code>y=</code> et la position horizontale avec <code>x=</code>, comme nous l’avons vu dans les exemples précédents. Le nombre est exprimé en pixels.</p>
 <p>Pour les lignes et les cadences par exemple, on peut définir aussi la largeur avec la lettre « w » qui signifie « width » (largeur) en anglais : <code>w=200</code>. Le nombre correspond là aussi au nombre de pixels, mais il peut être exprimé avec une autre unité, notamment le pourcentage — ce qui n’est pas possible avec <code>x</code> et <code>y</code>.</p>
 <p>Ensuite, on peut définir certaines choses comme le « type » du tag. On l’a vu pour la cadence, par exemple. Les autres tags pouvant définir leur type sont le <code>texte</code> ou la <code>ligne</code> (bien que la <code>ligne</code> se définit plutôt par son contenu).</p>
@@ -622,9 +622,9 @@ pandoc -s Manuel.md --from=markdown --to=latex --output=Manuel.tex;open Manuel.t
   convert[ options] partition.pdf partition.jpg # ou .png
 </code></pre>
 <p>Autant d’images que de pages sont produites.</p>
-<p>On insert la première dans le code du fichier <code>tags.js</code>, avec l’option <code>crop image</code> :</p>
+<p>On insert la première dans le code du fichier <code>_tags_.js</code>, avec l’option <code>crop image</code> :</p>
 <pre><code>
-    # Dans tags.js
+    # Dans _tags_.js
     option(&#39;crop image&#39;)
     Tags=`
     partition partition-0.jpg
@@ -674,21 +674,21 @@ pandoc -s Manuel.md --from=markdown --to=latex --output=Manuel.tex;open Manuel.t
 <li><a href="#option_left_margin">Option « marge gauche »</a></li>
 <li><a href="#vitesse_animation">Vitesse de l’animation</a></li>
 </ul>
-<p>Comme les tags et les partitions, les options se règle dans le fichier <code>tags.js</code>. On utilise tout naturellement la fonction <code>option</code> (ou <code>options</code>) avec en argument les options à activer.</p>
+<p>Comme les tags et les partitions, les options se règle dans le fichier <code>_tags_.js</code>. On utilise tout naturellement la fonction <code>option</code> (ou <code>options</code>) avec en argument les options à activer.</p>
 <p>Ci-dessous, par exemple, on active l’option <code>guide</code> qui affiche deux lignes repère déplaçables pour aligner des éléments à la souris (ou par magnétisation).</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb28-1" title="1"></a>
-<a class="sourceLine" id="cb28-2" title="2">  <span class="co">// Dans tags.js</span></a>
+<a class="sourceLine" id="cb28-2" title="2">  <span class="co">// Dans _tags_.js</span></a>
 <a class="sourceLine" id="cb28-3" title="3">  <span class="at">option</span>(<span class="st">&#39;guide&#39;</span>)<span class="op">;</span></a>
 <a class="sourceLine" id="cb28-4" title="4">  Tags<span class="op">=</span><span class="vs">`</span></a>
 <a class="sourceLine" id="cb28-5" title="5"><span class="vs">    ...</span></a>
 <a class="sourceLine" id="cb28-6" title="6"><span class="vs">  `</span><span class="op">;</span>  </a></code></pre></div>
 <p>Dans la méthode <code>option</code>, on peut passer toutes les options les unes à la place des autres, ou utiliser plusieurs fois la méthode <code>option</code>. Les deux formulations suivantes sont équivalentes :</p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb29-1" title="1"></a>
-<a class="sourceLine" id="cb29-2" title="2">  <span class="co">// Dans tags.js</span></a>
+<a class="sourceLine" id="cb29-2" title="2">  <span class="co">// Dans _tags_.js</span></a>
 <a class="sourceLine" id="cb29-3" title="3">  <span class="at">option</span>(<span class="st">&#39;guide&#39;</span><span class="op">,</span> <span class="st">&#39;code&#39;</span><span class="op">,</span> <span class="st">&#39;marge haut&#39;</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></a></code></pre></div>
 <p>… équivaut à :</p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb30-1" title="1"></a>
-<a class="sourceLine" id="cb30-2" title="2">  <span class="co">// Dans tags.js</span></a>
+<a class="sourceLine" id="cb30-2" title="2">  <span class="co">// Dans _tags_.js</span></a>
 <a class="sourceLine" id="cb30-3" title="3">  <span class="at">option</span>(<span class="st">&#39;guide&#39;</span>)<span class="op">;</span><span class="at">option</span>(<span class="st">&#39;code&#39;</span>)<span class="op">;</span><span class="at">option</span>(<span class="st">&#39;marge haut&#39;</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></a></code></pre></div>
 <blockquote>
 <p>Note : les points virgules sont optionnels.</p>
@@ -696,7 +696,7 @@ pandoc -s Manuel.md --from=markdown --to=latex --output=Manuel.tex;open Manuel.t
 <p>Vous noterez qu’il existe deux types d’options. Les options dites « booléenne » qu’on active simplement en indiquant leur nom en argument (par exemple <code>guide</code> ou <code>code</code>) et il y a les options non booléennes qui attendent une valeur précise (par exemple <code>marge haut</code> attend la valeur de cette marge haut).</p>
 <p>Dans les arguments de la méthode <code>option</code>, la valeur des options non booléennes doit suivre immédiatement le nombre de l’option :</p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb31-1" title="1"></a>
-<a class="sourceLine" id="cb31-2" title="2">  <span class="co">// Dans tags.js</span></a>
+<a class="sourceLine" id="cb31-2" title="2">  <span class="co">// Dans _tags_.js</span></a>
 <a class="sourceLine" id="cb31-3" title="3">  <span class="at">option</span>(<span class="st">&#39;marge haut&#39;</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></a></code></pre></div>
 <h3 id="choix_langue">Option « langue »</h3>
 <p>Option : <code>lang</code>, <code>langue</code></p>
@@ -725,7 +725,7 @@ pandoc -s Manuel.md --from=markdown --to=latex --output=Manuel.tex;open Manuel.t
 <p>Option : <code>position repère horizontal</code>, <code>horizontal line offset</code></p>
 <p>Exemple :</p>
 <div class="sourceCode" id="cb32"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb32-1" title="1"></a>
-<a class="sourceLine" id="cb32-2" title="2">  <span class="co">// Dans le fichier tags.js de l&#39;analyse</span></a>
+<a class="sourceLine" id="cb32-2" title="2">  <span class="co">// Dans le fichier _tags_.js de l&#39;analyse</span></a>
 <a class="sourceLine" id="cb32-3" title="3">   <span class="co">// à 120 pixels du haut et 200 de la gauche</span></a>
 <a class="sourceLine" id="cb32-4" title="4">  <span class="at">option</span>(<span class="st">&#39;vertical line offset&#39;</span><span class="op">,</span> <span class="dv">120</span><span class="op">,</span> <span class="st">&#39;horizontal line offset&#39;</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></a></code></pre></div>
 <h3 id="option_space_between_scores">Option « Espacement entre images »</h3>
@@ -733,7 +733,7 @@ pandoc -s Manuel.md --from=markdown --to=latex --output=Manuel.tex;open Manuel.t
 <p>Type : non booléen, la valeur est le nombre de pixels</p>
 <p>Permet de régler l’espacement en pixels entre deux images lorsque l’<a href="#sequence_images">écriture séquentielle des images</a> a été adoptée.</p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb33-1" title="1"></a>
-<a class="sourceLine" id="cb33-2" title="2">  <span class="co">// Dans tags.js</span></a>
+<a class="sourceLine" id="cb33-2" title="2">  <span class="co">// Dans _tags_.js</span></a>
 <a class="sourceLine" id="cb33-3" title="3">  <span class="at">option</span>(<span class="st">&#39;espacement images&#39;</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></a>
 <a class="sourceLine" id="cb33-4" title="4">  Tags<span class="op">=</span><span class="vs">`</span></a>
 <a class="sourceLine" id="cb33-5" title="5"><span class="vs">    ...</span></a>
@@ -744,7 +744,7 @@ pandoc -s Manuel.md --from=markdown --to=latex --output=Manuel.tex;open Manuel.t
 <p>Type : non booléen, la valeur est le nombre de pixels</p>
 <p>Lors de l’<a href="#sequence_images">écriture séquentielle des images</a>, cette valeur permet de déterminer à quelle hauteur doit être placée la première image (le premier système ou la partition).</p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb34-1" title="1"></a>
-<a class="sourceLine" id="cb34-2" title="2">  <span class="co">// Dans tags.js</span></a>
+<a class="sourceLine" id="cb34-2" title="2">  <span class="co">// Dans _tags_.js</span></a>
 <a class="sourceLine" id="cb34-3" title="3">  <span class="at">option</span>(<span class="st">&#39;marge haut&#39;</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></a>
 <a class="sourceLine" id="cb34-4" title="4">  Tags<span class="op">=</span><span class="vs">`</span></a>
 <a class="sourceLine" id="cb34-5" title="5"><span class="vs">    ...</span></a>
@@ -755,7 +755,7 @@ pandoc -s Manuel.md --from=markdown --to=latex --output=Manuel.tex;open Manuel.t
 <p>Type : non booléen, la valeur est le nombre de pixels</p>
 <p>Lors de l’<a href="#sequence_images">écriture séquentielle des images</a>, cette valeur détermine la marge gauche où placer l’image (son <code>x</code>).</p>
 <div class="sourceCode" id="cb35"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb35-1" title="1"></a>
-<a class="sourceLine" id="cb35-2" title="2">  <span class="co">// Dans tags.js</span></a>
+<a class="sourceLine" id="cb35-2" title="2">  <span class="co">// Dans _tags_.js</span></a>
 <a class="sourceLine" id="cb35-3" title="3">  <span class="at">option</span>(<span class="st">&#39;marge gauche&#39;</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span></a>
 <a class="sourceLine" id="cb35-4" title="4">  Tags<span class="op">=</span><span class="vs">`</span></a>
 <a class="sourceLine" id="cb35-5" title="5"><span class="vs">    ...</span></a>

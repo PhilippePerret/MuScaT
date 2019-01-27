@@ -1,6 +1,7 @@
 body {
   margin: 0;
   padding: 0;
+  width: 21.01cm;
 }
 section#tools {
   background-color: white;
@@ -17,10 +18,12 @@ section#tools {
 
 span#analyse_name {
   position: fixed;
-  top: 10px;
-  left: 140px;
+  display: block;
+  width: 188mm;
+  text-align:right;
+  top: 4px;
   opacity: 0.3;
-  font-size: 24pt;
+  font-size: 12pt;
   font-style: italic;
 }
 
@@ -115,4 +118,27 @@ div#refline_v {
   width: 200%;
   left: -10px;
   top: 20px;
+}
+
+/* --------------------------------------------------------------------- */
+
+div.page-break {
+  position: absolute;
+  width: 100%;
+  border-bottom: 2px solid red;
+  height: 1px;
+  padding: 0 0 0 1em;
+}
+div.page-break:after {
+  content: 'page-break';
+  font-size: 9pt;
+  font-variant: small-caps;
+}
+div.mark-margin {
+  position: absolute;
+  opacity: 0.2;
+  height: 2000cm;
+  top: 0;
+  width: 1px;
+  border-left: 2px solid red;
 }

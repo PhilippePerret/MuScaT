@@ -75,7 +75,7 @@ unless ARGV.include?('-h') || ARGV.include?('--help')
       File.open(CUR_ANALYSE_FILE,'wb'){|f|f.write("const ANALYSE=\"#{ANALYSE_NAME}\";")}
 
       # On ouvre l'analyse
-      `open -a Firefox "#{PARTITION_PATH}"`
+      `open -a "Google Chrome" "#{PARTITION_PATH}"`
 
     else
       puts "Dossier inconnu, je ne peux rien faire pour vous…"

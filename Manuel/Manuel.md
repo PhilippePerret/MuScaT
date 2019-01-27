@@ -28,6 +28,16 @@ Elle est semi-graphique, et permet d'ajuster très finement les TAGs — au pix
 
 * [Synopsis général de création d'une analyse](#synopsis_fabrication)
 * [Synopsis détaillé](#synopsis_detailled)
+  1. [Charger de l'application **MuScaT**](#download_muscat)
+  1. [Créer du dossier de l'analyse](#creation_dossier_analyse),
+  1. [Mettre l'analyse en analyse courante](#set_analyse_courante),
+  1. [Découper la partition en « images-systèmes»](#syn_crop_score),
+  1. [Inscrire les images-systèmes dans l'analyse](#syn_inscription_images_systemes),
+  1. [Ajouter les accords, les chiffrages, les cadences, tous les éléments d'analyse](#syn_def_analysis_elements),
+  1. [Positionner les éléments graphiques](#syn_ajustement_elements),
+  1. [Les lignes repères](#ligne_reperes)
+  1. [Récupérer du code final](#syn_recuperation_code_final),
+  1. [Imprimer en PDF](#syn_print_pdf).
 * [L'interface](#user_interface)
 * [Composition d'un tag](#composition_dun_tag)
 * [Les Images](#les_images)
@@ -120,9 +130,9 @@ On trouve en dessous le dossier « images » qui comme son nom l'indique va ra
 
 ![Dossier images](img/6.3.Dossier_images.png)
 
-On trouve le fichier le plus important, le fichier « tags.js » qui va contenir la définition précise de l'analyse.
+On trouve le fichier le plus important, le fichier « _tags_.js » qui va contenir la définition précise de l'analyse.
 
-![Fichier tags.js](img/6.4.Fichier_Tags.png)
+![Fichier _tags_.js](img/6.4.Fichier_Tags.png)
 
 Nous aurons à y revenir en détail très vite.
 
@@ -153,25 +163,55 @@ Soit on glisse le fichier `analyse.js` qui se trouve dans notre dossier d'analys
 
 ### Découper la partition en « images-systèmes » {#syn_crop_score}
 
-Si la partition que l'on s'apprête à analyser est suffisamment aérée (espace entre les systèmes), on peut la garder telle qu'elle. Dans le cas contraire (et le plus fréquent), il faut découper cette partition en systèmes, c'est-à-dire faire une image de chaque système pour les écarter sur la table d'analyse.
+Très souvent, on part d'un fichier PDF contenant une partition ou les systèmes sont trop rapprochés pour être « taggués » de façon lisible. Même s'il est tout à fait possible d'utiliser un tel fichier PDF avec **MuScaT**, il est infiniment plus pratique de travailler avec de « vraies » images et des systèmes séparés (donc une image par système).
 
-Dans tous les cas, on place la ou les images dans le dossier `_analyses_/<Nom analyse>/images/`.
+La première opération consiste donc à transformer le fichier PDF en images-systèmes. Pour ce faire, vous pouvez passer par [Gimp](https://www.gimp.org), Photoshop ou tout autre logiciel de traitement de l'image. Je vous renvoie à leur manuel pour la procédure à adopter.
+
+Mais si vous êtes sur Mac, vous avez beaucoup plus simple : utiliser l'application Aperçu et la capture d'image par portion (CMD MAJ 4).
+
+Pour une version détaillée et illustrée de la procédure, je vous renvoie à [ma chaine YouTube](https://www.youtube.com/channel/UCX3XhJw9x1RsVx1s3GNYceA) [[TODO: Mettre adresse de la vidéo]]. Je l'explique rapidement seulement ici.
+
+* modifier le dossier de capture (le dossier où seront enregistrées les captures d'écran) en passant par le [Terminal](#application_terminal) :
+
+```bash
+
+> cd /chemin/vers/application/MuScaT
+> ./utils/change_folder_captures.rb /dossier/des/captures/
+
+```
+
+> Note : pour ne pas avoir à remplir les chemins à la main, il vous suffit de glisser les éléments (fichier ou dossier) depuis le Finder jusque sur la fenêtre de Terminal. Le chemin de l'élément est aussitôt inscrit ! Donc, ici, par exemple, pour la première ligne, taper seulement `cd ` (sans oublier l'espace) puis glisser le dossier **MuScaT** sur la fenêtre de Terminal. Ensuite, taper `./utils/chan[TAG] ` (sans oublier l'espace) puis faire glisser le dossier où mettre les images sur la fenêtre de Terminal.
+
+* ouvrir le PDF dans Aperçu,
+* activer la combinaison de touches CMD-MAJ-4,
+* sélectionner le système,
+* recommencer ces opérations pour chaque système.
+
+Noter qu'il est extrêmement simple d'affiner très précisément le découpage d'une image :
+
+* ouvrir l'image dans Aperçu,
+* dessiner un rectangle à la souris,
+* régler ses "poignées" pour obtenir exactement la découpe voulue,
+* jouer la combinaison CMD-K,
+* enregistrer l'image.
+
+Quelle que soit la méthode adoptée, on place obligatoirement la ou les images dans le dossier `_analyses_/<Nom analyse>/images/`.
 
 ![Dossier images](img/6.3.Dossier_images.png)
 
 ### Inscrire les images-systèmes {#syn_inscription_images_systemes}
 
-On ouvre ensuite son fichier `monAnalyse/tags.js`. C'est **le fichier principal de l'analyse**, celui qui va définir tous les éléments, les images, les marques de modulations, les accords, les cadences, les parties, tout ce qui constitue l'analyse.
+On ouvre ensuite son fichier `monAnalyse/_tags_.js`. C'est **le fichier principal de l'analyse**, celui qui va définir tous les éléments, les images, les marques de modulations, les accords, les cadences, les parties, tout ce qui constitue l'analyse.
 
-![Exemple d’images dans tags.js](./img/images_in_tags_js.png)
+![Exemple d’images dans _tags_.js](./img/images_in_tags_js.png)
 
 Vous devez ouvrir ce fichier en texte simple, c'est-à-dire ne surtout pas utiliser de traitement de texte, ou alors en s'assurant d'exporter le fichier final au format « SimpleText » (`.txt`).
 
-Dans ce fichier `tags.js` On définit d'abord les images de la partition, en ajoutant des commentaires pour pouvoir se retrouver, plus tard, lorsque le fichier deviendra conséquent. Par exemple :
+Dans ce fichier `_tags_.js` On définit d'abord les images de la partition, en ajoutant des commentaires pour pouvoir se retrouver, plus tard, lorsque le fichier deviendra conséquent. Par exemple :
 
 ```javascript
 
-  // Dans tags.js
+  // Dans _tags_.js
   option('code');
 
   Tags = `
@@ -187,12 +227,12 @@ Dans ce fichier `tags.js` On définit d'abord les images de la partition, en ajo
   `;
 ```
 
-> Note : l'option 'code', en haut du fichier `tags.js`, permet simplement de voir le code à côté de la table d'analyse.
+> Note : l'option 'code', en haut du fichier `_tags_.js`, permet simplement de voir le code à côté de la table d'analyse.
 
 
 ### Définir tous les éléments de l'analyse {#syn_def_analysis_elements}
 
-L'élément graphique de base de l'application **MuScaT** est le « TAG » (comme on en parle sur les murs des villes). Une analyse avec **MuScaT** consiste donc à « tagguer » une partition (remarquez que les partitions elles-mêmes, ou les images de leurs systèmes, sont aussi des « TAGs »). C'est la raison pour laquelle le fichier qui va les définir s'appelle `tags.js`.
+L'élément graphique de base de l'application **MuScaT** est le « TAG » (comme on en parle sur les murs des villes). Une analyse avec **MuScaT** consiste donc à « tagguer » une partition (remarquez que les partitions elles-mêmes, ou les images de leurs systèmes, sont aussi des « TAGs »). C'est la raison pour laquelle le fichier qui va les définir s'appelle `_tags_.js`.
 
 On définit tous les autres éléments graphiques, tous les *tags* (cf. pour le détail de la procédure, voir [Composition d'un tag](#composition_dun_tag)) : marque de parties, accords, chiffrages, numéros de portée, degrés de la gamme, cadences, textes divers, etc.
 
@@ -271,11 +311,11 @@ Et, plus loin, si [vous avez installé un alias](#aller_plus_loin) (par exemple 
 
 ### Positionnement des éléments graphiques {#syn_ajustement_elements}
 
-Une fois l'analyse désignée comme analyse courante, on ouvre le fichier `_TABLE_ANALYSE_.html` dans Firefox.
+Une fois l'analyse désignée comme analyse courante, on ouvre le fichier `_TABLE_ANALYSE_.html` dans Chrome (ou un autre navigateur, mais pas Firefox.
 
 ![Fichier Table d'analyse](img/10.Fichier_Table_analyse.png)
 
-Firefox est vivement recommandé, l'application n'a pas été testée en profondeur dans les autres navigateur.
+Firefox est tout à fait déconseillé : vous ne parviendrez pas à imprimer votre analyse si elle tient sur plusieurs pages. Chrome est l'application idéale.
 
 On peut placer les éléments aux bons endroits simplement en les déplaçant à la souris, ou avec les flèches de son clavier. On peut en ajouter des nouveaux en dupliquant les lignes de code ou les ajoutant explicitement dans le code.
 
@@ -283,7 +323,36 @@ On peut placer les éléments aux bons endroits simplement en les déplaçant à
 
 À tout moment on peut annuler une opération pour revenir en arrière en jouant CMD Z (sur Mac) ou Ctrl Z (sur Windows).
 
-Sans l'option `option('code')` activée, il faut modifier le code directement dans le fichier `tags.js` puis recharger la page dans Firefox pour voir les changements.
+Sans l'option `option('code')` activée, il faut modifier le code directement dans le fichier `_tags_.js` puis recharger la page dans Chrome pour voir les changements.
+
+### Ajuster les éléments en fonction de la sortie {#ajust_elements_aperu}
+
+Avant de placer quelconque élément d'analyse, nous vous invitons vivement à regarder ce que votre agencement produit au niveau de l'impression ou de la sortie du PDF. Lorsque tous les TAGs seront placés sur la partition, il sera extrêmement difficile et pénible de devoir les redéplacer pour qu'ils soient correctement placés.
+
+Donc demandez l'impression, faites les réglages nécessaires (taille du papier, marges, etc.) et ajustez la position des systèmes en fonction des sauts de page que vous voyez dans l'aperçu de l'impression (pour ce faire, Google Chrome est idéal).
+
+### Ajout du titre, compositeur, etc.
+
+Vous pouvez même placer dès à présent les titres et compositeur aux endroits voulus grâce aux TAGs `titre`, `compositeur`, `analyste`, `date_composition`, `opus`, `date_analyse`, etc.
+
+C'est-à-dire que vous pouvez placer, en haut de votre définition de `Tags` dans votre fichier `_tags_.js` :
+
+```javascript
+  // Dans _tags_.js
+  option('code', 'guides');
+
+  Tags=`
+  titre Sonate_n°34_en_Mi_mineur
+  compositeur Joseph_Haydn
+  opus Hob_XVI_34
+  analyste Philippe_Perret
+  date_analyse 27_janvier_2019
+  ...
+  `;
+
+```
+
+Notez que pour ces « TAGs » il est inutile de préciser les positions. C'est le thème (le fichier `aspect.css` général) qui s'en charge. Mais vous pouvez tout à fait les déplacer pour les ajuster à votre guise, ou choisir un autre thème.
 
 #### Lignes repères {#ligne_reperes}
 
@@ -295,7 +364,7 @@ Vous pouvez également définir leur emplacement exact avec les options `positio
 
 ```javascript
 
-  // Dans le fichier tags.js de l'analyse
+  // Dans le fichier _tags_.js de l'analyse
   option('code');
    // à 120 pixels du haut et 200 de la gauche
   option('vertical line offset', 120, 'horizontal line offset', 200);
@@ -304,13 +373,13 @@ Vous pouvez également définir leur emplacement exact avec les options `positio
 
 ### Récupérer le code final {#syn_recuperation_code_final}
 
-Si l'on a travaillé dans le champ de texte à côté de la table d'analyse, on doit copier le code final dans le fichier `tags.js`, au risque de perdre tous les changements. Pour se faire, on clique sur le bouton des outils — en haut à gauche — et on demande à mettre le code complet dans le presse-papier. On colle ce code dans le fichier `tags.js`, en remplaçant l'intégralité de son contenu.
+Si l'on a travaillé dans le champ de texte à côté de la table d'analyse, on doit copier le code final dans le fichier `_tags_.js`, au risque de perdre tous les changements. Pour se faire, on clique sur le bouton des outils — en haut à gauche — et on demande à mettre le code complet dans le presse-papier. On colle ce code dans le fichier `_tags_.js`, en remplaçant l'intégralité de son contenu.
 
 ### Imprimer l'analyse en PDF {#syn_print_pdf}
 
 Enfin, on imprime la page HTML du navigateur en choisissant le format PDF. Sur Mac :
 
-* dans Firefox, demander l'impression,
+* dans Chrome, demander l'impression,
 * dans la fenêtre qui s'ouvre, choisir, dans le menu en bas à gauche : « Imprimer au format PDF » ou autre indication similaire.
 
 (sur PC, enregistrer la page au format HTML et utiliser un outil de transformation des pages HTML en PDF)
@@ -338,7 +407,7 @@ Sur la gauche en haut de l'écran, on trouve un petit picto qui permet d'ouvrir 
 
 ### Le champ de code {#code_field}
 
-Si [l'option `guides`](#option_line_of_reference) est activée, un champ de code est ouvert à droite de la page, contenant le code défini dans votre fichier `tags.js` (seulement celui dans `Tags`, pas le code intégral).
+Si [l'option `guides`](#option_line_of_reference) est activée, un champ de code est ouvert à droite de la page, contenant le code défini dans votre fichier `_tags_.js` (seulement celui dans `Tags`, pas le code intégral).
 
 
 
@@ -346,7 +415,7 @@ Si [l'option `guides`](#option_line_of_reference) est activée, un champ de code
 
 ## Composition d'un tag {#composition_dun_tag}
 
-Voyons plus en détail comment se compose une ligne du fichier `tags.js`, une ligne définissant un *tag* ou une partition.
+Voyons plus en détail comment se compose une ligne du fichier `_tags_.js`, une ligne définissant un *tag* ou une partition.
 
 Un *TAG* — image de la partition comprise — se compose d'une ligne dans le fichier de données.
 
@@ -357,7 +426,7 @@ Cette ligne a le format général suivant :
 
 ```
 
-Par exemple, pour une cadence (nature = 'cadence') de « V I » (contenu = 'V_I') qu'on veut placer à 200 pixels depuis le haut (coordonnée y = 200) et 100 pixels de la gauche (coordonnées x = 100), de type « cadence parfaite » (type = 'parfaite'), on insèrera dans son fichier `tags.js`, sous la définition de l'image (« score ») :
+Par exemple, pour une cadence (nature = 'cadence') de « V I » (contenu = 'V_I') qu'on veut placer à 200 pixels depuis le haut (coordonnée y = 200) et 100 pixels de la gauche (coordonnées x = 100), de type « cadence parfaite » (type = 'parfaite'), on insèrera dans son fichier `_tags_.js`, sous la définition de l'image (« score ») :
 
 ```javascript
 
@@ -397,7 +466,7 @@ Ainsi, le code ci-dessous, au final, donnera :
 
 ```javascript
 
-  // Contenu intégral du fichier tags.js
+  // Contenu intégral du fichier _tags_.js
   option('code'); // pour voir ce code à côté de la partition
 
   Tags = `
@@ -447,7 +516,7 @@ On peut définir la taille d'une image à l'aide du paramètre `w` (ou `width`, 
 
 ```javascript
 
-  // Dans tags.js
+  // Dans _tags_.js
   Tags = `
   sco image-0.png
   sco image-1.png w=200
@@ -463,7 +532,7 @@ Avec le code ci-dessus, l'image `0` aura sa taille normale, `image-1` fera 200 p
 
 Bien souvent, une analyse n'est pas constituée d'une seule image pour toute la partition. Il y a trop peu d'espace entre les systèmes. On conseille donc fortement de découper les partitions en autant de systèmes qu'elles en comportent (vous trouverez des indications sur la [procédure de découpage de la partition](#procedure_crop_partition) ci-dessous).
 
-Mais il serait fastidieux d'entrer la ligne de chaque image de système dans notre fichier `tags.js`. Une partition même courte peut très vite comporter de 10 à 15 systèmes et ce serait autant de lignes de partition qu'il faudrait introduire dans le code…
+Mais il serait fastidieux d'entrer la ligne de chaque image de système dans notre fichier `_tags_.js`. Une partition même courte peut très vite comporter de 10 à 15 systèmes et ce serait autant de lignes de partition qu'il faudrait introduire dans le code…
 
 Au lieu de ça, si les images des systèmes ont été nommés en respectant une règle simple (avec des suites de nombres), une seule ligne suffira pour entrer tous les systèmes de la partition. Par exemple :
 
@@ -493,7 +562,7 @@ Quand **MuScaT** place les images sur la table d'analyse, il les répartit pour 
 
 ```javascript
 
-  // Code intégrale du fichier tags.js
+  // Code intégrale du fichier _tags_.js
   option('code');option('espacement images', 50);
 
   Tags=`
@@ -588,7 +657,7 @@ Ce deuxième « mot » de la ligne sert aussi par exemple à définir le type 
 
 Les deux autres informations capitales sont les positions verticale et horizontale du tag à poser (ou de la partition).
 
-NOTE IMPORTANTE : dans votre fichier `tags.js`, ces valeurs peuvent dans un premier temps être approximatives, et seront affinées directement à l'écran.
+NOTE IMPORTANTE : dans votre fichier `_tags_.js`, ces valeurs peuvent dans un premier temps être approximatives, et seront affinées directement à l'écran.
 
 On définit la position verticale avec `y=` et la position horizontale avec `x=`, comme nous l'avons vu dans les exemples précédents. Le nombre est exprimé en pixels.
 
@@ -778,11 +847,11 @@ On tire déjà les images du PDF à l'aide de la commande à jouer dans le Termi
 
 Autant d'images que de pages sont produites.
 
-On insert la première dans le code du fichier `tags.js`, avec l'option `crop image` :
+On insert la première dans le code du fichier `_tags_.js`, avec l'option `crop image` :
 
 ```
 
-    # Dans tags.js
+    # Dans _tags_.js
     option('crop image')
     Tags=`
     partition partition-0.jpg
@@ -790,7 +859,7 @@ On insert la première dans le code du fichier `tags.js`, avec l'option `crop im
 
 ```
 
-On ouvre le fichier `TABLE_ANALYSE.html` dans Firefox.
+On ouvre le fichier `TABLE_ANALYSE.html` dans Chrome.
 
 Maintenant, il suffit de sélectionner, à la souris, la zone de l'image à prendre puis de coller le code du presse-papier dans la console du Terminal. Puis de jouer ce code.
 
@@ -856,13 +925,13 @@ On peut régler la vitesse de l'animation à l'aide de l'option `vitesse animati
 * [Option « marge gauche »](#option_left_margin)
 * [Vitesse de l'animation](#vitesse_animation)
 
-Comme les tags et les partitions, les options se règle dans le fichier `tags.js`. On utilise tout naturellement la fonction `option` (ou `options`) avec en argument les options à activer.
+Comme les tags et les partitions, les options se règle dans le fichier `_tags_.js`. On utilise tout naturellement la fonction `option` (ou `options`) avec en argument les options à activer.
 
 Ci-dessous, par exemple, on active l'option `guide` qui affiche deux lignes repère déplaçables pour aligner des éléments à la souris (ou par magnétisation).
 
 ```javascript
 
-  // Dans tags.js
+  // Dans _tags_.js
   option('guide');
   Tags=`
     ...
@@ -874,7 +943,7 @@ Dans la méthode `option`, on peut passer toutes les options les unes à la plac
 
 ```javascript
 
-  // Dans tags.js
+  // Dans _tags_.js
   option('guide', 'code', 'marge haut', 100);
 
 ```
@@ -883,7 +952,7 @@ Dans la méthode `option`, on peut passer toutes les options les unes à la plac
 
 ```javascript
 
-  // Dans tags.js
+  // Dans _tags_.js
   option('guide');option('code');option('marge haut', 100);
 
 ```
@@ -896,7 +965,7 @@ Dans les arguments de la méthode `option`, la valeur des options non booléenne
 
 ```javascript
 
-  // Dans tags.js
+  // Dans _tags_.js
   option('marge haut', 100);
 
 ```
@@ -951,7 +1020,7 @@ Exemple :
 
 ```javascript
 
-  // Dans le fichier tags.js de l'analyse
+  // Dans le fichier _tags_.js de l'analyse
    // à 120 pixels du haut et 200 de la gauche
   option('vertical line offset', 120, 'horizontal line offset', 200);
 
@@ -968,7 +1037,7 @@ Permet de régler l'espacement en pixels entre deux images lorsque l'[écriture 
 
 ```javascript
 
-  // Dans tags.js
+  // Dans _tags_.js
   option('espacement images', 100);
   Tags=`
     ...
@@ -988,7 +1057,7 @@ Lors de l'[écriture séquentielle des images](#sequence_images), cette valeur p
 
 ```javascript
 
-  // Dans tags.js
+  // Dans _tags_.js
   option('marge haut', 200);
   Tags=`
     ...
@@ -1008,7 +1077,7 @@ Lors de l'[écriture séquentielle des images](#sequence_images), cette valeur d
 
 ```javascript
 
-  // Dans tags.js
+  // Dans _tags_.js
   option('marge gauche', 50);
   Tags=`
     ...
@@ -1153,3 +1222,11 @@ Quand on utilise l'alias ci-dessus, on peut utiliser des termes dans sa langue.
 |               |              |                |
 |               |              |                |
 +---------------+--------------+----------------+
+
+## Annexe
+
+### Application « Terminal » {#application_terminal}
+
+Le Terminal est une application des plus puissantes, sur Mac, qui permet de travailler directement avec le noyau unix du Mac. En d'autres termes, elle permet de tout faire — attention : le pire comme le meilleur.
+
+Cette application se trouve dans le dossier `/Applications/Utilitaires` mais vous pouvez l'utiliser plus facilement en passant par Spotlight. CMD ESPACE, puis tapez les premières lettres.

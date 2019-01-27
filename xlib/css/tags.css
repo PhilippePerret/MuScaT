@@ -3,13 +3,16 @@
     absolus. Ça permet, dans un premier temps, d'avoir les éléments
     les uns au-dessous des autres (en tout cas les images)
 */
+@import 'tags/texts.css' screen;
 
 /* La section qui contient tous les tags */
-section.tags {
+section#tags {
   position: relative;
   background-color: white;
+  display: block;
   z-index: 0;
   height: 20000cm;
+  /* border:4px solid green; */
 }
 /* image, div {
   position: absolute;
@@ -87,27 +90,6 @@ span.tag.chord {
   font-family:    Helvetica, Arial;
 }
 
-/* --------------------------------------------------------------------- */
-
-div.page-break {
-  position: absolute;
-  width: 100%;
-  border-bottom: 2px solid red;
-  height: 1px;
-  padding: 0 0 0 1em;
-}
-div.page-break:after {
-  content: 'page-break';
-  font-size: 9pt;
-  font-variant: small-caps;
-}
-div.mark-margin {
-  position: absolute;
-  height: 2000cm;
-  top: 0;
-  width: 1px;
-  border-left: 2px solid red;
-}
 /* --------------------------------------------------------------------- */
 
 /* Les textes  */

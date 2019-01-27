@@ -27,12 +27,12 @@ const Page = {
   wait_for_images: function(){
     var my = this ;
     my.counts = {
-        images:  $('.tags img').length
+        images:  $('#tags img').length
       , loaded:  0
       , treated: 0
       , errors:  new Array()
     };
-    $('.tags img')
+    $('#tags img')
       .on('load', function(){
         // On passe ici chaque fois qu'une image est chargée
         my.counts.loaded ++ ;
@@ -123,8 +123,8 @@ const Page = {
      $('#refline_v').draggable({axis: 'y', stop:function(ev,ui){Cook.set('vline-top', ui.helper.offset().top)}});
 
      // La position des lignes repères peut être explicitement définie
-     // dans le fichier tags.js (option), ou par cookie, après un premier
-     // déplacement. La définition dans le fichier tags.js est toujours
+     // dans le fichier _tags_.js (option), ou par cookie, après un premier
+     // déplacement. La définition dans le fichier _tags_.js est toujours
      // prioritaire.
      var vpos = Options.get('vertical line offset') || Cook.get('vline-top');
      if(vpos){$('#refline_v').css('top', vpos + 'px')};
@@ -153,7 +153,7 @@ const Page = {
     // Si on est en mode animation, on doit faire apparaitre l'élément
     // doucement.
     var xpage = 1 ;
-    $(`section#tags-page-${xpage}.tags`).append(M.animated ? $(itag.to_html()).fadeIn() : itag.to_html()) ;
+    my.table_analyse.append(M.animated ? $(itag.to_html()).fadeIn() : itag.to_html()) ;
 
     ITags[itag.domId] = itag ;
 
@@ -184,7 +184,17 @@ const Page = {
   getCoordonates: function(ev){
     var x = ev.pageX ;
     var y = ev.pageY ;
-    navigator.clipboard.writeText('x='+x+" y="+y);
-    message("Coordonnées « x="+x+" y="+y+" » mises dans presse-papier");
+    clip('x='+x+" y="+y);
+    message(`« x=${x} y=${y} » -> ${t('clipboard')}`);
   }
-}
+};
+Object.defineProperties(Page,{
+    pour_virgule: {}
+  , table_analyse: {
+      get: function(){
+        if (!this._table_analyse){ this._table_analyse = $('#tags')};
+        return this._table_analyse ;
+      }
+    }
+
+})

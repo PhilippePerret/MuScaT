@@ -1,3 +1,9 @@
-x_dev_/
+
+# x_dev_
 
 .git/
+
+# Tous les dossiers analyses personnels doivent terminer par "InPlace"
+# pour ne pas être exportés
+
+/_analyses_/*InPlace/

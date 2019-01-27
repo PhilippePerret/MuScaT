@@ -59,7 +59,7 @@ unless ARGV.include?('-h') || ARGV.include?('--help')
 
 La nouvelle analyse a été créée avec succès.
 
-Vous pouvez ouvrir le fichier `tags.js` pour la modifier.
+Vous pouvez ouvrir le fichier `_tags_.js` pour la modifier.
 
 Pour voir cette analyse et la travailler, copier-colle son fichier
 `analyse.js` à la racine du dossier de MuScaT ou, mieux, utiliser la

@@ -83,7 +83,7 @@ const Options = {
         if (doption.boolean) {
           OPTIONS[opt_id].value = true ;
         } else {
-          err_msg = `Dans tags.js, il faut définir la valeur de l'option non booléenne '${opt_id}'.` ;
+          err_msg = `Dans _tags_.js, il faut définir la valeur de l'option non booléenne '${opt_id}'.` ;
           var nextopt = seq_options.next() ;
           if (nextopt.value){
             var valopt = nextopt.value[1] ;
@@ -108,7 +108,7 @@ const Options = {
   },
 
   // Construit et retourne le texte qui doit être inscrit dans le
-  // code de tags.js
+  // code de _tags_.js
   to_tags_js: function(memo_guides){
     var   my = this
         , opts = new Array()

@@ -18,7 +18,7 @@ function Tag(data_line) {
   // Note sur l'ID
   // Il pourra être affecté longtemps après l'instanciation, quand
   // par exemple c'est une nouvelle ligne (un nouveau tag) dans un
-  // fichier tags.js très long.
+  // fichier _tags_.js très long.
 
   // Pour les coordonnées et l'aspect
   this.x = null;
@@ -50,7 +50,7 @@ function Tag(data_line) {
   // suite après.
   this.data_line  = data_line ;
 
-  // La ligne réelle où est placé ce tag dans le fichier tags.js, pour pouvoir
+  // La ligne réelle où est placé ce tag dans le fichier _tags_.js, pour pouvoir
   // la modifier quand elle est déplacée ou ajustée.
   // La propriété sera renseignée à la fin du premier parsing, pour tenir
   // compte des éventuels ajouts
@@ -207,6 +207,7 @@ Tag.prototype.build_and_watch = function(){
 }
 // Méthode qui construit l'élément dans la page
 Tag.prototype.build = function(){
+  // console.log(`Construction du tag #${this.id} (y=${this.y})`);
   Page.add(this);
 };
 // Pour transformer le tag en code HTML
@@ -214,17 +215,24 @@ Tag.prototype.build = function(){
 // en plus de ceux définis par l'instance courante. C'est par exemple la
 // hauteur, en fonction des éléments déjà produits
 Tag.prototype.to_html = function() {
-  var my = this ;
-  var css = [] ;
+  var my = this
+    , css = []
+    , classes = ['tag']
+    ;
 
-  var x = my.x || 100 ;
-  css.push('left:' + x + 'px') ;
-  var y = my.y || 100 ;
-  css.push('top:'+ y + 'px') ;
+  if (!my.x && !my.y && my.tag_without_coordonates){
+    // On ne fait rien
+  } else {
+    css.push('left:' + (my.x || 100) + 'px') ;
+    css.push('top:'+ (my.y || 100) + 'px') ;
+    if (!my.x && !my.y){
+      classes.push('warntag')
+    }
+  }
   var w = my.w ? my.w : 'auto';
   css.push('width:' + w) ;
 
-  css = css.join(';');
+  css = css.join(';') + ';';
 
   /*/
   // Ajouter un "/" ci-dessus pour débugger
@@ -232,14 +240,7 @@ Tag.prototype.to_html = function() {
   console.log('=> css = ' + css);
   //*/
 
-  var classes = ['tag'] ;
   classes.push(my.nature) ;
-
-  // Si le TAG ne définit pas ses x/y, on ajoute un style avec fond rouge
-  // pour le signaler
-  if (!my.x && !my.y){
-    classes.push('warntag')
-  }
 
   // Si le TAG est verrouillé on l'indique par une opacité moins grande
   // (ou autre style locked)
@@ -248,6 +249,7 @@ Tag.prototype.to_html = function() {
   if(my.locked){classes.push('locked')}
   else {classes.push('drag')}
 
+  var ftext = my.text || '';
   switch (my.nature) {
     case 'page-break':
       css += `margin-top:${my.y};`
@@ -258,8 +260,16 @@ Tag.prototype.to_html = function() {
     case 'text':
       // classes.push('typed') ; // permet d'ajouter du texte après
       classes.push(my.type) ;
-      if (my.type == 'modulation'){
-        return my.buildAsModulation(classes, css);
+      switch (my.type) {
+        case 'modulation':    return my.buildAsModulation(classes, css);
+        case 'analyst':       ftext = `${t('analyzed-by')} ${ftext}`;break;
+        case 'analysis_date': ftext = `${t('le-of-date')} ${ftext}`;break;
+      }
+      // Si un style précis est défini, on le prend
+      if (MTHEME[`${my.nature}.${my.type}`]){
+        console.log(`un style précis est défini pour "${my.nature}.${my.type}" : `, Th.get(`${my.nature}.${this.type}`));
+        css += Th.get(`${my.nature}.${this.type}`, my.jqObj);
+        console.log('css final:', css);
       }
       break;
     case 'line':
@@ -267,7 +277,7 @@ Tag.prototype.to_html = function() {
       break;
     default:
   }
-  return `<span id="${my.domId}" class="${classes.join(' ')}" style="${css}">${my.text || ' '}</span>`;
+  return `<span id="${my.domId}" class="${classes.join(' ')}" style="${css}">${ftext}</span>`;
 }
 
 // La marque de modulation possède son propre code, complexe, à l'aide
@@ -549,9 +559,9 @@ Tag.prototype.recompose = function(){
 // ---------------------------------------------------------------------
 // Helpers
 
-// Retoune la ligne telle qu'elle doit être dans le fichier tags.js
+// Retoune la ligne telle qu'elle doit être dans le fichier _tags_.js
 // Attention : ici il ne s'agit pas d'une ligne au sens de l'élément graphique,
-// mais de la ligne de CODE qui définit l'élément graphique dans tags.js
+// mais de la ligne de CODE qui définit l'élément graphique dans _tags_.js
 Tag.prototype.to_line = function() {
   // On sépare toutes les valeurs par une espace
   return (this.recompose().join(' ')).trim() ;
@@ -614,7 +624,7 @@ Tag.prototype.createCopy = function() {
   newtag.id = ++ M.last_tag_id ;
   M.insert_line(newtag) ;
   newtag.build_and_watch();
-  message(`Nouveau tag créé sur la partition (id #${newtag.id}). N’oubliez pas de copier-coller sa ligne ou tout le code dans votre fichier tags.js.`);
+  message(`Nouveau tag créé sur la partition (id #${newtag.id}). N’oubliez pas de copier-coller sa ligne ou tout le code dans votre fichier _tags_.js.`);
 }
 
 /**
@@ -714,78 +724,91 @@ Tag.prototype.is_nature_shortcut = function(){
 };
 
 Object.defineProperties(Tag.prototype,{
-  nature: {
-    get: function(){
-      if( ! this._nature ){
-        if(this.is_comment_line || this.is_empty_line){return null};
-        if(!NATURES[this.nature_init]){
-          error(`La nature de tag "${this.nature_init}" est inconnue. Merci de corriger le code.`);
-          return null ;
+  data_nature: {
+    get:function(){
+      if (!this._data_nature){
+        this._data_nature = NATURES[NATURES[this.nature_init].aka || this.nature_init] ;
+      };
+      return this._data_nature ;
+    }
+  }
+  , nature: {
+      get: function(){
+        if( ! this._nature ){
+          if(this.is_comment_line || this.is_empty_line){return null};
+          if(!NATURES[this.nature_init]){
+            error(`La nature de tag "${this.nature_init}" est inconnue. Merci de corriger le code.`);
+            return null ;
+          }
+          this._nature = NATURES[this.nature_init].aka || this.nature_init ;
+          // Certaines natures sont des raccourcis, par exemple :
+          //    partie Mon_Introduction ...
+          // correspond à :
+          //    text Mon_Introduction type=part
+          // Ou encore :
+          //    mesure 11 ....
+          // correspond à :
+          //    text 10 type=measure
+          // Il faut donc transformer ces raccourcis ici et quand on redonne
+          // la ligne.
+          if ( NATURES_SHORTCUTS[this._nature] ) {
+            this._is_nature_shortcut = true ;
+            var dnature = NATURES_SHORTCUTS[this._nature];
+            this._nature = dnature.real ;
+            this.type    = dnature.type ;
+          } else {
+          }
         }
-        this._nature = NATURES[this.nature_init].aka || this.nature_init ;
-        // Certaines natures sont des raccourcis, par exemple :
-        //    partie Mon_Introduction ...
-        // correspond à :
-        //    text Mon_Introduction type=part
-        // Ou encore :
-        //    mesure 11 ....
-        // correspond à :
-        //    text 10 type=measure
-        // Il faut donc transformer ces raccourcis ici et quand on redonne
-        // la ligne.
-        if ( NATURES_SHORTCUTS[this._nature] ) {
-          this._is_nature_shortcut = true ;
-          var dnature = NATURES_SHORTCUTS[this._nature];
-          this._nature = dnature.real ;
-          this.type    = dnature.type ;
-        } else {
-        }
-      }
-      return this._nature;
-    },
-    set: function(value){ this._nature = value }
-  },
+        return this._nature;
+      },
+      set: function(value){ this._nature = value }
+    }
   // DOM
-  domId: {
-    get: function(){
-      if(undefined == this._domId){
-        if(null == this.id){throw('Impossible de définir domId, l’identifiant du tag est null…')}
-        this._domId = `obj${this.id}`
-      }
-      return this._domId ;
-    },
-    set: function(value){ this._domId = value }
-  },
-  jqObj: {
-    get: function(){
-      if(!this._jqOjb){
-        this._jqObj = $(`#${this.domId}`) ;
-      }
-      return this._jqObj;
-    },
-    set: function(value){ this._jqObj = value }
-  },
-  domObj: {
-    get: function(){
-      if(!this._domObj){
-        this._domObj = document.getElementById(this.domId);
-      }
-      return this._domObj;
-    },
-    set: function(value){this._domObj = value; }
-  },
+  , domId: {
+      get: function(){
+        if(undefined == this._domId){
+          if(null == this.id){throw('Impossible de définir domId, l’identifiant du tag est null…')}
+          this._domId = `obj${this.id}`
+        }
+        return this._domId ;
+      },
+      set: function(value){ this._domId = value }
+    }
+  , jqObj: {
+      get: function(){
+        if(!this._jqOjb){
+          this._jqObj = $(`#${this.domId}`) ;
+        }
+        return this._jqObj;
+      },
+      set: function(value){ this._jqObj = value }
+    }
+  , domObj: {
+      get: function(){
+        if(!this._domObj){
+          this._domObj = document.getElementById(this.domId);
+        }
+        return this._domObj;
+      },
+      set: function(value){this._domObj = value; }
+    }
 
   // Nature de la ligne du tag
-  is_comment_line: {
-    get: function(){return this.nature_init == '//'}
-  },
-  is_empty_line: {
-    get: function(){return this.nature_init == ''}
-  },
-  is_page_break: {
-    get: function(){return this.nature == 'page-break'}
-  },
-  is_image: {
-    get: function(){return this.nature == 'score' }
+  , is_comment_line: {
+      get: function(){return this.nature_init == '//'}
+    }
+  , is_empty_line: {
+      get: function(){return this.nature_init == ''}
+    }
+  , is_page_break: {
+      get: function(){return this.nature == 'page-break'}
+    }
+  , is_image: {
+      get: function(){return this.nature == 'score' }
+    }
+  // Return true si c'est une nature de tag qui peut ne pas
+  // avoir de coordonnées
+  , tag_without_coordonates: {
+    get: function(){return this.data_nature.no_coor == true;}
   }
 })

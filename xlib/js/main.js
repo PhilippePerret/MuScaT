@@ -65,13 +65,13 @@ $(document).ready(function(){
   var nodecss = document.body.appendChild(document.createElement('link'));
   nodecss.href = `_analyses_/${ANALYSE}/aspect.css`;
   var nodetags = document.body.appendChild(document.createElement('script'));
-  nodetags.src = `_analyses_/${ANALYSE}/tags.js`;
+  nodetags.src = `_analyses_/${ANALYSE}/_tags_.js`;
 
   Cook.parse();
 
   $(nodetags)
     .on('load', function(){
-      // Fichier tags.js chargé, on peut commencer les hostilités
+      // Fichier _tags_.js chargé, on peut commencer les hostilités
       MuScaT.test_if_ready('analyse');
     })
     .on('error',function(e){
