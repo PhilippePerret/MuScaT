@@ -33,3 +33,45 @@ table tr:first-child td {
   font-weight: bold;
   opacity: 0.6;
 }
+table tr td p {margin-top: 0;}
+
+code:not(.sourceCode) {
+  background-color: #CCCCCC;
+  color: #555555;
+  border-radius: 4px;
+}
+
+pre code:not(.sourceCode){
+  padding: 1em 1em;
+}
+
+pre, pre code {
+  display: block;
+  width: 100%;
+}
+pre code {
+}
+pre.usage code {
+  background-color: #555555;
+  color: white;
+}
+
+pre.center,
+pre.center code,
+pre.exergue,
+pre.exergue code
+{
+  white-space: normal;
+  font-family: inherit;
+  font-size: inherit;
+  font-style: inherit;
+  background-color: inherit;
+}
+
+pre.center {
+  text-align: center;
+}
+pre.exergue {
+  font-size: 1.15em;
+  font-weight: bold;
+}

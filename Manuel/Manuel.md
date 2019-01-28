@@ -33,18 +33,31 @@ Elle est semi-graphique, et permet d'ajuster très finement les TAGs — au pix
   * [Mettre l'analyse en analyse courante](#set_analyse_courante),
   * [Découper la partition en « images-systèmes»](#syn_crop_score),
   * [Inscrire les images-systèmes dans l'analyse](#syn_inscription_images_systemes),
+  * [Préparer l'impression](#prepare_print)
+    * [Ajout du titre, compositeur, etc.](#titre_et_auteur)
   * [Ajouter les accords, les chiffrages, les cadences, tous les éléments d'analyse](#syn_def_analysis_elements),
   * [Positionner les éléments graphiques](#syn_ajustement_elements),
-  * [Les lignes repères](#ligne_reperes)
+    * [Les lignes repères](#ligne_reperes)
   * [Récupérer du code final](#syn_recuperation_code_final),
   * [Imprimer en PDF](#syn_print_pdf).
 * [L'interface](#user_interface)
+  * [La Table d'analyse](#la_table_danalyse)
+  * [La boite à outils](#toolbox)
+  * [Le champ de code](#code_field)
 * [Composition d'un tag](#composition_dun_tag)
-* [Les Images](#les_images)
-  * [Définition de la taille d'une image](#defining_image_size)
-  * [Séquence d'images](#sequence_images)
-* [Tous les types de tags (natures de tags)](#natures)
-  * [Second mot (contenu, accord)](#second_mot)
+  * [Note sur le contenu du TAG (texte)](#note_contenu_tag)
+  * [Note sur les coordonnées et dimensions](#note_coors_dims)
+* [Liste complète de tous les TAGs](#complete_list_tags)
+  * [Les Images](#les_images)
+    * [Définition de la taille d'une image](#defining_image_size)
+    * [Séquence d'images](#sequence_images)
+  * [Les Accords](#les_accords)
+  * [Les Modulations](#les_modulations)
+  * [Les Autres textes](#les_textes)
+    * [Les Parties](#les_parties)
+    * [Les Mesures](#les_mesures)
+* [Nature du TAG](#natures)
+  * [Contenu du TAG](#second_mot)
   * [Autres données de la ligne](#autres_data_ligne)
   * [Les types de textes](#types_de_textes)
 * [Opérations sur les tags](#operation_on_tags)
@@ -59,19 +72,23 @@ Elle est semi-graphique, et permet d'ajuster très finement les TAGs — au pix
   * [Création d'une nouvelle analyse (Mac)](#create_new_analyse)
   * [Activation d'une analyse (Mac)](#activate_analyse)
   * [Pour aller plus loing](#aller_plus_loin)
+* [Annexe](#annexes)
+  * [Application « Terminal »](#application_terminal)
 
 ## Synopsis général de création d'une analyse {#synopsis_fabrication}
 
 Commençons par un aperçu du processus général qui va permettre de produire une analyse musicale à l'aide de **MuScaT**. Noter que chaque item de cette liste est cliquable et permet de rejoindre la partie détaillée correspondante.
 
 * [Charger de l'application **MuScaT**](#download_muscat)
-* [Créer du dossier de l'analyse](#creation_dossier_analyse),
+* [Créer le dossier de l'analyse](#creation_dossier_analyse),
 * [Mettre l'analyse en analyse courante](#set_analyse_courante),
 * [Découper la partition en « images-systèmes»](#syn_crop_score),
 * [Inscrire les images-systèmes dans l'analyse](#syn_inscription_images_systemes),
+* [Préparer l'impression](#prepare_print)
+  * [Ajout des informations (titre, compositeur…)](#titre_et_auteur)
 * [Ajouter les accords, les chiffrages, les cadences, tous les éléments d'analyse](#syn_def_analysis_elements),
 * [Positionner les éléments graphiques](#syn_ajustement_elements),
-* [Les lignes repères](#ligne_reperes)
+  * [Les lignes repères](#ligne_reperes)
 * [Récupérer du code final](#syn_recuperation_code_final),
 * [Imprimer en PDF](#syn_print_pdf).
 
@@ -95,7 +112,7 @@ On se retrouve alors avec le dossier de l'application.
 
 ![Dossier MuScaT](img/1.Dossier_Muscat.png)
 
-### Création du dossier de l'analyse {#creation_dossier_analyse}
+### Créer le dossier de l'analyse {#creation_dossier_analyse}
 
 Le plus simple pour créer une nouvelle analyse — et donc son dossier — est d'utiliser le script `create.rb` (ruby doit être installé sur votre ordinateur) qui fait tout le travail pour vous, simplement en lui donnant le nom de l'analyse.
 
@@ -118,13 +135,11 @@ Sans ce script, la procédure est à peine plus compliquée :
 
 > Note : il est vivement recommandé de ne pas mettre d'espaces vides dans les noms de dossier ou de fichiers pour une raison qui sera expliquée plus tard. Personnellement, j'aime les remplacer par des traits plats (« Analyse_Sonnate_Mozart »)
 
-Voyons-en rapidement le contenu.
+* Éditer le fichier `analyse.js` (celui du dossier d'analyse) en texte simple, renseigner le nom de l'analyse (`ANALYSE`) et enregistrer ce fichier toujours en texte simple.
+
+Voyons rapidement le contenu du dossier d'analyse.
 
 ![Contenu du dossier d'analyse](img/6.1.Inner_Dossier_analyse_Mozart.png)
-
-On trouve pour commencer un fichier « aspect.css », que vous ne toucherez pas au départ, et qui permet de rectifier l'aspect des analyses pour obtenir la présentation idéale souhaitée.
-
-![Fichier aspect.css](img/6.2.Fichier_Aspect_css.png)
 
 On trouve en dessous le dossier « images » qui comme son nom l'indique va rassembler toutes les images utiles à l'analyse, c'est-à-dire les partitions, les *systèmes*.
 
@@ -136,7 +151,7 @@ On trouve le fichier le plus important, le fichier « _tags_.js » qui va cont
 
 Nous aurons à y revenir en détail très vite.
 
-On trouve aussi un fichier `analyse.js` qu'il suffit, pour activer cette analyse, de glisser à la racine du dossier **MuScaT** en remplacement du fichier qui s'y trouve déjà.
+On trouve aussi un fichier `analyse.js` qu'il suffit, pour activer cette analyse, de glisser à la racine du dossier **MuScaT** en remplacement du fichier qui s'y trouve déjà (mais seulement si vous l'avez bien préparé comme indiqué ci-dessus).
 
 ![Fichier analyse.js](img/6.6.Analyse_js.png)
 
@@ -146,19 +161,28 @@ Dans ce dossier, vous pouvez mettre enfin votre partition en PDF ou en image.
 
 ### Mettre l'analyse en analyse courante {#set_analyse_courante}
 
-Pour faire de cette nouvelle analyse l'analyse courante, il y a deux solutions.
+Pour faire de cette nouvelle analyse l'analyse courante, il y a plusieurs solutions, présentées ci-dessous de la plus pratique à la moins pratique (mais votre classement personnel sera peut-être différent).
 
-Soit on édite le fichier `MuScaT/analyse.js` et on met le nom de notre dossier d'analyse :
+Avec la commande `mus`
+: Si [vous avez installé la commande `mus`](#aller_plus_loin), alors il vous suffit de jouer, dans une fenêtre de [Terminal](#application_terminal) : `mus analyse "Début_nom"`.
+
+Avec le script `analyse.rb`
+: Dans le [Terminal](#application_terminal), rejoindre la dossier de **MuScaT** et taper `./utils/analyse.rb "Début_du_nom"`.
+
+En dupliquant le fichier `analyse.js` de l'analyse
+: Vous pouvez aussi détruire le fichier `MuScaT/analyse.js` et le remplacer par celui qui se trouve dans le dossier de votre analyse (`MuScaT/_analyses_/MonAnalyse/analyse.js`).
+: Note : ça ne fonctionne que si vous avez [préparé correctement votre dossier d'analyse](#creation_dossier_analyse).
+
+En éditant le fichier `analyse.js` principal
+: Vous pouvez enfin éditer le fichier `MuScaT/analyse.js` et renseigner la valeur de la constante `ANALYSE` avec le nom de votre analyse (nom de son dossier).
 
 ```javascript
 
-const ANALYSE = "Analyse-Sonate-Haynd" ;
+const ANALYSE = "Analyse-Sonate-Mozart" ;
 
 ```
 
-Soit on glisse le fichier `analyse.js` qui se trouve dans notre dossier d'analyse à la racine du dossier de l'application, en remplacement du fichier qui s'y trouve déjà.
-
-À vous de choisir la solution qui vous semble le plus pratique. En tout cas, la seconde est la plus sûr, les erreurs de typo sont impossibles.
+À vous de choisir la solution qui vous semble le plus pratique.
 
 
 ### Découper la partition en « images-systèmes » {#syn_crop_score}
@@ -187,11 +211,11 @@ Pour une version détaillée et illustrée de la procédure, je vous renvoie à 
 * sélectionner le système,
 * recommencer ces opérations pour chaque système.
 
-Noter qu'il est extrêmement simple d'affiner très précisément le découpage d'une image :
+Noter qu'il est extrêmement simple d'affiner ensuite très précisément le découpage d'une image :
 
 * ouvrir l'image dans Aperçu,
 * dessiner un rectangle à la souris,
-* régler ses "poignées" pour obtenir exactement la découpe voulue,
+* régler les "poignées" de la sélection dessinée pour obtenir exactement la découpe voulue,
 * jouer la combinaison CMD-K,
 * enregistrer l'image.
 
@@ -230,11 +254,41 @@ Dans ce fichier `_tags_.js` On définit d'abord les images de la partition, en a
 > Note : l'option 'code', en haut du fichier `_tags_.js`, permet simplement de voir le code à côté de la table d'analyse.
 
 
+### Préparer l'impression {#prepare_print}
+
+Avant de placer quelconque élément d'analyse, nous vous invitons vivement à regarder ce que votre agencement produit au niveau de l'impression ou de la sortie du PDF. Lorsque tous les TAGs seront placés sur la partition, il sera extrêmement difficile et pénible de devoir les redéplacer pour qu'ils soient correctement placés.
+
+Donc demandez l'impression, faites les réglages nécessaires (taille du papier, marges, etc.) et ajustez la position des systèmes en fonction des sauts de page que vous voyez dans l'aperçu de l'impression (pour ce faire, Google Chrome est idéal — choisissez le format « Portrait », avec aucune marge et 100%).
+
+#### Ajout du titre, compositeur, etc. {#titre_et_auteur}
+
+Vous pouvez même placer dès à présent les titres et compositeur aux endroits voulus grâce aux TAGs `titre`, `compositeur`, `analyste`, `date_composition`, `opus`, `date_analyse`, etc.
+
+C'est-à-dire que vous pouvez placer, en haut de votre définition de `Tags` dans votre fichier `_tags_.js` :
+
+```javascript
+  // Dans _tags_.js
+  option('code', 'guides');
+
+  Tags=`
+  titre Sonate_n°34_en_Mi_mineur
+  compositeur Joseph_Haydn
+  opus Hob_XVI_34
+  analyste Philippe_Perret
+  date_analyse 27_janvier_2019
+  ...
+  `;
+
+```
+
+Notez que pour ces « TAGs » il est inutile de préciser les positions. C'est le thème (le fichier `aspect.css` général) qui s'en charge. Mais vous pouvez tout à fait les déplacer pour les ajuster à votre guise, ou choisir un autre thème.
+
+
 ### Définir tous les éléments de l'analyse {#syn_def_analysis_elements}
 
 L'élément graphique de base de l'application **MuScaT** est le « TAG » (comme on en parle sur les murs des villes). Une analyse avec **MuScaT** consiste donc à « tagguer » une partition (remarquez que les partitions elles-mêmes, ou les images de leurs systèmes, sont aussi des « TAGs »). C'est la raison pour laquelle le fichier qui va les définir s'appelle `_tags_.js`.
 
-On définit tous les autres éléments graphiques, tous les *tags* (cf. pour le détail de la procédure, voir [Composition d'un tag](#composition_dun_tag)) : marque de parties, accords, chiffrages, numéros de portée, degrés de la gamme, cadences, textes divers, etc.
+On définit tous les autres éléments graphiques, tous les *tags* (pour le détail de la procédure, voir [Composition d'un tag](#composition_dun_tag), voir aussi : [la liste complète des tags](#complete_list_tags)) : marque de parties, accords, chiffrages, numéros de portée, degrés de la gamme, cadences, textes divers, etc.
 
 Chacun des éléments, chaque « tag », va être représenter dans le code par une unique ligne.
 
@@ -268,47 +322,6 @@ mod G_min x=150 y=539
 
 Le mieux est de s'arranger pour définir ces tags à peu près en fonction des positions sur la table d'analyse (i.e. sur l'analyse). Si une cadence doit se produire sur le troisième système, il vaut mieux la définir après la ligne insérant l'image de ce troisième système (remarquez cependant qu'il n'y a aucune obligation là-dessus, vous pouvez aussi, rassembler tous les accords d'un côté, toutes les cadences de l'autre, etc. à votre guise).
 
-### Activer l'analyse
-
-Pour activer cette nouvelle analyse, nous allons donc copier-coller son fichier `analyse.js` à la racine du dossier de l'application **MuScaT**. Assurez-vous d'abord que dans ce fichier, c'est bien votre analyse qui est indiqué. Si vous avez simplement dupliqué le dossier Template, l'analye s'appellera `Template` et c'est elle qui s'ouvrira.
-
-Si votre analyse s'appelle (son dossier) `monAnalyse`, alors le fichier `analyse.js` doit impérativement contenir :
-
-```javascript
-
-const ANALYSE = "monAnalyse";
-
-```
-
-Vous pouvez ensuite, par exemple, sélectionner le fichier `analyse.js` dans le Finder ou sur votre bureau, sélectionner le dossier `MuScaT` et coller. Le bureau vous demandera de confirmer le remplacement (un autre fichier `analyse.js` existe déjà à cet endroit, celui de l'analyse courante).
-
-Pensez en tout cas à faire une duplication du fichier, ne le glissez pas, il risquerait d'être perdu.
-
-Seconde solution, vous pouvez également éditer le fichier `MuScaT/analyse.js` principal et mettre le nom de votre dossier dans la constante `ANALYSE`.
-
-```javascript
-
-  // Dans Le fichier MuScaT/analyse.js principal
-
-  const ANALYSE = "<METTRE_ICI_LE_NOM_DU_DOSSIER_DE_VOTRE_ANALYSE>"
-
-
-```
-
-> Attention ! Il est capital de ne pas mettre d'espaces dans ce nom, ou ça ne fonctionnera pas. Il en va de même qu'une adresse dans votre navigateur.
-
-Noter que les heureux possesseurs de Mac peuvent utiliser un script permettant d'activer très simplement n'importe quelle analyse. Il suffit de rejoindre, dans l'application Terminal, le dossier de **MuScaT** et de taper `> ./utils/analyse.rb`. Nous y reviendrons en parlant des [utilitaires](#les_utilitaires).
-
-Et, plus loin, si [vous avez installé un alias](#aller_plus_loin) (par exemple `mus`), il vous suffit de taper :
-
-```bash
-
-> mus analyse
-
-```
-
-… et de choisir dans la liste l'analyse à ouvrir.
-
 ### Positionnement des éléments graphiques {#syn_ajustement_elements}
 
 Une fois l'analyse désignée comme analyse courante, on ouvre le fichier `_TABLE_ANALYSE_.html` dans Chrome (ou un autre navigateur, mais pas Firefox.
@@ -324,35 +337,6 @@ On peut placer les éléments aux bons endroits simplement en les déplaçant à
 À tout moment on peut annuler une opération pour revenir en arrière en jouant CMD Z (sur Mac) ou Ctrl Z (sur Windows).
 
 Sans l'option `option('code')` activée, il faut modifier le code directement dans le fichier `_tags_.js` puis recharger la page dans Chrome pour voir les changements.
-
-### Ajuster les éléments en fonction de la sortie {#ajust_elements_aperu}
-
-Avant de placer quelconque élément d'analyse, nous vous invitons vivement à regarder ce que votre agencement produit au niveau de l'impression ou de la sortie du PDF. Lorsque tous les TAGs seront placés sur la partition, il sera extrêmement difficile et pénible de devoir les redéplacer pour qu'ils soient correctement placés.
-
-Donc demandez l'impression, faites les réglages nécessaires (taille du papier, marges, etc.) et ajustez la position des systèmes en fonction des sauts de page que vous voyez dans l'aperçu de l'impression (pour ce faire, Google Chrome est idéal).
-
-### Ajout du titre, compositeur, etc.
-
-Vous pouvez même placer dès à présent les titres et compositeur aux endroits voulus grâce aux TAGs `titre`, `compositeur`, `analyste`, `date_composition`, `opus`, `date_analyse`, etc.
-
-C'est-à-dire que vous pouvez placer, en haut de votre définition de `Tags` dans votre fichier `_tags_.js` :
-
-```javascript
-  // Dans _tags_.js
-  option('code', 'guides');
-
-  Tags=`
-  titre Sonate_n°34_en_Mi_mineur
-  compositeur Joseph_Haydn
-  opus Hob_XVI_34
-  analyste Philippe_Perret
-  date_analyse 27_janvier_2019
-  ...
-  `;
-
-```
-
-Notez que pour ces « TAGs » il est inutile de préciser les positions. C'est le thème (le fichier `aspect.css` général) qui s'en charge. Mais vous pouvez tout à fait les déplacer pour les ajuster à votre guise, ou choisir un autre thème.
 
 #### Lignes repères {#ligne_reperes}
 
@@ -377,14 +361,12 @@ Si l'on a travaillé dans le champ de texte à côté de la table d'analyse, on 
 
 ### Imprimer l'analyse en PDF {#syn_print_pdf}
 
-Enfin, on imprime la page HTML du navigateur en choisissant le format PDF. Sur Mac :
+Enfin, on imprime la page HTML du navigateur en choisissant le format PDF :
 
-* dans Chrome, demander l'impression,
+* dans Chrome, demander l'impression (CMD/Ctrl P),
 * dans la fenêtre qui s'ouvre, choisir, dans le menu en bas à gauche : « Imprimer au format PDF » ou autre indication similaire.
 
-(sur PC, enregistrer la page au format HTML et utiliser un outil de transformation des pages HTML en PDF)
-
-### Et voilà
+### Et voilà !
 
 Et voilà, c'est fait ! Et vous pourrez retoucher à votre analyse à n'importe quel moment en la remettant en analyse courante.
 
@@ -392,12 +374,17 @@ Et voilà, c'est fait ! Et vous pourrez retoucher à votre analyse à n'importe
 
 ## L'interface {#user_interface}
 
+Faisons un tour rapide de l'interface, qui reste volontairement relativement simple, se concentrant sur les éléments essentiels.
+
+* [La Table d'analyse](#la_table_danalyse)
 * [La boite à outils](#toolbox)
 * [Le champ de code](#code_field)
 
-Voyons un peu de quoi est constitué l'interface de **MuScaT**, que nous appelons la « table d'analyse ».
+### La Table d'analyse {#la_table_danalyse}
 
-Cette table, c'est déjà la surface de la page elle-même.
+Cette table, c'est la surface de la page elle-même. Elle se présente en blanc sur une surface à peine grisée qui permet de repérer les dimensions de la page d'impression. Le mieux est de jouer sur la largeur des images (paramètre `w`) pour toujours se trouver à l'intérieur de cette surface.
+
+**Si vous dépassez la surface délimitée, l'impression en sera affectée de façon très aléatoire (au moins en apparence).**
 
 ### La boite à outils {#toolbox}
 
@@ -405,79 +392,98 @@ Sur la gauche en haut de l'écran, on trouve un petit picto qui permet d'ouvrir 
 
 ![Picto de la boite à outils](img/picto_toolbox.png)
 
+Cette boite à outils contient des outils pour regrouper ou dégrouper des tags, pour les alignes, pour copier le code, etc.
+
 ### Le champ de code {#code_field}
 
 Si [l'option `guides`](#option_line_of_reference) est activée, un champ de code est ouvert à droite de la page, contenant le code défini dans votre fichier `_tags_.js` (seulement celui dans `Tags`, pas le code intégral).
 
+En modifiant ce code, vous pouvez construire votre analyse (n'oubliez pas, ensuite, d'en copier le code intégralement).
 
 
 ---
 
+
 ## Composition d'un tag {#composition_dun_tag}
 
-Voyons plus en détail comment se compose une ligne du fichier `_tags_.js`, une ligne définissant un *tag* ou une partition.
+Le *code* de l'analyse est constitué simplement de *lignes*, les unes sur les autres, qui déterminent les images et les tags. Chaque ligne est une image ou un tag (exception faite des lignes vides et des lignes de commentaire).
 
-Un *TAG* — image de la partition comprise — se compose d'une ligne dans le fichier de données.
+```{.center .exergue}
+1 ligne = 1 TAG
+```
+
+Voyons plus en détail comment se compose une ligne du fichier `_tags_.js`, une ligne définissant un *tag* ou une partition.
 
 Cette ligne a le format général suivant :
 
 ```
-  <nature>[ <contenu>][ <coordonnées>][ <options, type>]
+  <nat.>[ <cont.>][ <id>][ <coor./dim.>][ <opt., type>]
 
 ```
 
-Par exemple, pour une cadence (nature = 'cadence') de « V I » (contenu = 'V_I') qu'on veut placer à 200 pixels depuis le haut (coordonnée y = 200) et 100 pixels de la gauche (coordonnées x = 100), de type « cadence parfaite » (type = 'parfaite'), on insèrera dans son fichier `_tags_.js`, sous la définition de l'image (« score ») :
+`<nat.>`
+: C'est la *nature* du TAG, ce qui détermine ce qu'il est, cadence, modulation, boite ou image, etc.
+
+`<cont.>`
+: C'est le *contenu* du TAG, parfois son *type* (pour les lignes par exemple). Pour un TAG de texte, c'est le texte, pour une modulation, c'est la tonalité vers laquelle on module.
+: Cf. [Note sur le contenu du TAG](#note_contenu_tag)
+
+`<id>`
+: L'identifiant du TAG. C'est une valeur que **MuScaT** ajoute d'elle-même, pour reconnaitre le TAG, et qui ne doit pas être modifié.
+
+`<coor./dim.>`
+: Les coordonnées x (position horizontale) et y (position verticale) ainsi que les dimensions h (hauteur) et w (largeur) du TAG.
+: Ces coordonnées et ces dimensions se notent simplement en donnant les valeurs à l'aide d'un signe égal (`=`) **sans espace** : `x=12`, `y=20`, `w=12%`, `h=12mm` etc.
+: Cf. aussi [Note sur les coordonnées et dimensions](#note_coors_dims)
+
+`<opt./type>`
+: Des options ou des types, en fonction de la nature du TAG. Nous y reviendrons.
+
+Noter qu'à part les deux premiers éléments, tous les autres peuvent être donnés dans l'ordre qu'on veut, sans importance.
+
+Voici quelques définitions de TAGs :
 
 ```javascript
 
 Tags = `
 
   score ma_partition.jpg y=100 x=10
+  // => L'image 'images/ma_partition.jpg' placé à 10 pixels de
+  //    la marge gauche et 100 pixels du haut.
 
-  cadence V_I type=parfaite y=200 x=100
+  cadence I type=parfaite y=200 x=100 w=100
+  // => Une cadence de type parfaite, avec un trait de
+  //    100 pixels de large (`w`).
 
   modulation G_min x=200 y=100
+  // => Une modulation vers Sol mineur.
 
 `;
 
 ```
 
-Une « nature » de TAG (le premier mot), peut toujours être exprimé par ses trois premières lettres (exception faite du terme « partition » qui rentrerait en conflit avec « partie »). Ainsi, on peut écrire le code ci-dessous :
+> Noter les lignes commençant par `//` qui permettent de laisser un commentaire. C'est très utile lorsque l'on veut s'y retrouver lorsque l'analyse devient conséquente.
+
+Noter qu'une *nature* de TAG (le premier mot), peut toujours être exprimé par ses trois premières lettres (exception faite du terme « partition » qui rentrerait en conflit avec « partie »). Ainsi, on peut écrire le code ci-dessous :
 
 ```javascript
 
 Tags = `
 
   sco ma_partition.jpg y=100 x=10
+  // sco => score (partition)
 
   cad V_I type=parfaite y=200 x=100
+  // cad => cadence
 
   mod G_min x=200 y=100
+  // mod => modulation
 
 `;
 
 ```
 
-L'intégralité des natures de TAG [est détaillé ici](#natures).
-
-Vous observerez que tout de suite après la création, un identifiant est ajouté à toutes les lignes, mêmes les lignes vides. Il contient de ne pas y toucher, sous peine de voir son travail réduit à néant.
-
-Ainsi, le code ci-dessous, au final, donnera :
-
-```javascript
-
-  // Contenu intégral du fichier _tags_.js
-  option('code'); // pour voir ce code à côté de la partition
-
-  Tags = `
-    sco ma_partition.jpg id=2 y=100 x=10
-    #3#
-    cad V_I type=parfaite id=4 y=200 x=100
-    #5#
-    mod G_min id=6 y=100 x=200
-  `;
-
-```
+L'intégralité des *natures* de TAG (et leur diminutif) [est détaillé ici](#complete_list_tags).
 
 ### Forme raccourcie d'écriture
 
@@ -486,7 +492,7 @@ Pour la première définition du TAG, on peut utiliser une version raccourcie de
 ```javascript
 
 Tags = `
-<version 3 lettres|normale> <contenu|source> <valeur x> <valeur y>
+<nature>[ <contenu>] <valeur x seule> <valeur y seule>
 `;
 
 ```
@@ -498,6 +504,252 @@ Par exemple, pour une *modulation* vers la tonalité de SOL mineur (G min.) qui 
   mod G_min 200 450
 
 ```
+
+Il suffit de se souvenir que le premier nombre concerne la *hauteur*.
+
+### Note sur le contenu du TAG (texte) {#note_contenu_tag}
+
+Le *contenu* du TAG, c'est-à-dire son deuxième *mot*, peut être de type très différent. Mais en règle générale, il s'agit d'un texte, d'un accord ou d'un chiffrage.
+
+Il est important de noter immédiatement ce point :
+
+```{.center .exergue}
+Aucune espace ne doit se trouver dans ce contenu.
+```
+
+On doit obligatoirement remplacer les espaces par des traits plats (MAJ tiret sur Mac).
+
+Ainsi, si l'on veut écrire « Second couplet », on doit écrire :
+
+```javascript
+
+  partie Second_couplet x=123 y=456
+
+```
+
+Si l'on veut écrire la tonalité « Sol mineur », on doit impérativement écrire :
+
+```javascript
+
+  modulation Sol_mineur x=23 y=344
+
+```
+
+En revanche, tous les autres caractères sont possibles, à l'exception des balances (`/`) dans les modulations, car elles indiquent le texte qui devra apparaitre sous le trait biaisé :
+
+```javascript
+
+  // Une modulation vers la Sous-dominante
+  mod Sol_min/(sous-dom.) x=23 y=344
+
+```
+
+![Modulation avec indication sous le trait](img/Modulation_Sous_dom.png)
+
+
+### Note sur les coordonnées et dimensions {#note_coors_dims}
+
+Les positions `x` (horizontale) et `y` (verticale) s'indiquent toujours sans unité, en pixels :
+
+```
+
+  x=13 y=200
+
+```
+
+Toutes les autres propriétés de dimensions et de position peuvent s'indiquer sans ou avec unité ou pourcentage.
+
+```javascript
+  Tags = `
+    ... w=200
+    ... w=20%
+    ... h=23mm
+    ... z=2pt
+    `;
+```
+
+Pour obtenir les x/y d'une position quelconque, il suffit de cliquer à l'endroit voulu. Cela affiche les coordonnées en bas de l'écran, mais plus encore, ça colle un `y=134 x=145` correspondant dans le presse-papier, valeur qu'il suffit ensuite de coller dans le code sur la ligne de TAG correspondante.
+
+Pour **modifier les dimensions d'un tag** (comme une ligne, une cadence, une boite, une image), on a plusieurs solutions :
+
+* soit on les règle de façon explicite dans leur ligne de code, en définissant les valeurs de `w` (largeur) et/ou `h` (hauteur),
+* soit on sélectionne l'élément et on utilise CMD-FLÈCHE (ou CTRL-FLÈCHE) pour modifier ces valeurs : CMD-Haut augmente la hauteur par le haut, CMD-Bas augmente la hauteur par le bas, CMD-Gauche augmente la longueur vers la gauche, CMD-Droit augmente la longueur vers la droite.
+
+    En ajoutant la touche MAJ, on augmente l'importance de la modification, en ajoutant la touche ALT, on la diminue, ce qui permet d'affiner très précisément les dimensions.
+
+---
+
+## Liste complète de tous les TAGs {#complete_list_tags}
+
+Trouvez ci-dessous la liste complète de tous les tags.
+
+
++-----------------+---------------------------------------------------+
+| *Tag*           | *Description*                                     |
++-----------------+---------------------------------------------------+
+| partition<br>   | Écriture d'une image, à commencer par celle de la |
+| score<br>       | partition ou du système à analyser.               |
+| sco<br>         |                                                   |
+| image           | ```{.usage}                                       |
+|                 | image <source> x=... y=... z=...                  |
+|                 | ```                                               |
+|                 |                                                   |
+|                 | Exemple                                           |
+|                 | : ```{.exemple} |
+|                 |sco system-5.src x=2 y=2 w=17cm |
+|                 |``` |
+|                 |                                                   |
+|                 | Note                                              |
+|                 | : L'image doit se trouver dans le dossier         |
+|                 | "images" du dossier de l'analyse.                 |
+|                 |                                                   |
+|                 | Détail |
+|                 | : [Les Images](#les_images) |
++-----------------+---------------------------------------------------+
+| accord<br>      | Écriture d'un accord au-dessus de la partition.   |
+| chord<br>       |                                                   |
+| acc             | ```{.usage} |
+|                 | accord <nom> x=... y=...|
+|                 | ``` |
+|                 | Exemple |
+|                 | : ```{.exemple} |
+|                 | acc E_min x=100 y=200 |
+|                 | ``` |
+| | |
+|                 | Détail |
+|                 | : [Les Accords](#les_accords) |
++-----------------+---------------------------------------------------+
+| harmonie<br>    | Écriture d'un chiffrage sous la partition. C'est  |
+| harmony<br>     | en général un chiffre romain indiquant le         |
+| chiffrage<br>   | renversement de l'accord.                         |
+| har             |                                                   |
+|                 |  ```{.usage} |
+|                 | har[mony] <chiffrage> x=... y=... |
+|                 | ``` |
+|                 | Exemple |
+|                 | : ```{.exemple} |
+|                 | harmony I*** x=23 y=289 |
+|                 | ``` |
+| | |
+|                 | Détail |
+|                 | : [Les Harmonies](#les_harmonies) |
++-----------------+---------------------------------------------------+
+| modulation<br>  | Marque de modulation à placer en haut de la       |
+| mod             | partition.                                        |
+|                 |                                                   |
+|                 |  ```{.usage} |
+|                 | mod[ulation] <tonalité> x=... y=... |
+|                 | ``` |
+|                 | Exemple |
+|                 | : ```{.exemple} |
+|                 | mod B_min x=200 y=300 |
+|                 | ``` |
+| | |
+|                 | Détail |
+|                 | : [Les Modulations](#les_modulations) |
++-----------------+---------------------------------------------------+
+| cadence<br>     | Marque de cadence à placer sous la partition.     |
+| cad             |                                                   |
+|                 |  ```{.usage} |
+|                 | cad[ence] <acc> type=<type cad> x=. y=. w=... |
+|                 | ``` |
+|                 | Exemple |
+|                 | : ```{.exemple} |
+|                 | cad V type=demie x=23 y=3456 w=100 |
+|                 | ``` |
+|                 |                                                   |
+|                 | Note |
+|                 | : Noter ci-dessus l'emploi 1) d'un *type* (type de |
+|                 | la cadence) et 2) d'une largeur *w* (longueur du  |
+|                 | trait).                                           |
+| | |
+|                 | Détail |
+|                 | : [Les Cadences](#les_cadences) |
++-----------------+---------------------------------------------------+
+| mesure<br>      | Marque de mesure à placer à l'endroit voulu.      |
+| measure<br>     |                                                   |
+| mes             |  ```{.usage} |
+|                 | mes[ure] <numéro> x=... y=... |
+|                 | ``` |
+|                 | Exemple |
+|                 | : ```{.exemple} |
+|                 | measure 12 x=23 y=1000 |
+|                 | ``` |
+| | |
+|                 | Note|
+|                 | : Noter que le style dépend du thème choisi. |
+| | |
+|                 | Détail |
+|                 | : [Les Mesures](#les_mesures) |
++-----------------+---------------------------------------------------+
+| degree<br>      | Marque du degré de la note dans la gamme, à placer|
+| degre<br>       | à l'endroit voulu.                                |
+| deg<br>         |                                                   |
+|                 |  ```{.usage} |
+|                 | degre <degré> x=... y=... |
+|                 | ``` |
+|                 | Exemple |
+|                 | : ```{.exemple} |
+|                 | degre 4 x=23 y=1200 |
+|                 | ``` |
+| | |
+|                 | Détail |
+|                 | : [Les Degrés](#les_degres) |
++-----------------+---------------------------------------------------+
+| ligne<br>       | Marquer une ligne, par exemple pour indiquer la   |
+| line<br>        | poursuite d'un chiffrage sur plusieurs temps.     |
+| lig<br>         |                                                   |
+| lin             |  ```{.usage} |
+|                 | ligne <type> x=... y=... w=... |
+|                 | ``` |
+|                 | Exemple |
+|                 | : ```{.exemple} |
+|                 | lin |---| w=200 x=23 y=120 |
+|                 | ``` |
+| | |
+|                 | Détail |
+|                 | : [Les Lignes](#les_lignes) |
++-----------------+---------------------------------------------------+
+| box<br>         | Dessine une boite à l'écran. Ces boites permettent|
+| boite<br>       | de masquer des éléments de la partition. Bien que |
+| boi             | ces boites apparaissent en gris sur la table      |
+|                 | d'analyse, elles seront invisibles dans le        |
+|                 | document PDF final ou l'impression.               |
+| | |
+|                 |  ```{.usage} |
+|                 | box x=... y=... w=<largeur> h=<hauteur> |
+|                 | ``` |
+|                 | Exemple |
+|                 | : ```{.exemple} |
+|                 | boite w=200 h=53 x=23 y=120 |
+|                 | ``` |
+| | |
+|                 | Note |
+|                 | La hauteur (`h`) et la largeur (`w`) sont ici très |
+|                 | importantes.
+| | |
+|                 | Détail |
+|                 | : [Les Boites](#les_boites) |
++-----------------+---------------------------------------------------+
+| texte<br>       | Pour marquer un texte quelconque à l'écran.       |
+| text<br>        |                                                   |
+| tex             |  ```{.usage} |
+|                 | tex[te] <le_texte> x=... y=...[ type=<type>] |
+|                 | ``` |
+|                 | Exemple |
+|                 | : ```{.exemple} |
+|                 | tex Doubles_octaves type=warning |
+|                 | ``` |
+| | |
+|                 | Note |
+|                 | Les espaces sont remplacées par des traits plats |
+|                 | dans le texte à affiché. Mais ce seront des espaces |
+|                 | qui seront inscrites sur la table d'analyse.
+| | |
+|                 | Détail |
+|                 | : [Les Textes](#les_textes) |
++-----------------+---------------------------------------------------+
+
 
 ## Les Images {#les_images}
 
@@ -581,105 +833,31 @@ Une fois ce code établi, vous pouvez déplacer les images dans la page pour les
 
 Astuce : si votre écran et assez grand et que vous adoptez [l'option `code beside` (ou `code à côté`)](#option_code_beside), vous pourrez voir en direct votre code s'actualiser.
 
----
 
-## Nature des tags {#natures}
+### Les Accords {#les_accords}
 
-Détaillons toutes les natures de TAGs qu'on peut utiliser.
+Les accords, placés en général au-dessus de la portée, se définissent par les natures `accord`, `chord` ou `acc` en version raccourcie.
 
-Dans la ligne, le premier mot définit la `<nature>` du tag.
+#### Les modulations {#les_modulations}
 
-+-----------------+---------------------------------------------------+
-| *Tag*           | *Description*                                     |
-+-----------------+---------------------------------------------------+
-| partition<br>   | `image <source> x=... y=... z=...`<br>            |
-| score<br>       | Exemple : `score monimage.src x=200 y=20 w=170mm` |
-| sco<br>         |                                                   |
-| image<br>       | L'image doit se trouver dans le dossier `images`  |
-|                 | de l'analyse.                                     |
-|                 |                                                   |
-|                 | Pour le détail : [Les Partitions](#scores)        |                       
-+-----------------+---------------------------------------------------+
-| accord<br>      | Écriture d'un accord au-dessus de la partition.   |
-| chord<br>       |                                                   |
-| acc             | `accord <nom> x=... y=...`<br>                    |
-|                 | P.e. : `acc E_min x=100 y=200`                    |
-|                 |                                                   |
-|                 | Pour le détail : [Les Accords](#les_accords)      |
-+-----------------+---------------------------------------------------+
-| harmonie<br>    | Écriture d'un chiffrage sous la partition.        |
-| harmony<br>     |
-| chiffrage<br>   |
-| har             |
-+-----------------+---------------------------------------------------+
-| box<br>         | Dessine une boite à l'écran. Ces boites permettent|
-| boite           | de masquer des éléments de la partition. Bien que |
-|                 | ces boites apparaissent en gris sur la table      |
-|                 | d'analyse, elles seront invisibles dans le        |
-|                 | document PDF final ou l'impression.               |
-+-----------------+---------------------------------------------------+
+On peut mettre un texte au-dessus de la barre inclinée (en général la tonalité vers laquelle on module) et un texte en dessous (en général la fonction de cette tonalité).
+
+Pour séparer les deux textes, on utilise tout simplement la barre inclinée, appelée « balance ». Ainsi, pour obtenir :
+
+![Modulation avec sous-titre](img/Modulation_sous_texte.png)
+
+… on utilisera simplement :
 
 ```
-  mesure       `mesure <nombre> x=... y=...`
-  mes           Exemple : `mes 13 x=100 y=234`
-                Alias : 'measure'
+modulation Sol_min/(sous-dom.) x=200 y=300
 
-  modulation    `modulation <Ton[/sous-texte]> x=HH y=VV h=HH`
-  mod           Exemple : `modulation D_Maj/Sous–dom. x=100 y=100 h=60`
-                « h », ici, permet de définir la longueur du trait qui
-                rejoint la partition (le trait vertical).
+ou
 
-  cadence       `cadence <degré accord> type=<type cadence> x=... y=... w=...`
-  cad           Exemple : `cadence I type=italienne w=200 x=12 y=100`
-
-  ligne         `ligne <type ligne> x=... y=... w=...`
-  lig           Exemples : `ligne U w=120 x=100 y=50`
-                           `line |---| w=50 x=100 y=50`
-                Alias : 'line'
-
-  degré         `degre <indice> x=... y=...`
-  deg           Exemple : `degre 5 x=100 y=120`
-                Alias : 'degree'
-
-  texte         `texte <contenu> x=... y=... type=...`
-  tex           Exemple : `texte Exposition x=100 y=50 type=partie`
-                Alias : 'text'
+mod Sol_min/(sous-dom.) 200 300
 
 ```
 
-### Contenu du tag (second mot) {#second_mot}
-
-Le seconde « mot » définit le plus souvent le contenu textuel ou, pour les images, le nom du fichier dans le dossier `images` de l'analyse. C'est aussi, souvent, un accord ou son chiffrage.
-
-On peut par exemple écrire un texte quelconque à une position quelconque avec la ligne :
-
-```
-Tags = `
-
-  texte Et_si_j'étais_un_texte_quelconque x=300 y=400
-
-`;
-
-```
-
-> Remarquez comme les espaces ont été remplacées par des tirets plats (qu'on obtient sur Mac avec la combinaison de touches Maj- — touche majuscule et tiret).
-
-Ce deuxième « mot » de la ligne sert aussi par exemple à définir le type des lignes à obtenir (cf. [Dessiner des lignes](#types_de_lignes)).
-
-### Autres données de la ligne {#autres_data_ligne}
-
-Les deux autres informations capitales sont les positions verticale et horizontale du tag à poser (ou de la partition).
-
-NOTE IMPORTANTE : dans votre fichier `_tags_.js`, ces valeurs peuvent dans un premier temps être approximatives, et seront affinées directement à l'écran.
-
-On définit la position verticale avec `y=` et la position horizontale avec `x=`, comme nous l'avons vu dans les exemples précédents. Le nombre est exprimé en pixels.
-
-Pour les lignes et les cadences par exemple, on peut définir aussi la largeur avec la lettre « w » qui signifie « width » (largeur) en anglais : `w=200`. Le nombre correspond là aussi au nombre de pixels, mais il peut être exprimé avec une autre unité, notamment le pourcentage — ce qui n'est pas possible avec `x` et `y`.
-
-Ensuite, on peut définir certaines choses comme le « type » du tag. On l'a vu pour la cadence, par exemple. Les autres tags pouvant définir leur type sont le `texte` ou la `ligne` (bien que la `ligne` se définit plutôt par son contenu).
-
-
-### Écrire des textes {#write_texts}
+### Les autres types de textes {#les_textes}
 
 Ce que l'on appelle les « textes », ici, ce sont tous les textes hors des accords, modulations, chiffrage, etc. Ce sont vraiment des textes qu'on peut placer n'importe où. À commencer par la définition des grandes parties de la pièce (« Introduction », « Coda », etc.).
 
@@ -702,12 +880,11 @@ Il faut impérativement définir la ligne :
 ```
 
 
-## Les types de textes {#types_de_textes}
+#### Types de textes {#types_de_textes}
 
 En dehors des textes « normaux » ou simples, on peut utiliser :
 
-* [Les parties](#type_texte_partie)
-* [Les modulations](#type_texte_modulation)
+* [Les parties](#les_parties)
 * [Les mesures](#type_texte_mesure)
 
 ```
@@ -721,34 +898,18 @@ En dehors des textes « normaux » ou simples, on peut utiliser :
 
 ```
 
-#### Les parties {#type_texte_partie}
+#### Les parties {#les_parties}
 
 Les marques de partie s'indiquent avec le tag `partie` (ou `par` ou `part`). Ce sont des textes dans des boites inclinées qui ont cet aspect :
 
 ![Marque de partie](img/marque_partie.png)
 
-#### Les mesures {#type_texte_mesure}
+
+#### Les mesures {#les_mesures}
 
 Les numéros de mesure, s'il ne sont pas indiqués sur la partition elle-même, peuvent être ajoutés à l'aide du tag `mesure` (ou `measure`, ou `mes`), suivant du numéro de mesure puis des coordonnées.
 
-#### Les modulations {#type_texte_modulation}
-
-On peut mettre un texte au-dessus de la barre inclinée (en général la tonalité vers laquelle on module) et un texte en dessous (en général la fonction de cette tonalité).
-
-Pour séparer les deux textes, on utilise tout simplement la barre inclinée, appelée « balance ». Ainsi, pour obtenir :
-
-![Modulation avec sous-titre](img/Modulation_sous_texte.png)
-
-… on utilisera simplement :
-
-```
-  modulation Sol_min/(sous-dom.) x=200 y=300
-
-  ou
-
-  mod Sol_min/(sous-dom.) 200 300
-
-```
+---
 
 ### Dessiner des lignes {#types_de_lignes}
 
@@ -1236,7 +1397,7 @@ Quand on utilise l'alias ci-dessus, on peut utiliser des termes dans sa langue.
 |               |              |                |
 +---------------+--------------+----------------+
 
-## Annexe
+## Annexe {#annexe}
 
 ### Application « Terminal » {#application_terminal}
 

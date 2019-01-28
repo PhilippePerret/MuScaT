@@ -14,6 +14,7 @@ const NATURES = {
   , 'analyste':   {aka:   'analyst'}
   , 'analysis_date':  {desc: 'Date de l’analyse', no_coor: true}
   , 'boite':      {aka:   'box'}
+  , 'boi':        {aka:   'box'}
   , 'box':        {desc:  'Pour dessiner une boite'}
   , 'cad':        {aka:   'cadence'}
   , 'cadence':    {desc:  'Pour la marque d’une cadence'}
@@ -36,6 +37,7 @@ const NATURES = {
   , 'image':      {aka:   'score'}
   , 'lig':        {aka:   'line'}
   , 'ligne':      {aka:   'line'}
+  , 'lin':        {aka:   'line'}
   , 'line':       {desc:  'Pour faire des lignes de toute sorte'}
   , 'measure':    {desc:  'Pour la marque d’un numéro de mesure'}
   , 'mes':        {aka:   'measure'}

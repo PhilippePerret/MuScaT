@@ -1,5 +1,8 @@
 # Todo list
 
+* Implémenter la gestion de la hauteur et largeur avec CMD-FLÈCHE.
+* Renseigner la création des manuels avec les blocs avec class, en détournant les backsticks
+* Utiliser la propriété `z` qui permet de mettre de l'ombre (ou alors la garder pour le z-index ? non, pour le z-index, utiliser `i`)
 * Dans les images-séquences, si une width (w) est donnée, il faut la reporter sur toutes les images (voir si ça n'est pas déjà fait)
 * Thèmes
   * Faire au moins un autre thème
