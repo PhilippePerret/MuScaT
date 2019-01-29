@@ -499,7 +499,7 @@ const MuScaT = {
       my.update_lines();
       my.update_code();
     }
-    
+
   , update_lines: function(){
       var my = this;
       my.lines = new Array();
@@ -508,7 +508,7 @@ const MuScaT = {
 
   , update_code: function(){
       var my = this ;
-      my.codeField().value = my.full_code() ;
+      UI.codeField.val(my.full_code());
     }
 
   // Retourne le code entier du fichier _tags_.js, mais sans "Tags = `"
@@ -526,6 +526,7 @@ const MuScaT = {
       if (undefined === options_to_tags_js){
         return Options.to_tags_js();
       };
+      my.update_lines_and_code();
       var vfc = options_to_tags_js + 'Tags = `'+ RC + this.full_code() + RC + '`;' ;
       navigator.clipboard.writeText(vfc);
     }
