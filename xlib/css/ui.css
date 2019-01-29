@@ -127,19 +127,3 @@ fieldset#fs_boutons {
 fieldset#fs_boutons button {
   display: block;
 }
-/* --------------------------------------------------------------------- */
-
-div.page-break {
-  position: absolute;
-  width: 100%;
-  height: 20px;
-  background-color: red;
-  opacity: 0.7;
-}
-div.page-break:before {
-  content: 'page-break';
-  color: white;
-  font-size: 9pt;
-  font-variant: small-caps;
-  margin-left:1em;
-}

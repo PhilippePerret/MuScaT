@@ -74,13 +74,15 @@ span.tag.cadence {
   background-color: transparent;
   min-width:      60px;
 }
-span.tag.cadence.parfaite:after {
-  content: 'Cad.Parf.';
+span.tag.cadence:after {
   position: absolute;
   bottom: -1.6em;
   right:  0px;
   text-align: right;
   font-weight: normal;
+}
+span.tag.cadence.parfaite:after {
+  content: 'Cad.Parf.';
 }
 span.tag.cadence.imparfaite:after {
   content: 'Cad.Imp.';
@@ -92,11 +94,19 @@ span.tag.cadence.plagale:after {
   content: 'Cad.Plag.';
 }
 span.tag.cadence.demi:after {
-  content: 'Demi Cad.';
+  content: 'Demi-cad.';
 }
 span.tag.cadence.rompue:after {
   content: 'Cad.Romp.';
 }
+span.tag.cadence.faureenne:after {
+  content: 'Cad.Faur.';
+}
+span.tag.cadence.baroque:after {
+  content: 'Cad.Baroq.';
+}
+
+/* === ACCORDS === */
 span.tag.chord {
   font-family:    Helvetica, Arial;
   z-index: 50;
@@ -125,6 +135,7 @@ span.line0T1, .line1T1, .line0B1, .line1B1 {
   border-right: 1px solid black;
 }
 
+/* === BOITES / BOX === */
 span.box {
   background-color: #CCCCCC;
 }

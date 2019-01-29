@@ -69,6 +69,7 @@ NATURES_SHORTCUTS = {
   , 'composer':       {real: 'text', type: 'composer'}
   , 'date':           {real: 'text', type: 'date'}
   , 'measure':        {real: 'text', type: 'measure'}
+  , 'degree':         {real: 'text', type: 'degree'}
   , 'opus':           {real: 'text', type: 'opus'}
   , 'part':           {real: 'text', type: 'part'}
   , 'modulation':     {real: 'text', type: 'modulation'}

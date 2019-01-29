@@ -1,16 +1,18 @@
 # Todo list
 
-* Documenter le fait de pouvoir modifier la taille de l'image, donc de la partition, avec les touches "w" et "h".
-* Renseigner la création des manuels avec les blocs avec class, en détournant les backsticks
-* Utiliser la propriété `z` qui permet de mettre de l'ombre (ou alors la garder pour le z-index ? non, pour le z-index, utiliser `i`)
-* Dans les images-séquences, si une width (w) est donnée, il faut la reporter sur toutes les images (voir si ça n'est pas déjà fait)
+* S'assurer que les espaces sont remplacées, dans les scripts, quand on donne un nom d'analyse.
+* S'assurer que si le tag est verrouillé, on ne peut pas le modifier avec les touches (x, y, w, h)
+* Pour la cohérence, pouvoir utiliser les touches 'x' et 'y' pour modifier la position (avec Ctrl, Maj et Alt pour affiner, augmenter et diminuer le pas)
+* Rectifier les x/y donnés pour qu'ils tiennent compte des marges de #tags
+* Quand on augmente la largeur d'une cadence (w), on doit bouger le x d'autant (pour que le trait s'augmente vers l'arrière)
+* [MANUEL DES MANUELS]
+  * Renseigner la création des manuels avec les blocs avec class, en détournant les backsticks
+  * Documenter sur le fait que pour mettre en gras dans une table, on peut utiliser les dièses de titre (4 ou 5)
 * Thèmes
   * Faire au moins un autre thème
   * Documenter la fabrication d'un thème (programme ou utilisateur confirmé)
-* Un bouton pour répartir les systèmes sur la page (on les sélectionne, on clique le bouton et le programme les répartit par rapport au premier et au dernier).
-
-* Lorsqu'on a une séquence d'images, ajouter leur largeur à 17.01cm. (non : plutôt proposer d'ajouter le "w=" dans une séquence d'images)
 * Traduire tous les textes des scripts utilitaires (il faut un système spécial comme i18n, mais sans passer par là)
+* Le facteur de vitesse de l'animation fonctionne à l'envers : il faut que plus le nombre est grand plus ça va vite (donc plus le temps est court entre deux tableaux)
 
 ## TEST
 
@@ -20,7 +22,9 @@
 
 ## Développements futurs
 
-* [BUG] Le cropper ne fonctionne plus (le mettre en option pour la version suivante)
+* THÈMES
+  * Faire des thèmes différents et les présenter dans les options du manuel (ci-possible, une image de chaque thème)
+  * faire un script permettant de relever leurs noms ?
 * Animation : peut-être une mise en évidence de la nouvelle insertion (flash) (voir à l'usure, car ça peut être fatiguant => une option)
 * Faire le script 'open' pour :
   * ouvrir le dossier de l'animation sur le bureau

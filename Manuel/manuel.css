@@ -39,6 +39,7 @@ code:not(.sourceCode) {
   background-color: #CCCCCC;
   color: #555555;
   border-radius: 4px;
+  padding: 0 8px;
 }
 
 pre code:not(.sourceCode){
@@ -60,6 +61,10 @@ pre.center,
 pre.center code,
 pre.exergue,
 pre.exergue code
+pre.footer,
+pre.footer code,
+pre.copyright,
+pre.copyright code
 {
   white-space: normal;
   font-family: inherit;
@@ -74,4 +79,13 @@ pre.center {
 pre.exergue {
   font-size: 1.15em;
   font-weight: bold;
+}
+
+pre.footer {
+  margin-top: 4em;
+  font-size: 0.82em;
+  text-align: center;
+}
+pre.copyright {
+  font-family: Arial, Helvetica;
 }
