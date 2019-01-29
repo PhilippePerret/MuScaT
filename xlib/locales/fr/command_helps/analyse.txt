@@ -1,0 +1,20 @@
+Ce script permet d'activer une analyse se trouvant dans le dossier
+`./_analyses_/`.
+
+USAGE
+-----
+  #{'./analyse.rb "<Début_du_nom_de_dossier>"'.jaune}
+
+  (avec l'alias `mus`) > mus analyse "début du nom"
+
+  Note : si on se trouve dans le dossier principal de MuScaT, il faut
+  faire `./utils/analyse.rb`.
+
+
+  Le #{'<Début_du_nom_de_dossier>'} est le nom ou le début du nom
+  du dossier dans le dossier général `_analyses_` qui devrait con-
+  tenir toutes vos analyses MuScaT. Si plusieurs dossiers ont le
+  même début, la commande permet de choisir lequel utiliser.
+
+  Si aucun argument n'est mis, c'est la liste de tous les dossiers
+  qui est présentée, pour en choisir une.

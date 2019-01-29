@@ -40,7 +40,7 @@ unless ARGV.include?('-h') || ARGV.include?('--help')
         if names.count == 1
           analyse_folder = File.join(ANALYSES_FOLDER,names.first)
         elsif names.count == 0
-          puts "Aucun dossier d'analyse n'a été trouvé avec « #{analyse_name} »".vert
+          puts t('no-folder-found', {name: analyse_name}).vert
           names = names_list
           analyse_folder = nil
         end
@@ -53,7 +53,7 @@ unless ARGV.include?('-h') || ARGV.include?('--help')
           puts "    #{(97+idx).chr}: #{aname}"
         end
         puts "\n\n"
-        print "Quel dossier choisir (lettre) ? ('q' pour renoncer)"
+        print t('which-folder')
         choix = STDIN.getch()
         puts ''
         if choix == 'q'
@@ -67,7 +67,7 @@ unless ARGV.include?('-h') || ARGV.include?('--help')
       ANALYSE_NAME    = File.basename(analyse_folder)
 
       if analyse_folder
-        puts "Vous avez choisi le dossier d'analyse : #{ANALYSE_NAME.inspect}"
+        puts t('analysis-folder-chosen', {name: ANALYSE_NAME})
         # Pour activer une analyse, il suffit de modifier le fichier
         # analyse.js en racine
 
@@ -75,47 +75,16 @@ unless ARGV.include?('-h') || ARGV.include?('--help')
         `open "#{ANALYSE_FOLDER}"`
 
       else
-        puts "Dossier inconnu, je ne peux rien faire pour vous…"
+        puts t('unknown-folder')
       end
 
     end
 
 
   rescue Exception => e
-    puts "\n\n\tERREUR: #{e.message}\n\n(pour obtenir de l'aide, jouez `./analyse.rb --help` — ou `-h`)\n\n".blanc_sur_fond_rouge
+    puts t('fatal-error', {err_msg: e.message, command: 'open'}).blanc_sur_fond_rouge
   end
 
 else
-
-
-
-puts <<-HELP
-
-  Ce script permet d'ouvrir le dossier d'une analyse se trouvant dans
-  le dossier `./_analyses_/`.
-  Ou le manuel avec la commande :
-
-    #{'./open.rb manuel'.jaune}
-
-  USAGE
-  -----
-    #{'./open.rb "<Début_du_nom_de_dossier>"'.jaune}
-
-    (avec l'alias `mus`)  > mus open "début du nom"
-                          > mus ouvre "Début du nom"
-
-    Note : si on se trouve dans le dossier principal de MuScaT, il faut
-    faire `./utils/open.rb`.
-
-
-    Le #{'<Début_du_nom_de_dossier>'} est le nom ou le début du nom
-    du dossier dans le dossier général `_analyses_` qui devrait con-
-    tenir toutes vos analyses MuScaT. Si plusieurs dossiers ont le
-    même début, la commande permet de choisir lequel utiliser.
-
-    Si aucun argument n'est mis, c'est la liste de toutes les analy-
-    qui est présentée, pour en choisir une.
-
-HELP
-
+  puts_help('open')
 end #/if (help)

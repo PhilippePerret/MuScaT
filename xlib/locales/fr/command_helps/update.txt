@@ -1,0 +1,8 @@
+Ce script permet d'actualiser divers éléments de l'application.
+Pour le moment, il ne sert qu'à actualiser le manuel, en jouant :
+
+  #{'./update.rb manuel'.jaune}
+
+USAGE
+-----
+  #{'./update.rb <chose à updater>'.jaune}

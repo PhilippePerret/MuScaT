@@ -8,10 +8,10 @@ require_relative 'required'
 
 INFOS_CODE = <<-EOT
 INFOS = {
-  analyse_name:   "%{analyse_name}",
-  author:          "#{File.basename(Dir.home)}",
-  created_at:     #{Time.now.to_i},
-  muscat_version:  "#{File.read(File.join(APPFOLDER,'xlib','VERSION')).strip}"
+  analyse_name:     "%{analyse_name}",
+  author:           "#{File.basename(Dir.home)}",
+  created_at:       #{Time.now.to_i},
+  muscat_version:   "#{File.read(File.join(APPFOLDER,'xlib','VERSION')).strip}"
 }
 EOT
 unless ARGV.include?('-h') || ARGV.include?('--help')
@@ -26,20 +26,20 @@ unless ARGV.include?('-h') || ARGV.include?('--help')
       end
     end
 
-    analyse_name || raise("Il faut définir le nom de l'analyse en premier argument.")
+    analyse_name || raise(t('analysis-name-required'))
 
     analyse_name = analyse_name.gsub(/[  \t]/,'_')
 
     # On s'assure d'abord que les dossiers existe
     unless File.exist?(ANALYSES_FOLDER)
       `mkdir -p "#{ANALYSES_FOLDER}"`
-      puts "Dossier des analyses construit."
+      puts t('analysis-folder-built')
     end
 
     ANALYSE_FOLDER  = File.join(ANALYSES_FOLDER,analyse_name)
-    puts "Dossier analyse: #{ANALYSE_FOLDER}"
+    # puts t('analysis-folder', {name: ANALYSE_FOLDER})
     if File.exist?(ANALYSE_FOLDER)
-      raise "Ce dossier d'analyse existe déjà.\n\t\tDétruisez-le ou choisissez un autre nom."
+      raise t('analysis-folder-already-exists')
     end
     TEMPLATE_FOLDER = File.join(ANALYSES_FOLDER,'Template')
 
@@ -54,55 +54,12 @@ unless ARGV.include?('-h') || ARGV.include?('--help')
       `open "#{analyse_folder}"`
     end
 
-    msg_confirm = <<-EOT
-
-
-La nouvelle analyse a été créée avec succès.
-
-Vous pouvez ouvrir le fichier `_tags_.js` pour la modifier.
-
-Pour voir cette analyse et la travailler, copier-colle son fichier
-`analyse.js` à la racine du dossier de MuScaT ou, mieux, utiliser la
-commande `analyse` suivi du nom de cette analyse.
-
-Sans alias :
-    > cd "#{APPFOLDER}"
-    > ./utils/analyse.rb #{analyse_name}
-
-Avec un alias :
-    > mus analyse #{analyse_name}
-
-
-    EOT
-
-    puts msg_confirm.vert
+    puts t('create-confirmation', {name: analyse_name}).vert
 
   rescue Exception => e
-    puts "\n\n\tERREUR: #{e.message}\n\n(pour obtenir de l'aide, jouez `./create.rb --help` — ou `-h`)\n\n".blanc_sur_fond_rouge
+    puts t('fatal-error', {err_msg: e.message, command: 'create'}).blanc_sur_fond_rouge
   end
 
 else
-
-
-
-puts <<-HELP
-
-  Ce script permet de créer une nouvelle analyse dans le dossier
-  `analyses` de MuScaT.
-
-  USAGE
-  -----
-    #{'./create.rb "<nom analyse>"'.jaune}
-
-    Note : si on se trouve dans le dossier principal de MuScaT, il faut
-    faire `./utils/create.rb`.
-
-
-    Le #{'<nom analyse>'} est le nom que prendra le dossier principale
-    de l'analyse. Il faut le mettre entre guillemets s'il contient des
-    espaces mais, de toutes façons, les espaces seront toujours rem-
-    placées par des traits plats.
-
-HELP
-
+  puts_help('create')
 end #/if (help)

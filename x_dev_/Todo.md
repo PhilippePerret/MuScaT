@@ -1,5 +1,6 @@
 # Todo list
 
+* Faire un script pour définir la langue (define_lang.rb)
 * Traduire tous les textes des scripts utilitaires (il faut un système spécial comme i18n, mais sans passer par là)
 
 ## TEST

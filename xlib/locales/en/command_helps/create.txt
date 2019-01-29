@@ -1,0 +1,15 @@
+Ce script permet de créer une nouvelle analyse dans le dossier
+`analyses` de MuScaT.
+
+USAGE
+-----
+  #{'./create.rb "<nom analyse>"'.jaune}
+
+  Note : si on se trouve dans le dossier principal de MuScaT, il faut
+  faire `./utils/create.rb`.
+
+
+  Le #{'<nom analyse>'} est le nom que prendra le dossier principale
+  de l'analyse. Il faut le mettre entre guillemets s'il contient des
+  espaces mais, de toutes façons, les espaces seront toujours rem-
+  placées par des traits plats.

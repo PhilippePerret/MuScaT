@@ -32,7 +32,7 @@ begin
     elsif File.exist?(path_test_file)
       paths_tests = [path_test_file]
     else
-      raise "Le fichier test désigné est introuvable (#{ARGV.first.inspect})"
+      raise "Test file is unfoundable (#{ARGV.first.inspect})"
     end
   end
   paths_tests ||= Dir["#{FOLDER_TESTS}/tests/**/*.js"].shuffle
@@ -51,17 +51,17 @@ begin
 
   # Ouverture du fichier test.html pour lancer le test
   if ARGV.include?('-o') || ARGV.include?('--open')
-    `open -a Firefox "#{TEST_FILE_PATH}"`
+    # `open -a Firefox "#{TEST_FILE_PATH}"`
+    `open -a Chrome "#{TEST_FILE_PATH}"`
   else
     puts '
-  Ajouter l’option `-o` (à la fin) pour ouvrir la première fois
-  le fichier dans Firefox (et consultez la console).'.vert
+  Add `-o` option (at the end) to open a first time
+  the file in Chrome (and check the console).'.vert
   end
 
   puts '
-  Maintenant, vous pouvez modifier le test (le fichier javascript)
-  pour le développer, et recharger simplement la page pour le
-  lancer.
+  You can now modify the test (the javascript file) in order to
+  develop it, and relaunch the page pour run it.
 
   '.vert
 

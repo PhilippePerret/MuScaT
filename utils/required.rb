@@ -1,11 +1,40 @@
 # frozen_string_literal:true
 # encoding: UTF-8
 
-
 APPFOLDER         = File.expand_path(File.dirname(__dir__))
 ANALYSES_FOLDER   = File.join(APPFOLDER,'_analyses_')
 PARTITION_PATH    = File.join(APPFOLDER,'_TABLE_ANALYSE_.html')
 CUR_ANALYSE_FILE  = File.join(APPFOLDER,'analyse.js')
+
+LANG_FILE         = File.join(APPFOLDER,'xlib','locales','LANG')
+LANG              = File.exist?(LANG_FILE) ? File.read(LANG_FILE).strip : 'en'
+# puts "Langue: #{LANG}"
+LOCALES_FOLDER    = File.join(APPFOLDER,'xlib','locales', LANG)
+
+LOCALES_EN_FOLDER = File.join(APPFOLDER,'xlib','locales','en')
+
+INDENT = '  '
+
+RC = '
+'
+
+# Requérir les mots de la langue
+require File.join(LOCALES_FOLDER,'locales')
+
+# Retourne le texte localisé en fonction de la langue
+def t str_id, templates = nil
+  templates ||= Hash.new
+  LOCALES[str_id.to_s] % templates
+end
+def puts_help cmd_id
+  pth = File.join(LOCALES_FOLDER,'command_helps',"#{cmd_id}.txt")
+  File.exist?(pth) || pth = File.join(LOCALES_EN_FOLDER,'command_helps',"#{cmd_id}.txt")
+  puts RC*4
+  puts "#{"="*40} HELP/AIDE #{'='*40}"
+  puts RC*4
+  puts INDENT + File.read(pth).split(RC).join(RC + INDENT)
+  puts RC*3
+end
 
 def analyse_name_in_args
   ARGV.each do |arg|
@@ -47,8 +76,3 @@ def essai
   end
 end
 end
-
-INDENT = '  '
-
-RC = '
-'
