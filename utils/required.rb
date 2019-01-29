@@ -7,6 +7,17 @@ ANALYSES_FOLDER   = File.join(APPFOLDER,'_analyses_')
 PARTITION_PATH    = File.join(APPFOLDER,'_TABLE_ANALYSE_.html')
 CUR_ANALYSE_FILE  = File.join(APPFOLDER,'analyse.js')
 
+def analyse_name_in_args
+  ARGV.each do |arg|
+    arg.start_with?('-') && next
+    return arg.gsub(/ /, '_')
+  end
+  return nil
+end
+
+def names_list
+  @names_list ||= Dir["#{ANALYSES_FOLDER}/*"].collect{|d| File.basename(d)}
+end
 
 class String
 def jaune

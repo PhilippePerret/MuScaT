@@ -21,15 +21,7 @@ unless ARGV.include?('-h') || ARGV.include?('--help')
       analyse_name    = nil
       analyse_folder  = nil
 
-      ARGV.each do |arg|
-        arg.start_with?('-') && next
-        analyse_name = arg
-        break
-      end
-
-      # Dans tous les cas, on fait la liste des dossier d'analyses, qui
-      # pourra toujours servir
-      names_list = Dir["#{ANALYSES_FOLDER}/*"].collect{|d| File.basename(d)}
+      analyse_name = analyse_name_in_args
 
       # Si aucun nom n'a été donné, on présente toute la liste
       names = nil
