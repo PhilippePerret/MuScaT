@@ -34,6 +34,7 @@ Object.assign(MSG,{
 
 
   , 'no-w-pour-modulation': 'Width of a modulation can’t change. Use `h` to modify the height of its vertical line.'
+  , 'no-h-pour-cadence':    "Height of cadence can’t change. Use `w` to modify the width of its horizontal line."
 
   , 'loading-module-failed': "Sorry, the loading of module « %{name} » failed…"
 

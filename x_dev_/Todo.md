@@ -1,6 +1,5 @@
 # Todo list
 
-* Quand on n'est pas dans le champ de code, la touche ENTRÉE actualise les lignes et le code
 * [MANUEL DES MANUELS]
   * Renseigner la création des manuels avec les blocs avec class, en détournant les backsticks
   * Documenter sur le fait que pour mettre en gras dans une table, on peut utiliser les dièses de titre (4 ou 5)

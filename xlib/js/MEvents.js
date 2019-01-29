@@ -198,8 +198,10 @@ const MEvents = {
       }
     } else {
       switch (ev.keyCode) {
+        case 13: /* ENTRÉE */
+          M.update_lines_and_code();return stop(ev);
         case 8:  // ERASE
-        CTags.ask_for_erase(ev);return stop(ev);
+          CTags.ask_for_erase(ev);return stop(ev);
         default:
         // Rien pour le moment
           // this.console_key(ev);
@@ -214,6 +216,11 @@ const MEvents = {
    */
   onkeypress_else: function(ev){
     // console.log('-> onkeypress_else');
+    switch (ev.charCode) {
+      case 13: /* ENTRÉE */
+        M.update_lines_and_code(); return stop(ev);
+      default:
+    }
   }
 }
 window.onkeypress = $.proxy(MEvents,'onkeypress') ;

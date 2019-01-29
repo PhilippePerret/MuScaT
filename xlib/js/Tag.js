@@ -410,6 +410,7 @@ Tag.prototype.updateX = function(newx){
 };
 Tag.prototype.updateH = function(newh){
   var my = this ;
+  if(my.nature == 'cadence'){return F.error(t('no-h-pour-cadence'))};
   if(undefined != newh) { my.h = newh } ;
   // Traitement particulier pour les modulations
   if(my.type == 'modulation'){
@@ -422,6 +423,7 @@ Tag.prototype.updateH = function(newh){
 }
 Tag.prototype.updateW = function(neww){
   var my = ITags[this.domId];
+  if (my.type == 'modulation'){return F.error(t('no-w-pour-modulation'))};
   if(undefined != neww){
     var [new_w, new_w_unit] = my.get_value_and_unit(neww);
     if(my.nature == 'cadence'){
@@ -433,7 +435,6 @@ Tag.prototype.updateW = function(neww){
     }
     my.w = new_w ;
   }
-  if (my.type == 'modulation'){return F.error(t('no-w-pour-modulation'))};
   this.jqObj.css(my.width_to_obj()) ;
 }
 
