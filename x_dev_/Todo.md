@@ -1,13 +1,10 @@
 # Todo list
 
-* [MANUEL DES MANUELS]
-  * Renseigner la création des manuels avec les blocs avec class, en détournant les backsticks
-  * Documenter sur le fait que pour mettre en gras dans une table, on peut utiliser les dièses de titre (4 ou 5)
+* Le facteur de vitesse de l'animation fonctionne à l'envers : il faut que plus le nombre est grand plus ça va vite (donc plus le temps est court entre deux tableaux)
 * Thèmes
   * Faire au moins un autre thème
   * Documenter la fabrication d'un thème (programme ou utilisateur confirmé)
 * Traduire tous les textes des scripts utilitaires (il faut un système spécial comme i18n, mais sans passer par là)
-* Le facteur de vitesse de l'animation fonctionne à l'envers : il faut que plus le nombre est grand plus ça va vite (donc plus le temps est court entre deux tableaux)
 
 ## TEST
 

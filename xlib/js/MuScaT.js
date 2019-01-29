@@ -443,7 +443,7 @@ const MuScaT = {
         message(t('press-space-animation'));
       } else {
         // On marque une pause et on reprend
-        my.timer = setTimeout(method_next, 40 * my.animation_speed);
+        my.timer = setTimeout(method_next, 40 * (100 - my.animation_speed));
       };
     }
   // Méthode qui actualise une ligne de donnée (appelée par une instance
