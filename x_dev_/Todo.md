@@ -1,6 +1,7 @@
 # Todo list
 
-* Implémenter la gestion de la hauteur et largeur avec CMD-FLÈCHE.
+* Si on utilise "w" ou "h" sur l'image (ou sur une modulation), elle repart à 0 si sa dimension n'est pas définition => si w = null, calculer sa dimension.
+* Documenter le fait de pouvoir modifier la taille de l'image, donc de la partition, avec les touches "w" et "h".
 * Renseigner la création des manuels avec les blocs avec class, en détournant les backsticks
 * Utiliser la propriété `z` qui permet de mettre de l'ombre (ou alors la garder pour le z-index ? non, pour le z-index, utiliser `i`)
 * Dans les images-séquences, si une width (w) est donnée, il faut la reporter sur toutes les images (voir si ça n'est pas déjà fait)

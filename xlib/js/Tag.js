@@ -194,9 +194,27 @@ Tag.prototype.setVisibleInWindow = function(){
   }
   // On scrolle pour voir l'élément
   if (scro_required){window.scroll(0, scro_required)};
-
 };
 
+Tag.prototype.set_dimension = function(prop, dim, mult, fin){
+  var my  = ITags[this.domId];
+  var pas = (fin ? 1 : (5 * (mult ? 5 : 1))) * (dim ? -1 : 1) ;
+  my.update(prop, my[prop] + pas);
+};
+
+Tag.prototype.move = function(sens, mult, fin){
+  var my  = ITags[this.domId];
+  var pas = fin ? 1 : (5 * (mult ? 5 : 1)) ;
+  var [prop, mltpas] = function(sens){
+    switch(sens){
+      case 'l': return ['x', -1];
+      case 'r': return ['x', 1];
+      case 't': return ['y', -1];
+      case 'd': return ['y', 1];
+    };
+  }(sens);
+  my.update(prop, my[prop] + (pas * mltpas));
+}
 // ---------------------------------------------------------------------
 //  Méthodes de CONSTRUCTION
 
@@ -204,7 +222,7 @@ Tag.prototype.setVisibleInWindow = function(){
 Tag.prototype.build_and_watch = function(){
   this.build();
   this.observe();
-}
+};
 // Méthode qui construit l'élément dans la page
 Tag.prototype.build = function(){
   // console.log(`Construction du tag #${this.id} (y=${this.y})`);

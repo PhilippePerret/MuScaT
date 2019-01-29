@@ -14,7 +14,7 @@ const Historique = {
   , add: function(props_list){
       this.items.push(new Histo(props_list));
       if(this.items.length > 100) { this.items.shift() };
-      console.log(this.items);
+      // console.log(this.items);
     }
 
   /**

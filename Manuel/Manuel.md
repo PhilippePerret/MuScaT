@@ -38,7 +38,8 @@ Elle est semi-graphique, et permet d'ajuster très finement les TAGs — au pix
   * [Ajouter les accords, les chiffrages, les cadences, tous les éléments d'analyse](#syn_def_analysis_elements),
   * [Positionner les éléments graphiques](#syn_ajustement_elements),
     * [Les lignes repères](#ligne_reperes)
-  * [Récupérer du code final](#syn_recuperation_code_final),
+    * [Note sur les coordonnées et dimensions](#note_coors_dims)
+  * [Récupérer le code final](#syn_recuperation_code_final),
   * [Imprimer en PDF](#syn_print_pdf).
 * [L'interface](#user_interface)
   * [La Table d'analyse](#la_table_danalyse)
@@ -46,7 +47,6 @@ Elle est semi-graphique, et permet d'ajuster très finement les TAGs — au pix
   * [Le champ de code](#code_field)
 * [Composition d'un tag](#composition_dun_tag)
   * [Note sur le contenu du TAG (texte)](#note_contenu_tag)
-  * [Note sur les coordonnées et dimensions](#note_coors_dims)
 * [Liste complète de tous les TAGs](#complete_list_tags)
   * [Les Images](#les_images)
     * [Définition de la taille d'une image](#defining_image_size)
@@ -74,6 +74,7 @@ Elle est semi-graphique, et permet d'ajuster très finement les TAGs — au pix
   * [Pour aller plus loing](#aller_plus_loin)
 * [Annexe](#annexes)
   * [Application « Terminal »](#application_terminal)
+  * [Raccourcis clavier](#keyboard_shortcuts)
 
 ## Synopsis général de création d'une analyse {#synopsis_fabrication}
 
@@ -355,6 +356,37 @@ Vous pouvez également définir leur emplacement exact avec les options `positio
 
 ```
 
+### Note sur les coordonnées et dimensions {#note_coors_dims}
+
+Les positions `x` (horizontale) et `y` (verticale) s'indiquent toujours sans unité, en pixels :
+
+```
+
+  x=13 y=200
+
+```
+
+Toutes les autres propriétés de dimensions et de position peuvent s'indiquer sans ou avec unité ou pourcentage.
+
+```javascript
+  Tags = `
+    ... w=200
+    ... w=20%
+    ... h=23mm
+    ... z=2pt
+    `;
+```
+
+Pour obtenir les x/y d'une position quelconque, il suffit de cliquer à l'endroit voulu. Cela affiche les coordonnées en bas de l'écran, mais plus encore, ça colle un `y=134 x=145` correspondant dans le presse-papier, valeur qu'il suffit ensuite de coller dans le code sur la ligne de TAG correspondante.
+
+Pour **modifier les dimensions d'un tag** (comme une ligne, une cadence, une boite, une image), on a plusieurs solutions :
+
+* soit on les règle de façon explicite dans leur ligne de code, en définissant les valeurs de `w` (largeur) et/ou `h` (hauteur),
+* soit on sélectionne l'élément et on prese la touche "w" pour augmenter la largeur, ALT-w pour diminuer la largeur, "h" (comme "hauteur") pour augmenter la hauteur, ALT-h pour diminuer la hauteur.
+
+    En ajoutant la touche MAJ, on augmente l'importance de la modification, en ajoutant la touche CTRL, on peut faire un réglage plus fin.
+
+
 ### Récupérer le code final {#syn_recuperation_code_final}
 
 Si l'on a travaillé dans le champ de texte à côté de la table d'analyse, on doit copier le code final dans le fichier `_tags_.js`, au risque de perdre tous les changements. Pour se faire, on clique sur le bouton des outils — en haut à gauche — et on demande à mettre le code complet dans le presse-papier. On colle ce code dans le fichier `_tags_.js`, en remplaçant l'intégralité de son contenu.
@@ -546,36 +578,6 @@ En revanche, tous les autres caractères sont possibles, à l'exception des bala
 
 ![Modulation avec indication sous le trait](img/Modulation_Sous_dom.png)
 
-
-### Note sur les coordonnées et dimensions {#note_coors_dims}
-
-Les positions `x` (horizontale) et `y` (verticale) s'indiquent toujours sans unité, en pixels :
-
-```
-
-  x=13 y=200
-
-```
-
-Toutes les autres propriétés de dimensions et de position peuvent s'indiquer sans ou avec unité ou pourcentage.
-
-```javascript
-  Tags = `
-    ... w=200
-    ... w=20%
-    ... h=23mm
-    ... z=2pt
-    `;
-```
-
-Pour obtenir les x/y d'une position quelconque, il suffit de cliquer à l'endroit voulu. Cela affiche les coordonnées en bas de l'écran, mais plus encore, ça colle un `y=134 x=145` correspondant dans le presse-papier, valeur qu'il suffit ensuite de coller dans le code sur la ligne de TAG correspondante.
-
-Pour **modifier les dimensions d'un tag** (comme une ligne, une cadence, une boite, une image), on a plusieurs solutions :
-
-* soit on les règle de façon explicite dans leur ligne de code, en définissant les valeurs de `w` (largeur) et/ou `h` (hauteur),
-* soit on sélectionne l'élément et on utilise CMD-FLÈCHE (ou CTRL-FLÈCHE) pour modifier ces valeurs : CMD-Haut augmente la hauteur par le haut, CMD-Bas augmente la hauteur par le bas, CMD-Gauche augmente la longueur vers la gauche, CMD-Droit augmente la longueur vers la droite.
-
-    En ajoutant la touche MAJ, on augmente l'importance de la modification, en ajoutant la touche ALT, on la diminue, ce qui permet d'affiner très précisément les dimensions.
 
 ---
 
@@ -1404,3 +1406,42 @@ Quand on utilise l'alias ci-dessus, on peut utiliser des termes dans sa langue.
 Le Terminal est une application des plus puissantes, sur Mac, qui permet de travailler directement avec le noyau unix du Mac. En d'autres termes, elle permet de tout faire — attention : le pire comme le meilleur.
 
 Cette application se trouve dans le dossier `/Applications/Utilitaires` mais vous pouvez l'utiliser plus facilement en passant par Spotlight. CMD ESPACE, puis tapez les premières lettres.
+
+### Raccourcis clavier {#keyboard_shortcuts}
+
+
++-------------------+-----------------------------------------+
+| ***Général***     |                                         |
++-------------------+-----------------------------------------+
+| ![TAB][K_tab]     | Passer de la table d'analyse au champ   |
+|                   | de code s'il est ouvert.
++-------------------+-----------------------------------------+
+| Sur la sélection  |                                         |
++-------------------+-----------------------------------------+
+| ![->][K_Fd]       | Déplacement à droite, à gauche, vers le |
+| ![<-][K_Fg]       | bas, vers le haut                       |
+| ![v][K_Fb]        |                                         |
+| ![haut][K_Fh]     |                                         |
++-------------------+-------------------------+
+|            \+ MAJ |         \+ fortement    |
++-------------------+-------------------------+
+|            \+ ALT |         \+ finement     |
++-------------------+-------------------------+
+| w                 | Augmente la largeur     |
++-------------------+-------------------------+
+|            \+ MAJ |         \+ fortement    |
++-------------------+-------------------------+
+|            \+ CTRL|         \+ finement     |
++-------------------+-------------------------+
+| ALT w             | Diminue la taille       |
++-------------------+-------------------------+
+|            \+ MAJ |         \+ fortement    |
++-------------------+-------------------------+
+|            \+ CTRL|         \+ finement     |
++-------------------+-------------------------+
+
+[K_Fb]: img/clavier/K_FlecheB.png
+[K_Fd]: img/clavier/K_FlecheD.png
+[K_Fg]: img/clavier/K_FlecheG.png
+[K_Fh]: img/clavier/K_FlecheH.png
+[K_tab]: img/clavier/K_Tab.png
