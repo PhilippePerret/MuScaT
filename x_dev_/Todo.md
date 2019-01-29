@@ -1,6 +1,6 @@
 # Todo list
 
-* Si on utilise "w" ou "h" sur l'image (ou sur une modulation), elle repart à 0 si sa dimension n'est pas définition => si w = null, calculer sa dimension.
+* Toujours actualiser les lignes de code avant de les donner (voir s'il faut appeler `update_lines_and_code`)
 * Documenter le fait de pouvoir modifier la taille de l'image, donc de la partition, avec les touches "w" et "h".
 * Renseigner la création des manuels avec les blocs avec class, en détournant les backsticks
 * Utiliser la propriété `z` qui permet de mettre de l'ombre (ou alors la garder pour le z-index ? non, pour le z-index, utiliser `i`)

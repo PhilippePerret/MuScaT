@@ -153,7 +153,7 @@ const MEvents = {
       Page.update();
       return stop(ev);
     } else if ( ev.keyCode == 16 && ev.metaKey && ev.shiftKey) {
-      console.log("=> Commentaire ");
+      // console.log("=> Commentaire ");
     }
     if(ev.metaKey){
       if(ev.shift){
@@ -185,7 +185,7 @@ const MEvents = {
           CTags.grouper_selected();return stop(ev);
           break;
         default:
-          this.console_key(ev);
+          // this.console_key(ev);
       }
     } else {
       switch (ev.keyCode) {
@@ -193,7 +193,7 @@ const MEvents = {
         CTags.ask_for_erase(ev);return stop(ev);
         default:
         // Rien pour le moment
-          this.console_key(ev);
+          // this.console_key(ev);
       };
     }
     return true ;
@@ -204,7 +204,7 @@ const MEvents = {
    * de code et qu'il n'y a aucune sélection
    */
   onkeypress_else: function(ev){
-    console.log('-> onkeypress_else');
+    // console.log('-> onkeypress_else');
   }
 }
 window.onkeypress = $.proxy(MEvents,'onkeypress') ;

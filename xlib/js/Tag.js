@@ -151,6 +151,21 @@ Tag.prototype.getX = function() {
 Tag.prototype.getY = function() {
   return this.hStyles()['top'] ;
 };
+Tag.prototype.getW = function(){
+  var thew = this.hStyles()['width'] || this.jqObj.width();
+  if (thew == 'auto'){return this.jqObj.width()}
+  else { return thew };
+};
+Tag.prototype.getH = function(){
+  if(this.is_modulation){
+    var lin = this.jqObj.find('line.vertline');
+    return Number.parseInt(lin.attr('y2') - lin.attr('y1'), 10);
+  } else {
+    var theh = this.hStyles()['height'] || this.jqObj.height();
+    if (theh == 'auto'){return this.jqObj.height()}
+    else { return theh };
+  }
+};
 // Retourne une table de clé:valeur des styles définis
 // dans la balise
 Tag.prototype.hStyles = function(){
@@ -199,6 +214,15 @@ Tag.prototype.setVisibleInWindow = function(){
 Tag.prototype.set_dimension = function(prop, dim, mult, fin){
   var my  = ITags[this.domId];
   var pas = (fin ? 1 : (5 * (mult ? 5 : 1))) * (dim ? -1 : 1) ;
+  // Cas spécial de la hauteur avec 1) les images 2) les modulations
+  if (prop == 'h' && !my.h && (my.is_image || my.is_modulation)) {
+    my.h = my.getH();
+  }
+  // Cas spécial de la largeur avec les images
+  if (prop == 'w' && my.is_image && !my.w){
+    my.w = my.getW();
+  };
+  // Finalement, on affecte la dimension
   my.update(prop, my[prop] + pas);
 };
 
@@ -252,7 +276,7 @@ Tag.prototype.to_html = function() {
   if (my.h){
     var h = my.h ;
     if('string' != typeof(my.h)){ h += 'px'};
-    console.log('h', h);
+    // console.log('h', h);
     css.push(`height:${h}`)
   }
 
@@ -275,9 +299,6 @@ Tag.prototype.to_html = function() {
 
   var ftext = my.text || '';
   switch (my.nature) {
-    case 'page-break':
-      css += `margin-top:${my.y};`
-      return `<p id="${my.domId}" class="${classes.join(' ')}" style="${css}">&nbsp;P-B&nbsp;</p>`
     case 'score':
       return `<img id="${my.domId}" class="${classes.join(' ')}" src="${IMAGES_FOLDER}/${my.src}" style="${css}" />`
     case 'cadence':
@@ -822,11 +843,11 @@ Object.defineProperties(Tag.prototype,{
   , is_empty_line: {
       get: function(){return this.nature_init == ''}
     }
-  , is_page_break: {
-      get: function(){return this.nature == 'page-break'}
-    }
   , is_image: {
       get: function(){return this.nature == 'score' }
+    }
+  , is_modulation:{
+      get: function(){return this.type == 'modulation'}
     }
   // Return true si c'est une nature de tag qui peut ne pas
   // avoir de coordonnées
