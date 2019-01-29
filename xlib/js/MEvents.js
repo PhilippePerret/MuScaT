@@ -88,7 +88,8 @@ const MEvents = {
       switch (ev.which) {
         case 87: /*  w */
         case 72: /* h  */
-          CTags.selection.set_dimension('w', ev.altKey, ev.shiftKey, ev.ctrlKey);
+          var prop = ev.which == 87 ? 'w' : 'h';
+          CTags.selection.set_dimension(prop, ev.altKey, ev.shiftKey, ev.ctrlKey);
           return stop(ev);
         case 88: /*  x */
         case 89: /*  y */

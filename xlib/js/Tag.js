@@ -24,15 +24,17 @@ function Tag(data_line) {
   this.x = null;
   this.y = null;
   this.w = null; // width
+  this.w_unit = null;
   this.h = null; // height
+  this.h_unit = null;
 
-  this.src = null ;  // fichier de l'image, dans './images/'
-  this.text = null ; // Le texte de la cadence, de l'accord, etc.
-  this.type = null ; // Le type de la cadence, de la ligne, etc.
+  this.src = null;  // fichier de l'image, dans './images/'
+  this.text = null; // Le texte de la cadence, de l'accord, etc.
+  this.type = null; // Le type de la cadence, de la ligne, etc.
 
-  this.locked     = locked ; // indicateur de verrouillage
-  this.selected   = false ; // Indicateur de sélection
-  this.destroyed  = false ; // Indicateur de destruction
+  this.locked     = locked; // indicateur de verrouillage
+  this.selected   = false; // Indicateur de sélection
+  this.destroyed  = false; // Indicateur de destruction
 
   // === Nature ===
   var nature = data_line.shift() ;
@@ -141,29 +143,58 @@ Tag.prototype.reset_id = function() {
 // ---------------------------------------------------------------------
 // Méthodes de coordonnées
 
+Tag.prototype.width_to_obj = function(){
+  return {'width': `${this.w}${this.w_unit||'px'}`};
+};
+Tag.prototype.width_to_str = function(){
+  return `width:${this.w}${this.w_unit||'px'}`;
+};
+Tag.prototype.height_to_obj = function(){
+  return {'height': `${this.h}${this.h_unit||'px'}`};
+};
+Tag.prototype.height_to_str = function(){
+  return `height:${this.h}${this.h_unit||'px'}`;
+};
+
+/**
+ * Méthode qui sépare la valeur de l'unité
+ */
+Tag.prototype.get_value_and_unit = function(fullvalue) {
+  var my = ITags[this.domId];
+  if('number'==typeof(fullvalue)){
+    return [fullvalue, 'px'];
+  } else {
+    var arr = fullvalue.trim().match(/^([0-9\.]+)([a-z%]+)?$/)
+    return [Number.parseInt(arr[1],10), arr[2]||'px'];
+  };
+};
 // Pour obtenir la valeur x et y des éléments
 // Plutôt que d'utiliser les méthodes top et left de jQuery (qui retournent
 // des valeurs fantaisistes pour les objets transformés (rotate), on va
 // voir directement dans le style de l'objet)
 Tag.prototype.getX = function() {
-  return this.hStyles()['left'] ;
+  return this.get_value_and_unit(this.hStyles()['left'])[0] ;
 };
 Tag.prototype.getY = function() {
-  return this.hStyles()['top'] ;
+  return this.get_value_and_unit(this.hStyles()['top'])[0] ;
 };
+// ATTENTION : contrairement à getX et getY, la fonction retourne un array
+// contenant [value, unit]
 Tag.prototype.getW = function(){
   var thew = this.hStyles()['width'] || this.jqObj.width();
-  if (thew == 'auto'){return this.jqObj.width()}
-  else { return thew };
+  if (thew == 'auto') { return [this.jqObj.width(), 'px'] }
+  else { return this.get_value_and_unit(thew) };
 };
+// ATTENTION : contrairement à getX et getY, la fonction retourne un objet
+// contenant [value, unit]
 Tag.prototype.getH = function(){
   if(this.is_modulation){
     var lin = this.jqObj.find('line.vertline');
-    return Number.parseInt(lin.attr('y2') - lin.attr('y1'), 10);
+    return [Number.parseInt(lin.attr('y2') - lin.attr('y1'), 10), 'px'];
   } else {
     var theh = this.hStyles()['height'] || this.jqObj.height();
-    if (theh == 'auto'){return this.jqObj.height()}
-    else { return theh };
+    if (theh == 'auto'){return {value: this.jqObj.height(), unit: 'px'}}
+    else { return this.get_value_and_unit(theh) };
   }
 };
 // Retourne une table de clé:valeur des styles définis
@@ -172,13 +203,7 @@ Tag.prototype.hStyles = function(){
   var domstl  = this.domObj.style ;
   var hstyles = {};
   ['left','top','width','height'].forEach(function(prop){
-    if (domstl[prop]) {
-      value = domstl[prop] ;
-      if (value.match(/px/)){
-        value = parseInt(value.replace(/px/,''));
-      }
-      hstyles[prop] = value ;
-    }
+    if (domstl[prop]) { hstyles[prop] = domstl[prop] } ;
   })
   return hstyles;
 };
@@ -216,11 +241,11 @@ Tag.prototype.set_dimension = function(prop, dim, mult, fin){
   var pas = (fin ? 1 : (5 * (mult ? 5 : 1))) * (dim ? -1 : 1) ;
   // Cas spécial de la hauteur avec 1) les images 2) les modulations
   if (prop == 'h' && !my.h && (my.is_image || my.is_modulation)) {
-    my.h = my.getH();
+    [my.h, my.h_unit] = my.getH();
   }
   // Cas spécial de la largeur avec les images
   if (prop == 'w' && my.is_image && !my.w){
-    my.w = my.getW();
+    [my.w, my.w_unit] = my.getW();
   };
   // Finalement, on affecte la dimension
   my.update(prop, my[prop] + pas);
@@ -271,14 +296,9 @@ Tag.prototype.to_html = function() {
       classes.push('warntag')
     }
   }
-  css.push(`width:${my.w ? my.w : 'auto'}`) ;
-
-  if (my.h){
-    var h = my.h ;
-    if('string' != typeof(my.h)){ h += 'px'};
-    // console.log('h', h);
-    css.push(`height:${h}`)
-  }
+  // Largeur et hauteur
+  css.push(my.w ? my.width_to_str() : 'auto');
+  if (my.h){ css.push(my.height_to_str()) };
 
   css = css.join(';')+';';
 
@@ -397,15 +417,26 @@ Tag.prototype.updateH = function(newh){
     var line = my.jqObj.find('svg line.vertline')[0] ;
     line.setAttribute('y2', Number.parseInt(line.getAttribute('y1'),10) + this.h);
   } else {
-    this.jqObj.css({'height': this.h + 'px'})
+    this.jqObj.css(my.height_to_obj());
   }
 }
 Tag.prototype.updateW = function(neww){
   var my = ITags[this.domId];
-  if(undefined != neww) { my.w = neww };
+  if(undefined != neww){
+    var [new_w, new_w_unit] = my.get_value_and_unit(neww);
+    if(my.nature == 'cadence'){
+      // Pour une cadence, la largeur doit ajouter vers la
+      // droite et laisser le bout à gauche
+      var dif  = new_w - my.getW()[0];
+      var newx = this.x - dif ;
+      my.update('x', newx);
+    }
+    my.w = new_w ;
+  }
   if (my.type == 'modulation'){return F.error(t('no-w-pour-modulation'))};
-  this.jqObj.css({'width': this.w}) ;
+  this.jqObj.css(my.width_to_obj()) ;
 }
+
 Tag.prototype.updateText = function(newt){
   var my = ITags[this.domId];
   if(undefined != newt){ my.text = newt };
@@ -502,16 +533,16 @@ Tag.prototype.code_line_by_type = function() {
 // Méthode qui décompose la donnée fournie à l'instanciation pour en
 // déduire les données connues
 Tag.prototype.decompose = function(){
-  var my = this;
+  var my = this ;
   if(my.is_comment_line){
-    this.text = this.data_line.join(' ');
+    my.text = my.data_line.join(' ');
     return ;
   } else if(my.is_empty_line){
-    this.text = '';
+    my.text = '';
     return ;
   }
   // else
-  this.data_line.forEach(function(el){
+  my.data_line.forEach(function(el){
     // first_letter = el.substr(0,1).toLowerCase();
     // write('el = ' + el + ' / première lettre : "'+first_letter+'"');
     if (el.split('=').length > 1){
@@ -521,15 +552,16 @@ Tag.prototype.decompose = function(){
       switch (varia) {
         case 'x':
         case 'y':
-        case 'h':
         case 'id':
           my[varia] = value_int ; break ;
+        case 'h':
         case 'w':
-          // Cas spécial de la largeur, qui  peut être définie
-          // avec ou sans unité, et qu'on met toujours avec son
-          // unité (par défaut, le pixel)
-          if(value.match(/^[0-9]+$/)){value += 'px'} // un pur chiffre
-          my.w = value ; break ;
+          // Pour la hauteur et la largeur, valeur et unité sont stockées
+          // dans deux propriétés différentes, w et w_unit, h et y_unit
+          var [new_val, new_unit] = my.get_value_and_unit(value);
+          my[varia] = new_val;
+          my[`${varia}_unit`] = new_unit;
+          break;
         case 'type':
           switch (my.nature) {
             case 'cadence':
@@ -593,8 +625,8 @@ Tag.prototype.recompose = function(){
   // La position
   my.x && aLine.push('x=' + parseInt(my.x)) ;
   my.y && aLine.push('y=' + parseInt(my.y)) ;
-  my.h && aLine.push('h=' + parseInt(my.h)) ;
-  my.w && aLine.push('w=' + my.w) ;
+  my.h && aLine.push('h=' + my.h + (my.h_unit||'')) ;
+  my.w && aLine.push('w=' + my.w + (my.w_unit||'')) ;
 
   return aLine ;
 }

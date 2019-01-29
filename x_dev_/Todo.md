@@ -1,8 +1,6 @@
 # Todo list
 
-* Pour la cohérence, pouvoir utiliser les touches 'x' et 'y' pour modifier la position (avec Ctrl, Maj et Alt pour affiner, augmenter et diminuer le pas)
-* S'assurer que si le tag est verrouillé, on ne peut pas le modifier avec les touches (x, y, w, h)
-* Quand on augmente la largeur d'une cadence (w), on doit bouger le x d'autant (pour que le trait s'augmente vers l'arrière)
+* Quand on n'est pas dans le champ de code, la touche ENTRÉE actualise les lignes et le code
 * [MANUEL DES MANUELS]
   * Renseigner la création des manuels avec les blocs avec class, en détournant les backsticks
   * Documenter sur le fait que pour mettre en gras dans une table, on peut utiliser les dièses de titre (4 ou 5)
