@@ -167,8 +167,9 @@ Tag.prototype.get_value_and_unit = function(fullvalue) {
   if('number'==typeof(fullvalue)){
     return [fullvalue, 'px'];
   } else {
-    var arr = fullvalue.trim().match(/^([0-9\.]+)([a-z%]+)?$/)
-    return [Number.parseInt(arr[1],10), arr[2]||'px'];
+    var arr = fullvalue.trim().match(/^([0-9\.]+)([a-z%]+)?$/);
+    if ( !arr ){ return [null, null] }
+    else { return [Number.parseInt(arr[1],10), arr[2]] };
   };
 };
 // Pour obtenir la valeur x et y des éléments

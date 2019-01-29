@@ -1442,6 +1442,14 @@ option('theme', '<nom du thème>');
 
 Le thème par défaut est le thème `muscat`. On peut trouver les autres thèmes dans le dossier `/xlib/js/themes/`. Il suffit de retirer `.js` au nom pour obtenir le nom du thème.
 
+#### Liste des thèmes
+
+Voici une liste complète des thèmes, mais ceux-ci devraient rapidement s'étoffer :
+
+* muscat
+* fantasy
+* serioso
+
 ### Vitesse de l'animation {#vitesse_animation}
 
 Option : `vitesse animation`, `animation speed`

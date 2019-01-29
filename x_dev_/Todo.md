@@ -1,8 +1,5 @@
 # Todo list
 
-* Thèmes
-  * Faire au moins un autre thème
-  * Documenter la fabrication d'un thème (programme ou utilisateur confirmé)
 * Traduire tous les textes des scripts utilitaires (il faut un système spécial comme i18n, mais sans passer par là)
 
 ## TEST
@@ -14,8 +11,9 @@
 ## Développements futurs
 
 * THÈMES
+  * Documenter la fabrication d'un thème (programme ou utilisateur confirmé)
   * Faire des thèmes différents et les présenter dans les options du manuel (ci-possible, une image de chaque thème)
-  * faire un script permettant de relever leurs noms ?
+  * faire un script permettant de relever leurs noms ? (peut-être juste pour le manuel)
 * Animation : peut-être une mise en évidence de la nouvelle insertion (flash) (voir à l'usure, car ça peut être fatiguant => une option)
 * Faire le script 'open' pour :
   * ouvrir le dossier de l'animation sur le bureau

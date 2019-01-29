@@ -4,8 +4,9 @@
 const Theme = {
     current: 'muscat' // thème courant par défaut (option('theme', '<valeur>'))
     // Le thème doit être défini dans `js/themes`
-  , PROP_SHORTCUTS: {'ff':'font-family', 's': 'font-size', 'fs': 'font-style', 'lm':'left', 'rm': 'right', 'mg':'left', 'md': 'right', 'ta':'text-align',
-  'mh': 'top', 'tm': 'top'}
+  , PROP_SHORTCUTS: {'ff': 'font-family', 'fw': 'font-weight', 's': 'font-size', 'fs': 'font-style', 'lm':'left', 'rm': 'right', 'mg':'left', 'md': 'right', 'ta':'text-align',
+  'mh': 'top', 'tm': 'top',
+'ls':'letter-spacing'}
   ,  style_commun: {}
 
   /**
@@ -13,6 +14,7 @@ const Theme = {
    * c'est bon (ou pas…)
    */
   , load: function(){
+      this.current = Options.get('theme') || 'muscat';
       var pth = `xlib/js/themes/${this.current}.js`;
       var nod = document.body.appendChild(document.createElement('script'));
       nod.src = pth
@@ -51,6 +53,7 @@ const Theme = {
           arr.push(`${this.PROP_SHORTCUTS[ks]}:${value};`)
         }
       }
+      console.log(arr.join(''))
       return arr.join('');
     }
   // === MÉTHODES SERVANT POUR LA DÉFINITION DES THÈMES ===
@@ -58,7 +61,7 @@ const Theme = {
     // this.style_commun pour mettre des styles en commun, à commencer par
     // la police de caractère utilisée.
   , set: function(hstyle){
-      return Object.assign({}, hstyle, this.style_commun);
+      return Object.assign({}, this.style_commun, hstyle) ;
     }
 }
 const Th = Theme ;

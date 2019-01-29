@@ -28,10 +28,11 @@
    , 'marge haut':                  {aka: 'top first score'}
    , 'left margin':                 {boolean: false, value: null}
    , 'marge gauche':                {aka: 'left margin'}
-   , 'vertical line offset':        {boolean: false, value: null}
    , 'horizontal line offset':      {boolean: false, value: null}
    , 'position repère vertical':    {aka: 'vertical line offset'}
    , 'position repère horizontal':  {aka: 'horizontal line offset'}
+   , 'theme':                       {boolean: false, value: null}
+   , 'vertical line offset':        {boolean: false, value: null}
  }
 
  // pour ajouter une option
@@ -50,7 +51,7 @@ const Options = {
     if (undefined == options){options = {}}
     if (undefined == OPTIONS[opt_id]){
       if(options.no_alert != true){
-        alert(`L'option ${opt_id} est inconnue de nos services.`);
+        F.error(`L'option ${opt_id} est inconnue de nos services.`);
       }
       return undefined ;
     } else if (OPTIONS[opt_id].aka){
@@ -74,7 +75,7 @@ const Options = {
         opt_id = dopt[1] ;
         // console.log('Traitement de opt_id: ', opt_id);
         if(undefined == OPTIONS[opt_id]){
-          alert(`L'option ${opt_id} est inconnue de nos services !…`);
+          F.error(`L'option ${opt_id} est inconnue de nos services !…`);
           continue;
         } else if (OPTIONS[opt_id].aka) {
           opt_id = OPTIONS[opt_id].aka ;

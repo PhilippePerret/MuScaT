@@ -1,1 +1,1 @@
-const ANALYSE="Template";
+const ANALYSE="ThemesInPlace";
