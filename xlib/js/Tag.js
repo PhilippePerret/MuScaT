@@ -98,6 +98,9 @@ Tag.prototype.update = function(prop, new_value, options) {
     // Appel de la méthode sans argument
     my.updateXY(); // ça fait tout, normalement
 
+  } else if (undefined!=new_value && Number.parseInt(new_value,10) < 5) {
+    return ; // impossible de mettre des valeurs inférieures à 5
+    // Noter que même les pourcentages seront rejetés
   } else {
     if (!options || !options.no_histo){
       H.add([new HistoProp(my, prop, my[prop], new_value)]) ;
@@ -401,17 +404,26 @@ Tag.prototype.updateXY = function(){
   MuScaT.update_line(my.index_line, my.to_line()) ;
 }
 Tag.prototype.updateY = function(newy){
-  if(undefined != newy){this.y = newy}
+  if(undefined != newy){
+    if (newy < 5){return};
+    this.y = newy;
+  };
   this.jqObj.css({'top': this.y + 'px'});
 };
 Tag.prototype.updateX = function(newx){
-  if(undefined != newx){this.x = newx}
+  if(undefined != newx){
+    if (newx < 5){return};
+    this.x = newx;
+  };
   this.jqObj.css({'left': this.x + 'px'});
 };
 Tag.prototype.updateH = function(newh){
   var my = this ;
   if(my.nature == 'cadence'){return F.error(t('no-h-pour-cadence'))};
-  if(undefined != newh) { my.h = newh } ;
+  if(undefined != newh) {
+    if (newh < 5){return};
+    my.h = newh;
+  };
   // Traitement particulier pour les modulations
   if(my.type == 'modulation'){
     my.jqObj.find('svg')[0].setAttribute('height', this.h + 50) ;
@@ -425,6 +437,7 @@ Tag.prototype.updateW = function(neww){
   var my = ITags[this.domId];
   if (my.type == 'modulation'){return F.error(t('no-w-pour-modulation'))};
   if(undefined != neww){
+    if (neww < 5){return};
     var [new_w, new_w_unit] = my.get_value_and_unit(neww);
     if(my.nature == 'cadence'){
       // Pour une cadence, la largeur doit ajouter vers la

@@ -1,6 +1,5 @@
 # Todo list
 
-* Le facteur de vitesse de l'animation fonctionne à l'envers : il faut que plus le nombre est grand plus ça va vite (donc plus le temps est court entre deux tableaux)
 * Thèmes
   * Faire au moins un autre thème
   * Documenter la fabrication d'un thème (programme ou utilisateur confirmé)
