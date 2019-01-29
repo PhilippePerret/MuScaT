@@ -85,20 +85,28 @@ const MEvents = {
       // this.console_key(ev);
     }
   , onkeydown_with_selection: function(ev){
-      if (ev.which == 87 /* w */){
-        CTags.selection.set_dimension('w', ev.altKey, ev.shiftKey, ev.ctrlKey);
-      } else if (ev.which == 72 /* h */) {
-        CTags.selection.set_dimension('h', ev.altKey, ev.shiftKey, ev.ctrlKey);
-      } else if (true) {
-        switch (ev.keyCode) {
-          case 37: // LEFT ARROW
-          case 38: // UP ARROW
-          case 39: // RIGH ARROW
-          case 40: // DOWN ARROW
-            sens = this.ARROWKEYS_SENS[ev.keyCode];
-            CTags.onEachSelected(function(itag){itag.move(sens, ev.shiftKey, ev.ctrlKey)});
-            return stop(ev);
-        }
+      switch (ev.which) {
+        case 87: /*  w */
+        case 72: /* h  */
+          CTags.selection.set_dimension('w', ev.altKey, ev.shiftKey, ev.ctrlKey);
+          return stop(ev);
+        case 88: /*  x */
+        case 89: /*  y */
+          // l, t, r, d
+          var sens = ev.which == 88 ? (ev.altKey ? 'l' : 'r') : (ev.altKey ? 't' : 'd')
+          CTags.onEachSelected(function(itag){itag.move(sens, ev.shiftKey, ev.ctrlKey)});
+          return stop(ev);
+        default:
+          // this.console_key(ev);
+      }
+      switch (ev.keyCode) {
+        case 37: // LEFT ARROW
+        case 38: // UP ARROW
+        case 39: // RIGH ARROW
+        case 40: // DOWN ARROW
+          sens = this.ARROWKEYS_SENS[ev.keyCode];
+          CTags.onEachSelected(function(itag){itag.move(sens, ev.shiftKey, ev.ctrlKey)});
+          return stop(ev);
       }
     }
   /**

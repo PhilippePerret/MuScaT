@@ -10,10 +10,4 @@ box id=6 x=348 y=317
 degre 4 id=7 x=199 y=561
 cad V* id=10 type=demi x=101 y=301 w=147px
 har IV id=11 x=179 y=301
-
-
-* sco systeme1.png x=103 y=567
-• sco systeme1.png x=103 y=678
-🔒 sco systeme1.png x=103 y=874
-
 `;

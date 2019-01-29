@@ -1,9 +1,7 @@
 # Todo list
 
-* S'assurer que les espaces sont remplacées, dans les scripts, quand on donne un nom d'analyse.
-* S'assurer que si le tag est verrouillé, on ne peut pas le modifier avec les touches (x, y, w, h)
 * Pour la cohérence, pouvoir utiliser les touches 'x' et 'y' pour modifier la position (avec Ctrl, Maj et Alt pour affiner, augmenter et diminuer le pas)
-* Rectifier les x/y donnés pour qu'ils tiennent compte des marges de #tags
+* S'assurer que si le tag est verrouillé, on ne peut pas le modifier avec les touches (x, y, w, h)
 * Quand on augmente la largeur d'une cadence (w), on doit bouger le x d'autant (pour que le trait s'augmente vers l'arrière)
 * [MANUEL DES MANUELS]
   * Renseigner la création des manuels avec les blocs avec class, en détournant les backsticks
