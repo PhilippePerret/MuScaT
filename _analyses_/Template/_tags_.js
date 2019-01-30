@@ -1,4 +1,4 @@
-options('code beside', 'lang', 'fr', 'lines of reference') ;
+options('code beside', 'lines of reference') ;
 
 Tags = `
 sco sonate_haydn-0.png id=1 x=50 y=100 w=608

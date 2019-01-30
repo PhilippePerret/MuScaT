@@ -33,7 +33,8 @@ LOCALES = {
   'operation-successful' => "#{RC * 3}#{INDENT}Opération exécutée avec succès.#{RC * 3}",
   'create-confirmation' => create_confirmation,
   'export-to-pdf' => "Il suffit maintenant d'exporter ce document HTML au format PDF.",
-
+  'lang-successfully-defined' => "D'accord, maintenant je parle français dans le texte.",
+  
   # === QUESTIONS ===
 
   'which-folder' => "Quel dossier choisir (lettre) ? ('q' pour renoncer)",
@@ -53,7 +54,10 @@ LOCALES = {
   'analysis-folder-built' => "Dossier des analyses construit.",
   'analysis-folder-already-exists' => "Ce dossier d'analyse existe déjà.#{RC}\t\tDétruisez-le ou choisissez un autre nom.",
 
+  # == UNKNOWN ==
   'unknown-command' => "Désolé, je ne connais pas la commande `%{command}'…\nPour obtenir de l'aide, mettre `help` ou `aide` en premier argument.",
+  'unknown-property' => 'Je ne connais pas la propriété "%{prop}", je ne peux pas la définir.',
+  'unknown-lang' => "MuScaT ne sait pas (encore) parler la langue désignée par '%{lang}'. Vous voulez vous proposer pour en faire la traduction ?",
 
   'fatal-error' => "\n\n\tERREUR: %{err_msg}\n\n(pour obtenir de l'aide, jouez './utils/%{command}.rb --help' — ou '-h')\n\n"
 

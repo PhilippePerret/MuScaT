@@ -7,6 +7,7 @@ PARTITION_PATH    = File.join(APPFOLDER,'_TABLE_ANALYSE_.html')
 CUR_ANALYSE_FILE  = File.join(APPFOLDER,'analyse.js')
 
 LANG_FILE         = File.join(APPFOLDER,'xlib','locales','LANG')
+LANG_JS_FILE      = File.join(APPFOLDER,'xlib','js','system','LANG.js')
 LANG              = File.exist?(LANG_FILE) ? File.read(LANG_FILE).strip : 'en'
 # puts "Langue: #{LANG}"
 LOCALES_FOLDER    = File.join(APPFOLDER,'xlib','locales', LANG)
@@ -32,7 +33,7 @@ def puts_help cmd_id
   puts RC*4
   puts "#{"="*40} HELP/AIDE #{'='*40}"
   puts RC*4
-  puts INDENT + File.read(pth).split(RC).join(RC + INDENT)
+  puts INDENT + eval('"'+File.read(pth).gsub(/"/, '\"')+'"').split(RC).join(RC + INDENT)
   puts RC*3
 end
 

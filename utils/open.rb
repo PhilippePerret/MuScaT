@@ -7,15 +7,18 @@ require 'io/console'
 require 'fileutils'
 require_relative 'required'
 
-WHAT = ARGV.shift
-
-unless ARGV.include?('-h') || ARGV.include?('--help')
+unless ARGV.include?('-h') || ARGV.include?('--help') || ARGV.empty?
   begin
+
+    WHAT = ARGV.shift
 
     case WHAT.downcase
     when 'manuel'
       pth = File.join(APPFOLDER,'Manuel','Manuel.pdf')
       `open "#{pth}"`
+    when 'manual'
+      pth = File.join(LOCALES_FOLDER,'Manual','Manual.pdf')
+      `open "#{path}"`
     else
       # On cherche le nom donné en argument
       analyse_name    = nil

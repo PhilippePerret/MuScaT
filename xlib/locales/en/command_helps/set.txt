@@ -1,0 +1,27 @@
+[UGLY ENGLISH TRANSLATION TO IMPROVE]
+
+SET MUSCAT COMMAND HELP
+=======================
+
+Use this script to set some generale value for the scripts, starting
+with language.
+
+USAGE
+-----
+
+  #{'./utils/set.rb prop=value prop=value... prop=value[ <options>]'.jaune}
+
+  Or, with `mus` alias:
+
+  #{'mus set prop=value prop=value... prop=value[ <options>]'.jaune}
+
+SETTABLE PROPERTIES
+-------------------
+
+  #{'lang'.jaune}
+
+      To define the language. Value must be the lang code, in two
+      letters, 'fr' for french, 'en' for english, 'de' for deutch,
+      etc.
+
+      Example : #{'mus set lang=fr'.jaune}

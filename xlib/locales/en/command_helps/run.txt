@@ -1,24 +1,35 @@
-AIDE DE LA COMMANDE MUSCAT run.rb
----------------------------------
+[UGLY ENGLISH TRANSLATION TO IMPROVE]
 
-Cette commande permet d'utiliser plus simplement l'application en
-ligne de commande grâce à un alias créé dans votre profil bash.
-Consulter le manuel pour le détail.
+RUN.RB MUSCAT COMMAND HELP
+--------------------------
 
-En considérant que `mus` est votre alias, vous pouvez utiliser :
+The `run` command lets you use MuScaT easily in command line,
+thanks to an alias in your bash profile (see below).
 
-#{'> mus create "Nouvelle Analyse"[ -o]'.jaune}
+If `mus` is your alias, you can use:
 
-    Pour créer une nouvelle analyse. Avec l'option `-o`, le dossier
-    s'ouvre dans le Finder.
+#{'> mus create "New Analysis Name" -o'.jaune}
 
-#{'> mus analyse "Nom de l’analyse"'.jaune}
+    To create a new analysis and open it (option `-o`).
 
-    Permet de lancer l'analyse portant le nom "Nom de l’analyse"
-    (qui peut être seulement le début du nom).
-    En ne mettant aucun argument (`> mus analyse`) on obtient la
-    liste de toutes les analyses du dossier `_analyses_`.
+#{'> mus analysis "Analysis Name"'.jaune}
+
+    Load the analysis in the browser.
+
+    Note: with no argument (`> mus analysis`), you can get
+    the analysis list and choose one of them.
 
 #{'> mus test -o'.jaune}
 
-    Lance les tests (en ouvrant le fichier test.html dans Firefox).
+    To run the tests.
+
+CREATING THE ALIAS
+------------------
+
+On mac :
+
+  * open the Terminal application,
+  * open your bash profile (`> vim ~/.bash_profile`),
+  * create the alias (add `alias mus="path/to/MuScaT/utils/run.rb"`),
+  * save and close the bash profile,
+  * close the Terminal window and open a new one.

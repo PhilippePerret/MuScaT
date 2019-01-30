@@ -1,42 +1,46 @@
-Ce script permet de définir le dossier qui va recevoir les captures
-écran, ou de le remettre à sa valeur par défaut.
+[UGLY ENGLISH TRANSLATION TO IMPROVE]
+
+This script lets you define the folder which will hold the screen
+shots.
 
 USAGE
 -----
-  #{'./change_folder_captures.rb[ ./chemin/vers/dossier][ options][-h]'.jaune}
+  #{'./change_folder_captures.rb[ ./path/to/folder][ options][-h]'.jaune}
 
-  Le dossier `chemin/vers/dossier` devient le dossier qui va rece-
-  voir toutes les captures. S'il n'est pas défini, c'est le dossier
-  par défaut (le bureau) qui est remis.
+  The `path/to/folder` path becomes the receiver of all
+  captures. If not provided, the default folder (desktop), is
+  used.
 
-  Les #{'options'.jaune} peuvent être `-mk` qui indique qu'il faut
-  construire le dossier s'il n'existe pas.
+OPTIONS
+-------
 
-  #{'-h'.jaune} ou #{'--help'.jaune} à la fin de la ligne indique
-  qu'il faut afficher cette aide.
+  #{'-mk'.jaune}
+      The folder will be built if it doesn't exist.
 
-ASTUCE
-------
+  #{'-h'.jaune} or #{'--help'.jaune}
+      To display this help.
 
-  Le chemin vers le dossier peut être obtenu simplement en glissant
-  le dossier dans la fenêtre du Terminal (ou la console) après le
-  texte `./change_folder_captures ` (ne pas oublier l'espace au
-  bout avant de glisser le dossier).
+TIP
+---
 
-EXEMPLES
+  To set the path, you can simply drag and drop the folder on the
+  Terminal window, juste after `./utils/change_folder_captures.rb `.
+  Don't forget the space at the end before dragging.
+
+EXAMPLES
 --------
 
-  #{'> cd /Users/chezmoi/Programmes/MuScaT
-  > ./utils/change_folder_captures.rb /Users/chezmoi/Music/Analyses/ -mk'.jaune}
+  #{'> cd /Users/athome/Programs/MuScaT
+  > ./utils/change_folder_captures.rb /Users/athome/Music/Analysis/ -mk'.jaune}
 
-  Le dossier `~/Music/Analyses` devient le dossier où sont enregis-
-  trées les captures d'écran.
-  Le dossier est construit s'il n'existe pas (option `-mk`).
+      The `~/Music/Analysis` folder becomes the folder where
+      captures will be saved.
+      The folder is built if it doesn't exist (option `-mk`).
 
   #{'> ./utils/change_folder_captures.rb'.jaune}
 
-  Le dossier des captures d'écran est remis à sa valeur par défaut.
+      The captures folder is reset to its default value (Desktop).
 
   #{'> ./utils/change_folder_captures.rb -h'.jaune}
 
-  Affiche cette aide.
+      Display this help.

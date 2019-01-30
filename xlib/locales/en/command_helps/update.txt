@@ -1,8 +1,16 @@
-Ce script permet d'actualiser divers éléments de l'application.
-Pour le moment, il ne sert qu'à actualiser le manuel, en jouant :
+[UGLY ENGLISH TRANSLATION TO IMPROVE]
 
-  #{'./update.rb manuel'.jaune}
+UPDATE.RB MUSCAT COMMAND HELP
+=============================
+
+Use this script the update application element as the manual.
+
+  #{'./update.rb manual'.jaune}
 
 USAGE
 -----
-  #{'./update.rb <chose à updater>'.jaune}
+  #{'./utils/update.rb <what to update>'.jaune}
+
+  With the `mus` alias:
+
+  #{'mus update <what you want>'.jaune}

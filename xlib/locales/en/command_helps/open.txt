@@ -1,24 +1,25 @@
-Ce script permet d'ouvrir le dossier d'une analyse se trouvant dans
-le dossier `./_analyses_/`.
-Ou le manuel avec la commande :
+[UGLY ENGLISH TRANSLATION TO IMPROVE]
 
-  #{'./open.rb manuel'.jaune}
+Use this script to "open" something in MuScaT, starting with the
+analysis folder or the manual.
+
+  #{'./utils/open.rb manual'.jaune}
 
 USAGE
 -----
-  #{'./open.rb "<Début_du_nom_de_dossier>"'.jaune}
+  #{'./utils/open.rb ["]<what>["]'.jaune}
 
-  (avec l'alias `mus`)  > mus open "début du nom"
-                        > mus ouvre "Début du nom"
+  (avec l'alias `mus`)  > mus open [<what>]
 
-  Note : si on se trouve dans le dossier principal de MuScaT, il faut
-  faire `./utils/open.rb`.
+WHAT
+----
 
+  "What" can be :
 
-  Le #{'<Début_du_nom_de_dossier>'} est le nom ou le début du nom
-  du dossier dans le dossier général `_analyses_` qui devrait con-
-  tenir toutes vos analyses MuScaT. Si plusieurs dossiers ont le
-  même début, la commande permet de choisir lequel utiliser.
+  #{'manual'.jaune}
 
-  Si aucun argument n'est mis, c'est la liste de toutes les analy-
-  qui est présentée, pour en choisir une.
+      To open the MuScaT manual in english.
+
+  #{'<analysis name>'.jaune}
+
+      To open the analysis with name "<analysis name>".

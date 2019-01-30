@@ -1,0 +1,34 @@
+AIDE DE LA COMMANDE `set`
+
+  Permet de régler certaines valeurs générales de l'application,
+  à commencer par la langue parlée par les scripts.
+
+USAGE
+-----
+
+  #{'./utils/set.rb prop=value prop=value... prop=value[ <options>]'.jaune}
+
+  Ou, avec l'alias `mus` :
+
+  #{'mus set prop=value prop=value... prop=value[ <options>]'.jaune}
+
+PROPRITÉTÉS DÉFINISSABLES
+-------------------------
+
+  #{'lang'.jaune}
+
+      Pour définir la langue. La valeur doit être le code de langue
+      en deux lettres, 'fr' pour le français, 'en' pour l'anglais,
+      'de' pour l'allemand, etc.
+
+      Exemple : #{'mus set lang=fr'.jaune}
+
+      NOTE IMPORTANTE
+      ---------------
+
+      Cette langue définit la langue des messages de MuScaT au niveau
+      des scripts seulement. Pour ce qui est de l'interface et des
+      messages dans le navigateur, il convient d'utiliser l'option
+      'lang' en ajoutant en haut du fichier `_tags_.fr` :
+
+      option('lang', '<deux lettres');
