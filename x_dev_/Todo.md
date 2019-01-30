@@ -1,5 +1,7 @@
 # Todo list
 
+* Pour le manuel, mettre en forme les .usage et .exemple utilisé pour la liste des natures.
+* Ne pas donner d'identifiant aux lignes vides. Lorsqu'un ITags n'existe pas, c'est une ligne vide.
 * Sur stackoverflow, parler de ma technique pour détourner les blocs backsticks pour obtenir ce qu'on veut.
 * Ça serait bien de garder les lignes vides vides…
 * Quand on clique sur un élément, ça doit aussi nous donner la position
@@ -18,9 +20,7 @@
   * faire un script permettant de relever leurs noms ? (peut-être juste pour le manuel)
 * Animation : peut-être une mise en évidence de la nouvelle insertion (flash) (voir à l'usure, car ça peut être fatiguant => une option)
 * Faire le script 'open' pour :
-  * ouvrir le dossier de l'animation sur le bureau
   * ouvrir le _tags_.js dans un éditeur
-  * ouvrir le aspect.css dans un éditeur ?
 * Mémoriser les dernières analyses, mettre la dernière en courante, comme pour scriv
 * Lignes : essayer de faire des flèches avec "->" et "<-" et "<->" (en notant qu'une flèche vers le haut ou le bas est comme celles-ci). Utiliser ensuite les h et les w pour jouer sur l'angle ou utiliser plutôt une autre propriété pour la rotation
 * Pouvoir entrer le titre et d'autres informations pour la première page (ou même une image de première page). Si informations textuelles, créer cette première page avec un @media qui ne rendrait pas les éléments visibles par défaut sur la page, mais les imprimeraient.

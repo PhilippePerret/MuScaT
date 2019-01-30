@@ -35,57 +35,86 @@ table tr:first-child td {
 }
 table tr td p {margin-top: 0;}
 
-code:not(.sourceCode) {
-  background-color: #CCCCCC;
-  color: #555555;
-  border-radius: 4px;
+pre.sourceCode {
+  padding-bottom: 1.5em;
+  padding-left: 0.5em;
+  border-left: 1em solid #BBBBBB;
+  background-color: #CFCFCF;
+  margin-left: 2em;
+}
+pre.sourceCode.javascript {
+  padding-top: 1.5em;
+}
+
+
+.code {
   padding: 0 8px;
+  background-color: rgb(186, 102, 102); /* brown; */
+  color: white;
+  font-family: courier;
 }
-
-pre code:not(.sourceCode){
-  padding: 1em 1em;
+.path {
+  padding: 0 6px;
+  font-family: monospace;
+  background-color: #DDDDDD;
+  color: #222222;
+  border: 1px solid #BBBBBB;
 }
-
-pre, pre code {
-  display: block;
-  width: 100%;
+.prop {
+  padding: 0 4px;
+  color: orange;
+  font-family: monospace;
 }
-pre code {
-}
-pre.usage code {
-  background-color: #555555;
+.cmd, .command {
+  padding: 0 4px;
+  font-family: monospace;
+  background-color: black;
   color: white;
 }
-
-pre.center,
-pre.center code,
-pre.exergue,
-pre.exergue code
-pre.footer,
-pre.footer code,
-pre.copyright,
-pre.copyright code
-{
-  white-space: normal;
-  font-family: inherit;
-  font-size: inherit;
-  font-style: inherit;
-  background-color: inherit;
+/* Pour une valeur string */
+.str {
+  color: green;
+  font-weight: normal;
+}
+.num, .number {
+  color: purple;
+  /* padding: 0 4px; */
+}
+.shortcut {
+  color:#993333;
+}
+.shortcut:before {
+  content: '<';
+  /* color: #444444!important; */
+  color:#BB7777;
+  margin-right: 2px;
+}
+.shortcut:after {
+  content: '>';
+  color:#BB7777;
+  margin-left: 2px;
 }
 
-pre.center {
+
+.center {
+  display: block;
   text-align: center;
 }
-pre.exergue {
+.exergue {
+  display: block;
   font-size: 1.15em;
   font-weight: bold;
+  margin: 1em 5em;
 }
 
-pre.footer {
+.footer {
+  display: block;
   margin-top: 4em;
   font-size: 0.82em;
   text-align: center;
 }
-pre.copyright {
+.copyright {
   font-family: Arial, Helvetica;
 }
+
+.rouge {color: red!important;}
