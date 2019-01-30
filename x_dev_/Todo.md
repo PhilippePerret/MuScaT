@@ -1,10 +1,10 @@
 # Todo list
 
+* Ne pas mettre la touche pour copier le code dans la boite à outils si le code est affiché
+* Il faut que le code à droite soit hyper fiable. Il y a encore trop de choses bizarres qui se passent.
 * Pour le manuel, mettre en forme les .usage et .exemple utilisé pour la liste des natures.
 * Ne pas donner d'identifiant aux lignes vides. Lorsqu'un ITags n'existe pas, c'est une ligne vide.
-* Sur stackoverflow, parler de ma technique pour détourner les blocs backsticks pour obtenir ce qu'on veut.
-* Ça serait bien de garder les lignes vides vides…
-* Quand on clique sur un élément, ça doit aussi nous donner la position
+* Copier les styles du manuel dans le manuel des manuels
 
 ## TEST
 
@@ -36,3 +36,30 @@
 * Pouvoir jouer le code progressivement (pour une sorte d'animation) : on définit où l'animation doit commencer (START) et à partir de là, les lignes s'exécutent l'une après l'autre (option('anim'|'animation')).
 * Donner le code sous la forme d'un fichier zip à downloader
 * Pouvoir double cliquer sur la page pour ajouter un élément quelconque (un formulaire s'ouvre, qui permet de définir l'élément)
+
+
+NOUVELLE RÉFLEXION SUR LA GESTION DU CODE À DROITE
+
+L'actualisation doit se faire dans les deux sens :
+* On modifie l'aspect sur la table et ça modifie le code (p.e. déplacement de tag)
+* On modifie le code et ça modifie l'aspect sur la table (p.e. suppression d'un élément)
+
+M.tags contient tous les tags créé, dans l'ordre du code
+M.lines contient les lignes de code affichés
+
+Il faut garder les lignes vides vides.
+Une ligne vide => un tag vide, sans ID (contrairement à maintenant). On fait quand même un tag pour simplifier.
+Si on supprime une ligne vide :
+
+Une autre solution serait de faire une fausse liste composée qui serait un UL avec des LI, modifiables, qui aurait l'apparence d'une vraie liste de code. Il faudrait gérer le comportement pour que tout semble comme une liste :
+* les flèches permettent de passer d'un élément à un autre
+* la touche entrée crée un élément en dessous
+* la touche erase supprime l'élément vide
+Les avantages :
+* la touche tabulation permet de passer de tag en tag
+* on contrôle élément par élément
+* On peut déplacer les éléments avec les flèches (CMD + flèche)
+* On peut mettre en exergue le tag plus facilement
+* Plus besoin de mettre l'identifiant dans la ligne
+Les désavantages :
+* on ne peut plus copier tout le code, il faut utiliser le bouton "-> clipboard"

@@ -140,3 +140,17 @@ span.line0T1, .line1T1, .line0B1, .line1B1 {
 span.box {
   background-color: #CCCCCC;
 }
+
+/* La liste des codes de tags */
+ul#ultags {
+  background-color: #444444;
+  color:white;
+  list-style: none;
+  padding: 1em;
+  overflow-y: scroll;
+  height: 600px;
+}
+ul#ultags li {
+  font-family: monospace;
+  font-size: 13pt;
+}

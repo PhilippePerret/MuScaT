@@ -114,6 +114,9 @@ const MuScaT = {
       Page.set_code_beside();
     }
 
+    // Dans tous les cas, maintenant, on construit la liste des tags
+    ULTags.build();
+
     // Si l'option 'lines of reference' a été activée, il faut
     // ajouter les deux lignes repères
     if(Options.get('lines of reference')){
@@ -560,7 +563,9 @@ const MuScaT = {
    * la modification des lignes.
    */
   epure_and_split_raw_line: function(line){
-    var rg ;
+    var rg
+      , type // 'real-tag', 'empty-line', 'comments-line'
+      ;
     line = line.trim().replace(/\t/g, ' ') ;
     line = line.replace(/ +/g, ' ') ;
     // Marque de ligne verrouillée
@@ -570,20 +575,15 @@ const MuScaT = {
       // <= C'est une ligne verrouillée
       firstoff = line.substring(0,2) == '🔒' ? 2 : 1
       line = line.substring(firstoff,line.length).trim();
-    }
-    // La ligne est-elle un commentaire ou une ligne vide qui contient
-    // son identifiant ?
-    id = null ;
-    if (rg = line.match(/#([0-9]+)#/)){
-      id    = Number.parseInt(rg[1],10) ;
-      line  = line.replace(/#([0-9]+)#/,'').trim();
-    } else if (rg = line.match(/^([a-z]+) (.*) ([0-9]+) ([0-9]+)$/i)){
+    };
+
+    if (rg = line.match(/^([a-z]+) (.*) ([0-9]+) ([0-9]+)$/i)){
       // Est-ce une version raccourcie d'écriture :
       // <nature> <valeur> <y> <x>
       line = `${rg[1]} ${rg[2]} y=${rg[3]} x=${rg[4]}`;
-    } ;
+    };
 
-    return {data: line.split(' '), locked: locked_line, id: id}
+    return {data: line.split(' '), locked: locked_line, nature_init: line.split(' ')[0]}
   },
 
   /**

@@ -44,10 +44,6 @@ function Tag(data_line) {
   // nature raccourcie et/ou dans la langue d'origine.
   this.nature_init = nature ;
 
-  // Maintenant que les commentaires et les lignes vides sont des
-  // tags aussi, on doit interpréter ici
-  this.real = this.nature_init != '' && this.nature_init != '//';
-
   // Il faut consigner les données de la ligne, on en a besoin tout de
   // suite après.
   this.data_line  = data_line ;
@@ -85,6 +81,60 @@ function Tag(data_line) {
   * MÉTHODES DE DONNÉES
   *
   **/
+
+/**
+ * Nouvelle méthode, depuis qu'on met le code sous forme de UL, pour
+ * parser la nouvelle ligne modifiée.
+ * Noter qu'ici la ligne peut changer du tout au tout, devenir commentaire
+ * en étant ligne vide, devenir ligne vide en ayant été tag, etc.
+ */
+Tag.prototype.parse = function(newline){
+  var my = this ;
+  var ret = M.epure_and_split_raw_line(newline) ;
+  my.data_line  = ret.data ;
+  my.locked     = ret.locked ;
+  // nature_init permettra de déterminer le type du tag, vrai tag ou
+  // ligne vide ou ligne de commentaires
+  my.nature_init = ret.nature_init ;
+  // TODO la méthode decompose doit déjà savoir si le tag est une
+  // ligne vide, un commentaire ou un vrai tag. Il faut les régler ici
+  my.decompose();
+  // Si l'objet n'est pas encore construit, il faut le construire, sinon,
+  // il faut seulement l'updater
+  if (my.jqObj.length == 0){
+    // L'objet n'existe pas encore, il faut le construire (note : si c'est
+    // une ligne vide ou un commentaire, rien ne sera construit)
+    my.build_and_watch()
+  } else if (my.is_empty_line || my.is_comment_line){
+    // Le tag a changé de nature, il est devenu une ligne vide ou
+    // un commentaire => il faut le détruire
+    my.jqObj.remove();
+  } else {
+    // Le tag existe mais ses données ont peut-être changées, on
+    // l'actualise.
+    // TODO
+  }
+};
+
+/**
+ * La ligne qui doit être enregistrée dans le fichier _tags_.js
+ *
+ * Note : la différence avec 'to_line' est qu'ici on ne met pas
+ * l'identifiant.
+ */
+Tag.prototype.to_li = function(){
+  var my = this ;
+  console.log(this.recompose({for_li: true}))
+  return (this.recompose({for_li: true}).join(' ')).trim() ;
+};
+
+// Retoune la ligne telle qu'elle doit être dans le fichier _tags_.js
+// Attention : ici il ne s'agit pas d'une ligne au sens de l'élément graphique,
+// mais de la ligne de CODE qui définit l'élément graphique dans _tags_.js
+Tag.prototype.to_line = function() {
+  // On sépare toutes les valeurs par une espace
+  return (this.recompose().join(' ')).trim() ;
+}
 
 /**
  * Grand méthode d'actualisation du TAg
@@ -137,10 +187,10 @@ Tag.prototype.update = function(prop, new_value, options) {
 // Reset de l'identifiant (quand copie, par exemple)
 Tag.prototype.reset_id = function() {
   var my = this ;
-  my.id = null ;
-  my._domId = null ;
-  my._jqObj = null ;
-  my._domObj = null ;
+  my.id       = null ;
+  my._domId   = null ;
+  my._jqObj   = null ;
+  my._domObj  = null ;
 };
 
 // ---------------------------------------------------------------------
@@ -271,16 +321,6 @@ Tag.prototype.move = function(sens, mult, fin){
 // ---------------------------------------------------------------------
 //  Méthodes de CONSTRUCTION
 
-// Construit le tag et pose les observers dessus
-Tag.prototype.build_and_watch = function(){
-  this.build();
-  this.observe();
-};
-// Méthode qui construit l'élément dans la page
-Tag.prototype.build = function(){
-  // console.log(`Construction du tag #${this.id} (y=${this.y})`);
-  Page.add(this);
-};
 // Pour transformer le tag en code HTML
 // +params+ est un hash qui définit les codes css à utiliser
 // en plus de ceux définis par l'instance courante. C'est par exemple la
@@ -345,7 +385,19 @@ Tag.prototype.to_html = function() {
     default:
   }
   return `<span id="${my.domId}" class="${classes.join(' ')}" style="${css}">${ftext}</span>`;
-}
+};
+
+// Construit le tag et pose les observers dessus. Mais seulement si
+// c'est un "vrai" tag (pas une ligne de commentaire ou une ligne vide)
+Tag.prototype.build_and_watch = function(){
+  this.real && this.build().observe();
+};
+// Méthode qui construit l'élément dans la page
+Tag.prototype.build = function(){
+  // console.log(`Construction du tag #${this.id} (y=${this.y})`);
+  Page.add(this);
+  return this; // chainage
+};
 
 // La marque de modulation possède son propre code, complexe, à l'aide
 // de SVG.
@@ -618,8 +670,11 @@ Tag.prototype.decompose = function(){
 // Méthode inverse de la précédente : elle recompose la ligne
 // analysée
 // Return un Array de toutes les valeurs
-Tag.prototype.recompose = function(){
+Tag.prototype.recompose = function(options){
   var my = this ;
+
+  if(my.is_empty_line){return ['']};
+
   aLine = new Array() ;
   // Indicateur de verrouillage si la ligne est verrouillé
   if (my.locked){aLine.push('🔒')}
@@ -630,16 +685,18 @@ Tag.prototype.recompose = function(){
   my.text && aLine.push(my.is_comment_line ? my.text : my.text.replace(/ /g,'_')) ;
 
   // L'identifiant
-  aLine.push(my.real ? `id=${my.id}` : `#${my.id}#`);
+  if(!(options && options.for_li)){
+    aLine.push(`id=${my.id}`);
+  }
 
   // Si un type est défini, et que la nature n'est pas un raccourci
   // de nature, on écrit ce type
   if ( my.type && !my.is_nature_shortcut() ) {
-    aLine.push('type='+my.type)
+    aLine.push('type='+my.type);
   }
   // La position
-  my.x && aLine.push('x=' + parseInt(my.x)) ;
-  my.y && aLine.push('y=' + parseInt(my.y)) ;
+  my.x && aLine.push('x=' + parseInt(my.x));
+  my.y && aLine.push('y=' + parseInt(my.y));
   my.h && aLine.push('h=' + my.h + (my.h_unit||'')) ;
   my.w && aLine.push('w=' + my.w + (my.w_unit||'')) ;
 
@@ -649,13 +706,6 @@ Tag.prototype.recompose = function(){
 // ---------------------------------------------------------------------
 // Helpers
 
-// Retoune la ligne telle qu'elle doit être dans le fichier _tags_.js
-// Attention : ici il ne s'agit pas d'une ligne au sens de l'élément graphique,
-// mais de la ligne de CODE qui définit l'élément graphique dans _tags_.js
-Tag.prototype.to_line = function() {
-  // On sépare toutes les valeurs par une espace
-  return (this.recompose().join(' ')).trim() ;
-}
 
 // Retourne la position sous forme humaine
 Tag.prototype.hposition = function(){
@@ -859,7 +909,7 @@ Object.defineProperties(Tag.prototype,{
       get: function(){
         if(undefined == this._domId){
           if(null == this.id){throw('Impossible de définir domId, l’identifiant du tag est null…')}
-          this._domId = `obj${this.id}`
+          this._domId = `tag${this.id}`
         }
         return this._domId ;
       },
@@ -885,6 +935,9 @@ Object.defineProperties(Tag.prototype,{
     }
 
   // Nature de la ligne du tag
+  , real: {
+      get:function(){return !this.is_comment_line && !this.is_empty_line;}
+    }
   , is_comment_line: {
       get: function(){return this.nature_init == '//'}
     }

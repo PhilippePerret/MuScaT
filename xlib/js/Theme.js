@@ -53,7 +53,6 @@ const Theme = {
           arr.push(`${this.PROP_SHORTCUTS[ks]}:${value};`)
         }
       }
-      console.log(arr.join(''))
       return arr.join('');
     }
   // === MÉTHODES SERVANT POUR LA DÉFINITION DES THÈMES ===

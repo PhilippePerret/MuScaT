@@ -39,8 +39,9 @@
     <span id="analyse_name"></span>
 
     <!-- Colonne gauche, non visible, pour travailler avec le code à côté-->
-    <section id="rcolumn" style="display:none;">
-      <textarea name="codeSource" id="codeSource"></textarea>
+    <section id="rcolumn">
+      <ul id="ultags"></ul>
+      <textarea name="codeSource" id="codeSource" style="display:none;"></textarea>
       <div class="right">
         <button id="btn-update-table" type="button" onclick="$.proxy(Page,'update')()"></button>
       </div>
