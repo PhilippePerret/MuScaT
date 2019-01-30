@@ -6,6 +6,7 @@ ANALYSES_FOLDER   = File.join(APPFOLDER,'_analyses_')
 PARTITION_PATH    = File.join(APPFOLDER,'_TABLE_ANALYSE_.html')
 CUR_ANALYSE_FILE  = File.join(APPFOLDER,'analyse.js')
 
+INFOS_FILE        = File.join(APPFOLDER,'xlib','infos.rb')
 LANG_FILE         = File.join(APPFOLDER,'xlib','locales','LANG')
 LANG_JS_FILE      = File.join(APPFOLDER,'xlib','js','system','LANG.js')
 LANG              = File.exist?(LANG_FILE) ? File.read(LANG_FILE).strip : 'en'
@@ -21,6 +22,17 @@ RC = '
 
 # Requérir les mots de la langue
 require File.join(LOCALES_FOLDER,'locales')
+# Requérir les infos
+if File.exist?(INFOS_FILE)
+  require INFOS_FILE
+else
+  INFOS = {
+    editor: "TextMate",
+    updated_at: nil,
+    created_at: Time.now.to_i
+  }
+end
+
 
 # Retourne le texte localisé en fonction de la langue
 def t str_id, templates = nil

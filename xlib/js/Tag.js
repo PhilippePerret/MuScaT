@@ -762,6 +762,7 @@ Tag.prototype.onClick = function(ev){
   var my = this ;
   var withMaj = ev.shiftKey;
   CTags.on_select(my, ev.shiftKey);
+  Page.getCoordonates(ev);
 }
 Tag.prototype.select = function(){
   var my = this ;

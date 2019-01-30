@@ -1,4 +1,4 @@
-options('code beside', 'lang', 'fr', 'lines of reference') ;
+options('code','lines of reference') ;
 
 Tags = `
 // Infos #28#
@@ -8,15 +8,21 @@ date 1784 id=31
 opus Hob_XVI_34 id=32
 analyst Philippe_Perret id=33
 date_analyse 27_janvier_2019 id=34
-#35#
+
 // === Début analyse === #36#
-score sonate_haydn-0.png id=1 x=5 y=271 w=175mm
 acc E_min id=37 x=81 y=271
+har I id=44 x=82 y=421
+lin id=45 type=- x=102 y=433 w=250
+har VI id=46 x=363 y=421
+har V* id=47 x=454 y=421
+har I id=49 x=565 y=421
+cad V id=48 type=demi x=553 y=422
+🔒 score sonate_haydn-0.png id=1 x=5 y=271 w=175mm
 🔒 box id=38 x=65 y=282 h=20 w=60px
-#39#
+
 // Deuxième système #40#
 score sonate_haydn-1.png id=2 x=6 y=488 w=175mm
-cad I id=41 type=parfaite x=231 y=611 w=60px
+cad I id=41 type=demi x=231 y=611 w=60px
 har V id=43 x=235 y=611
 #42#
 score sonate_haydn-2.png id=3 x=3 y=705 w=175mm

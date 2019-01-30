@@ -18,3 +18,12 @@ USAGE
 
   Si aucun argument n'est mis, c'est la liste de tous les dossiers
   qui est présentée, pour en choisir une.
+
+OPTIONS
+-------
+
+  #{'--tags/-t'.jaune}
+
+    Si cette option est activée, le fichier `_tags_.js` est ouvert
+    lui aussi dans l'éditeur de son choix, spécifié par la commande
+    `set editor=`

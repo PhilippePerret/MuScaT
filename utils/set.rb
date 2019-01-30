@@ -11,10 +11,12 @@
 require_relative 'required'
 
 DPROPERTIES = {
-  'lang' => {id: 'lang', value: nil, default: 'en'}
+  'lang'    => {id: 'lang',   value: nil, default: 'en'},
+  'editor'  => {id: 'editor', value: nil, default: 'TextEdit'}
 }
 PROPS_BY_LANG = {
-  'langue': 'lang',
+  'langue'  =>  'lang',
+  'éditeur' =>  'editor'
 }
 
 # Définition de la langue, pour ruby et pour javascript
@@ -31,6 +33,17 @@ def set_lang data_prop
   # On change pour l'interface et l'application
   File.open(LANG_JS_FILE,'wb'){|f| f.write("OPTIONS.lang.value='#{data_prop[:value]}';")}
   puts t('lang-successfully-defined').vert
+end
+
+# Pour définir l'éditeur
+def set_editor data_prop
+  INFOS[:updated_at] = Time.now.to_i
+  File.open(INFOS_FILE,'wb'){|f| f.write(<<-EOF)}
+# MuScaT Infos
+# encoding: UTF-8
+INFOS = #{INFOS.inspect}
+  EOF
+  puts t('editor-successfully-defined').vert
 end
 
 unless ARGV.include?('-h') || ARGV.include?('--help') || ARGV.empty?

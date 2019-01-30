@@ -34,7 +34,8 @@ LOCALES = {
   'create-confirmation' => create_confirmation,
   'export-to-pdf' => "You can now export the HTML document to PDF.",
   'lang-successfully-defined' => "OK, let's speak english from now!",
-
+  'editor-successfully-defined' => "Editor defined.",
+  
   # === QUESTIONS ===
 
   'which-folder' => "Which folder do you choose (its letter) ? ('q' to quit)",

@@ -1,1 +1,1 @@
-const ANALYSE="EssaisInPlace";
+const ANALYSE="Analyse_Sonate_Haydn";

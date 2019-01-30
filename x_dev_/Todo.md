@@ -1,5 +1,9 @@
 # Todo list
 
+* Sur stackoverflow, parler de ma technique pour détourner les blocs backsticks pour obtenir ce qu'on veut.
+* Ça serait bien de garder les lignes vides vides…
+* Quand on clique sur un élément, ça doit aussi nous donner la position
+
 ## TEST
 
 * L'application des thèmes

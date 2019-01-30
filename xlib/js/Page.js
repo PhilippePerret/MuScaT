@@ -187,7 +187,7 @@ const Page = {
     // var y = ev.pageY ;
     var x = ev.offsetX - 15 ;
     var y = ev.offsetY - 15 ;
-    clip('x='+x+" y="+y);
+    clip(' x='+x+" y="+y);
     message(`« x=${x} y=${y} » -> ${t('clipboard')}`);
   }
 };

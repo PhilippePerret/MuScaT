@@ -32,3 +32,8 @@ PROPRITÉTÉS DÉFINISSABLES
       'lang' en ajoutant en haut du fichier `_tags_.fr` :
 
       option('lang', '<deux lettres');
+
+  #{'editor'.jaune}
+
+      Définit l'éditeur à utiliser pour ouvrir les fichiers de don-
+      nées, à commencer par le fichier `_tags_.js`.

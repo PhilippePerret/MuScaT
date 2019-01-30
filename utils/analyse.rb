@@ -56,8 +56,9 @@ unless ARGV.include?('-h') || ARGV.include?('--help')
       analyse_folder = File.join(ANALYSES_FOLDER,names[choix])
     end
 
-    ANALYSE_FOLDER  = analyse_folder
-    ANALYSE_NAME    = File.basename(analyse_folder)
+    ANALYSE_FOLDER    = analyse_folder
+    ANALYSE_NAME      = File.basename(analyse_folder)
+    ANALYSE_TAGS_FILE = File.join(ANALYSE_FOLDER,'_tags_.js')
 
     if analyse_folder
       puts t('analysis-folder-chosen', {name: ANALYSE_NAME.inspect})
@@ -68,6 +69,10 @@ unless ARGV.include?('-h') || ARGV.include?('--help')
 
       # On ouvre l'analyse
       `open -a "Google Chrome" "#{PARTITION_PATH}"`
+      # On ouvre le fichier _tags_.js s'il ne faut
+      if ARGV.include?('-t') || ARGV.include?('--tags')
+        `open -a #{INFOS[:editor]} #{ANALYSE_TAGS_FILE}`
+      end
 
     else
       puts 'unknown-folder'

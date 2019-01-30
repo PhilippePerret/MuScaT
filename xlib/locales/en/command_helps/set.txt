@@ -20,8 +20,13 @@ SETTABLE PROPERTIES
 
   #{'lang'.jaune}
 
-      To define the language. Value must be the lang code, in two
-      letters, 'fr' for french, 'en' for english, 'de' for deutch,
-      etc.
+    To define the language. Value must be the lang code, in two
+    letters, 'fr' for french, 'en' for english, 'de' for deutch,
+    etc.
 
-      Example : #{'mus set lang=fr'.jaune}
+    Example : #{'mus set lang=fr'.jaune}
+
+  #{'editor'.jaune}
+
+    Use to define the editor to use to edit files of data, starting
+    with the `_tags_.js` file..
