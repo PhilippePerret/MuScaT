@@ -163,7 +163,7 @@ Tag.prototype.height_to_str = function(){
  * Méthode qui sépare la valeur de l'unité
  */
 Tag.prototype.get_value_and_unit = function(fullvalue) {
-  var my = ITags[this.domId];
+  var my = this._domId ? ITags[this.domId] : this ;
   if('number'==typeof(fullvalue)){
     return [fullvalue, 'px'];
   } else {

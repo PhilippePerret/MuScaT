@@ -121,6 +121,7 @@ span.tag.chord {
 /* Les lignes et les boites */
 span.line {
   background-color: transparent !important;
+  padding: 0;
 }
 span.line0T0, span.line1T0, span.line1T1, span.line0T1 {
   border-top: 1px solid black;
