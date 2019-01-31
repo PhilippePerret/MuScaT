@@ -834,7 +834,8 @@ Object.defineProperties(Tag.prototype,{
   data_nature: {
     get:function(){
       if (!this._data_nature){
-        this._data_nature = NATURES[this.nature] ;
+        this._data_nature = NATURES[this.nature_init] ;
+        if(this._data_nature.aka){this._data_nature = NATURES[this._data_nature.aka]};
       };
       return this._data_nature ;
     }

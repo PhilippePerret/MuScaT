@@ -1,6 +1,5 @@
 # Todo list
 
-* Ne pas mettre left et height pour les tags sans coordonnées (cf. Haydn)
 * Pour le manuel, mettre en forme les .usage et .exemple utilisé pour la liste des natures.
 
 ## TEST
