@@ -2,13 +2,17 @@
 const ULTags = {
     'pour': 'virgule'
 
+  , items:    new Array() // les LITags
   , selected: null // LITag sélectionné ou Null
 
-  , setULHeight: function(){
-      var my = this ;
-      console.log('window.innerHeight:', window.innerHeight);
-      console.log($(window).height());
-      my.jqObj.css('height', ($(window).height() - 160) + 'px');
+    /**
+      * Méthodes pour que ULTags réagisse comme une liste
+      * Pour ajouter le litag +litag+ à sa liste de LITags
+      */
+  , push: function(litag){
+      // Pour permettre d'obtenir les items par ULTags[<id>]
+      this[litag.id] = litag ;
+      this.items.push(litag);
     }
     /**
      * Pour construire la liste des tags
@@ -17,6 +21,15 @@ const ULTags = {
       var my = this;
       my.setULHeight();
       M.onEachTag(function(itag){$.proxy(new LITag(itag), 'build')()});
+    }
+  /**
+  * Régler la hauteur du UL pour qu'il tienne bien sur la page
+  */
+  , setULHeight: function(){
+      var my = this ;
+      var h   = $(window).height() - 160 ;
+      (h < 2000) || (h = 2000) ;
+      my.jqObj.css('height', `${h}px`);
     }
 
     /**
@@ -34,6 +47,18 @@ const ULTags = {
     }
 
     /**
+     * Méthode appelée par la touche Entrée quand il y a une sélection
+     * sur la table d'analyse. Peut-être qu'il faudrait que ce soit
+     * CTags qui la reçoive, mais je pense que c'est le litag qu'il faut
+     * actualiser (this.selected)
+     */
+  , updateTag: function(){
+      var my = this ;
+      // Sans sélection, ne rien faire
+      if(!my.selected && !my.activated){return};
+      console.log('Je dois peut-être actualiser le litag');
+    }
+    /**
      * Méthode appelée pour créer une nouvelle ligne sous la ligne
      * courante (pour le moment sans tag)
      */
@@ -43,8 +68,12 @@ const ULTags = {
       itag.id = ++ M.last_tag_id;
       ITags[itag.domId] = itag;
       var litag = new LITag(itag);
-      litag.build({after: litagBefore ? litagBefore.jqObj : null});
-      litagBefore.jqObj.blur();
+      if (litagBefore){
+        litagBefore.jqObj.blur();
+        litag.build({after: litagBefore.jqObj});
+      } else {
+        litag.build();
+      }
       litag.jqObj.focus();
       itag.build_and_watch();
     }

@@ -9,7 +9,7 @@ function Tag(data_line) {
     var ret = M.epure_and_split_raw_line(data_line) ;
     data_line = ret.data ;
     locked    = ret.locked ;
-    this.id   = ret.id ; // seulement pour les commentaires et vides
+    // this.id   = ret.id ; // seulement pour les commentaires et vides
   } else {
     locked  = false ;
     this.id = null ;
@@ -83,6 +83,14 @@ function Tag(data_line) {
   **/
 
 /**
+ * Retourne une référence humaine à l'élément, par exemple pour
+ * le détruire, pour le message de confirmation.
+ */
+Tag.prototype.ref = function(){
+  return `${(this.text || this.src || this.nature_init)} (#${this.id})`
+};
+
+/**
  * Nouvelle méthode, depuis qu'on met le code sous forme de UL, pour
  * parser la nouvelle ligne modifiée.
  * Noter qu'ici la ligne peut changer du tout au tout, devenir commentaire
@@ -124,7 +132,6 @@ Tag.prototype.parse = function(newline){
  */
 Tag.prototype.to_li = function(){
   var my = this ;
-  console.log(this.recompose({for_li: true}))
   return (this.recompose({for_li: true}).join(' ')).trim() ;
 };
 
@@ -132,7 +139,6 @@ Tag.prototype.to_li = function(){
 // Attention : ici il ne s'agit pas d'une ligne au sens de l'élément graphique,
 // mais de la ligne de CODE qui définit l'élément graphique dans _tags_.js
 Tag.prototype.to_line = function() {
-  // On sépare toutes les valeurs par une espace
   return (this.recompose().join(' ')).trim() ;
 }
 
@@ -264,7 +270,7 @@ Tag.prototype.hStyles = function(){
 
 // Méthode qui s'arrange pour rendre le tag visible dans la
 // fenêtre actuelle.
-Tag.prototype.setVisibleInWindow = function(){
+Tag.prototype.scrollToIt = function(){
   var my = ITags[this.domId]
     , top = my.jqObj.offset().top
     , hei = my.domObj.offsetHeight
@@ -454,7 +460,6 @@ Tag.prototype.updateXY = function(){
   // la classe "warntag" qui l'affichait en rouge. Maintenant qu'il a
   // des coordonnées, on peut retirer cette classe.
   my.jqObj.removeClass('warntag');
-  MuScaT.update_line(my.index_line, my.to_line()) ;
 }
 Tag.prototype.updateY = function(newy){
   if(undefined != newy){
@@ -538,23 +543,18 @@ Tag.prototype.updateDestroyed = function(value){
   if(my.destroyed){
       if(my.real){
         my.jqObj.remove() ;
-        M.lines.splice(my.index_line,1);
         M.tags.splice(my.index_line,1);
       };
   } else {
     // Annulation de destruction. Il faut remettre l'objet à
     // sa place, à sa ligne
     if (my.index_line < M.tags.length){
-      M.tags .splice(my.index_line, 0, my);
-      M.lines.splice(my.index_line, 0, my.to_line());
+      M.tags.splice(my.index_line, 0, my);
     } else {
       M.tags.push(my);
-      M.lines.push(my.to_line());
-      my.index_line = M.lines.length - 1;
     };
     my.build();
   };
-  M.update_index_line_from(my.index_line);
 };
 
 // ---------------------------------------------------------------------
@@ -762,7 +762,6 @@ Tag.prototype.createCopy = function() {
   var newtag  = new Tag(dline) ;
   newtag.index_line = M.get_line_for_position(newtag.x, newtag.y) ; // peut être = -1
   newtag.id = ++ M.last_tag_id ;
-  M.insert_line(newtag) ;
   newtag.build_and_watch();
   message(`Nouveau tag créé sur la partition (id #${newtag.id}). N’oubliez pas de copier-coller sa ligne ou tout le code dans votre fichier _tags_.js.`);
 }
@@ -817,24 +816,31 @@ Tag.prototype.onClick = function(ev){
 Tag.prototype.select = function(){
   var my = this ;
   my.jqObj.addClass('selected');
-  if(Options.get('code beside')){my.selectCodeLine()};
+  my.litag.activate();
   my.selected = true ;
-}
-// Méthode qui sélectionne le code du tag dans codeSource
-// TODO Ça va devenir quelque chose comme `selectLITag`
-Tag.prototype.selectCodeLine = function(){
-  var my = this, offStart, offEnd ;
-  if ( my.index_line > 0){
-    offStart = M.lines.slice(0, my.index_line).join(RC).length + 1 ;
-  } else { offStart = 0 }
-  offEnd = offStart + M.lines[my.index_line].length ;
-}
+};
 
 Tag.prototype.deselect = function(){
   var my = this ;
   my.jqObj.removeClass('selected');
+  my.litag.desactivate();
   my.selected = false ;
-}
+};
+/**
+ * Activer le tag sur la table d'analyse. L'activation ne correspond
+ * pas à une sélection, elle se produit lorsque le LITag correspondant
+ * à ce tag est focussé
+ */
+Tag.prototype.activate = function(){
+  var my = this ;
+  my.jqObj.addClass('activated');
+  my.activated = true ;
+};
+Tag.prototype.desactivate = function(){
+  var my = this ;
+  my.jqObj.removeClass('activated');
+  my.activated = false ;
+};
 
 // ---------------------------------------------------------------------
 //  Méthodes de statut
@@ -927,7 +933,9 @@ Object.defineProperties(Tag.prototype,{
       },
       set: function(value){this._domObj = value; }
     }
-
+  , litag:{
+      get: function(){return ULTags[this.id];}
+    }
   // Nature de la ligne du tag
   , real: {
       get:function(){return !this.is_comment_line && !this.is_empty_line;}

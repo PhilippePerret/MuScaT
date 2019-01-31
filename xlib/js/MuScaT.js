@@ -5,13 +5,8 @@
   Class MuScaT (alias : M)
   -------------
 
-  M.lines     Contient dans l'ordre la liste des lignes physiques du code
-              telles qu'elles peuvent être affichées, par exemple, dans le
-              champ source
-
   M.tags      Contient dans l'ordre la liste des instances Tag de chaque
-              ligne. En fait, on pourrait se passer de M.lines et reconstituer
-              la liste des lignes en bouclant sur M.tags
+              ligne.
               Attention car chaque élément n'est pas un tag. Les commentaires
               ou les lignes vides sont des notag (pour pouvoir posséder des
               méthodes communes)
@@ -19,7 +14,6 @@
 // La classe principale
 // MuScaT pour "Mu Sc Ta (à l'envers)" pour "Music Score Tagger"
 const MuScaT = {
-  lines: new Array(),
   tags:  new Array(),
   // Liste des erreurs rencontrées (sert surtout aux textes)
   motif_lines_added: null,
@@ -38,11 +32,6 @@ const MuScaT = {
   onEachTagsLine: function(method){
     var  i = 0, lines = Tags.trim().split(RC), len = lines.length ;
     for(i;i<len;++i){method(lines[i])};
-  },
-  // Exécute la fonction +method+ sur toutes les lignes de this.lines
-  onEachLine: function(method){
-    var i = 0, len = this.lines.length ;
-    for(i;i<len;++i){method(this.lines[i])};
   },
 
   /**
@@ -126,99 +115,6 @@ const MuScaT = {
   },
 
   /**
-   * Actualisation de la page
-   *
-   * Méthode appelée par le bouton sous le champ de texte ou par
-   * le raccourci clavier `ALT ENTRÉE` quand on se trouve dans le champ
-   * de code.
-   *
-   */
-  update: function(){
-    var my = this ;
-    my.check_sequence_image_in_tags();
-    my.new_tags = new Array();
-    my.onEachTagsLine(function(line){
-      my.new_tags.push(new Tag(line));
-    })
-    my.compare_old_and_new_tags();
-  },
-
-
-  compare_old_and_new_tags: function(){
-    var my = this ;
-
-    // On remet la liste à rien
-    my.lines = new Array();
-
-    // On va passer par une table qui contient en clé l'identifiant et
-    // en valeur le tag, pour passer en revue tous les nouveaux tags (ou pas)
-    my.htags = {};
-    my.onEachTag(function(itag){ my.htags[itag.id] = itag });
-
-    // console.log('tags:', my.tags);
-    // console.log('htags:', my.htags);
-    // console.log('new_tags:', my.new_tags);
-
-    var i = 0
-      , len = my.new_tags.length
-      , itag
-      ;
-    for(i=0;i<len;++i){
-      itag = my.new_tags[i] ;
-
-      // Est-ce une copie d'une ligne ? (identifiant déjà traité)
-      if(undefined == my.htags[itag.id]){
-        itag.reset_id();
-      };
-
-      if (itag.id == null) {
-        // <= C'est un nouveau tag
-        // console.log(`Le tag d'index ${i} est nouveau`);
-        itag.id = ++ my.last_tag_id;
-        // console.log('Nouveau dernier ID : ', my.last_tag_id);
-        itag.real && itag.build_and_watch();
-      } else {
-        // <= C'est un tag connu
-        // console.log(`itag #${itag.id} : ${itag.text || itag.src}`);
-        itag.real && itag.compare_and_update(my.htags[itag.id])
-        // Dans tous les cas, on le retire de htags (pour savoir ceux
-        // qu'il faudra détruire)
-        delete my.htags[itag.id] ;
-      }
-      my.lines.push(itag.to_line());
-    };
-
-    // Il doit rester dans htags les tags supprimés
-    for(var id in my.htags){
-      itag = my.htags[id] ;
-      itag.update('destroyed', true) ;
-      // console.log(`Le tag #${itag.id} a été supprimé`);
-    }
-
-    // On passe la liste
-    my.tags = my.new_tags ;
-
-    // On actualise les index de lignes
-    my.update_index_lines();
-    // On actualise le code
-    my.update_code();
-  },
-
-  /**
-   * Méthodes qui actualisent tous les index lignes des
-   * tags.
-   * À partir de +from_index+ si options le désire.
-   */
-  update_index_lines: function(options){
-    var my = this ;
-    my.onEachTag(function(itag, idx){ itag.index_line = idx }, options);
-  },
-  update_index_line_from:function(from_index){
-    this.update_index_lines({from: from_index});
-  },
-
-
-  /**
    * Chargement du fichier _tags_.js, analyse du code et construction de
    * l'analyse sur la table.
    */
@@ -260,8 +156,6 @@ const MuScaT = {
         my.show_code(t('code-lines-added', {motif: my.motif_lines_added}));
       }
     }
-
-    this.update_code();
 
     // console.log('À la fin de load, last_tag_id = ', this.last_tag_id);
   },
@@ -404,7 +298,6 @@ const MuScaT = {
 
       my.onEachTag(function(itag, idx){
         if(my.animated){return};
-        my.lines.push(itag.to_line()) ; // p.e. ajout de l'id
         if(itag.real){itag.build()}
         else if(itag.is_comment_line && itag.text.match(/START/)){
           my.animated = true ;
@@ -426,7 +319,6 @@ const MuScaT = {
       while(true) {
         itag = my.tags[tag_idx];
         if(itag){
-          my.lines.push(itag.to_line());
           if ( itag.real ){
             itag.build();
             ++tag_idx ;
@@ -436,7 +328,6 @@ const MuScaT = {
         } else {
           return message(t('fin-anim'));
         }
-        my.update_code();
       };
       // Noter ci-dessous qu'on reprend le dernir index
       var method_next = $.proxy(MuScaT,'build_tags_for_anim', ++tag_idx) ;
@@ -449,76 +340,12 @@ const MuScaT = {
         my.timer = setTimeout(method_next, 40 * (100 - my.animation_speed));
       };
     }
-  // Méthode qui actualise une ligne de donnée (appelée par une instance
-  // Tag après son déplacement, par exemple)
-  , update_line: function(idx, new_line) {
-      var   my = this ;
-      if(undefined == new_line){ new_line = my.tags[idx].to_line() };
-      my.lines[idx] = new_line ;
-      // On met la nouvelle ligne dans le clipboard pour la copier-coller
-      clip(new_line + RC);
-      // On l'actualise immédiatement dans le champ de saisie
-      my.update_code();
-    }
-  // Méthode qui insert une nouvelle ligne de donnée (lorsqu'il y a copie)
-  , insert_line: function(itag){
-      var   my = this
-          , idx = itag.index_line
-          , new_line = itag.to_line()
 
-      if (idx == -1) {
-        my.lines.push(new_line);
-        my.tags.push(itag)
-        idx = my.tags.length - 1 ;
-        itag.index_line = idx ;
-        console.log(`Ligne insérée : "${new_line}" à la fin`);
-      } else {
-        my.lines.splice(idx, 0, new_line) ;
-        my.tags.splice(idx, 0, itag);
-        console.log(`Ligne insérée : "${new_line}" à l'index ${idx}`);
-
-        // Après l'insertion d'une nouvelle ligne, il faut modifier l'index
-        // de tous les tags suivants
-        var i   = idx + 1
-          , len = my.tags.length
-          ;
-        for(i;i<len;++i ){
-          var tg = my.tags[i] ;
-          console.log(`- +1 à index de ligne ${tg.index_line} (${tg.to_line()})`);
-          tg.index_line += 1 ;
-        }
-
-      }
-
-      // On met la nouvelle ligne dans le clipboard pour la copier-coller
-      navigator.clipboard.writeText(new_line + RC) ;
-
-      // On l'actualise immédiatement dans le champ de saisie
-      my.update_code() ;
-    }
-
-  , update_lines_and_code: function(){
-      var my = this;
-      my.update_lines();
-      my.update_code();
-    }
-
-  , update_lines: function(){
-      var my = this;
-      my.lines = new Array();
-      my.onEachTag(function(itag){my.lines.push(itag.to_line())});
-    }
-
-  , update_code: function(){
-      var my = this ;
-      UI.codeField.val(my.full_code());
-    }
-
-  // Retourne le code entier du fichier _tags_.js, mais sans "Tags = `"
+  // Retourne le code complet des lignes de tags
   , full_code: function(){
-      var my = this ;
-      var str_code = my.lines.join(RC) ;
-      return str_code ;
+      var arr = new Array() ;
+      this.onEachTag(function(itag){arr.push(itag.to_line())})
+      return arr.join(RC) ;
     }
 
   /**
@@ -529,23 +356,16 @@ const MuScaT = {
       if (undefined === options_to_tags_js){
         return Options.to_tags_js();
       };
-      my.update_lines_and_code();
-      var vfc = options_to_tags_js + 'Tags = `'+ RC + this.full_code() + RC + '`;' ;
-      navigator.clipboard.writeText(vfc);
-    }
-
-  , codeField: function(){
-      return document.getElementById('codeSource');
+      return options_to_tags_js + 'Tags = `'+ RC + this.full_code() + RC + '`;' ;
     }
 
   // Méthode appelée par le bouton pour afficher le code source
-  // On met le code dans un champ de saisie (et dans le clipboard) pour
-  // qu'il soit copié-collé
+  // On met le code dans le clipboard pour qu'il soit copié-collé
   , show_code: function(message){
     var my = this ;
     if (!message){message = t('full-code-in-clipboard')};
     F.notify(message);
-    my.build_very_full_code();
+    navigator.clipboard.writeText(my.build_very_full_code());
   },
 
   // ---------------------------------------------------------------------
@@ -562,6 +382,7 @@ const MuScaT = {
    * Note : cette méthode sert aussi bien lors du chargement que lors de
    * la modification des lignes.
    */
+   // TODO Cette méthode doit être placée ailleurs, c'est plutôt une méthode de CTags
   epure_and_split_raw_line: function(line){
     var rg
       , type // 'real-tag', 'empty-line', 'comments-line'
@@ -586,31 +407,12 @@ const MuScaT = {
     return {data: line.split(' '), locked: locked_line, nature_init: line.split(' ')[0]}
   },
 
-  /**
-   * Recherche l'index de ligne d'un tag qui serait à la position x/y
-   * si les lignes correspondent à l'affichage.
-   * Cette méthode est appelée à la création d'un nouvelle élément (par
-   * duplication au départ) pour savoir où ajouter la nouvelle ligne,
-   * pour ne pas la mettre à la fin.
-   */
-  get_line_for_position: function(x, y){
-    var my = this ;
-    var res = my.onEachTag(function(itag, i){
-      if(itag.real){
-        if (itag.y > y) { return Number.parseInt(i,10)};
-        if (itag.y == y && itag.x > x){ return Number.parseInt(i,10)};
-      }
-    });
-    if(res == null) { res = -1 };
-    return res ;
-  },
   // Pour tout réinitialiser chaque fois qu'on actualise l'affichage
   // Pour les tests, appeler plutôt `reset_for_tests` (qui appelle aussi
   // celle-ci)
   reset_all: function(){
     var my = this ;
     my.tags   = new Array();
-    my.lines  = new Array();
     my.errors = new Array();
     my.last_tag_id = 0 ; // commence à 1
     Page.table_analyse[0].innerHTML = '' ;

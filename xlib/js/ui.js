@@ -8,7 +8,6 @@ const UI = {
   , TOP_FIRST_PAGE_END: 1150
   , HEIGTH_PRINTED_PAGE: 1230
 
-  , codeField: null           // {jQuery} le champ de code
   , tableAnalyse: null        // {jQuery} La section #tags
 
   , toggle_tools: function(){
@@ -19,17 +18,6 @@ const UI = {
       }
     }
 
-    /**
-     * Méthode appelée par la touche tabulation, qui passe le focus
-     * du champ de code (s'il est ouvert) à la table d'analyse.
-     *
-     */
-  , tab_focus: function(){
-      if (!this.codeField_is_opened){return};
-      var cFieldFocused = this.codeField.is(':focus') ;
-      this.codeField[cFieldFocused?'blur':'focus']();
-      this.tableAnalyse[cFieldFocused?'focus':'blur']();
-    }
   , tools_are_opened: function(){
       return this.domTools.className == 'opened';
     }
@@ -64,8 +52,8 @@ const UI = {
      * les sauts de page.
      */
   , set_ui: function(){
-      this.codeField    = $('#codeSource');
       this.tableAnalyse = $('#tags');
+      this.ulTags = $('ul#ultags');
       // Le mieux, c'est la tournure ci-dessous, où l'on met "t-<id locale>"
       // dans la classe de l'élément, qui renvoie à "<id locale>"
       ['clipboard', 'source-code', 'selected-tags', 'Open', 'the-help', 'sur', 'operations'].forEach(function(tid){
@@ -90,12 +78,10 @@ const UI = {
     }
 };
 Object.defineProperties(UI,{
-    domTools: {
+    property: {'pour':'virgules'}
+  , domTools: {
       get: function(){return document.getElementById('tools'); }
     }
-  , codeField_is_opened: {
-    get: function(){return !!$('#codeSource').length;}
-  }
 })
 
 // Permet de stopper complètement n'importe quel évènement
@@ -103,4 +89,8 @@ window.stop = function(ev){
   ev.stopPropagation();
   ev.preventDefault();
   return false
+}
+
+window.onresize = function(ev){
+  ULTags.setULHeight();
 }

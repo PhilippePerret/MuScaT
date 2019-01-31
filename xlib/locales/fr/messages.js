@@ -8,6 +8,7 @@ Object.assign(MSG,{
   // === DEMANDES ===
 
   , 'choose-litag': "Vous devez choisir le tag à %{operation} dans la liste."
+  , 'should-destroy': 'Dois-je vraiment détruire %{what}'
 
   // === INFORMATION ===
   , 'code-lines-added': "Des lignes de code ont été ajoutées (%{motif}), le nouveau code a été copié dans le presse-papier pour pouvoir être collé dans votre fichier _tags_.js."

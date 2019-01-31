@@ -4,11 +4,20 @@
 const LITag = function(itag){
   this.itag = itag;
   this.id   = itag.id;
+  // Propriété indiquant si le tag est sélectionné
+  // Noter qu'elle est mise à false alors que la valeur de ULTags.selected
+  // peut-être encore mise à ce tag (parce que c'est au blur qu'on désélectionne
+  // le LITag).
+  this.selected = false;
 };
 
 // ---------------------------------------------------------------------
 // MÉTHODES DE CONSTRUCTION
 
+/**
+ * Méthode construisant le tag dans la liste
+ * C'est aussi cette méthode qui ajoute le tag à la liste de ULTags.
+ */
 LITag.prototype.build = function(options){
   var my = this ;
   ULTags.jqObj.append(my.to_html());
@@ -16,6 +25,8 @@ LITag.prototype.build = function(options){
     $(my.jqObj).insertAfter(options.after);
   }
   my.observe();
+  ULTags.push(my);
+
 };
 LITag.prototype.to_html = function(){
   var my = this ;
@@ -40,6 +51,19 @@ LITag.prototype.focus_previous = function(){
   my.jqObj.blur();
   my.prevObj.focus();
 };
+
+// ---------------------------------------------------------------------
+//  MÉTHODES D'AFFICHAGE
+
+LITag.prototype.activate = function(){
+  var my = this ;
+  my.jqObj.addClass('activated');
+};
+LITag.prototype.desactivate = function(){
+  var my = this ;
+  my.jqObj.removeClass('activated');
+};
+
 // ---------------------------------------------------------------------
 //  MÉTHODES ÉVÈNEMENTIELLES
 
@@ -55,9 +79,12 @@ LITag.prototype.observe = function(){
 LITag.prototype.onFocus = function(ev){
   var my = this ;
   console.log(`Focus dans #${my.id}`);
-  my.activated  = true ;
-  my.iniContent = my.jqObj.text();
+  my.activated    = true ;
+  my.itag.activate();
+  my.iniContent   = my.jqObj.text();
   ULTags.selected = my ;
+  my.jqObj.addClass('selected');
+  this.selected   = true;
   // TODO : le mettre en exergue sur la table (pas en sélection)
 };
 LITag.prototype.onBlur = function(ev){
@@ -69,7 +96,9 @@ LITag.prototype.onBlur = function(ev){
     my.itag.parse(my.newContent);
     my.modified = true; // Utile ?
   }
-  ULTags.selected = null;
+  my.jqObj.removeClass('selected');
+  my.itag.desactivate();
+  my.selected = null; // ULTags.selected reste à ce tag
 };
 LITag.prototype.onKeyPress = function(ev){
 };

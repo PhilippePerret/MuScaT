@@ -35,7 +35,7 @@ img.tag {
 }
 
 .tag {
-  border-width: 1px;
+  border-width: 2px;
   border-style: solid;
   border-color: transparent;
 }
@@ -150,7 +150,17 @@ ul#ultags {
   overflow-y: scroll;
   height: 600px;
 }
+/* Voir aussi dans ui.css */
 ul#ultags li {
   font-family: monospace;
   font-size: 13pt;
+  border-width: 2px;
+  border-color: #444444;
+  padding: 2px;
+  border-style: solid;
+}
+ul#ultags li.activated,
+#tags .tag.activated
+{
+  border-color: #9ACD28;
 }

@@ -130,7 +130,6 @@ const MEvents = {
   , onkeyup_always: function(ev){
       switch (ev.which) {
         case 9:
-          UI.tab_focus();
           return stop(ev);
       }
       // this.console_key(ev);
@@ -162,7 +161,7 @@ const MEvents = {
     } else {
       switch (ev.keyCode) {
         case 13: /* ENTRÉE */
-          M.update_lines_and_code();return stop(ev);
+          ULTags.updateTag();return stop(ev);
         case 8:  // ERASE
           CTags.ask_for_erase(ev);return stop(ev);
         default:
@@ -181,7 +180,7 @@ const MEvents = {
     // console.log('-> onkeypress_else');
     switch (ev.charCode) {
       case 13: /* ENTRÉE */
-        M.update_lines_and_code(); return stop(ev);
+        return stop(ev);
       default:
     }
   }

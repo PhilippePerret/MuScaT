@@ -86,16 +86,10 @@ const Page = {
       } else {
         itag.y = topImage ;
         itag.jqObj.css('top', topImage + 'px');
-        // Actualiser la ligne
-        // Note : ne pas passer par update_line qui appelle aussi
-        // update_code et ne sert donc que pour une modification unique
-        M.lines[itag.index_line] = itag.to_line() ;
       }
       // Pour la prochaine image
       topImage = topImage + itag.jqObj.height() + voffset;
     });
-    // Il faut actualiser le code si
-    M.update_code();
   },
 
   /**
@@ -104,10 +98,6 @@ const Page = {
    */
   set_code_beside: function(){
     $('section#rcolumn').show();
-
-    // TODO : régler la hauteur du textarea en fonction de la fenêtre
-    // On met le code dans le champ
-    MuScaT.update_code();
   },
 
   /**
@@ -157,7 +147,7 @@ const Page = {
 
     // Si on est en mode animation, il faut voir si le tag est bien
     // placé dans la page (on doit le voir entièrement)
-    if(M.animated){itag.setVisibleInWindow()};
+    if(M.animated){itag.scrollToIt()};
 
   },
 

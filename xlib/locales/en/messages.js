@@ -3,11 +3,12 @@
 **/
 if('undefined'==typeof(MSG)){MSG = {}};
 Object.assign(MSG,{
-    'pour':'virgule'
+  'pour':'virgule'
 
-    // === DEMANDES ===
+  // === DEMANDES ===
 
-    , 'choose-litag': "Please choose the tag to %{operation} in the list."
+  , 'choose-litag': "Please choose the tag to %{operation} in the list."
+  , 'should-destroy': 'Should I really destroy %{what}'
 
     // === INFORMATION ===
   , 'code-lines-added': "Code lines has been added (%{motif}). New code copied in the clipboard to be pasted in your `_tags_.js` file. Do it right now! ;-)"

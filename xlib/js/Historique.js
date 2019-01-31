@@ -59,7 +59,6 @@ Histo.prototype.onEachProp = function(method){
   for(var instprop of this.props_list){
     method(instprop);
   };
-  M.update_line(this.subject.index_line);
 };
 
 const HistoProp = function(subject, prop, prev_state, next_state) {

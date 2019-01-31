@@ -139,7 +139,6 @@ const CTags = {
       itag.update('y', upper.y + (i++ * esp)) ;
     });
 
-    M.update_lines_and_code();
   }
 
   /**
@@ -198,23 +197,23 @@ const CTags = {
       itag[prop] += value ;
       itag.update();
     })
-  },
-  ask_for_erase: function(ev){
+  }
+
+  , ask_for_erase: function(ev){
     var my = this ;
     var nb = my.selections.length ;
     var msg ;
     if (nb > 1) {
-      msg = `tous les éléments sélectionnés (${nb})`;
+      msg = t('all-selected', {nombre: nb})
     } else {
-      msg = `l'élément « ${M.lines[my.selections[0].index_line]} »`;
+      msg = t('the-element', {ref: my.selections[0].ref});
     }
-    F.ask('Dois-je vraiment détruire ' + msg, {onOK: $.proxy(CTags,'erase_selections')});
+    F.ask(t('should-destroy', {what: msg}), {onOK: $.proxy(CTags,'erase_selections')});
   }
 
   , erase_selections: function(){
       var my = this ;
       my.onEachSelected(function(itag){itag.update('destroyed', true)});
-      M.update_code();
     }
 
   , lines_selected_in_clipboard: function(){

@@ -1,5 +1,9 @@
 # Todo list
 
+* À faire avec nouvelle formule
+  * Reconstruire le code final à copier
+  * Quand on modifie l'objet sur la table (déplacement), ses données se changent dans la liste (en direct ? ça dépend)
+  * Une méthode qui permet de toujours afficher le tag sélectionné dans ULTags (quand la liste est longue)
 * Ne pas mettre la touche pour copier le code dans la boite à outils si le code est affiché
 * Il faut que le code à droite soit hyper fiable. Il y a encore trop de choses bizarres qui se passent.
 * Pour le manuel, mettre en forme les .usage et .exemple utilisé pour la liste des natures.
@@ -45,7 +49,6 @@ L'actualisation doit se faire dans les deux sens :
 * On modifie le code et ça modifie l'aspect sur la table (p.e. suppression d'un élément)
 
 M.tags contient tous les tags créé, dans l'ordre du code
-M.lines contient les lignes de code affichés
 
 Il faut garder les lignes vides vides.
 Une ligne vide => un tag vide, sans ID (contrairement à maintenant). On fait quand même un tag pour simplifier.
