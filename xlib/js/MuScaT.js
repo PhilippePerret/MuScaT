@@ -69,8 +69,6 @@ const MuScaT = {
     // le fichier tag.js
     this.load() ;
 
-    console.log('Nombre de tags', CTags.length);
-
     // On met le titre du dossier d'analyse
     $('span#analyse_name').text(ANALYSE);
 

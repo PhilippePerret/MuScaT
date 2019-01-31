@@ -58,8 +58,10 @@ LITag.prototype.parse_and_compare = function(){
   var my = this ;
   var txt = my.jqObj.text().trim().replace(/[\n\r]/g,'');
   my.jqObj.text(txt);
-  var data = M.epure_and_split_raw_line(txt).data;
-  var tagprov = new Tag(data);
+  var d = M.epure_and_split_raw_line(txt);
+  console.log(d);
+  var tagprov = new Tag(d.data);
+  tagprov.locked = d.locked;
   my.itag.compare_and_update_against(tagprov);
   // console.log('data:',data);
 };
@@ -107,6 +109,7 @@ LITag.prototype.scrollIfNotVisible = function(){
 
 LITag.prototype.observe = function(){
   var my = this ;
+  // console.log(`-> observe #${my.id}`);
   my.jqObj.on('focus', $.proxy(my, 'onFocus'));
   my.jqObj.on('blur', $.proxy(my, 'onBlur'));
   my.jqObj.on('keypress', $.proxy(my, 'onKeyPress'));
@@ -154,7 +157,7 @@ LITag.prototype.onKeyUp = function(ev){
       this.creating = false;
       return stop(ev);
   }
-  MEvents.console_key(ev);
+  // MEvents.console_key(ev);
 };
 LITag.prototype.onKeyDown = function(ev){
   switch (ev.keyCode) {
