@@ -32,6 +32,7 @@ function Tag(data_line) {
   this.text = null; // Le texte de la cadence, de l'accord, etc.
   this.type = null; // Le type de la cadence, de la ligne, etc.
 
+  this.built      = false;  // pour indiquer qu'il est construit
   this.locked     = locked; // indicateur de verrouillage
   this.selected   = false; // Indicateur de sélection
   this.destroyed  = false; // Indicateur de destruction
@@ -104,8 +105,6 @@ Tag.prototype.parse = function(newline){
   // nature_init permettra de déterminer le type du tag, vrai tag ou
   // ligne vide ou ligne de commentaires
   my.nature_init = ret.nature_init ;
-  // TODO la méthode decompose doit déjà savoir si le tag est une
-  // ligne vide, un commentaire ou un vrai tag. Il faut les régler ici
   my.decompose();
   // Si l'objet n'est pas encore construit, il faut le construire, sinon,
   // il faut seulement l'updater
@@ -116,31 +115,18 @@ Tag.prototype.parse = function(newline){
   } else if (my.is_empty_line || my.is_comment_line){
     // Le tag a changé de nature, il est devenu une ligne vide ou
     // un commentaire => il faut le détruire
-    my.jqObj.remove();
-  } else {
-    // Le tag existe mais ses données ont peut-être changées, on
-    // l'actualise.
-    // TODO
-  }
+    my.remove();
+  };
 };
 
 /**
- * La ligne qui doit être enregistrée dans le fichier _tags_.js
- *
- * Note : la différence avec 'to_line' est qu'ici on ne met pas
- * l'identifiant.
+ * La ligne qui doit être enregistrée dans le fichier _tags_.js et
+ * telle qu'elle est dans le champ ULTags
  */
-Tag.prototype.to_li = function(){
+Tag.prototype.to_line = function(){
   var my = this ;
-  return (this.recompose({for_li: true}).join(' ')).trim() ;
-};
-
-// Retoune la ligne telle qu'elle doit être dans le fichier _tags_.js
-// Attention : ici il ne s'agit pas d'une ligne au sens de l'élément graphique,
-// mais de la ligne de CODE qui définit l'élément graphique dans _tags_.js
-Tag.prototype.to_line = function() {
   return (this.recompose().join(' ')).trim() ;
-}
+};
 
 /**
  * Grand méthode d'actualisation du TAg
@@ -167,9 +153,15 @@ Tag.prototype.update = function(prop, new_value, options) {
       case 'y':
       case 'top':
         my.updateY(new_value);break;
+      case '-y':
+      case 'bottom':
+        my.updateY(new_value - my.jqObj.height());break;
       case 'x':
       case 'left':
         my.updateX(new_value);break;
+      case '-x':
+      case 'right':
+        my.updateX(new_value - my.jqObj.width());break;
       case 'h':
       case 'height':
         my.updateH(new_value);break;
@@ -185,7 +177,8 @@ Tag.prototype.update = function(prop, new_value, options) {
       case 'destroyed':
         my.updateDestroyed(new_value);break;
     }
-  }
+  };
+  my.litag.update(my.to_line());
 };
 
 
@@ -400,10 +393,17 @@ Tag.prototype.build_and_watch = function(){
 };
 // Méthode qui construit l'élément dans la page
 Tag.prototype.build = function(){
-  // console.log(`Construction du tag #${this.id} (y=${this.y})`);
+  console.log(`Construction du tag #${this.id} (y=${this.y})`);
   Page.add(this);
+  this.built = true ;
   return this; // chainage
 };
+Tag.prototype.remove = function(){
+  var my = this ;
+  my.jqObj.remove();
+  my.built = false ;
+};
+
 
 // La marque de modulation possède son propre code, complexe, à l'aide
 // de SVG.
@@ -454,12 +454,17 @@ const MODUL_SOUS_TEXT_ATTRS = {
 
 Tag.prototype.updateXY = function(){
   var my = this ;
-  my.updateX();
-  my.updateY();
+  my.update('x', my.x);
+  my.update('y', my.y);
+}
+Tag.prototype.checkPositionned = function(){
+  var my = this ;
   // Si le tag n'avait pas de coordonnées au départ, il avait reçu
   // la classe "warntag" qui l'affichait en rouge. Maintenant qu'il a
   // des coordonnées, on peut retirer cette classe.
-  my.jqObj.removeClass('warntag');
+  if (my.x && my.y){my.jqObj.removeClass('warntag');}
+  else {my.jqObj.addClass('warntag')};
+
 }
 Tag.prototype.updateY = function(newy){
   if(undefined != newy){
@@ -467,6 +472,7 @@ Tag.prototype.updateY = function(newy){
     this.y = newy;
   };
   this.jqObj.css({'top': this.y + 'px'});
+  this.checkPositionned();
 };
 Tag.prototype.updateX = function(newx){
   if(undefined != newx){
@@ -474,6 +480,7 @@ Tag.prototype.updateX = function(newx){
     this.x = newx;
   };
   this.jqObj.css({'left': this.x + 'px'});
+  this.checkPositionned();
 };
 Tag.prototype.updateH = function(newh){
   var my = this ;
@@ -556,29 +563,6 @@ Tag.prototype.updateDestroyed = function(value){
     my.build();
   };
 };
-
-// ---------------------------------------------------------------------
-
-Tag.prototype.setXAt = function(value) {
-  var my = this ;
-  my.x = value ;
-}
-Tag.prototype.setYAt = function(value) {
-  var my = this ;
-  my.y = value ;
-}
-// Méthode qui cale le bas du tag à +value+ (en fonction de sa hauteur)
-Tag.prototype.setDownAt = function(value) {
-  var my = this ;
-  my.y = value - my.jqObj.height();
-  if (my.y < 0) { my.y = 0}
-}
-// Cale le côté droit du tag à +value+ (en fonction de sa largeur)
-Tag.prototype.setRightAt = function(value) {
-  var my = this ;
-  my.x = value - my.jqObj.width() ;
-  if (my.x < 0) { my.x = 0 }
-}
 
 // Return un code pour le style de la ligne
 // Ce code fonctionne en trois caractères :
@@ -684,11 +668,6 @@ Tag.prototype.recompose = function(options){
   my.src  && aLine.push(my.src) ;
   my.text && aLine.push(my.is_comment_line ? my.text : my.text.replace(/ /g,'_')) ;
 
-  // L'identifiant
-  if(!(options && options.for_li)){
-    aLine.push(`id=${my.id}`);
-  }
-
   // Si un type est défini, et que la nature n'est pas un raccourci
   // de nature, on écrit ce type
   if ( my.type && !my.is_nature_shortcut() ) {
@@ -770,18 +749,38 @@ Tag.prototype.createCopy = function() {
  * Méthode qui doit comparer le tag courant avec tagComp (instancié d'après la
  * ligne dans le champ du code) et procéder au modification (dans l'instance
  * comme dans le DOM).
+ *
+ * Attention : maintenant, la nature même du tag peut être différente, ce qui
+ * fait qu'il peut être construit ou non. Il faut en tenir compte.
  */
  const TAG_PROPERTIES_LIST = ['x', 'y', 'h', 'w', 'type', 'nature', 'nature_init', 'text', 'src', 'locked'] ;
 
-Tag.prototype.compare_and_update = function(tagComp) {
-  this.modified = false ;
+Tag.prototype.compare_and_update_against = function(tagComp) {
+  var my = this ;
+  my.modified = false ;
+
+  console.log(tagComp);
+  console.log('tagComp.real:', tagComp.real);
+  if (tagComp.real && !my.built){
+    // Pour pouvoir faire une "pré-construction" du tag, il faut donner
+    // quelques propriétés tout de suite.
+    my.nature_init = tagComp.nature_init ;
+    my.type   = tagComp.type ;
+    console.log('-> on doit construire le tag');
+    my.build_and_watch();
+  } else if (!tagComp.real && my.built){
+    console.log('-> on doit détruire le tag');
+    my.remove();
+  };
   for(var prop of TAG_PROPERTIES_LIST){
-    if (tagComp[prop] != this[prop]){
-      this.update(prop, this[prop]) ;
-      this.modified = true ;
+    console.log(`Comparaison de ${prop} : ${my[prop]} / ${tagComp[prop]}`)
+    if (tagComp[prop] != my[prop]){
+      console.log(`Actualisation de ${prop}`);
+      my.update(prop, tagComp[prop]) ;
+      my.modified = true ;
     }
   }
-  return this.modified == true ; // seulement pour les messages, je crois
+  return my.modified == true ; // seulement pour les messages, je crois
 };
 
 
@@ -916,22 +915,10 @@ Object.defineProperties(Tag.prototype,{
       set: function(value){ this._domId = value }
     }
   , jqObj: {
-      get: function(){
-        if(!this._jqOjb){
-          this._jqObj = $(`#${this.domId}`) ;
-        }
-        return this._jqObj;
-      },
-      set: function(value){ this._jqObj = value }
+      get: function(){return $(`#${this.domId}`);}
     }
   , domObj: {
-      get: function(){
-        if(!this._domObj){
-          this._domObj = document.getElementById(this.domId);
-        }
-        return this._domObj;
-      },
-      set: function(value){this._domObj = value; }
+      get: function(){return document.getElementById(this.domId);}
     }
   , litag:{
       get: function(){return ULTags[this.id];}

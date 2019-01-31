@@ -1,14 +1,13 @@
 # Todo list
 
-* À faire avec nouvelle formule
-  * Reconstruire le code final à copier
-  * Quand on modifie l'objet sur la table (déplacement), ses données se changent dans la liste (en direct ? ça dépend)
-  * Une méthode qui permet de toujours afficher le tag sélectionné dans ULTags (quand la liste est longue)
+* [BUG] On crée une nouvelle litag, on demande le code complet, il n'est pas actualisé
+* [BUG] On crée une nouvelle ligne, on met en commentaire, en fait entrée, ça remet la ligne vide.
+* Une méthode qui permet de toujours afficher le tag sélectionné dans ULTags (quand la liste est longue)
 * Ne pas mettre la touche pour copier le code dans la boite à outils si le code est affiché
-* Il faut que le code à droite soit hyper fiable. Il y a encore trop de choses bizarres qui se passent.
 * Pour le manuel, mettre en forme les .usage et .exemple utilisé pour la liste des natures.
-* Ne pas donner d'identifiant aux lignes vides. Lorsqu'un ITags n'existe pas, c'est une ligne vide.
 * Copier les styles du manuel dans le manuel des manuels
+* Implémenter CTags de la même manière que ULTags, pour pouvoir faire CTags[<id>] au lieu de ITags[obj<id>]
+  On utilise items en masqué, et on rentre les données avec push
 
 ## TEST
 
@@ -18,6 +17,7 @@
 
 ## Développements futurs
 
+* Quand on développera l'enregistrement des groupes, etc., on pourra simplement enregistrer l'index des lignes, dans le fichier _tags_.js (puisqu'on ne mémorise plus les IDs)
 * THÈMES
   * Documenter la fabrication d'un thème (programme ou utilisateur confirmé)
   * Faire des thèmes différents et les présenter dans les options du manuel (ci-possible, une image de chaque thème)

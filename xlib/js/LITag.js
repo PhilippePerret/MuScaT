@@ -34,22 +34,21 @@ LITag.prototype.to_html = function(){
   nod.setAttribute('contentEditable', 'true');
   nod.setAttribute('data-id', my.itag.id);
   nod.id = `litag${my.id}` ;
-  nod.innerHTML = my.itag.to_li() ;
+  nod.innerHTML = my.itag.to_line() ;
   return nod ;
 };
 
 // ---------------------------------------------------------------------
 //  MÉTHODES DE DONNÉES
 
-LITag.prototype.focus_next = function(){
-  var my = this;
-  my.jqObj.blur();
-  my.nextObj.focus();
-};
-LITag.prototype.focus_previous = function(){
-  var my = this;
-  my.jqObj.blur();
-  my.prevObj.focus();
+LITag.prototype.parse_and_compare = function(){
+  var my = this ;
+  var txt = my.jqObj.text().trim().replace(/[\n\r]/g,'');
+  my.jqObj.text(txt);
+  var data = M.epure_and_split_raw_line(txt).data;
+  var tagprov = new Tag(data);
+  my.itag.compare_and_update_against(tagprov);
+  // console.log('data:',data);
 };
 
 // ---------------------------------------------------------------------
@@ -63,6 +62,25 @@ LITag.prototype.desactivate = function(){
   var my = this ;
   my.jqObj.removeClass('activated');
 };
+
+LITag.prototype.focus_next = function(){
+  var my = this;
+  my.jqObj.blur();
+  my.nextObj.focus();
+};
+LITag.prototype.focus_previous = function(){
+  var my = this;
+  my.jqObj.blur();
+  my.prevObj.focus();
+};
+
+/**
+ * Quand le tag a été modifié (sur la table d'analyse par exemple,
+ * c'est cette méthode qu'on appelle pour actualiser la ligne)
+ */
+LITag.prototype.update = function(newLine){
+  this.jqObj.text(newLine)
+}
 
 // ---------------------------------------------------------------------
 //  MÉTHODES ÉVÈNEMENTIELLES
@@ -80,6 +98,7 @@ LITag.prototype.onFocus = function(ev){
   var my = this ;
   console.log(`Focus dans #${my.id}`);
   my.activated    = true ;
+  ULTags.activated = true ;
   my.itag.activate();
   my.iniContent   = my.jqObj.text();
   ULTags.selected = my ;
@@ -90,11 +109,11 @@ LITag.prototype.onFocus = function(ev){
 LITag.prototype.onBlur = function(ev){
   var my = this ;
   console.log(`Blur de #${my.id}`);
-  my.activated = false ;
+  my.activated      = false ;
+  ULTags.activated  = false ;
   my.newContent = my.jqObj.text();
   if (my.iniContent != my.newContent) {
-    my.itag.parse(my.newContent);
-    my.modified = true; // Utile ?
+    my.parse_and_compare(my.newContent);
   }
   my.jqObj.removeClass('selected');
   my.itag.desactivate();
@@ -114,7 +133,7 @@ LITag.prototype.onKeyUp = function(ev){
       this.creating = false;
       return stop(ev);
   }
-  MEvents.console_key(ev);
+  // MEvents.console_key(ev);
 };
 LITag.prototype.onKeyDown = function(ev){
   switch (ev.keyCode) {
@@ -128,6 +147,7 @@ LITag.prototype.onKeyDown = function(ev){
         // console.log('Touche entrée avec MÉTA => création')
         ULTags.create_after(this);
       }
+      return stop(ev);
       break;
     case 91:
       MEvents.with_meta_key = true;

@@ -8,8 +8,10 @@
 
 
 
+
 ## À faire
 
+* Garder les différentes versions de l'analyse simplement en gardant le code (en mettant au bout de _tags_.js)
 * Montrer comment placer d'abord les images dans la page puis regarder l'aperçu
 * [ANIMATION] Montrer qu'il suffit d'écarter le "S" du "T" dans "START" pour que l'animation ne démarre plus, pour pouvoir la travailler.
 * Montrer comment grouper des tags

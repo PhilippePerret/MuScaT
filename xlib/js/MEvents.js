@@ -25,7 +25,8 @@ const MEvents = {
    */
   , onkeypress: function(ev) {
       // console.log('-> onkeypress');
-      if (!this.onkeypress_always(ev)){ return };
+      if(ULTags.activated){return true};
+      if (!this.onkeypress_always(ev)){return};
       if (CTags.selections.length) {
         this.onkeypress_with_selection(ev);
       } else {
@@ -34,6 +35,7 @@ const MEvents = {
     }
 
   , onkeyup: function(ev){
+      if(ULTags.activated){return true};
       if (!this.onkeyup_always(ev)){ return };
       if (CTags.selections.length) {
         this.onkeyup_with_selection(ev);
@@ -43,6 +45,7 @@ const MEvents = {
     }
 
   , onkeydown: function(ev){
+      if(ULTags.activated){return true};
       if (!this.onkeydown_always(ev)){ return };
       if (CTags.selections.length) {
         this.onkeydown_with_selection(ev);

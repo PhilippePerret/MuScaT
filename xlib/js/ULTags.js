@@ -3,7 +3,8 @@ const ULTags = {
     'pour': 'virgule'
 
   , items:    new Array() // les LITags
-  , selected: null // LITag sélectionné ou Null
+  , selected: null        // LITag sélectionné ou Null
+  , activated: false      // Pour les gestionnaires de touche
 
     /**
       * Méthodes pour que ULTags réagisse comme une liste

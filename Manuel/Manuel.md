@@ -29,18 +29,19 @@ Elle est semi-graphique, et permet d'ajuster très finement les TAGs — au pix
 * [Synopsis général de création d'une analyse](#synopsis_fabrication)
 * [Synopsis détaillé](#synopsis_detailled)
   * [Charger de l'application **MuScaT**](#download_muscat)
-  * [Créer du dossier de l'analyse](#creation_dossier_analyse),
-  * [Mettre l'analyse en analyse courante](#set_analyse_courante),
-  * [Découper la partition en « images-systèmes»](#syn_crop_score),
-  * [Inscrire les images-systèmes dans l'analyse](#syn_inscription_images_systemes),
+  * [Créer du dossier de l'analyse](#creation_dossier_analyse)
+  * [Mettre l'analyse en analyse courante](#set_analyse_courante)
+  * [Découper la partition en « images-systèmes»](#syn_crop_score)
+  * [Inscrire les images-systèmes dans l'analyse](#syn_inscription_images_systemes)
   * [Préparer l'impression](#prepare_print)
     * [Ajout du titre, compositeur, etc.](#titre_et_auteur)
-  * [Ajouter les accords, les chiffrages, les cadences, tous les éléments d'analyse](#syn_def_analysis_elements),
-  * [Positionner les éléments graphiques](#syn_ajustement_elements),
+  * [Ajouter les accords, les chiffrages, les cadences, tous les éléments d'analyse](#syn_def_analysis_elements)
+  * [Positionner les éléments graphiques](#syn_ajustement_elements)
     * [Les lignes repères](#ligne_reperes)
     * [Note sur les coordonnées et dimensions](#note_coors_dims)
-  * [Récupérer le code final](#syn_recuperation_code_final),
-  * [Imprimer en PDF](#syn_print_pdf).
+  * [Récupérer le code final](#syn_recuperation_code_final)
+  * [Versions de l'analyse](#versions_de_analyse)
+  * [Imprimer en PDF](#syn_print_pdf)
 * [L'interface](#user_interface)
   * [La Table d'analyse](#la_table_danalyse)
   * [La boite à outils](#toolbox)
@@ -428,7 +429,35 @@ Pour **modifier les dimensions d'un tag** (comme une ligne, une cadence, une boi
 
 ### Récupérer le code final {#syn_recuperation_code_final}
 
-Si l'on a travaillé dans le champ de texte à côté de la table d'analyse, on doit copier le code final dans le fichier `_tags_.js`{.path}, au risque de perdre tous les changements. Pour se faire, on clique sur le bouton des outils — en haut à gauche — et on demande à mettre le code complet dans le presse-papier. On colle ce code dans le fichier `_tags_.js`{.path}, en remplaçant l'intégralité de son contenu.
+Si l'on a travaillé dans le champ de texte à côté de la table d'analyse, on doit copier le code final dans le fichier `_tags_.js`{.path}, au risque de perdre tous les changements. Pour se faire, on clique sur le bouton des outils — en haut à gauche — et on demande à mettre le code complet dans le presse-papier.
+
+On colle ce code dans le fichier `_tags_.js`{.path}, en remplaçant l'intégralité de son contenu.
+
+#### Plusieurs versions de l'analyse {#versions_de_analyse}
+
+Noter que si vous préférez garder plusieurs versions de votre analyse (ce qui peut être prudent), il suffit de copier le code *à la suite du précédent* (c'est-à-dire à la fin du fichier `_tags_.js`{.path}) plutôt qu'en *remplacement* de l'ancien code. Votre fichier contiendra alors :
+
+```javascript
+  // Dans _tags_.js
+  // Version 1.1
+  option('code','lang','en');
+  var Tags = `
+    //... tags de la première verison
+  `;
+  // Version 1.2
+  option('lang','fr', 'reperes');
+  var Tags = `
+    //... tags de la version suivante
+  `;
+  // Version 2.0
+  option('lang','fr', 'reperes');
+  var Tags = `
+    //... tags de la version suivante
+  `;
+  // etc.
+```
+
+Bien entendu, pensez à supprimer de vieilles versions pour alléger un peu le fichier, s'il devient conséquent.
 
 ### Imprimer l'analyse en PDF {#syn_print_pdf}
 

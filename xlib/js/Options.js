@@ -108,8 +108,13 @@ const Options = {
     }
   },
 
-  // Construit et retourne le texte qui doit être inscrit dans le
-  // code de _tags_.js
+  /**
+   * Construit et retourne le texte qui doit être inscrit dans le
+   * code de _tags_.js
+   *
+   * Note : c'est une méthode asynchrone car elle demande à l'utilisateur
+   * s'il faut enregistrer la position des lignes de repère.
+   */
   to_tags_js: function(memo_guides){
     var   my = this
         , opts = new Array()
@@ -155,7 +160,7 @@ const Options = {
     } else {
       opts = '' ;
     };
-    M.build_very_full_code(opts); // ~asynchrone
+    return M.build_very_full_code(opts); // ~asynchrone
   },
 
   // Pour remettre toutes les options à false (utile pour les tests)

@@ -71,25 +71,20 @@ const CTags = {
       var value, method ;
       switch (alignement) {
         case 'up':
-          method = 'setYAt' ; value = referent.y ;
+          prop = 'y'; value = referent.y ;
           break;
         case 'down':
-          method = 'setDownAt' ; value = referent.y + referent.jqObj.height();
+          prop = '-y' ; value = referent.y + referent.jqObj.height();
           break;
         case 'left':
-          method = 'setXAt' ; value = referent.x ;
+          prop = 'x' ; value = referent.x ;
           break;
         case 'right':
-          method = 'setRightAt' ; value = referent.x + referent.jqObj.width();
+          prop = '-x' ; value = referent.x + referent.jqObj.width();
           break;
         default:
       }
-      my.selections.forEach(function(itag){
-        $.proxy(itag, method, value)() ;
-        $.proxy(itag,'updateXY')();
-        // Note : pas d'update, c'est beaucoup plus simple de modifier
-        // directement dans le DOM, l'élément existant
-      });
+      my.selections.forEach(function(itag){itag.update(prop, value)});
       UI.hide_tools();
     }
   },

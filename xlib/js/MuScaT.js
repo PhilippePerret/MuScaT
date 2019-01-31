@@ -103,7 +103,7 @@ const MuScaT = {
       Page.set_code_beside();
     }
 
-    // Dans tous les cas, maintenant, on construit la liste des tags
+    // Dans tous les cas, on construit la liste des liTags
     ULTags.build();
 
     // Si l'option 'lines of reference' a été activée, il faut
@@ -135,7 +135,7 @@ const MuScaT = {
 
     my.parse_tags_js() ;
 
-    my.set_ids_and_index() ;
+    my.set_ids() ;
 
     my.build_tags() ;
 
@@ -158,22 +158,53 @@ const MuScaT = {
     }
 
     // console.log('À la fin de load, last_tag_id = ', this.last_tag_id);
-  },
+  }
   // load
+
+  // Méthode appelée par le bouton pour afficher le code source
+  // On met le code dans le clipboard pour qu'il soit copié-collé
+  , show_code: function(message){
+      var my = this ;
+      if (!message){message = t('full-code-in-clipboard')};
+      F.notify(message);
+      navigator.clipboard.writeText(my.build_very_full_code());
+    }
+  /**
+   * Construit (de façon asychrone) le code complet du fichier _tags_.js
+   */
+  , build_very_full_code: function(options_to_tags_js){
+      var my = this ;
+      if (undefined === options_to_tags_js){
+        // Note : c'est vraiment un return, ci-dessus, car c'est un
+        // traitement asynchrone (on demande à l'user s'il veut conserver
+        // la position de ses lignes repères)
+        return Options.to_tags_js();
+      };
+      return options_to_tags_js + 'var Tags = `'+ RC + this.full_code() + RC + '`;' ;
+    }
+
+  // Retourne le code complet des lignes de tags
+  , full_code: function(){
+      var arr = new Array() ;
+      this.onEachTag(function(itag){arr.push(itag.to_line())})
+      return arr.join(RC) ;
+    }
+
+
 
   /**
    * Méthode qui prend le code du fichier Tags.js et le décompose pour
    * en tirer le code de l'analyse.
    */
-  parse_tags_js: function(){
-    var my = this, itag ;
-    my.check_sequence_image_in_tags();
-    my.onEachTagsLine(function(line){
-      itag = new Tag(line) ;
-      my.tags.push(itag) ;
-      if(itag.id && itag.id > my.last_tag_id){my.last_tag_id = itag.id};
-    });
-  },
+  , parse_tags_js: function(){
+      var my = this, itag ;
+      my.check_sequence_image_in_tags();
+      my.onEachTagsLine(function(line){
+        itag = new Tag(line) ;
+        my.tags.push(itag) ;
+        if(itag.id && itag.id > my.last_tag_id){my.last_tag_id = itag.id};
+      });
+    }
   //parse_tags_js
 
   /**
@@ -185,80 +216,84 @@ const MuScaT = {
    * Note : l'option 'espacement images' peut modifier l'espacement par
    * défaut
    */
-  check_sequence_image_in_tags: function(){
-    var my = this
-      , lines_finales = new Array()
-      , rg
-      ;
-    my.onEachTagsLine(function(line){
-      if(rg = line.match(/^([^\/].*)\[([0-9]+)\-([0-9]+)\]([^ ]+)( (.*))?$/)){
-        my.treate_as_sequence_images(rg, lines_finales);
+  , check_sequence_image_in_tags: function(){
+      var my = this
+        , lines_finales = new Array()
+        , rg
+        ;
+      my.onEachTagsLine(function(line){
+        if(rg = line.match(/^([^\/].*)\[([0-9]+)\-([0-9]+)\]([^ ]+)( (.*))?$/)){
+          my.treate_as_sequence_images(rg, lines_finales);
+        } else {
+          lines_finales.push(line);
+        }
+      })
+      Tags = lines_finales.join(RC);
+    }
+  , treate_as_sequence_images: function(dreg, lines_finales) {
+      var my          = this
+        , bef_name    = dreg[1]
+        , from_indice = Number.parseInt(dreg[2], 10)
+        , to_indice   = Number.parseInt(dreg[3], 10)
+        , suffix      = dreg[4]
+        , aft_name    = (dreg[5]||'')
+        , src_name
+        , itag
+        , i = from_indice
+        , data_img    = my.get_data_in_line(aft_name)
+        , images_list = new Array()
+        ;
+
+      var left      = Options.get('marge gauche')       || DEFAULT_SCORE_LEFT_MARGIN ;
+      var top_first = Options.get('marge haut')         || DEFAULT_SCORE_TOP_MARGIN ;
+      var voffset   = Options.get('espacement images') ;
+
+      // Pour indiquer qu'il faut calculer la position des images en fonction
+      // de 1. l'espacement choisi ou par défaut et 2. la hauteur de l'image
+      my.treate_images_spaces = true ;
+
+      // Il faut étudier aft_name pour voir si des données de position ou de
+      // taille sont définies
+      if (data_img.x) {
+        // console.log('La marge gauche est définie à ', data_img.x);
       } else {
-        lines_finales.push(line);
+        data_img.x = left ;
       }
-    })
-    Tags = lines_finales.join(RC);
-  },
-  treate_as_sequence_images: function(dreg, lines_finales) {
-    var my          = this
-      , bef_name    = dreg[1]
-      , from_indice = Number.parseInt(dreg[2], 10)
-      , to_indice   = Number.parseInt(dreg[3], 10)
-      , suffix      = dreg[4]
-      , aft_name    = (dreg[5]||'')
-      , src_name
-      , itag
-      , i = from_indice
-      , data_img    = my.get_data_in_line(aft_name)
-      , images_list = new Array()
-      ;
+      if (data_img.y) {
+        // console.log("La marge haute est définie à ", data_img.y)
+        top_first = data_img.y ;
+      } else {
+        data_img.y = top_first -  voffset ; // -voffset pour éviter une condition ci-dessous
+      }
+      if (data_img.w) {
+        // console.log("La largeur est définie à ", data_img.w);
+      };
+      // if (data_img.h){
+      //   console.log("La hauteur est définie à ", data_img.h);
+      // }
 
-    var left      = Options.get('marge gauche')       || DEFAULT_SCORE_LEFT_MARGIN ;
-    var top_first = Options.get('marge haut')         || DEFAULT_SCORE_TOP_MARGIN ;
-    var voffset   = Options.get('espacement images') ;
-
-    // Pour indiquer qu'il faut calculer la position des images en fonction
-    // de 1. l'espacement choisi ou par défaut et 2. la hauteur de l'image
-    my.treate_images_spaces = true ;
-
-    // Il faut étudier aft_name pour voir si des données de position ou de
-    // taille sont définies
-    if (data_img.x) {
-      // console.log('La marge gauche est définie à ', data_img.x);
-    } else {
-      data_img.x = left ;
+      for(i;i<=to_indice;++i){
+        // Placement vertical provisoire. La vraie position sera recalculée dans
+        // Page.treate_images_spaces
+        data_img.y += voffset ;
+        lines_finales.push(bef_name + i + suffix + my.data_in_line_to_str(data_img));
+      };
+      M.motif_lines_added = t('image-sequentielle');
     }
-    if (data_img.y) {
-      // console.log("La marge haute est définie à ", data_img.y)
-      top_first = data_img.y ;
-    } else {
-      data_img.y = top_first -  voffset ; // -voffset pour éviter une condition ci-dessous
-    }
-    if (data_img.w) {
-      // console.log("La largeur est définie à ", data_img.w);
-    };
-    // if (data_img.h){
-    //   console.log("La hauteur est définie à ", data_img.h);
-    // }
-
-    for(i;i<=to_indice;++i){
-      // Placement vertical provisoire. La vraie position sera recalculée dans
-      // Page.treate_images_spaces
-      data_img.y += voffset ;
-      lines_finales.push(bef_name + i + suffix + my.data_in_line_to_str(data_img));
-    };
-    M.motif_lines_added = t('image-sequentielle');
-  },
 
   // Reçoit {x: 120, y: 130} et retourne " x=120 y=130"
   // Noter le ' ' au début (pour coller directement)
-  data_in_line_to_str: function(h){
-    var arr = new Array();
-    for(var k in h){arr.push(`${k}=${h[k]}`)};
-    return ' ' + arr.join(' ')
-  },
+  , data_in_line_to_str: function(h){
+      var arr = new Array();
+      for(var k in h){arr.push(`${k}=${h[k]}`)};
+      return ' ' + arr.join(' ')
+    }
 
-  get_data_in_line: function(str){
+    /**
+     * Utilisé pour les séquences image, pour obtenir les dimensions
+     * éventuellement définies.
+     */
+  , get_data_in_line: function(str){
       var h = {} ;
       str = str.trim().replace(/\t/g, ' ') ;
       str = str.replace(/ +/g, ' ') ;
@@ -274,15 +309,14 @@ const MuScaT = {
     }
 
   /**
-   * Méthode qui affecte les indices de lignes et les identifiants (aux
-   * nouvelles lignes)
+   * Méthode qui affecte les identifiants aux tags
+   *
+   * Rappel : maintenant, cet identifiant n'est plus enregistré
+   * avec le tag.
    */
-  , set_ids_and_index: function(){
+  , set_ids: function(){
       var my = this ;
-      my.onEachTag(function(itag, idx){
-        itag.index_line = idx ;
-        if(itag.id == null){ itag.id = ++ my.last_tag_id };
-      });
+      my.onEachTag(function(itag, idx){itag.id = ++ my.last_tag_id;});
     }
 
   /**
@@ -341,33 +375,6 @@ const MuScaT = {
       };
     }
 
-  // Retourne le code complet des lignes de tags
-  , full_code: function(){
-      var arr = new Array() ;
-      this.onEachTag(function(itag){arr.push(itag.to_line())})
-      return arr.join(RC) ;
-    }
-
-  /**
-   * Construit (de façon asychrone) le code complet du fichier _tags_.js
-   */
-  , build_very_full_code: function(options_to_tags_js){
-      var my = this ;
-      if (undefined === options_to_tags_js){
-        return Options.to_tags_js();
-      };
-      return options_to_tags_js + 'Tags = `'+ RC + this.full_code() + RC + '`;' ;
-    }
-
-  // Méthode appelée par le bouton pour afficher le code source
-  // On met le code dans le clipboard pour qu'il soit copié-collé
-  , show_code: function(message){
-    var my = this ;
-    if (!message){message = t('full-code-in-clipboard')};
-    F.notify(message);
-    navigator.clipboard.writeText(my.build_very_full_code());
-  },
-
   // ---------------------------------------------------------------------
   // Méthodes fonctionnelles
 
@@ -383,54 +390,55 @@ const MuScaT = {
    * la modification des lignes.
    */
    // TODO Cette méthode doit être placée ailleurs, c'est plutôt une méthode de CTags
-  epure_and_split_raw_line: function(line){
-    var rg
-      , type // 'real-tag', 'empty-line', 'comments-line'
-      ;
-    line = line.trim().replace(/\t/g, ' ') ;
-    line = line.replace(/ +/g, ' ') ;
-    // Marque de ligne verrouillée
-    var premier_car = line.substring(0,1);
-    var locked_line = premier_car == '*' || premier_car == '•' || line.substring(0,2) == '🔒' ;
-    if (locked_line){
-      // <= C'est une ligne verrouillée
-      firstoff = line.substring(0,2) == '🔒' ? 2 : 1
-      line = line.substring(firstoff,line.length).trim();
-    };
+  , epure_and_split_raw_line: function(line){
+      var rg
+        , type // 'real-tag', 'empty-line', 'comments-line'
+        ;
+      line = line.trim().replace(/[\t ]/g, ' ') ; //insécable et tabulation
+      line = line.replace(/[\r\n]/g, ' ');
+      line = line.replace(/ +/g, ' ') ;
+      // Marque de ligne verrouillée
+      var premier_car = line.substring(0,1);
+      var locked_line = premier_car == '*' || premier_car == '•' || line.substring(0,2) == '🔒' ;
+      if (locked_line){
+        // <= C'est une ligne verrouillée
+        firstoff = line.substring(0,2) == '🔒' ? 2 : 1
+        line = line.substring(firstoff,line.length).trim();
+      };
 
-    if (rg = line.match(/^([a-z]+) (.*) ([0-9]+) ([0-9]+)$/i)){
-      // Est-ce une version raccourcie d'écriture :
-      // <nature> <valeur> <y> <x>
-      line = `${rg[1]} ${rg[2]} y=${rg[3]} x=${rg[4]}`;
-    };
+      if (rg = line.match(/^([a-z]+) (.*) ([0-9]+) ([0-9]+)$/i)){
+        // Est-ce une version raccourcie d'écriture :
+        // <nature> <valeur> <y> <x>
+        line = `${rg[1]} ${rg[2]} y=${rg[3]} x=${rg[4]}`;
+      };
 
-    return {data: line.split(' '), locked: locked_line, nature_init: line.split(' ')[0]}
-  },
+      return {data: line.split(' '), line: line, locked: locked_line, nature_init: line.split(' ')[0]}
+    }
 
   // Pour tout réinitialiser chaque fois qu'on actualise l'affichage
   // Pour les tests, appeler plutôt `reset_for_tests` (qui appelle aussi
   // celle-ci)
-  reset_all: function(){
-    var my = this ;
-    my.tags   = new Array();
-    my.errors = new Array();
-    my.last_tag_id = 0 ; // commence à 1
-    Page.table_analyse[0].innerHTML = '' ;
-    my.treate_images_spaces = false ;
-    my.motif_lines_added = null ;
-    // ITags = {};
-  },
+  , reset_all: function(){
+      var my = this ;
+      my.tags   = new Array();
+      my.errors = new Array();
+      my.last_tag_id = 0 ; // commence à 1
+      Page.table_analyse[0].innerHTML = '' ;
+      my.treate_images_spaces = false ;
+      my.motif_lines_added = null ;
+      // ITags = {};
+    }
 
-  set_observers: function(){
-    // On rend tous les éléments sensibles au click (mais sans propagation)
-    Page.table_analyse.find('.tag').on('click', CTags.onclick);
-    // On ajout un observateur de clic sur les images (ils en ont déjà un
-    // par .tag) pour qu'ils donnent les coordonnées au clic de la souris,
-    // ce qui peut servir à place un élément sur l'image directement
-    Page.table_analyse.find('img').on('click', $.proxy(Page,'getCoordonates'))
-    // On rend tous les éléments draggable
-    Page.table_analyse.find('.drag').draggable(DATA_DRAGGABLE)
-  }
+  , set_observers: function(){
+      // On rend tous les éléments sensibles au click (mais sans propagation)
+      Page.table_analyse.find('.tag').on('click', CTags.onclick);
+      // On ajout un observateur de clic sur les images (ils en ont déjà un
+      // par .tag) pour qu'ils donnent les coordonnées au clic de la souris,
+      // ce qui peut servir à place un élément sur l'image directement
+      Page.table_analyse.find('img').on('click', $.proxy(Page,'getCoordonates'))
+      // On rend tous les éléments draggable
+      Page.table_analyse.find('.drag').draggable(DATA_DRAGGABLE)
+    }
 
   /**
    * Chargement d'un module du dossier xlib/js/modules
