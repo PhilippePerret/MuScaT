@@ -54,8 +54,8 @@ test.check_line_copied_pasted_after_new_empty_line = function(){
   M.reset_for_tests();
   option('code beside');
   Tags = `
-acc G id=0 x=100 y=100
-acc G id=1 x=100 y=100
+acc G x=100 y=100
+acc G x=100 y=100
   `;
   M.relaunch_for_tests();
 
@@ -71,10 +71,10 @@ test.check_new_line_at_the_end = function(){
   M.reset_for_tests();
   option('code beside');
   Tags=`
-acc G id=1 x=100 y=200
-#3#
-sco extrait-analyse/sonate-haydn-2.png id=2 x=38 y=127
-#4#
+acc G x=100 y=200
+
+sco extrait-analyse/sonate-haydn-2.png x=38 y=127
+
 `;
   M.relaunch_for_tests();
   assert_nombre_tags(4, 2);
@@ -97,15 +97,15 @@ test.check_two_new_lines_at_the_end = function(){
   M.reset_for_tests();
   option('code beside');
   Tags=`
-acc G id=1 x=100 y=200
-#3#
-sco extrait-analyse/sonate-haydn-2.png id=2 x=38 y=127
-#4#
+acc G x=100 y=200
+
+sco extrait-analyse/sonate-haydn-2.png x=38 y=127
+
 `;
   M.relaunch_for_tests();
   assert_nombre_tags(4, 2);
 
-  var newcode = 'acc G id=1 x=100 y=300'+RC+'acc G id=1 x=100 y=400';
+  var newcode = 'acc G x=100 y=300'+RC+'acc G x=100 y=400';
 
   assert_nombre_tags(6, 4);
 
@@ -132,10 +132,10 @@ test.check_line_at_the_end_and_empty_line_before = function(){
   M.reset_for_tests();
   option('code beside');
   Tags=`
-acc G id=1 x=100 y=200
-#3#
-sco extrait-analyse/sonate-haydn-2.png id=2 x=38 y=127
-#4#
+acc G x=100 y=200
+
+sco extrait-analyse/sonate-haydn-2.png x=38 y=127
+
 `;
   M.relaunch_for_tests();
   // Test de préparation
@@ -143,12 +143,12 @@ sco extrait-analyse/sonate-haydn-2.png id=2 x=38 y=127
 
   // Le test
   new_code=`
-acc G id=1 x=100 y=200
+acc G x=100 y=200
 
-#3#
-sco extrait-analyse/sonate-haydn-2.png id=2 x=38 y=127
-#4#
-acc G id=1 x=100 y=200
+
+sco extrait-analyse/sonate-haydn-2.png x=38 y=127
+
+acc G x=100 y=200
 `;
 
   // La vérification

@@ -37,9 +37,4 @@ test.image_sequentielle_commented = function(){
     `son ID devrait être 1, c'est ${tag.id}`
   );
   var l = tag.to_line();
-  assert(
-    l.substring(l.length-3, l.length) == '#1#',
-    'on trouve #1# au bout de sa ligne de code',
-    `on devrait trouver #1# au bout de sa ligne de code ('${tag.to_line()}')`
-  );
 };

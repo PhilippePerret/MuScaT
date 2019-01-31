@@ -179,9 +179,9 @@ testCreateImage.before_avec_images_introuvables = function(){
   M.reset_for_tests();
   option('code');
   Tags=`
-  sco ${image_path('image-1.png')} id=1 x=100 y=100
-  sco badimage-2.png id=2 x=200 y=100
-  sco test/autrebad.png id=2 x=200 y=100
+  sco ${image_path('image-1.png')} x=100 y=100
+  sco badimage-2.png x=200 y=100
+  sco test/autrebad.png x=200 y=100
   tex Un_problème_d'image_erronée x=150 y=80 w=200%
   `;
   M.relaunch_for_tests();

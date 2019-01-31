@@ -95,7 +95,11 @@ const ULTags = {
     }
 };
 Object.defineProperties(ULTags,{
-  jqObj:{
-    get: function(){return $('#ultags')}
+    'prop': {'key':'virgule'}
+  , jqObj:{
+      get: function(){return $('#ultags')}
+    }
+  , domObj:{
+    get: function(){return document.getElementById('ultags');}
   }
 })

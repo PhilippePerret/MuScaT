@@ -9,6 +9,7 @@ const LITag = function(itag){
   // peut-être encore mise à ce tag (parce que c'est au blur qu'on désélectionne
   // le LITag).
   this.selected = false;
+  this.built    = false ;
 };
 
 // ---------------------------------------------------------------------
@@ -26,7 +27,7 @@ LITag.prototype.build = function(options){
   }
   my.observe();
   ULTags.push(my);
-
+  my.built = true ;
 };
 LITag.prototype.to_html = function(){
   var my = this ;
@@ -57,6 +58,7 @@ LITag.prototype.parse_and_compare = function(){
 LITag.prototype.activate = function(){
   var my = this ;
   my.jqObj.addClass('activated');
+  my.scrollIfNotVisible();
 };
 LITag.prototype.desactivate = function(){
   var my = this ;
@@ -80,7 +82,13 @@ LITag.prototype.focus_previous = function(){
  */
 LITag.prototype.update = function(newLine){
   this.jqObj.text(newLine)
-}
+};
+
+LITag.prototype.scrollIfNotVisible = function(){
+  var my = ULTags[this.id] ;
+  if(!my.built){return};
+  my.domObj.scrollIntoView({behavior: 'smooth'});
+};
 
 // ---------------------------------------------------------------------
 //  MÉTHODES ÉVÈNEMENTIELLES
@@ -163,6 +171,9 @@ Object.defineProperties(LITag.prototype,{
     'prop': {'Description':'Pour voir'}
   , jqObj:{
       get: function(){return $(`li#litag${this.id}`);}
+    }
+  , domObj:{
+      get: function(){return document.getElementById(`litag${this.id}`)}
     }
     // Retourne l'ID du tag en le prenant dans le DOM
   , tag_id: {

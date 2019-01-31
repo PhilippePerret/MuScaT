@@ -259,32 +259,10 @@ Tag.prototype.hStyles = function(){
   return hstyles;
 };
 
-// Méthode qui s'arrange pour rendre le tag visible dans la
-// fenêtre actuelle.
-Tag.prototype.scrollToIt = function(){
-  var my = CTags[this.id]
-    , top = my.jqObj.offset().top
-    , hei = my.domObj.offsetHeight
-    , bot = top + hei
-    , scro = window.scrollY
-    , winh = $(window).height()  // La hauteu visible
-    // Les hauteurs limites, en haut et en bas
-    , limVisibleTop = scro
-    , limVisibleBot = scro + winh
-    , scro_required
-    ;
-
-  if (top < limVisibleTop + 20 || bot > limVisibleBot - 20 ) {
-    if ( hei < winh ) {
-      // Si la dimension de l'objet n'excède pas la dimension de
-      // la fenêtre. On le place au centre.
-      scro_required = Number.parseInt(top - (hei/2) - 10, 10) ;
-    } else {
-      scro_required = top - 10 ;
-    }
-  }
-  // On scrolle pour voir l'élément
-  if (scro_required){window.scroll(0, scro_required)};
+Tag.prototype.scrollIfNotVisible = function(){
+  var my = CTags[this.id] ;
+  if(!my.built){return};
+  my.domObj.scrollIntoView({behavior: 'smooth'});
 };
 
 Tag.prototype.set_dimension = function(prop, dim, mult, fin){
@@ -328,14 +306,12 @@ Tag.prototype.to_html = function() {
     , classes = ['tag']
     ;
 
-  if (!my.x && !my.y && my.tag_without_coordonates){
+  if ((!my.x || !my.y) && my.tag_without_coordonates){
     // On ne fait rien
   } else {
     css.push('left:' + (my.x || 100) + 'px') ;
     css.push('top:'+ (my.y || 100) + 'px') ;
-    if (!my.x && !my.y){
-      classes.push('warntag')
-    }
+    my.checkPositionned();
   }
   // Largeur et hauteur
   css.push(my.w ? my.width_to_str() : 'auto');
@@ -391,7 +367,7 @@ Tag.prototype.build_and_watch = function(){
 };
 // Méthode qui construit l'élément dans la page
 Tag.prototype.build = function(){
-  console.log(`Construction du tag #${this.id} (y=${this.y})`);
+  // console.log(`Construction du tag #${this.id} (y=${this.y})`);
   Page.add(this);
   this.built = true ;
   return this; // chainage
@@ -460,9 +436,8 @@ Tag.prototype.checkPositionned = function(){
   // Si le tag n'avait pas de coordonnées au départ, il avait reçu
   // la classe "warntag" qui l'affichait en rouge. Maintenant qu'il a
   // des coordonnées, on peut retirer cette classe.
-  if (my.x && my.y){my.jqObj.removeClass('warntag');}
+  if (my.tag_without_coordonates || my.x && my.y){my.jqObj.removeClass('warntag');}
   else {my.jqObj.addClass('warntag')};
-
 }
 Tag.prototype.updateY = function(newy){
   if(undefined != newy){
@@ -820,6 +795,7 @@ Tag.prototype.deselect = function(){
  */
 Tag.prototype.activate = function(){
   var my = this ;
+  my.scrollIfNotVisible();
   my.jqObj.addClass('activated');
   my.activated = true ;
 };
@@ -855,7 +831,7 @@ Object.defineProperties(Tag.prototype,{
   data_nature: {
     get:function(){
       if (!this._data_nature){
-        this._data_nature = NATURES[NATURES[this.nature_init].aka || this.nature_init] ;
+        this._data_nature = NATURES[this.nature] ;
       };
       return this._data_nature ;
     }
@@ -928,7 +904,7 @@ Object.defineProperties(Tag.prototype,{
       get: function(){return this.type == 'modulation'}
     }
   // Return true si c'est une nature de tag qui peut ne pas
-  // avoir de coordonnées
+  // avoir de coordonnées, comme par exemple les titres
   , tag_without_coordonates: {
     get: function(){return this.data_nature.no_coor == true;}
   }

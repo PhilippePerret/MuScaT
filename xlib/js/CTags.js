@@ -15,7 +15,7 @@ const CTags = {
       var i = 1, len = this.length ;
       if(options && options.from){i = options.from}
       if(options && options.to){len = options.to + 1}
-      console.log(`Boucle dans onEachTag de ${i} à ${len} (length=${this.length})`);
+      // console.log(`Boucle dans onEachTag de ${i} à ${len} (length=${this.length})`);
       for(i;i<=len;++i){method(this[i], i)};
     }
 
