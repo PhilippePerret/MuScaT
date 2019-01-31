@@ -176,6 +176,6 @@ Object.defineProperties(LITag.prototype,{
       get: function(){return this.jqObj.prev();}
     }
   , nextTag:{
-      get: function(){return ITags[`tag${this.nextObj.tag_id}`];}
+      get: function(){return CTags[this.nextObj.tag_id];}
     }
 })

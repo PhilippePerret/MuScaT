@@ -9,7 +9,7 @@ Object.assign(MuScaT,{
    */
   , prepare_crop_image: function(){
       var my = MuScaT ;
-      itag = ITags['obj1'];
+      itag = CTags[1];
       console.log(itag);
       itag.x = 0 ; itag.y = 0 ; itag.update();
       itag.build();
@@ -63,7 +63,7 @@ Object.assign(MuScaT,{
       var x = my.cropStartX ;
       var y = my.cropStartY ;
       // document.getElementById('tags').removeChild(my.cropper);
-      var scoreTag = ITags['obj1'] ;
+      var scoreTag = CTags[1] ;
       var codeConvert = '-crop ' + w + 'x' + h + '+' + x + '+' + y ;
       var indiceImg  = ++ my.indice_cropped_image ;
       var extensionImg = Options.get('images PNG') ? 'png' : 'jpg' ;

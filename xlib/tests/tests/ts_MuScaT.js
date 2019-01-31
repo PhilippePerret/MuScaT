@@ -47,12 +47,6 @@ acc G x=200 y= 300
       `Le tag ${i} est bien un object`,
       `Le tag ${i} devrait être un objet`
     );
-    // L'index ligne doit correspondre à son rang dans la liste
-    assert(
-      itag.index_line == i,
-      `L'index ligne du tag ${i} correspond à son rang dans tags`,
-      `L'index ligne du tag ${i} devrait correspondre à son rang dans tags (actuel: ${itag.index_line})`
-    );
     assert(
       itag.real == true,
       'Le tag est un vrai tag',

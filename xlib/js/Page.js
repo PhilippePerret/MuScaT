@@ -4,6 +4,31 @@
 const Page = {
 
   /**
+    * Ajoute un élément quelconque dans la page (image, cadence, accord, etc.)
+    *
+    * +itag+ Instance Tag de l'élément à mettre dans la page
+    *
+    * Note : la méthode n'ajoute plus le tag à CTags, il faut le faire
+    * au moment de la création de l'instance définitive (pas à son instanciation
+    * car on instancie des Tags sans pour autant qu'ils existent vraiment).
+    */
+  add: function(itag) {
+    var my = this;
+    // Note : avant, on faisait des corrections pour les valeurs, pour que
+    // la première fois des tags ne se retrouvent pas au même endroit. On ne
+    // le fait plus, ça pose trop de problèmes.
+    // Si on est en mode animation, on doit faire apparaitre l'élément
+    // doucement.
+    var xpage = 1 ;
+    my.table_analyse.append(M.animated ? $(itag.to_html()).fadeIn() : itag.to_html()) ;
+
+    // Si on est en mode animation, il faut voir si le tag est bien
+    // placé dans la page (on doit le voir entièrement)
+    if(M.animated){itag.scrollToIt()};
+
+  },
+
+  /**
    * Méthode appelée par le bouton "Actualiser" pour prendre le code dans
    * le champ de texte et le passer à la moulinette.
    * Raccourci : ALT+ENTRÉE
@@ -78,7 +103,7 @@ const Page = {
   treate_images_spaces: function(){
     var voffset = Options.get('espacement images') || DEFAULT_SCORES_SPACES ;
     var topImage ;
-    M.onEachTag(function(itag){
+    CTags.onEachTag(function(itag){
       if(!itag.is_image){return};
       if(undefined == topImage){
         // <= Première image (ne pas la bouger)
@@ -125,31 +150,6 @@ const Page = {
      $('#refline_h').css('position','fixed');
      $('#refline_v').css('position','fixed');
    },
-
-  /**
-    * Ajoute un élément quelconque dans la page (image, cadence, accord, etc.)
-    *
-    * +itag+ Instance Tag de l'élément à mettre dans la page
-    */
-  // Pour ajouter un tag à la page
-  // +itag+ est une instance Tag
-  add: function(itag) {
-    var my = this;
-    // Note : avant, on faisait des corrections pour les valeurs, pour que
-    // la première fois des tags ne se retrouvent pas au même endroit. On ne
-    // le fait plus, ça pose trop de problèmes.
-    // Si on est en mode animation, on doit faire apparaitre l'élément
-    // doucement.
-    var xpage = 1 ;
-    my.table_analyse.append(M.animated ? $(itag.to_html()).fadeIn() : itag.to_html()) ;
-
-    ITags[itag.domId] = itag ;
-
-    // Si on est en mode animation, il faut voir si le tag est bien
-    // placé dans la page (on doit le voir entièrement)
-    if(M.animated){itag.scrollToIt()};
-
-  },
 
   /**
     * Méthode appelée quand on clique sur la page, en dehors d'un tag

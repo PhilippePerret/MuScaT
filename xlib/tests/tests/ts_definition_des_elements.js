@@ -93,9 +93,9 @@ tag.check_parties = function(){
 
   // Dans l'instance
   diffs = new Array();
-  if(ITags['obj1'].locked){push_failure(diffs, 'locked de la 1ère instance', false, true)}
-  if(!ITags['obj2'].locked){push_failure(diffs, 'locked de la 2e instance', true, false)}
-  if(!ITags['obj3'].locked){push_failure(diffs, 'locked de la 3e instance', true, false)}
+  if(CTags[1].locked){push_failure(diffs, 'locked de la 1ère instance', false, true)}
+  if(!CTags[2].locked){push_failure(diffs, 'locked de la 2e instance', true, false)}
+  if(!CTags[3].locked){push_failure(diffs, 'locked de la 3e instance', true, false)}
   assert(
     diffs.length == 0,
     'les instances ont leur bonne marque de verrou (locked)',
@@ -107,7 +107,7 @@ tag.check_accords = function(){
   var tags, dfs, i ;
   given('Des accords définis avec `accord`, `chord` ou `acc`');
 
-  Tags = `
+  var Tags = `
   // Un commentaire
   accord D x=100 y=120
   chord  SOL_min x=120 y=120

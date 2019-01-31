@@ -21,7 +21,7 @@ const ULTags = {
   , build: function(){
       var my = this;
       my.setULHeight();
-      M.onEachTag(function(itag){$.proxy(new LITag(itag), 'build')()});
+      CTags.onEachTag(function(itag){$.proxy(new LITag(itag), 'build')()});
     }
   /**
   * Régler la hauteur du UL pour qu'il tienne bien sur la page
@@ -67,7 +67,7 @@ const ULTags = {
       var my = this ;
       var itag  = new Tag('');
       itag.id = ++ M.last_tag_id;
-      ITags[itag.domId] = itag;
+      CTags[itag.id] = itag;
       var litag = new LITag(itag);
       if (litagBefore){
         litagBefore.jqObj.blur();

@@ -27,7 +27,7 @@ const DATA_DRAGGABLE = {
     // grid: [50, 50], // Fonctionne très mal => le faire en code
   , start: function(ev, ui){
       var my = this ;
-      my._tag = ITags[ui.helper[0].id];
+      my._tag = CTags[Number.parseInt(ui.helper[0].getAttribute('data-id'),10)];
       my._tag.onStartMoving(ev, ui);
       if(my._tag.group){
         my._tag.group.onEachTag(function(tg){tg.startX=tg.x;tg.startY=tg.y});

@@ -14,19 +14,9 @@
 // La classe principale
 // MuScaT pour "Mu Sc Ta (à l'envers)" pour "Music Score Tagger"
 const MuScaT = {
-  tags:  new Array(),
   // Liste des erreurs rencontrées (sert surtout aux textes)
   motif_lines_added: null,
 
-  // Exécute la fonction +method+ sur tous les tags de this.tags
-  onEachTag: function(method, options){
-    var i, len ;
-    if(options && options.from){i = options.from}
-    else {i = 0};
-    if(options && options.to){len = options.to + 1}
-    else {len = this.tags.length};
-    for(i;i<len;++i){method(this.tags[i], i)};
-  },
   // Exécute la fonction +method+ sur toutes les lignes de la
   // constante Tags.
   onEachTagsLine: function(method){
@@ -79,6 +69,8 @@ const MuScaT = {
     // le fichier tag.js
     this.load() ;
 
+    console.log('Nombre de tags', CTags.length);
+
     // On met le titre du dossier d'analyse
     $('span#analyse_name').text(ANALYSE);
 
@@ -89,7 +81,7 @@ const MuScaT = {
     // soit en bonne position
     // On fera la même chose, un peu plus bas, avec les lignes de
     // référence
-    this.onEachTag(function(tg){tg.jqObj.css('position','absolute')});
+    CTags.onEachTag(function(tg){tg.jqObj.css('position','absolute')});
 
     // Quand on clique sur la partition, en dehors d'un élément,
     // ça déselectionne tout
@@ -153,7 +145,7 @@ const MuScaT = {
       // Si des lignes ont été créées au cours ud processus,
       // on demande à l'utilisateur de sauver le code
       if (my.motif_lines_added) {
-        my.show_code(t('code-lines-added', {motif: my.motif_lines_added}));
+        my.codeAnalyseInClipboard(t('code-lines-added', {motif: my.motif_lines_added}));
       }
     }
 
@@ -163,7 +155,7 @@ const MuScaT = {
 
   // Méthode appelée par le bouton pour afficher le code source
   // On met le code dans le clipboard pour qu'il soit copié-collé
-  , show_code: function(message){
+  , codeAnalyseInClipboard: function(message){
       var my = this ;
       if (!message){message = t('full-code-in-clipboard')};
       F.notify(message);
@@ -186,7 +178,10 @@ const MuScaT = {
   // Retourne le code complet des lignes de tags
   , full_code: function(){
       var arr = new Array() ;
-      this.onEachTag(function(itag){arr.push(itag.to_line())})
+      CTags.onEachTag(function(itag){
+        console.log('Mise dans le code du tag #', itag.id);
+        arr.push(itag.to_line())
+      })
       return arr.join(RC) ;
     }
 
@@ -201,8 +196,8 @@ const MuScaT = {
       my.check_sequence_image_in_tags();
       my.onEachTagsLine(function(line){
         itag = new Tag(line) ;
-        my.tags.push(itag) ;
-        if(itag.id && itag.id > my.last_tag_id){my.last_tag_id = itag.id};
+        itag.id = ++my.last_tag_id;
+        CTags.push(itag) ;
       });
     }
   //parse_tags_js
@@ -316,7 +311,7 @@ const MuScaT = {
    */
   , set_ids: function(){
       var my = this ;
-      my.onEachTag(function(itag, idx){itag.id = ++ my.last_tag_id;});
+      CTags.onEachTag(function(itag, idx){itag.id = ++ my.last_tag_id;});
     }
 
   /**
@@ -330,7 +325,7 @@ const MuScaT = {
       var my = this
         ;
 
-      my.onEachTag(function(itag, idx){
+      CTags.onEachTag(function(itag, idx){
         if(my.animated){return};
         if(itag.real){itag.build()}
         else if(itag.is_comment_line && itag.text.match(/START/)){
@@ -426,7 +421,6 @@ const MuScaT = {
       Page.table_analyse[0].innerHTML = '' ;
       my.treate_images_spaces = false ;
       my.motif_lines_added = null ;
-      // ITags = {};
     }
 
   , set_observers: function(){

@@ -61,9 +61,9 @@ window.matchError = function(err_msg, err_type){
 window.assert_nombre_tags = function(nombre, nombre_sur_table){
  if(undefined==nombre_sur_table){nombre_sur_table = nombre};
  assert(
-   M.tags.length == nombre,
+   CTags.length == nombre,
    `Il y a bien ${nombre} tags dans MuScaT.tags`,
-   `Il devrait y avoir ${nombre} tags dans MuScaT.tags, il y en a ${M.tags.length}`
+   `Il devrait y avoir ${nombre} tags dans MuScaT.tags, il y en a ${CTags.length}`
  );
  var tags = document.getElementsByClassName('tag');
  assert(

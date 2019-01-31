@@ -107,9 +107,6 @@ const TABLECOR_TYPES_LINE = {
 
 }
 
-// Table de hashage qui contient toutes les instances Tag.
-const ITags = {} ;
-
 /**
  * Valeurs par défaut pour les images
  */

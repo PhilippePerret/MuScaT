@@ -49,12 +49,6 @@ function Tag(data_line) {
   // suite après.
   this.data_line  = data_line ;
 
-  // La ligne réelle où est placé ce tag dans le fichier _tags_.js, pour pouvoir
-  // la modifier quand elle est déplacée ou ajustée.
-  // La propriété sera renseignée à la fin du premier parsing, pour tenir
-  // compte des éventuels ajouts
-  this.index_line = null ;
-
   // Mis à true quand l'élément est modifié (bougé), pour indiquer
   // qu'il faut faire quelque chose (mais peut-être pas, si les positions
   // sont enregistrées au fur et à mesure du déplacement)
@@ -135,7 +129,7 @@ Tag.prototype.to_line = function(){
  *
  */
 Tag.prototype.update = function(prop, new_value, options) {
-  var my = ITags[this.domId];
+  var my = CTags[this.id];
   if(undefined == prop){
     // Appel de la méthode sans argument
     my.updateXY(); // ça fait tout, normalement
@@ -150,6 +144,10 @@ Tag.prototype.update = function(prop, new_value, options) {
     // Appelé avec un argument, c'est la propriété qu'il faut
     // actualiser
     switch (prop) {
+      case 'nature':
+        my.nature = new_value;break;
+      case 'nature_init':
+        my.nature_init = new_value;break;
       case 'y':
       case 'top':
         my.updateY(new_value);break;
@@ -212,7 +210,7 @@ Tag.prototype.height_to_str = function(){
  * Méthode qui sépare la valeur de l'unité
  */
 Tag.prototype.get_value_and_unit = function(fullvalue) {
-  var my = this._domId ? ITags[this.domId] : this ;
+  var my = this._domId ? CTags[this.id] : this ;
   if('number'==typeof(fullvalue)){
     return [fullvalue, 'px'];
   } else {
@@ -264,7 +262,7 @@ Tag.prototype.hStyles = function(){
 // Méthode qui s'arrange pour rendre le tag visible dans la
 // fenêtre actuelle.
 Tag.prototype.scrollToIt = function(){
-  var my = ITags[this.domId]
+  var my = CTags[this.id]
     , top = my.jqObj.offset().top
     , hei = my.domObj.offsetHeight
     , bot = top + hei
@@ -290,7 +288,7 @@ Tag.prototype.scrollToIt = function(){
 };
 
 Tag.prototype.set_dimension = function(prop, dim, mult, fin){
-  var my  = ITags[this.domId];
+  var my  = CTags[this.id];
   var pas = (fin ? 1 : (5 * (mult ? 5 : 1))) * (dim ? -1 : 1) ;
   // Cas spécial de la hauteur avec 1) les images 2) les modulations
   if (prop == 'h' && !my.h && (my.is_image || my.is_modulation)) {
@@ -305,7 +303,7 @@ Tag.prototype.set_dimension = function(prop, dim, mult, fin){
 };
 
 Tag.prototype.move = function(sens, mult, fin){
-  var my  = ITags[this.domId];
+  var my  = CTags[this.id];
   var pas = fin ? 1 : (5 * (mult ? 5 : 1)) ;
   var [prop, mltpas] = function(sens){
     switch(sens){
@@ -363,7 +361,7 @@ Tag.prototype.to_html = function() {
   var ftext = my.text || '';
   switch (my.nature) {
     case 'score':
-      return `<img id="${my.domId}" class="${classes.join(' ')}" src="${IMAGES_FOLDER}/${my.src}" style="${css}" />`
+      return `<img id="${my.domId}" data-id="${my.id}" class="${classes.join(' ')}" src="${IMAGES_FOLDER}/${my.src}" style="${css}" />`
     case 'cadence':
     case 'text':
       // classes.push('typed') ; // permet d'ajouter du texte après
@@ -383,7 +381,7 @@ Tag.prototype.to_html = function() {
       break;
     default:
   }
-  return `<span id="${my.domId}" class="${classes.join(' ')}" style="${css}">${ftext}</span>`;
+  return `<span id="${my.domId}" data-id="${my.id}" class="${classes.join(' ')}" style="${css}">${ftext}</span>`;
 };
 
 // Construit le tag et pose les observers dessus. Mais seulement si
@@ -415,7 +413,7 @@ Tag.prototype.buildAsModulation = function(classes, css){
   var vly2 = (vly1 + (my.h ? my.h : 20)) ;
 
   code = `
-<div id="${my.domId}" class="${classes.join(' ')}" style="${css}">
+<div id="${my.domId}" data-id="${my.id}" class="${classes.join(' ')}" style="${css}">
   <svg xml:lang="fr" width=140 height=100
   xmlns="http://www.w3.org/2000/svg"
   xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -499,7 +497,7 @@ Tag.prototype.updateH = function(newh){
   }
 }
 Tag.prototype.updateW = function(neww){
-  var my = ITags[this.domId];
+  var my = CTags[this.id];
   if (my.type == 'modulation'){return F.error(t('no-w-pour-modulation'))};
   if(undefined != neww){
     if (neww < 5){return};
@@ -517,7 +515,7 @@ Tag.prototype.updateW = function(neww){
 }
 
 Tag.prototype.updateText = function(newt){
-  var my = ITags[this.domId];
+  var my = CTags[this.id];
   if(undefined != newt){ my.text = newt };
   if(my.type == 'modulation'){
     var [t, st] = my.text.split('/');
@@ -525,7 +523,7 @@ Tag.prototype.updateText = function(newt){
     my.sous_text = st || '' ;
     my.jqObj.find('svg text.main').text(my.main_text) ;
     my.jqObj.find('svg text.sous').text(my.sous_text) ;
-  } else {
+  } else if (my.real ){
     my.domObj.innerHTML = my.text ;
   }
 }
@@ -537,7 +535,7 @@ Tag.prototype.updateLock = function(new_value){
   // Note : je ne sais pas pourquoi, ici, je dois utiliser cette
   // tournure avec new_value alors que pour les autres valeurs, ça
   // semble se faire normalement.
-  var my = ITags[this.domId];
+  var my = CTags[this.id];
   my.locked = new_value ;
   my.jqObj[my.locked ? 'addClass' : 'removeClass']('locked');
   if(my.locked && my.selected){CTags.remove_from_selection(my)};
@@ -545,22 +543,14 @@ Tag.prototype.updateLock = function(new_value){
 }
 
 Tag.prototype.updateDestroyed = function(value){
-  var my = ITags[this.domId];
+  var my = CTags[this.id];
   my.destroyed = value ;
   if(my.destroyed){
-      if(my.real){
-        my.jqObj.remove() ;
-        M.tags.splice(my.index_line,1);
-      };
+      if(my.real){my.remove()};
   } else {
     // Annulation de destruction. Il faut remettre l'objet à
     // sa place, à sa ligne
-    if (my.index_line < M.tags.length){
-      M.tags.splice(my.index_line, 0, my);
-    } else {
-      M.tags.push(my);
-    };
-    my.build();
+    my.build_and_watch();
   };
 };
 
@@ -739,7 +729,6 @@ Tag.prototype.createCopy = function() {
   // Il faut créer un nouveau tag à partir de celui-ci
   var dline   = my.recompose() ;
   var newtag  = new Tag(dline) ;
-  newtag.index_line = M.get_line_for_position(newtag.x, newtag.y) ; // peut être = -1
   newtag.id = ++ M.last_tag_id ;
   newtag.build_and_watch();
   message(`Nouveau tag créé sur la partition (id #${newtag.id}). N’oubliez pas de copier-coller sa ligne ou tout le code dans votre fichier _tags_.js.`);
@@ -759,23 +748,23 @@ Tag.prototype.compare_and_update_against = function(tagComp) {
   var my = this ;
   my.modified = false ;
 
-  console.log(tagComp);
-  console.log('tagComp.real:', tagComp.real);
+  // console.log(tagComp);
+  // console.log('tagComp.real:', tagComp.real);
   if (tagComp.real && !my.built){
     // Pour pouvoir faire une "pré-construction" du tag, il faut donner
     // quelques propriétés tout de suite.
     my.nature_init = tagComp.nature_init ;
     my.type   = tagComp.type ;
-    console.log('-> on doit construire le tag');
+    // console.log('-> on doit construire le tag');
     my.build_and_watch();
   } else if (!tagComp.real && my.built){
-    console.log('-> on doit détruire le tag');
+    // console.log('-> on doit détruire le tag');
     my.remove();
   };
   for(var prop of TAG_PROPERTIES_LIST){
-    console.log(`Comparaison de ${prop} : ${my[prop]} / ${tagComp[prop]}`)
+    // console.log(`Comparaison de ${prop} : ${my[prop]} / ${tagComp[prop]}`)
     if (tagComp[prop] != my[prop]){
-      console.log(`Actualisation de ${prop}`);
+      // console.log(`Actualisation de ${prop}`);
       my.update(prop, tagComp[prop]) ;
       my.modified = true ;
     }
@@ -848,13 +837,13 @@ Tag.prototype.desactivate = function(){
  * Pour introduire le tag dans un groupe
  */
 Tag.prototype.add_in_group = function(igroup) {
-  var my = ITags[this.domId];
+  var my = CTags[this.id];
   my.group = igroup ;
   my.jqObj.addClass('grouped');
   igroup.tags.push(my);
 };
 Tag.prototype.ungroup = function(){
-  var my = ITags[this.domId];
+  var my = CTags[this.id];
   my.group = null ;
   my.jqObj.removeClass('grouped');
 };
