@@ -126,8 +126,7 @@ LITag.prototype.onFocus = function(ev){
   my.iniContent   = my.jqObj.text();
   ULTags.selected = my ;
   my.jqObj.addClass('selected');
-  this.selected   = true;
-  // TODO : le mettre en exergue sur la table (pas en sélection)
+  my.selected   = true;
 };
 LITag.prototype.onBlur = function(ev){
   var my = this ;
@@ -147,6 +146,7 @@ LITag.prototype.onKeyPress = function(ev){
 LITag.prototype.onKeyUp = function(ev){
   switch (ev.keyCode) {
     case 9: // Touche tabulation
+      return stop(ev); // ne rien faire, c'est pour sélectionner le code
     case 13: // Touche entrée => nouveau tag ou prendre en compte ?
       // console.log('Tabulation, je passe au suivant');
       this.focus_next();return stop(ev);

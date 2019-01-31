@@ -57,9 +57,9 @@ const MEvents = {
    * Les flèches ne génèrent pas d'évènement keypress,
    */
   , onkeyup_with_selection: function(ev){
-      if (ev.which == 87){
+      if (ev.which == 87 /* w */ ){
         this.w_is_pressed = false; return stop(ev);
-      } else if (ev.which == 72){
+      } else if (ev.which == 72 /* h */){
         this.h_is_pressed = false; return stop(ev);
       }
       if (this.w_is_pressed || this.h_is_pressed){
@@ -82,6 +82,9 @@ const MEvents = {
       // this.console_key(ev);
     }
   , onkeydown_with_selection: function(ev){
+      // this.console_key(ev);
+      // switch (ev.keyCode) {
+      // };
       switch (ev.which) {
         case 87: /*  w */
         case 72: /* h  */
@@ -95,9 +98,12 @@ const MEvents = {
           CTags.onEachSelected(function(itag){itag.move(sens, ev.shiftKey, ev.ctrlKey)});
           return stop(ev);
         default:
-          // this.console_key(ev);
       }
       switch (ev.keyCode) {
+        case 9:
+          if(ULTags.activated){return true};
+          ULTags[CTags.selection.id].jqObj.focus();
+          return stop(ev);
         case 37: // LEFT ARROW
         case 38: // UP ARROW
         case 39: // RIGH ARROW
@@ -141,8 +147,8 @@ const MEvents = {
 
   , onkeydown_always: function(ev){
       switch (ev.which) {
-        case 9:
-          return stop(ev);
+        // case 9:
+        //   return stop(ev);
       }
       // this.console_key(ev);
       return true ;
@@ -162,6 +168,11 @@ const MEvents = {
           // this.console_key(ev);
       }
     } else {
+      switch (ev.charCode) {
+        case 67: /* c */
+          console.log('touche c')
+          return stop(ev);
+      }
       switch (ev.keyCode) {
         case 13: /* ENTRÉE */
           ULTags.updateTag();return stop(ev);
