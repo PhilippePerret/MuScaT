@@ -3,6 +3,7 @@
 // les sélections)
 const CTags = {
     class: 'CTags'
+  , last_tag_id: 0      // Dernier ID attribué à un tag
   , selection: null    // La sélection courante (Tag)
   , selections: []     // Les sélections (Tag(s))
   , last_group_id: 0   // Pour les tags groupés
@@ -28,9 +29,10 @@ const CTags = {
     }
 
   , push: function(itag){
+      if(undefined == itag.id){itag.id = ++ this.last_tag_id;}
       this[itag.id] = itag;
       this.length += 1 ;
-      console.log('Nombre de tags', this.length);
+      return itag; // pour chainage
     }
 
   , on_select: function(itag, with_maj){

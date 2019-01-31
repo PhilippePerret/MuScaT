@@ -7,13 +7,22 @@ const ULTags = {
   , activated: false      // Pour les gestionnaires de touche
 
     /**
+     * Joue la méthode +method+ sur tous les LITags, mais en les
+     * prenant dans le DOM, c'est-à-dire dans l'ordre affiché.
+     */
+  , onEachLITag: function(method){
+      var my = this ;
+      my.jqObj.find('> li').each(function(idx, olitag){
+        method(my.domObjetToLITag(olitag));
+      })
+    }
+    /**
       * Méthodes pour que ULTags réagisse comme une liste
       * Pour ajouter le litag +litag+ à sa liste de LITags
       */
   , push: function(litag){
       // Pour permettre d'obtenir les items par ULTags[<id>]
       this[litag.id] = litag ;
-      this.items.push(litag);
     }
     /**
      * Pour construire la liste des tags
@@ -66,8 +75,7 @@ const ULTags = {
   , create_after: function(litagBefore){
       var my = this ;
       var itag  = new Tag('');
-      itag.id = ++ M.last_tag_id;
-      CTags[itag.id] = itag;
+      CTags.push(itag);
       var litag = new LITag(itag);
       if (litagBefore){
         litagBefore.jqObj.blur();
@@ -77,6 +85,13 @@ const ULTags = {
       }
       litag.jqObj.focus();
       itag.build_and_watch();
+    }
+
+    /**
+     * Reçoit un DOMElement et retourne l'instance LITag correspondante
+     */
+  , domObjetToLITag: function(domObj){
+      return this[Number.parseInt(domObj.getAttribute('data-id'),10)];
     }
 };
 Object.defineProperties(ULTags,{

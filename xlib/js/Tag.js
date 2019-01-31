@@ -728,8 +728,7 @@ Tag.prototype.createCopy = function() {
   var my = this ;
   // Il faut créer un nouveau tag à partir de celui-ci
   var dline   = my.recompose() ;
-  var newtag  = new Tag(dline) ;
-  newtag.id = ++ M.last_tag_id ;
+  var newtag  = CTags.push(new Tag(dline));
   newtag.build_and_watch();
   message(`Nouveau tag créé sur la partition (id #${newtag.id}). N’oubliez pas de copier-coller sa ligne ou tout le code dans votre fichier _tags_.js.`);
 }

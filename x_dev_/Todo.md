@@ -1,6 +1,6 @@
 # Todo list
 
-* [BUG] On crée une nouvelle litag, on demande le code complet, il n'est pas actualisé
+* Faire une méthode ULTags.onEachLITag (sert notamment pour récupérer tout le code)
 * Une méthode qui permet de toujours afficher le tag sélectionné dans ULTags (quand la liste est longue)
 * Ne pas mettre la touche pour copier le code dans la boite à outils si le code est affiché
 * Pour le manuel, mettre en forme les .usage et .exemple utilisé pour la liste des natures.

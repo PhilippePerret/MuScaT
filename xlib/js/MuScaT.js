@@ -127,8 +127,6 @@ const MuScaT = {
 
     my.parse_tags_js() ;
 
-    my.set_ids() ;
-
     my.build_tags() ;
 
     if (my.treate_images_spaces) {
@@ -148,8 +146,6 @@ const MuScaT = {
         my.codeAnalyseInClipboard(t('code-lines-added', {motif: my.motif_lines_added}));
       }
     }
-
-    // console.log('À la fin de load, last_tag_id = ', this.last_tag_id);
   }
   // load
 
@@ -178,9 +174,9 @@ const MuScaT = {
   // Retourne le code complet des lignes de tags
   , full_code: function(){
       var arr = new Array() ;
-      CTags.onEachTag(function(itag){
-        console.log('Mise dans le code du tag #', itag.id);
-        arr.push(itag.to_line())
+      ULTags.onEachLITag(function(litag){
+        console.log('Mise dans le code du tag #', litag.id);
+        arr.push(CTags[litag.id].to_line());
       })
       return arr.join(RC) ;
     }
@@ -196,7 +192,6 @@ const MuScaT = {
       my.check_sequence_image_in_tags();
       my.onEachTagsLine(function(line){
         itag = new Tag(line) ;
-        itag.id = ++my.last_tag_id;
         CTags.push(itag) ;
       });
     }
@@ -304,17 +299,6 @@ const MuScaT = {
     }
 
   /**
-   * Méthode qui affecte les identifiants aux tags
-   *
-   * Rappel : maintenant, cet identifiant n'est plus enregistré
-   * avec le tag.
-   */
-  , set_ids: function(){
-      var my = this ;
-      CTags.onEachTag(function(itag, idx){itag.id = ++ my.last_tag_id;});
-    }
-
-  /**
    * Méthode qui construit les tags sur la table
    *
    * Note les watchers ne sont pas placés, ici, car ils le seront
@@ -417,7 +401,7 @@ const MuScaT = {
       var my = this ;
       my.tags   = new Array();
       my.errors = new Array();
-      my.last_tag_id = 0 ; // commence à 1
+      CTags.last_tag_id = 0 ; // commence à 1
       Page.table_analyse[0].innerHTML = '' ;
       my.treate_images_spaces = false ;
       my.motif_lines_added = null ;
