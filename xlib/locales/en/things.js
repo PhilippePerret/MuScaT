@@ -6,6 +6,7 @@ Object.assign(MSG,{
   'mess-id':      'Definition'
 // ========================================
 , 'analyzed-by':  'Analyzed by'
+, 'detruire':     'remove'
 , 'le-of-date':   ''
 , 'operations':    'Operations'
 , 'sur':          'on'

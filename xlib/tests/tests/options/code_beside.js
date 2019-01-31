@@ -48,10 +48,6 @@ test.changement_in_codeField_change_analyse = function(){
     'Aucun tag ne devrait se trouver sur la table'
   );
 
-  // === Test ici ===
-  var add = 'text Un_tag_ajouté_dans_le_champ x=300 y=300';
-  CF.change_code_source(add, {update: true, add: true});
-
   // === check ===
   var tags = document.getElementsByClassName('tag');
   // L'élément a bien été fabriqué sur la table de l'analyse

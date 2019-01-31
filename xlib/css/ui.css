@@ -88,17 +88,37 @@ section#rcolumn {
   z-index: 500; /* rappel : lignes repère 500 */
 }
 
-section#rcolumn textarea#codeSource {
-  font-family: 'Courier New', 'Courier';
-  font-size:    14pt;
-  background-color: black;
-  color: white;
-  height: 600px;
-  width:  98%;
-  padding: 1em;
-  margin-right: 1em;
-}
+/* ---------------------------------------------------------------------
+Le UL qui contient les LITags
+*/
+div#div-ultags {
 
+}
+div#div-ultags ul#ultags {
+  margin-bottom: 0;
+}
+div#div-ultags div#div-ultags-buttons {
+  text-align: left;
+  border-width: 0 1px 1px 1px;
+  border-style: solid;
+  border color: grey;
+}
+div#div-ultags div#div-ultags-buttons button {
+  background-color: #CCCCCC;
+  width: 36px;
+  height: 36px;
+  text-align: center;
+  margin:0;
+  margin-right: -4px;
+  padding:0;
+  border: 1px solid grey;
+}
+div#div-ultags div#div-ultags-buttons button:active {
+  background-color: green;
+  color: white;
+  padding: 2px 3px 4px;
+  font-family: Arial, Helvetica;
+}
 /* --------------------------------------------------------------------- */
 /* Lignes de référence */
 

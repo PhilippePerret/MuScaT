@@ -26,9 +26,7 @@ const MEvents = {
   , onkeypress: function(ev) {
       // console.log('-> onkeypress');
       if (!this.onkeypress_always(ev)){ return };
-      if(CodeField.focused){
-        this.onkeypress_on_code_field(ev);
-      } else if (CTags.selections.length) {
+      if (CTags.selections.length) {
         this.onkeypress_with_selection(ev);
       } else {
         this.onkeypress_else(ev);
@@ -37,9 +35,7 @@ const MEvents = {
 
   , onkeyup: function(ev){
       if (!this.onkeyup_always(ev)){ return };
-      if(CodeField.focused){
-        // this.onkeyup_on_code_field(ev);
-      } else if (CTags.selections.length) {
+      if (CTags.selections.length) {
         this.onkeyup_with_selection(ev);
       } else {
         // this.onkeyup_else(ev);
@@ -48,9 +44,7 @@ const MEvents = {
 
   , onkeydown: function(ev){
       if (!this.onkeydown_always(ev)){ return };
-      if(CodeField.focused){
-        // this.onkeydown_on_code_field(ev);
-      } else if (CTags.selections.length) {
+      if (CTags.selections.length) {
         this.onkeydown_with_selection(ev);
       } else {
         // this.onkeydown_else(ev);
@@ -152,41 +146,10 @@ const MEvents = {
       return true ;
     }
   /**
-   * Gestionnaire de touches pressées quand on se trouve dans le
-   * champ de code
-   */
-  , onkeypress_on_code_field: function(ev){
-    // console.log('-> onkeypress_on_code_field');
-    var my = CodeField ;
-    if(ev.keyCode == 13 && ev.altKey){
-      Page.update();
-      return stop(ev);
-    } else if ( ev.keyCode == 16 && ev.metaKey && ev.shiftKey) {
-      // console.log("=> Commentaire ");
-    }
-    if(ev.metaKey){
-      if(ev.shift){
-        // CMD Maj
-
-        // console.log("Avec métakey  et shift: keyCode: " + ev.keyCode + " / charCode: " + ev.charCode);
-      }
-      // console.log("Avec métakey : keyCode: " + ev.keyCode + " / charCode: " + ev.charCode);
-    } else {
-      // Pour vérifier que le champ est bien focusé (pour les tests)
-      if(ev.keyCode == 'test'){
-        CF.actived = true ;
-      } else {
-        CF.actived = false ;
-      }
-    }
-    return true ;
-  },
-
-  /**
    * Gestionnaire d'évènements lorsqu'il y a une sélection mais qu'on
    * ne se trouve pas dans le champ de code
    */
-  onkeypress_with_selection: function(ev){
+  , onkeypress_with_selection: function(ev){
     // console.log('-> onkeypress_with_selection');
     if ( ev.metaKey ){
       switch(ev.charCode){

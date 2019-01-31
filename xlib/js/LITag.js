@@ -1,84 +1,4 @@
 /**
-  * Pour gérer le champ de code
-  *
-  * Dans cette nouvelle mouture, CodeField est une liste qui contient les
-  * tags sous forme de LI.
-  */
-const CodeField = {
-
-  already_observed: false, // mise à true quand le champ a reçu ses gestionnaires
-  focused: false, // mis à true quand on est dedans (pour empêcher les flèches de déplacer les éléments par exemple)
-
-
-
-  onFocus: function(){
-    this.focused = true ; // pour le gestionnaire Events.onkeypress
-  },
-  onBlur: function(){
-    this.focused = false ;
-  },
-
-  // Pour placer les observateurs sur le champ
-  observe: function(){
-    var my = this ;
-    if(my.already_observed){return};
-    my.jqObj.on('focus', $.proxy(CodeField,'onFocus'));
-    my.jqObj.on('blur', $.proxy(CodeField,'onBlur'));
-    my.already_observed = true;
-  }
-}
-Object.defineProperties(CodeField, {
-
-  domObj: {
-    get: function(){return document.getElementById('codeSource')}
-  },
-  jqObj: {
-    get: function(){return $('textarea#codeSource')}
-  }
-})
-
-const CF = CodeField;
-
-const ULTags = {
-    'pour': 'virgule'
-
-  , setULHeight: function(){
-      var my = this ;
-      console.log('window.innerHeight:', window.innerHeight);
-      my.jqObj.css('height', ($(window).height() - 200) + 'px');
-    }
-    /**
-     * Pour construire la liste des tags
-     */
-  , build: function(){
-      var my = this;
-      my.setULHeight();
-      M.onEachTag(function(itag){$.proxy(new LITag(itag), 'build')()});
-    }
-
-    /**
-     * Méthode appelée pour créer une nouvelle ligne sous la ligne
-     * courante (pour le moment sans tag)
-     */
-  , create_after: function(litagBefore){
-      var my = this ;
-      var itag  = new Tag('');
-      itag.id = ++ M.last_tag_id;
-      ITags[itag.domId] = itag;
-      var litag = new LITag(itag);
-      litag.build({after: litagBefore.jqObj});
-      litagBefore.jqObj.blur();
-      litag.jqObj.focus();
-      itag.build_and_watch();
-    }
-};
-Object.defineProperties(ULTags,{
-  jqObj:{
-    get: function(){return $('#ultags')}
-  }
-})
-
-/**
  * Classe de l'objet LI
  */
 const LITag = function(itag){
@@ -137,6 +57,7 @@ LITag.prototype.onFocus = function(ev){
   console.log(`Focus dans #${my.id}`);
   my.activated  = true ;
   my.iniContent = my.jqObj.text();
+  ULTags.selected = my ;
   // TODO : le mettre en exergue sur la table (pas en sélection)
 };
 LITag.prototype.onBlur = function(ev){
@@ -145,12 +66,10 @@ LITag.prototype.onBlur = function(ev){
   my.activated = false ;
   my.newContent = my.jqObj.text();
   if (my.iniContent != my.newContent) {
-    // Un changement a été opéré => décomposer la donnée
-    // et mémoriser.
-    console.log(`#${my.id} modified`);
     my.itag.parse(my.newContent);
-    my.modified = true;
+    my.modified = true; // Utile ?
   }
+  ULTags.selected = null;
 };
 LITag.prototype.onKeyPress = function(ev){
 };

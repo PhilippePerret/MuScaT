@@ -19,7 +19,8 @@
     <script type="text/javascript" src="xlib/js/MEvents.js"></script>
     <script type="text/javascript" src="xlib/js/Options.js"></script>
     <script type="text/javascript" src="xlib/js/ui.js"></script>
-    <script type="text/javascript" src="xlib/js/CodeField.js"></script>
+    <script type="text/javascript" src="xlib/js/ULTags.js"></script>
+    <script type="text/javascript" src="xlib/js/LITag.js"></script>
     <script type="text/javascript" src="xlib/js/main.js"></script>
     <script type="text/javascript" src="xlib/js/MuScaT.js"></script>
     <script type="text/javascript" src="xlib/js/Tag.js"></script>
@@ -40,10 +41,12 @@
 
     <!-- Colonne gauche, non visible, pour travailler avec le code à côté-->
     <section id="rcolumn">
-      <ul id="ultags"></ul>
-      <textarea name="codeSource" id="codeSource" style="display:none;"></textarea>
-      <div class="right">
-        <button id="btn-update-table" type="button" onclick="$.proxy(Page,'update')()"></button>
+      <div id="div-ultags" class="">
+        <ul id="ultags"></ul>
+        <div id="div-ultags-buttons">
+          <button type="button" id="ultags-btn-plus" onclick="$.proxy(ULTags,'addTag')()">➕</button>
+          <button type="button" id="ultags-btn-moins" onclick="$.proxy(ULTags,'removeTag')()">➖</button>
+        </div>
       </div>
     </section>
 

@@ -28,9 +28,6 @@ acc G x=100 y=100
     `Il ne devrait y avoir qu'un seul M.tag, il y en a ${M.tags.length}.`
   )
 
-  var first_line = CF.line(1) ;
-  CF.change_code_source(first_line, {update:true, add:true});
-
   assert(
     M.tags.length == 2,
     'Il y a deux tags (dans M.tags)',
@@ -64,10 +61,6 @@ acc G id=1 x=100 y=100
 
   assert_nombre_tags(2);
 
-  // Note : le premier RC ci-dessous doit être gardé : il doit créer la
-  // ligne vierge.
-  CF.change_code_source(RC+'acc G id=0 x=100 y=100', {add:true, update:true});
-
   assert_nombre_tags(4, 3);
 
 };
@@ -85,8 +78,6 @@ sco extrait-analyse/sonate-haydn-2.png id=2 x=38 y=127
 `;
   M.relaunch_for_tests();
   assert_nombre_tags(4, 2);
-
-  CF.change_code_source('acc G id=1 x=100 y=200', {add: true, update: true});
 
   assert_nombre_tags(5, 3);
 
@@ -115,7 +106,6 @@ sco extrait-analyse/sonate-haydn-2.png id=2 x=38 y=127
   assert_nombre_tags(4, 2);
 
   var newcode = 'acc G id=1 x=100 y=300'+RC+'acc G id=1 x=100 y=400';
-  CF.change_code_source(newcode, {add: true, update: true});
 
   assert_nombre_tags(6, 4);
 
@@ -160,7 +150,6 @@ sco extrait-analyse/sonate-haydn-2.png id=2 x=38 y=127
 #4#
 acc G id=1 x=100 y=200
 `;
-  CF.change_code_source(new_code, {update: true})
 
   // La vérification
   assert_nombre_tags(6, 3);

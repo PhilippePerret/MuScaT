@@ -821,19 +821,13 @@ Tag.prototype.select = function(){
   my.selected = true ;
 }
 // Méthode qui sélectionne le code du tag dans codeSource
+// TODO Ça va devenir quelque chose comme `selectLITag`
 Tag.prototype.selectCodeLine = function(){
   var my = this, offStart, offEnd ;
-  CF.domObj.focus();
   if ( my.index_line > 0){
     offStart = M.lines.slice(0, my.index_line).join(RC).length + 1 ;
   } else { offStart = 0 }
   offEnd = offStart + M.lines[my.index_line].length ;
-  CF.domObj.setSelectionRange(offStart,offEnd);
-
-  var timer = setTimeout(function(){
-    CF.domObj.setSelectionRange(offStart,offStart);
-    CF.domObj.blur();
-  }, 1000);
 }
 
 Tag.prototype.deselect = function(){

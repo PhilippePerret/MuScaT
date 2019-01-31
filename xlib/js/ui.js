@@ -71,7 +71,6 @@ const UI = {
       ['clipboard', 'source-code', 'selected-tags', 'Open', 'the-help', 'sur', 'operations'].forEach(function(tid){
         $(`.t-${tid}`).text(t(tid));
       });
-      $('#btn-update-table').text(`${t('update-alt-enter')} (ALT ↩︎)`);
       $('#fs-alignment-legend').text(t('alignment'));
       $('#Align-the').html(t('Align the'));
       $('.Align').html(t('Align'));

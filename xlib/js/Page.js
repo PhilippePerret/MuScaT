@@ -104,9 +104,7 @@ const Page = {
    */
   set_code_beside: function(){
     $('section#rcolumn').show();
-    // On place un observeur de touche sur le champ de code pour
-    // avoir les raccourcis. Noter qu'il ne sera posé que la première fois.
-    CodeField.observe();
+
     // TODO : régler la hauteur du textarea en fonction de la fenêtre
     // On met le code dans le champ
     MuScaT.update_code();
