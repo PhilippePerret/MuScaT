@@ -337,7 +337,7 @@ pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel" --from=mark
 <p>Avant de placer quelconque marque d’analyse, nous vous invitons vivement à regarder ce que votre agencement des systèmes produit au niveau de l’impression ou de la sortie du PDF. Lorsque tous les TAGs seront placés sur la partition, il sera extrêmement difficile et pénible de devoir les re-positionner pour qu’ils soient correctement placés sur la page ou le PDF.</p>
 <p>Donc, après avoir disposé les systèmes sur la table d’analyse, demandez l’impression, faites les réglages nécessaires (taille du papier, marges, etc.) et ajustez la position des systèmes en fonction des sauts de page que vous voyez dans l’aperçu de l’impression (pour ce faire, Google Chrome est idéal — choisissez le format « Portrait », avec aucune marge et 100%).</p>
 <h4 id="titre_et_auteur">Ajout du titre, compositeur, etc.</h4>
-<p>Vous pouvez même placer dès à présent les titres et compositeur aux endroits voulus grâce aux TAGs <code class="prop">titre</code>, <code class="prop">compositeur</code>, <code class="prop">analyste</code>, <code class="prop">date_composition</code>, <code class="prop">opus</code>, <code class="prop">date_analyse</code>, etc.</p>
+<p>Vous pouvez même placer dès à présent les titre et compositeur aux endroits voulus grâce aux TAGs <code class="prop">titre</code>, <code class="prop">compositeur</code>, <code class="prop">analyste</code>, <code class="prop">date_composition</code>, <code class="prop">opus</code>, <code class="prop">date_analyse</code>, etc.</p>
 <p>C’est-à-dire que vous pouvez placer, en haut de votre définition de <code class="prop">Tags</code> dans votre fichier <code class="path">_tags_.js</code>, les informations suivantes :</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb6-1" title="1">  <span class="co">// Dans _tags_.js</span></a>
 <a class="sourceLine" id="cb6-2" title="2">  <span class="at">option</span>(<span class="st">&#39;code&#39;</span><span class="op">,</span> <span class="st">&#39;guides&#39;</span>)<span class="op">;</span></a>
@@ -381,7 +381,7 @@ pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel" --from=mark
 </figure>
 <p>On peut placer les éléments aux bons endroits simplement de plusieurs manières :</p>
 <ul>
-<li>en les déplaçant à la souris,</li>
+<li>en les déplaçant à la souris, <img src="./img/move_score.png" alt="Exemple de déplacement d’élément" /></li>
 <li>en utilisant les flèches de son clavier,</li>
 <li>en jouant sur les touches <code class="prop">x</code> et <code class="prop">y</code>,</li>
 <li>en modifiant leur coordonnées dans le champ de code.</li>
@@ -394,9 +394,6 @@ pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel" --from=mark
 </ul>
 <p>Pour le détail, cf. <a href="#dimensionner_les_tags">Dimensionnement des tags</a>.</p>
 <p>On peut en ajouter des nouveaux en dupliquant les lignes de code ou les ajoutant explicitement dans le code.</p>
-<figure>
-<img src="./img/move_score.png" alt="Exemple de déplacement d’élément" /><figcaption>Exemple de déplacement d’élément</figcaption>
-</figure>
 <p>À tout moment on peut annuler une opération pour revenir en arrière en jouant <code class="shortcut">CMD Z</code> (sur Mac) ou <code class="shortcut">Ctrl Z</code> (sur Windows).</p>
 <p>Sans l’option <code class="code">option('code');</code> activée, il faut modifier le code directement dans le fichier <code class="path">_tags_.js</code> puis recharger la page dans Chrome pour voir les changements.</p>
 <h4 id="ligne_reperes">Lignes repères</h4>
@@ -437,7 +434,11 @@ pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel" --from=mark
 <li>soit on sélectionne l’élément et on prese la touche <code class="prop">w</code> pour augmenter la largeur, <code class="shortcut">ALT w</code> pour diminuer la largeur, <code class="prop">h</code> (comme “hauteur”) pour augmenter la hauteur, <code class="shortcut">ALT h</code> pour diminuer la hauteur. Tout comme pour les <code class="prop">x</code> et <code class="prop">y</code>, avec la touche <code class="shortcut">ALT</code> (<code class="shortcut">ALT x</code>, <code class="shortcut">ALT y</code>), on inverse le déplacement. Avec la touche <code class="shortcut">MAJ</code> (<code class="shortcut">MAJ x</code>, <code class="shortcut">MAJ y</code>, <code class="shortcut">ALT MAJ x</code>, <code class="shortcut">ALT MAJ y</code>), on augmente le pas de déplacement, avec la touche <code class="shortcut">CTRL</code>, on peut régler la position pixel par pixel.</li>
 </ul>
 <h3 id="syn_recuperation_code_final">Récupérer le code final</h3>
-<p>Si l’on a travaillé dans le champ de texte à côté de la table d’analyse, on doit copier le code final dans le fichier <code class="path">_tags_.js</code>, au risque de perdre tous les changements. Pour se faire, on clique sur le bouton des outils — en haut à gauche — et on demande à mettre le code complet dans le presse-papier.</p>
+<p>Si l’on a travaillé dans le champ de texte à côté de la table d’analyse, on doit copier le code final dans le fichier <code class="path">_tags_.js</code>, au risque de perdre tous les changements.</p>
+<p>Pour se faire, on clique sur le bouton « code source -&gt; presse papier » qui se trouve sous le champ de code si l’option <code class="code">options</code> est activée, sinon, dans les outils — en haut à gauche.</p>
+<figure>
+<img src="img/bouton-code-source-clipboard.png" alt="Bouton « code source -&gt; presse-papier »" /><figcaption>Bouton « code source -&gt; presse-papier »</figcaption>
+</figure>
 <p>On colle ce code dans le fichier <code class="path">_tags_.js</code>, en remplaçant l’intégralité de son contenu.</p>
 <h4 id="versions_de_analyse">Plusieurs versions de l’analyse</h4>
 <p>Noter que si vous préférez garder plusieurs versions de votre analyse (ce qui peut être prudent), il suffit de copier le code <em>à la suite du précédent</em> (c’est-à-dire à la fin du fichier <code class="path">_tags_.js</code>) plutôt qu’en <em>remplacement</em> de l’ancien code. Votre fichier contiendra alors :</p>
@@ -449,12 +450,12 @@ pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel" --from=mark
 <a class="sourceLine" id="cb12-6" title="6"><span class="vs">  `</span><span class="op">;</span></a>
 <a class="sourceLine" id="cb12-7" title="7">  <span class="co">// Version 1.2</span></a>
 <a class="sourceLine" id="cb12-8" title="8">  <span class="at">option</span>(<span class="st">&#39;lang&#39;</span><span class="op">,</span><span class="st">&#39;fr&#39;</span><span class="op">,</span> <span class="st">&#39;reperes&#39;</span>)<span class="op">;</span></a>
-<a class="sourceLine" id="cb12-9" title="9">  <span class="kw">var</span> Tags <span class="op">=</span> <span class="vs">`</span></a>
+<a class="sourceLine" id="cb12-9" title="9">  Tags <span class="op">=</span> <span class="vs">`</span></a>
 <a class="sourceLine" id="cb12-10" title="10"><span class="vs">    //... tags de la version suivante</span></a>
 <a class="sourceLine" id="cb12-11" title="11"><span class="vs">  `</span><span class="op">;</span></a>
 <a class="sourceLine" id="cb12-12" title="12">  <span class="co">// Version 2.0</span></a>
 <a class="sourceLine" id="cb12-13" title="13">  <span class="at">option</span>(<span class="st">&#39;lang&#39;</span><span class="op">,</span><span class="st">&#39;fr&#39;</span><span class="op">,</span> <span class="st">&#39;reperes&#39;</span>)<span class="op">;</span></a>
-<a class="sourceLine" id="cb12-14" title="14">  <span class="kw">var</span> Tags <span class="op">=</span> <span class="vs">`</span></a>
+<a class="sourceLine" id="cb12-14" title="14">  Tags <span class="op">=</span> <span class="vs">`</span></a>
 <a class="sourceLine" id="cb12-15" title="15"><span class="vs">    //... tags de la version suivante</span></a>
 <a class="sourceLine" id="cb12-16" title="16"><span class="vs">  `</span><span class="op">;</span></a>
 <a class="sourceLine" id="cb12-17" title="17">  <span class="co">// etc.</span></a></code></pre></div>
@@ -485,83 +486,125 @@ pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel" --from=mark
 </figure>
 <p>Cette boite à outils contient des outils pour regrouper ou dégrouper des tags, pour les aligner, pour copier le code, etc.</p>
 <h3 id="code_field">Le champ de code</h3>
-<p>Si <a href="#option_line_of_reference">l’option <code class="code">guides</code></a> est activée, un champ de code est ouvert à droite de la page, contenant le code défini dans votre fichier <code class="path">_tags_.js</code> (seulement celui dans <code class="prop">Tags</code>, pas le code intégral).</p>
+<p>Si <a href="#option_line_of_reference">l’option <code class="code">code</code></a> est activée, un champ de code est ouvert à droite de la page, contenant le code défini dans votre fichier <code class="path">_tags_.js</code> (seulement celui dans <code class="prop">Tags</code>, pas le code intégral).</p>
 <p>En modifiant ce code, vous pouvez construire votre analyse (n’oubliez pas, ensuite, d’en copier le code intégralement).</p>
+<blockquote>
+<p>Note : la touche <code class="shortcut">CMD</code>, sur PC/Windows, doit être remplacée par la touche <code class="shortcut">Ctrl</code>.</p>
+</blockquote>
+<table style="width:86%;">
+<colgroup>
+<col style="width: 41%" />
+<col style="width: 44%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><code class="label-table">Action</code></td>
+<td><code class="label-table">Description</code></td>
+</tr>
+<tr class="even">
+<td><code class="shortcut">CMD Entrée</code><br> ou bouton « + »</td>
+<td>Créer une nouvelle ligne/un nouveau tag.</td>
+</tr>
+<tr class="odd">
+<td>Bouton « - »</td>
+<td>Suppression du tag courant</td>
+</tr>
+<tr class="even">
+<td><code class="shortcut">flèche haut</code></td>
+<td>Passer au tag au-dessus</td>
+</tr>
+<tr class="odd">
+<td><code class="shortcut">flèche bas</code></td>
+<td>Passer au tag en dessous</td>
+</tr>
+<tr class="even">
+<td><code class="shortcut">CMD flèche haut</code></td>
+<td>Remonter le tag courant</td>
+</tr>
+<tr class="odd">
+<td><code class="shortcut">CMD flèche bas</code></td>
+<td>Descendre le tag courant</td>
+</tr>
+<tr class="even">
+<td><code class="shortcut">Tabulation</code></td>
+<td>Se place dans le code du tag sélectionné sur la table.</td>
+</tr>
+</tbody>
+</table>
+<p>Notez que dès que vous sélectionnez un <em>TAG</em> dans le code, le <em>TAG</em> est aussitôt sélectionné sur la table d’analyse (la table est « scrollée » pour toujours rendre visible ce <em>TAG</em>). L’opération inverse est vraie : toute sélection de <em>TAG</em> sur la table d’analyse est aussitôt sélectionné et affiché dans le code.</p>
 <hr />
 <h2 id="composition_dun_tag">Composition d’un tag</h2>
 <p>Le <em>code</em> de l’analyse est constitué simplement de <em>lignes</em>, les unes au-dessus des autres, qui déterminent les images et les tags. Chaque ligne est une image ou un tag (exception faite des lignes vides et des lignes de commentaire).</p>
 <pre class="center exergue"><code>1 ligne = 1 TAG</code></pre>
 <p>Voyons plus en détail comment se compose une ligne du fichier <code class="path">_tags_.js</code>, une ligne définissant un <em>tag</em> ou une partition.</p>
 <p>Cette ligne a le format général suivant :</p>
-<pre><code>  &lt;nat.&gt;[ &lt;cont.&gt;][ &lt;id&gt;][ &lt;coor./dim.&gt;][ &lt;opt., type&gt;]
-</code></pre>
+<p><code class="ital">nature</code>[ <code class="ital">contenu</code>][ <code class="ital">coor./dim.</code>][ <code class="ital">option/type</code>]</p>
 <dl>
-<dt><code class="code">&lt;nat.&gt;</code></dt>
+<dt><code class="ital">nature</code></dt>
 <dd>C’est la <em>nature</em> du TAG, ce qui détermine ce qu’il est, cadence, modulation, boite ou image, etc.
 </dd>
-<dt><code class="code">&lt;cont.&gt;</code></dt>
+<dt><code class="ital">contenu</code></dt>
 <dd>C’est le <em>contenu</em> du TAG, parfois son <em>type</em> (pour les lignes par exemple). Pour un TAG de texte, c’est le texte, pour une modulation, c’est la tonalité vers laquelle on module.
 </dd>
 <dd>Cf. <a href="#note_contenu_tag">Note sur le contenu du TAG</a>
 </dd>
-<dt><code class="code">&lt;id&gt;</code></dt>
-<dd>L’identifiant du TAG. C’est une valeur que <strong>MuScaT</strong> ajoute d’elle-même, pour reconnaitre le TAG, et qui ne doit pas être modifié.
-</dd>
-<dt><code class="code">&lt;coor./dim.&gt;</code></dt>
+<dt><code class="ital">coor./dim.</code></dt>
 <dd>Les coordonnées <code class="prop">x</code> (position horizontale) et <code class="prop">y</code> (position verticale) ainsi que les dimensions h (hauteur) et w (largeur) du TAG.
 </dd>
 <dd>Ces coordonnées et ces dimensions se notent simplement en donnant les valeurs à l’aide d’un signe égal (<code class="code">=</code>) <strong>sans espace</strong> : <code class="code">x=12</code>, <code class="code">y=20</code>, <code class="code">w=12%</code>, <code class="code">h=12mm</code> etc.
 </dd>
 <dd>Cf. aussi <a href="#note_coors_dims">Note sur les coordonnées et dimensions</a>
 </dd>
-<dt><code class="code">&lt;opt./type&gt;</code></dt>
+<dt><code class="ital">option/type</code></dt>
 <dd>Des options ou des types, en fonction de la nature du TAG. Nous y reviendrons.
 </dd>
 </dl>
 <p>Noter qu’à part les deux premiers éléments, tous les autres peuvent être donnés dans l’ordre qu’on veut, sans importance.</p>
 <p>Voici quelques définitions de TAGs :</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb15-1" title="1"></a>
-<a class="sourceLine" id="cb15-2" title="2">Tags <span class="op">=</span> <span class="vs">`</span></a>
-<a class="sourceLine" id="cb15-3" title="3"></a>
-<a class="sourceLine" id="cb15-4" title="4"><span class="vs">  score ma_partition.jpg y=100 x=10</span></a>
-<a class="sourceLine" id="cb15-5" title="5"><span class="vs">  // =&gt; L&#39;image &#39;images/ma_partition.jpg&#39; placé à 10 pixels de</span></a>
-<a class="sourceLine" id="cb15-6" title="6"><span class="vs">  //    la marge gauche et 100 pixels du haut.</span></a>
-<a class="sourceLine" id="cb15-7" title="7"></a>
-<a class="sourceLine" id="cb15-8" title="8"><span class="vs">  cadence I type=parfaite y=200 x=100 w=100</span></a>
-<a class="sourceLine" id="cb15-9" title="9"><span class="vs">  // =&gt; Une cadence de type parfaite, avec un trait de</span></a>
-<a class="sourceLine" id="cb15-10" title="10"><span class="vs">  //    100 pixels de large (`</span>w<span class="vs">`).</span></a>
-<a class="sourceLine" id="cb15-11" title="11"></a>
-<a class="sourceLine" id="cb15-12" title="12"><span class="vs">  modulation G_min x=200 y=100</span></a>
-<a class="sourceLine" id="cb15-13" title="13"><span class="vs">  // =&gt; Une modulation vers Sol mineur.</span></a>
-<a class="sourceLine" id="cb15-14" title="14"></a>
-<a class="sourceLine" id="cb15-15" title="15"><span class="vs">`</span><span class="op">;</span></a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb14-1" title="1">Tags <span class="op">=</span> <span class="vs">`</span></a>
+<a class="sourceLine" id="cb14-2" title="2"></a>
+<a class="sourceLine" id="cb14-3" title="3"><span class="vs">  score ma_partition.jpg y=100 x=10</span></a>
+<a class="sourceLine" id="cb14-4" title="4"></a>
+<a class="sourceLine" id="cb14-5" title="5"><span class="vs">  // =&gt; L&#39;image &#39;images/ma_partition.jpg&#39; placé à 10 pixels de</span></a>
+<a class="sourceLine" id="cb14-6" title="6"><span class="vs">  //    la marge gauche et 100 pixels du haut.</span></a>
+<a class="sourceLine" id="cb14-7" title="7"></a>
+<a class="sourceLine" id="cb14-8" title="8"><span class="vs">  cadence I type=parfaite y=200 x=100 w=100</span></a>
+<a class="sourceLine" id="cb14-9" title="9"></a>
+<a class="sourceLine" id="cb14-10" title="10"><span class="vs">  // =&gt; Une cadence de type parfaite, avec un trait de</span></a>
+<a class="sourceLine" id="cb14-11" title="11"><span class="vs">  //    100 pixels de large (`</span>w<span class="vs">`).</span></a>
+<a class="sourceLine" id="cb14-12" title="12"></a>
+<a class="sourceLine" id="cb14-13" title="13"><span class="vs">  modulation G_min x=200 y=100</span></a>
+<a class="sourceLine" id="cb14-14" title="14"></a>
+<a class="sourceLine" id="cb14-15" title="15"><span class="vs">  // =&gt; Une modulation vers Sol mineur.</span></a>
+<a class="sourceLine" id="cb14-16" title="16"></a>
+<a class="sourceLine" id="cb14-17" title="17"><span class="vs">`</span><span class="op">;</span></a></code></pre></div>
 <blockquote>
 <p>Noter les lignes commençant par <code class="code">//</code> qui permettent de laisser un commentaire. C’est très utile lorsque l’on veut s’y retrouver lorsque l’analyse devient conséquente.</p>
 </blockquote>
 <p>Noter qu’une <em>nature</em> de TAG (le premier mot), peut toujours être exprimé par ses trois premières lettres (exception faite du terme « partition » qui rentrerait en conflit avec « partie »). Ainsi, on peut écrire le code ci-dessous :</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb16-1" title="1"></a>
-<a class="sourceLine" id="cb16-2" title="2">Tags <span class="op">=</span> <span class="vs">`</span></a>
-<a class="sourceLine" id="cb16-3" title="3"></a>
-<a class="sourceLine" id="cb16-4" title="4"><span class="vs">  sco ma_partition.jpg y=100 x=10</span></a>
-<a class="sourceLine" id="cb16-5" title="5"><span class="vs">  // sco =&gt; score (partition)</span></a>
-<a class="sourceLine" id="cb16-6" title="6"></a>
-<a class="sourceLine" id="cb16-7" title="7"><span class="vs">  cad V_I type=parfaite y=200 x=100</span></a>
-<a class="sourceLine" id="cb16-8" title="8"><span class="vs">  // cad =&gt; cadence</span></a>
-<a class="sourceLine" id="cb16-9" title="9"></a>
-<a class="sourceLine" id="cb16-10" title="10"><span class="vs">  mod G_min x=200 y=100</span></a>
-<a class="sourceLine" id="cb16-11" title="11"><span class="vs">  // mod =&gt; modulation</span></a>
-<a class="sourceLine" id="cb16-12" title="12"></a>
-<a class="sourceLine" id="cb16-13" title="13"><span class="vs">`</span><span class="op">;</span></a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb15-1" title="1">Tags <span class="op">=</span> <span class="vs">`</span></a>
+<a class="sourceLine" id="cb15-2" title="2"></a>
+<a class="sourceLine" id="cb15-3" title="3"><span class="vs">  sco ma_partition.jpg y=100 x=10</span></a>
+<a class="sourceLine" id="cb15-4" title="4"></a>
+<a class="sourceLine" id="cb15-5" title="5"><span class="vs">  // sco =&gt; score (partition)</span></a>
+<a class="sourceLine" id="cb15-6" title="6"></a>
+<a class="sourceLine" id="cb15-7" title="7"><span class="vs">  cad V_I type=parfaite y=200 x=100</span></a>
+<a class="sourceLine" id="cb15-8" title="8"></a>
+<a class="sourceLine" id="cb15-9" title="9"><span class="vs">  // cad =&gt; cadence</span></a>
+<a class="sourceLine" id="cb15-10" title="10"></a>
+<a class="sourceLine" id="cb15-11" title="11"><span class="vs">  mod G_min x=200 y=100</span></a>
+<a class="sourceLine" id="cb15-12" title="12"></a>
+<a class="sourceLine" id="cb15-13" title="13"><span class="vs">  // mod =&gt; modulation</span></a>
+<a class="sourceLine" id="cb15-14" title="14"></a>
+<a class="sourceLine" id="cb15-15" title="15"><span class="vs">`</span><span class="op">;</span></a></code></pre></div>
 <p>L’intégralité des <em>natures</em> de TAG (et leur diminutif) <a href="#complete_list_tags">est détaillé ici</a>.</p>
 <h3 id="forme-raccourcie-décriture">Forme raccourcie d’écriture</h3>
-<p>Pour la première définition du TAG, on peut utiliser une version raccourcie de définition qui la rend très simple et très rapide. Elle consiste à utiliser :</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb17-1" title="1"></a>
-<a class="sourceLine" id="cb17-2" title="2">Tags <span class="op">=</span> <span class="vs">`</span></a>
-<a class="sourceLine" id="cb17-3" title="3"><span class="vs">&lt;nature&gt;[ &lt;contenu&gt;] &lt;valeur x seule&gt; &lt;valeur y seule&gt;</span></a>
-<a class="sourceLine" id="cb17-4" title="4"><span class="vs">`</span><span class="op">;</span></a></code></pre></div>
+<p>Pour la première définition du <em>TAG</em>, on peut utiliser une version raccourcie de définition qui la rend très simple et très rapide. Elle consiste à utiliser :</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb16-1" title="1">Tags <span class="op">=</span> <span class="vs">`</span></a>
+<a class="sourceLine" id="cb16-2" title="2"><span class="vs">&lt;nature&gt;[ &lt;contenu&gt;] &lt;valeur y seule&gt; &lt;valeur x seule&gt;</span></a>
+<a class="sourceLine" id="cb16-3" title="3"><span class="vs">`</span><span class="op">;</span></a></code></pre></div>
 <p>Par exemple, pour une <em>modulation</em> vers la tonalité de SOL mineur (G min.) qui doit se situer à 200 pixels du haut et 450 pixels de la gauche, on pourra écrire simplement :</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb18-1" title="1"></a>
-<a class="sourceLine" id="cb18-2" title="2">  mod G_min <span class="dv">200</span> <span class="dv">450</span></a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb17-1" title="1">  mod G_min <span class="dv">200</span> <span class="dv">450</span></a></code></pre></div>
 <p>Il suffit de se souvenir que le premier nombre concerne la <em>hauteur</em>.</p>
 <h3 id="note_contenu_tag">Note sur le contenu du TAG (texte)</h3>
 <p>Le <em>contenu</em> du TAG, c’est-à-dire son deuxième <em>mot</em>, peut être de type très différent. Mais en règle générale, il s’agit d’un texte, d’un accord ou d’un chiffrage.</p>
@@ -569,15 +612,12 @@ pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel" --from=mark
 <p><code class="center exergue">Aucune espace ne doit se trouver dans ce contenu.</code></p>
 <p>On doit obligatoirement remplacer les espaces par des traits plats (MAJ tiret sur Mac).</p>
 <p>Ainsi, si l’on veut écrire « Second couplet », on doit écrire :</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb19-1" title="1"></a>
-<a class="sourceLine" id="cb19-2" title="2">  partie Second_couplet x<span class="op">=</span><span class="dv">123</span> y<span class="op">=</span><span class="dv">456</span></a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb18-1" title="1">  partie Second_couplet x<span class="op">=</span><span class="dv">123</span> y<span class="op">=</span><span class="dv">456</span></a></code></pre></div>
 <p>Si l’on veut écrire la tonalité « Sol mineur », on doit impérativement écrire :</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb20-1" title="1"></a>
-<a class="sourceLine" id="cb20-2" title="2">  modulation Sol_mineur x<span class="op">=</span><span class="dv">23</span> y<span class="op">=</span><span class="dv">344</span></a></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb19-1" title="1">  modulation Sol_mineur x<span class="op">=</span><span class="dv">23</span> y<span class="op">=</span><span class="dv">344</span></a></code></pre></div>
 <p>En revanche, tous les autres caractères sont possibles, à l’exception des balances (<code class="prop">/</code>) dans les modulations, car elles indiquent le texte qui devra apparaitre sous le trait biaisé :</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb21-1" title="1"></a>
-<a class="sourceLine" id="cb21-2" title="2">  <span class="co">// Une modulation vers la Sous-dominante</span></a>
-<a class="sourceLine" id="cb21-3" title="3">  mod Sol_min/(sous<span class="op">-</span><span class="va">dom</span>.) x<span class="op">=</span><span class="dv">23</span> y<span class="op">=</span><span class="dv">344</span></a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb20-1" title="1">  <span class="co">// Une modulation vers la Sous-dominante</span></a>
+<a class="sourceLine" id="cb20-2" title="2">  mod Sol_min/(sous<span class="op">-</span><span class="va">dom</span>.) x<span class="op">=</span><span class="dv">23</span> y<span class="op">=</span><span class="dv">344</span></a></code></pre></div>
 <figure>
 <img src="img/Modulation_Sous_dom.png" alt="Modulation avec indication sous le trait" /><figcaption>Modulation avec indication sous le trait</figcaption>
 </figure>
@@ -600,8 +640,13 @@ pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel" --from=mark
 <pre class="usage"><code>image &lt;source&gt; x=... y=... z=...</code></pre>
 <dl>
 <dt>Exemple</dt>
-<dd><pre class="exemple"><code>sco system-5.src x=2 y=2 w=17cm</code></pre>
+<dd><pre class="exemple"><code>sco sonate_haydn-2.png x=24 y=200 w=12.5cm</code></pre>
 </dd>
+</dl>
+<figure>
+<img src="img/exemple-score.png" alt="Un score" /><figcaption>Un score</figcaption>
+</figure>
+<dl>
 <dt>Note</dt>
 <dd>L’image doit se trouver dans le dossier “images” du dossier de l’analyse.
 </dd>
@@ -619,6 +664,11 @@ pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel" --from=mark
 <dt>Exemple</dt>
 <dd><pre class="exemple"><code>acc E_min x=100 y=200</code></pre>
 </dd>
+</dl>
+<figure>
+<img src="img/exemple-accord.png" alt="Un accord" /><figcaption>Un accord</figcaption>
+</figure>
+<dl>
 <dt>Détail</dt>
 <dd><a href="#les_accords">Les Accords</a>
 </dd>
@@ -631,8 +681,13 @@ pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel" --from=mark
 <pre class="usage"><code>har[mony] &lt;chiffrage&gt; x=... y=...</code></pre>
 <dl>
 <dt>Exemple</dt>
-<dd><pre class="exemple"><code>harmony I*** x=23 y=289</code></pre>
+<dd><pre class="exemple"><code>har VII*** x=540 y=325</code></pre>
 </dd>
+</dl>
+<figure>
+<img src="img/exemple-harmony.png" alt="Une harmony" /><figcaption>Une harmony</figcaption>
+</figure>
+<dl>
 <dt>Détail</dt>
 <dd><a href="#les_harmonies">Les Harmonies</a>
 </dd>
@@ -645,8 +700,13 @@ pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel" --from=mark
 <pre class="usage"><code>mod[ulation] &lt;tonalité&gt; x=... y=...</code></pre>
 <dl>
 <dt>Exemple</dt>
-<dd><pre class="exemple"><code>mod B_min x=200 y=300</code></pre>
+<dd><pre class="exemple"><code>mod G_Maj/Relatif_maj. x=83 y=77 h=70px</code></pre>
 </dd>
+</dl>
+<figure>
+<img src="img/exemple-modulation.png" alt="Une modulation" /><figcaption>Une modulation</figcaption>
+</figure>
+<dl>
 <dt>Détail</dt>
 <dd><a href="#les_modulations">Les Modulations</a>
 </dd>
@@ -659,8 +719,13 @@ pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel" --from=mark
 <pre class="usage"><code>cad[ence] &lt;acc&gt; type=&lt;type cad&gt; x=. y=. w=...</code></pre>
 <dl>
 <dt>Exemple</dt>
-<dd><pre class="exemple"><code>cad V type=demie x=23 y=3456 w=100</code></pre>
+<dd><pre class="exemple"><code>cad V type=demi x=23 y=3456 w=80</code></pre>
 </dd>
+</dl>
+<figure>
+<img src="img/exemple-cadence.png" alt="Une cadence" /><figcaption>Une cadence</figcaption>
+</figure>
+<dl>
 <dt>Note</dt>
 <dd>Noter ci-dessus l’emploi 1) d’un <em>type</em> (type de la cadence) et 2) d’une largeur <em>w</em> (longueur du trait).
 </dd>
@@ -677,8 +742,13 @@ pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel" --from=mark
 <pre class="usage"><code>mes[ure] &lt;numéro&gt; x=... y=...</code></pre>
 <dl>
 <dt>Exemple</dt>
-<dd><pre class="exemple"><code>measure 12 x=23 y=1000</code></pre>
+<dd><pre class="exemple"><code>measure 15 x=434 y=171</code></pre>
 </dd>
+</dl>
+<figure>
+<img src="img/exemple-mesure.png" alt="Une mesure" /><figcaption>Une mesure</figcaption>
+</figure>
+<dl>
 <dt>Note</dt>
 <dd>Noter que le style dépend du thème choisi.
 </dd>
@@ -688,28 +758,44 @@ pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel" --from=mark
 </dl></td>
 </tr>
 <tr class="even">
-<td><p>degree<br> degre<br> deg<br></p>
-<div class="line-block"></div></td>
+<td>degree<br> degre<br> deg<br></td>
 <td><p>Marque du degré de la note dans la gamme, à placer à l’endroit voulu.</p>
 <pre class="usage"><code>degre &lt;degré&gt; x=... y=...</code></pre>
 <dl>
 <dt>Exemple</dt>
-<dd><pre class="exemple"><code>degre 4 x=23 y=1200</code></pre>
+<dd><pre class="exemple"><code>degre 4# x=23 y=1200</code></pre>
 </dd>
+</dl></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td><img src="img/mark_degree.png" title="fig:" alt="Un degré" /></td>
+</tr>
+<tr class="even">
+<td></td>
+<td><dl>
 <dt>Détail</dt>
 <dd><a href="#les_degres">Les Degrés</a>
 </dd>
 </dl></td>
 </tr>
 <tr class="odd">
-<td><p>ligne<br> line<br> lig<br> lin</p>
-<div class="line-block"></div></td>
+<td>ligne<br> line<br> lig<br> lin</td>
 <td><p>Marquer une ligne, par exemple pour indiquer la poursuite d’un chiffrage sur plusieurs temps.</p>
 <pre class="usage"><code>ligne &lt;type&gt; x=... y=... w=...</code></pre>
 <dl>
 <dt>Exemple</dt>
-<dd><pre class="exemple"><code>lin |---| w=200 x=23 y=120</code></pre>
+<dd><pre class="exemple"><code>line |___| x=242 y=323 h=15 w=110</code></pre>
 </dd>
+</dl></td>
+</tr>
+<tr class="even">
+<td></td>
+<td><img src="img/exemple-ligne.png" title="fig:" alt="Une ligne" /></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td><dl>
 <dt>Détail</dt>
 <dd><a href="#les_lignes">Les Lignes</a>
 </dd>
@@ -717,17 +803,22 @@ pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel" --from=mark
 </tr>
 <tr class="even">
 <td><p>box<br> boite<br> boi</p>
-<div class="line-block"></div>
-<div class="line-block"></div>
 <div class="line-block"></div></td>
 <td><p>Dessine une boite à l’écran. Ces boites permettent de masquer des éléments de la partition. Bien que ces boites apparaissent en gris sur la table d’analyse, elles seront invisibles dans le document PDF final ou l’impression.</p>
 <pre class="usage"><code>box x=... y=... w=&lt;largeur&gt; h=&lt;hauteur&gt;</code></pre>
 <dl>
 <dt>Exemple</dt>
-<dd><pre class="exemple"><code>boite w=200 h=53 x=23 y=120</code></pre>
+<dd><pre class="exemple"><code>boite x=45 y=152 h=180 w=295</code></pre>
 </dd>
-</dl>
-<p>Note La hauteur (<code class="prop">h</code>) et la largeur (<code class="prop">w</code>) sont ici très importantes.</p>
+</dl></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td><img src="img/exemple-boite.png" title="fig:" alt="Une boite" /></td>
+</tr>
+<tr class="even">
+<td><div class="line-block"></div></td>
+<td><p>Note La hauteur (<code class="prop">h</code>) et la largeur (<code class="prop">w</code>) sont ici très importantes. Noter également que cette boite est visible sur la table d’analyse, mais elle sera invisible dans le document imprimé.</p>
 <dl>
 <dt>Détail</dt>
 <dd><a href="#les_boites">Les Boites</a>
@@ -735,17 +826,30 @@ pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel" --from=mark
 </dl></td>
 </tr>
 <tr class="odd">
-<td><p>texte<br> text<br> tex</p>
-<div class="line-block"></div>
-<div class="line-block"></div></td>
+<td>texte<br> text<br> tex</td>
 <td><p>Pour marquer un texte quelconque à l’écran.</p>
 <pre class="usage"><code>tex[te] &lt;le_texte&gt; x=... y=...[ type=&lt;type&gt;]</code></pre>
 <dl>
 <dt>Exemple</dt>
-<dd><pre class="exemple"><code>tex Doubles_octaves type=warning</code></pre>
+<dd><pre class="exemple"><code>tex Opposition_marquée x=296 y=138 w=73</code></pre>
 </dd>
-</dl>
-<p>Note Les espaces sont remplacées par des traits plats dans le texte à affiché. Mais ce seront des espaces qui seront inscrites sur la table d’analyse.</p>
+</dl></td>
+</tr>
+<tr class="even">
+<td></td>
+<td><img src="img/exemple-texte.png" title="fig:" alt="Un texte" /></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>Notes</td>
+</tr>
+<tr class="even">
+<td><div class="line-block"></div>
+<div class="line-block"></div></td>
+<td><ul>
+<li><p>Les espaces sont remplacées par des traits plats dans le texte à affiché. Mais ce seront des espaces qui seront inscrites sur la table d’analyse.</p></li>
+<li><p>Grâce à la définition de la largeur (w), on met le texte sur deux lignes.</p></li>
+</ul>
 <dl>
 <dt>Détail</dt>
 <dd><a href="#les_textes">Les Textes</a>
@@ -761,14 +865,14 @@ pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel" --from=mark
 <p>Ci-dessus, l’image <code class="path">image-12.png</code> doit donc se trouver dans le dossier <code class="path">_analyses_/monAnalyse/images/premier_mouvement/</code>.</p>
 <h3 id="defining_image_size">Définition de la taille d’une image</h3>
 <p>On peut définir la taille d’une image à l’aide du paramètre <code class="prop">w</code> (ou <code class="prop">width</code>, « largeur », en anglais). Sa valeur peut être explicite avec une unité, explicite sans unité ou en pourcentage. Par exemple :</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb43-1" title="1"></a>
-<a class="sourceLine" id="cb43-2" title="2">  <span class="co">// Dans _tags_.js</span></a>
-<a class="sourceLine" id="cb43-3" title="3">  Tags <span class="op">=</span> <span class="vs">`</span></a>
-<a class="sourceLine" id="cb43-4" title="4"><span class="vs">  sco image-0.png</span></a>
-<a class="sourceLine" id="cb43-5" title="5"><span class="vs">  sco image-1.png w=200</span></a>
-<a class="sourceLine" id="cb43-6" title="6"><span class="vs">  sco image-2.png w=10cm</span></a>
-<a class="sourceLine" id="cb43-7" title="7"><span class="vs">  sco image-3.png w=50%</span></a>
-<a class="sourceLine" id="cb43-8" title="8"><span class="vs">  `</span><span class="op">;</span></a></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb42-1" title="1"></a>
+<a class="sourceLine" id="cb42-2" title="2">  <span class="co">// Dans _tags_.js</span></a>
+<a class="sourceLine" id="cb42-3" title="3">  Tags <span class="op">=</span> <span class="vs">`</span></a>
+<a class="sourceLine" id="cb42-4" title="4"><span class="vs">  sco image-0.png</span></a>
+<a class="sourceLine" id="cb42-5" title="5"><span class="vs">  sco image-1.png w=200</span></a>
+<a class="sourceLine" id="cb42-6" title="6"><span class="vs">  sco image-2.png w=10cm</span></a>
+<a class="sourceLine" id="cb42-7" title="7"><span class="vs">  sco image-3.png w=50%</span></a>
+<a class="sourceLine" id="cb42-8" title="8"><span class="vs">  `</span><span class="op">;</span></a></code></pre></div>
 <p>Avec le code ci-dessus, l’image 0 aura sa taille normale, <code class="path">image-1.png</code> fera 200 pixels de large, <code class="path">image-2.png</code> fera 10 centimètres de large et <code class="path">image-3.png</code> sera mise à 50% de sa largeur.</p>
 <p>Pour voir en détail toutes les façons de modifier la taille ou la position d’une image, cf. <a href="#dimensionner_les_tags">Dimensionnement des tags</a> et <a href="#modify_position_tag">Positionnement des tags</a>.</p>
 <h3 id="sequence_images">Séquence d’images</h3>
@@ -789,18 +893,18 @@ pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel" --from=mark
   score mouvement_1/image-35.png
 </code></pre>
 <p>Si vous indiquez une taille — ce qui est mieux pour être sûr de tenir dans la page — cette taille sera appliquée à toutes les images.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb46-1" title="1">  Tags<span class="op">=</span><span class="vs">`</span></a>
-<a class="sourceLine" id="cb46-2" title="2"><span class="vs">  score mouvement_1/image-[1-35].png w=17.5cm</span></a>
-<a class="sourceLine" id="cb46-3" title="3"><span class="vs">  `</span><span class="op">;</span></a></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb45-1" title="1">  Tags<span class="op">=</span><span class="vs">`</span></a>
+<a class="sourceLine" id="cb45-2" title="2"><span class="vs">  score mouvement_1/image-[1-35].png w=17.5cm</span></a>
+<a class="sourceLine" id="cb45-3" title="3"><span class="vs">  `</span><span class="op">;</span></a></code></pre></div>
 <p>Nous vous invitons vivement à commencer par cette opération — l’inscription des systèmes par séquence — avant l’insertion de toute autre marque sur la partition. Il est toujours recommandé de placer en tout premier lieu la partition, en demandant l’aperçu de l’impression, de façon définitive.</p>
 <p>Noter que lorsque <strong>MuScaT</strong> place les images sur la table d’analyse, il les répartit pour obtenir l’aspect initial de la partition. On peut modifier ce comportement en définissant explicitement un espace (vertical) entre chaque système ou chaque image, grâce à l’option <code class="code">espacement images</code> :</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb47-1" title="1"></a>
-<a class="sourceLine" id="cb47-2" title="2">  <span class="co">// Code intégrale du fichier _tags_.js</span></a>
-<a class="sourceLine" id="cb47-3" title="3">  <span class="at">option</span>(<span class="st">&#39;code&#39;</span>)<span class="op">;</span><span class="at">option</span>(<span class="st">&#39;espacement images&#39;</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span></a>
-<a class="sourceLine" id="cb47-4" title="4"></a>
-<a class="sourceLine" id="cb47-5" title="5">  Tags<span class="op">=</span><span class="vs">`</span></a>
-<a class="sourceLine" id="cb47-6" title="6"><span class="vs">  sco haydn/mouvement_1-[1-35].png</span></a>
-<a class="sourceLine" id="cb47-7" title="7"><span class="vs">  `</span><span class="op">;</span></a></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb46-1" title="1"></a>
+<a class="sourceLine" id="cb46-2" title="2">  <span class="co">// Code intégrale du fichier _tags_.js</span></a>
+<a class="sourceLine" id="cb46-3" title="3">  <span class="at">option</span>(<span class="st">&#39;code&#39;</span>)<span class="op">;</span><span class="at">option</span>(<span class="st">&#39;espacement images&#39;</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb46-4" title="4"></a>
+<a class="sourceLine" id="cb46-5" title="5">  Tags<span class="op">=</span><span class="vs">`</span></a>
+<a class="sourceLine" id="cb46-6" title="6"><span class="vs">  sco haydn/mouvement_1-[1-35].png</span></a>
+<a class="sourceLine" id="cb46-7" title="7"><span class="vs">  `</span><span class="op">;</span></a></code></pre></div>
 <blockquote>
 <p>Notez la version raccourci de la nature du TAG : <code class="str">sco</code> pour <code class="str">score</code>.</p>
 </blockquote>
@@ -813,11 +917,11 @@ pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel" --from=mark
 <h3 id="les_accords">Les Accords</h3>
 <p>Les accords, placés en général au-dessus de la portée, se définissent par les natures <code class="str">accord</code>, <code class="str">chord</code> ou <code class="str">acc</code> en version raccourcie.</p>
 <p>On peut les indiquer en version anglosaxone (<code class="str">A</code>, <code class="str">B</code>, …) ou en version italienne (<code class="str">Do</code>, <code class="str">Ré</code>, …), peu importe. L’important est de comprendre que comme tout texte <strong>MuScaT</strong> impose de remplacer les espaces par des traits plats. Ainsi, pour indiquer un accord de Si bémol 7e diminuée, on pourra utiliser dans les deux systèmes de langue :</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb48-1" title="1">  Tags<span class="op">=</span><span class="vs">`</span></a>
-<a class="sourceLine" id="cb48-2" title="2"><span class="vs">  chord Bb_min_7edim</span></a>
-<a class="sourceLine" id="cb48-3" title="3"></a>
-<a class="sourceLine" id="cb48-4" title="4"><span class="vs">  acc SIb_min_7edim</span></a>
-<a class="sourceLine" id="cb48-5" title="5"><span class="vs">  `</span><span class="op">;</span></a></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb47-1" title="1">  Tags<span class="op">=</span><span class="vs">`</span></a>
+<a class="sourceLine" id="cb47-2" title="2"><span class="vs">  chord Bb_min_7edim</span></a>
+<a class="sourceLine" id="cb47-3" title="3"></a>
+<a class="sourceLine" id="cb47-4" title="4"><span class="vs">  acc SIb_min_7edim</span></a>
+<a class="sourceLine" id="cb47-5" title="5"><span class="vs">  `</span><span class="op">;</span></a></code></pre></div>
 <p>Le code ci-dessus produira :</p>
 <figure>
 <img src="img/Mark_accords.png" alt="Marque accords, traits plats" /><figcaption>Marque accords, traits plats</figcaption>
@@ -827,9 +931,9 @@ pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel" --from=mark
 <p>Les recommandations sont les mêmes que pour les accords : aucune espace.</p>
 <h4 id="les_cadences">Les Cadences</h4>
 <p>On indique une cadence, sous la partition, à l’aide de la <em>nature</em> <code class="str">cadence</code> ou <code class="str">cad</code>.</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb49-1" title="1">Tags<span class="op">=</span><span class="vs">`</span></a>
-<a class="sourceLine" id="cb49-2" title="2"><span class="vs">  cadence I type=parfaite x=100 y=200 w=150</span></a>
-<a class="sourceLine" id="cb49-3" title="3"><span class="vs">`</span><span class="op">;</span></a></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb48-1" title="1">Tags<span class="op">=</span><span class="vs">`</span></a>
+<a class="sourceLine" id="cb48-2" title="2"><span class="vs">  cadence I type=parfaite x=100 y=200 w=150</span></a>
+<a class="sourceLine" id="cb48-3" title="3"><span class="vs">`</span><span class="op">;</span></a></code></pre></div>
 <blockquote>
 <p>Remarquer que deux nouvelles propriétés apparaissent ici : le <code class="code">type</code>, qui définit comme son nom l’indique le type de cadence (cf. la liste ci-dessous) et <code class="prop">w</code>, la largeur, qui détermine ici la longueur du trait.</p>
 </blockquote>
@@ -847,12 +951,12 @@ pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel" --from=mark
 <li>baroque</li>
 </ul>
 <p>Exemple :</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb50-1" title="1"></a>
-<a class="sourceLine" id="cb50-2" title="2">Tags<span class="op">=</span><span class="vs">`</span></a>
-<a class="sourceLine" id="cb50-3" title="3"><span class="vs">  har I x=110 y=264</span></a>
-<a class="sourceLine" id="cb50-4" title="4"><span class="vs">  har IV x=155 y=262</span></a>
-<a class="sourceLine" id="cb50-5" title="5"><span class="vs">  cad V* type=demi x=77 y=263 w=147px</span></a>
-<a class="sourceLine" id="cb50-6" title="6"><span class="vs">`</span><span class="op">;</span></a></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb49-1" title="1"></a>
+<a class="sourceLine" id="cb49-2" title="2">Tags<span class="op">=</span><span class="vs">`</span></a>
+<a class="sourceLine" id="cb49-3" title="3"><span class="vs">  har I x=110 y=264</span></a>
+<a class="sourceLine" id="cb49-4" title="4"><span class="vs">  har IV x=155 y=262</span></a>
+<a class="sourceLine" id="cb49-5" title="5"><span class="vs">  cad V* type=demi x=77 y=263 w=147px</span></a>
+<a class="sourceLine" id="cb49-6" title="6"><span class="vs">`</span><span class="op">;</span></a></code></pre></div>
 <figure>
 <img src="img/demi-cadence.png" alt="Demi-cadence" /><figcaption>Demi-cadence</figcaption>
 </figure>
@@ -900,11 +1004,11 @@ mod Sol_min/(sous-dom.) 200 300
 </figure>
 <h4 id="les_degres">Les degrés</h4>
 <p>Parfois il est intéressant de marquer les degrés des notes dans la gamme. On peut le faire grâce à la <em>nature</em> <code class="str">degre</code>, <code class="str">degree</code> ou le diminutif <code class="str">deg</code>.</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb54-1" title="1">Tag<span class="op">=</span><span class="vs">`</span></a>
-<a class="sourceLine" id="cb54-2" title="2"></a>
-<a class="sourceLine" id="cb54-3" title="3"><span class="vs">degree 4# x=123 y=678</span></a>
-<a class="sourceLine" id="cb54-4" title="4"></a>
-<a class="sourceLine" id="cb54-5" title="5"><span class="vs">`</span><span class="op">;</span></a></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb53-1" title="1">Tag<span class="op">=</span><span class="vs">`</span></a>
+<a class="sourceLine" id="cb53-2" title="2"></a>
+<a class="sourceLine" id="cb53-3" title="3"><span class="vs">degree 4# x=123 y=678</span></a>
+<a class="sourceLine" id="cb53-4" title="4"></a>
+<a class="sourceLine" id="cb53-5" title="5"><span class="vs">`</span><span class="op">;</span></a></code></pre></div>
 <figure>
 <img src="img/mark_degree.png" alt="Marque des degrés" /><figcaption>Marque des degrés</figcaption>
 </figure>
@@ -912,9 +1016,9 @@ mod Sol_min/(sous-dom.) 200 300
 <h3 id="types_de_lignes">Dessiner des lignes</h3>
 <p>Les lignes se définissent par <code class="str">line</code> ou <code class="str">ligne</code>.</p>
 <p>Le premier élément définit le <code class="prop">type</code> de la ligne. On trouve les types suivants. Bien noter, ici, que le <code class="prop">type</code> ne se définit pas avec la propriété <code class="prop">type</code>, mais simplement en second mot. Dans le code suivant :</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb55-1" title="1">Tags <span class="op">=</span> <span class="vs">`</span></a>
-<a class="sourceLine" id="cb55-2" title="2"><span class="vs">  line |___| x=100 y=120 w=230</span></a>
-<a class="sourceLine" id="cb55-3" title="3"><span class="vs">`</span><span class="op">;</span></a></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb54-1" title="1">Tags <span class="op">=</span> <span class="vs">`</span></a>
+<a class="sourceLine" id="cb54-2" title="2"><span class="vs">  line |___| x=100 y=120 w=230</span></a>
+<a class="sourceLine" id="cb54-3" title="3"><span class="vs">`</span><span class="op">;</span></a></code></pre></div>
 <p>… <code class="str">|___|</code> est le <em>type</em> de la ligne.</p>
 <p>Les types peuvent être les suivants :</p>
 <table style="width:89%;">
@@ -1108,34 +1212,34 @@ mod Sol_min/(sous-dom.) 200 300
 </ul>
 <p>Comme les tags et les partitions, les options se règlent dans le fichier <code class="path">_tags_.js</code>. On utilise tout naturellement la fonction <code class="code">option</code> (ou <code class="code">options</code>) avec en argument les options à activer.</p>
 <p>Ci-dessous, par exemple, on active l’option <code class="code">guide</code> qui affiche deux lignes repère déplaçables pour aligner des éléments à la souris (ou par magnétisation).</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb57-1" title="1"></a>
+<a class="sourceLine" id="cb57-2" title="2">  <span class="co">// Dans _tags_.js</span></a>
+<a class="sourceLine" id="cb57-3" title="3">  <span class="at">option</span>(<span class="st">&#39;guide&#39;</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb57-4" title="4">  Tags<span class="op">=</span><span class="vs">`</span></a>
+<a class="sourceLine" id="cb57-5" title="5"><span class="vs">    ...</span></a>
+<a class="sourceLine" id="cb57-6" title="6"><span class="vs">  `</span><span class="op">;</span>  </a></code></pre></div>
+<p>Dans la méthode <code class="code">option</code>, on peut passer toutes les options les unes à la suite des autres, ou utiliser plusieurs fois la méthode <code class="code">option</code>. Les trois formulations suivantes sont équivalentes :</p>
 <div class="sourceCode" id="cb58"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb58-1" title="1"></a>
 <a class="sourceLine" id="cb58-2" title="2">  <span class="co">// Dans _tags_.js</span></a>
-<a class="sourceLine" id="cb58-3" title="3">  <span class="at">option</span>(<span class="st">&#39;guide&#39;</span>)<span class="op">;</span></a>
-<a class="sourceLine" id="cb58-4" title="4">  Tags<span class="op">=</span><span class="vs">`</span></a>
-<a class="sourceLine" id="cb58-5" title="5"><span class="vs">    ...</span></a>
-<a class="sourceLine" id="cb58-6" title="6"><span class="vs">  `</span><span class="op">;</span>  </a></code></pre></div>
-<p>Dans la méthode <code class="code">option</code>, on peut passer toutes les options les unes à la suite des autres, ou utiliser plusieurs fois la méthode <code class="code">option</code>. Les trois formulations suivantes sont équivalentes :</p>
+<a class="sourceLine" id="cb58-3" title="3">  <span class="at">option</span>(<span class="st">&#39;guide&#39;</span><span class="op">,</span> <span class="st">&#39;code&#39;</span><span class="op">,</span> <span class="st">&#39;marge haut&#39;</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></a></code></pre></div>
+<p>… équivaut à :</p>
 <div class="sourceCode" id="cb59"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb59-1" title="1"></a>
 <a class="sourceLine" id="cb59-2" title="2">  <span class="co">// Dans _tags_.js</span></a>
-<a class="sourceLine" id="cb59-3" title="3">  <span class="at">option</span>(<span class="st">&#39;guide&#39;</span><span class="op">,</span> <span class="st">&#39;code&#39;</span><span class="op">,</span> <span class="st">&#39;marge haut&#39;</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></a></code></pre></div>
-<p>… équivaut à :</p>
+<a class="sourceLine" id="cb59-3" title="3">  <span class="at">option</span>(<span class="st">&#39;guide&#39;</span>)<span class="op">;</span><span class="at">option</span>(<span class="st">&#39;code&#39;</span>)<span class="op">;</span><span class="at">option</span>(<span class="st">&#39;marge haut&#39;</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></a></code></pre></div>
+<p>… qui équivaut à :</p>
 <div class="sourceCode" id="cb60"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb60-1" title="1"></a>
 <a class="sourceLine" id="cb60-2" title="2">  <span class="co">// Dans _tags_.js</span></a>
-<a class="sourceLine" id="cb60-3" title="3">  <span class="at">option</span>(<span class="st">&#39;guide&#39;</span>)<span class="op">;</span><span class="at">option</span>(<span class="st">&#39;code&#39;</span>)<span class="op">;</span><span class="at">option</span>(<span class="st">&#39;marge haut&#39;</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></a></code></pre></div>
-<p>… qui équivaut à :</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb61-1" title="1"></a>
-<a class="sourceLine" id="cb61-2" title="2">  <span class="co">// Dans _tags_.js</span></a>
-<a class="sourceLine" id="cb61-3" title="3">  <span class="at">option</span>(<span class="st">&#39;guide&#39;</span>)<span class="op">;</span></a>
-<a class="sourceLine" id="cb61-4" title="4">  <span class="at">option</span>(<span class="st">&#39;code&#39;</span>)<span class="op">;</span></a>
-<a class="sourceLine" id="cb61-5" title="5">  <span class="at">option</span>(<span class="st">&#39;marge haut&#39;</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></a></code></pre></div>
+<a class="sourceLine" id="cb60-3" title="3">  <span class="at">option</span>(<span class="st">&#39;guide&#39;</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb60-4" title="4">  <span class="at">option</span>(<span class="st">&#39;code&#39;</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb60-5" title="5">  <span class="at">option</span>(<span class="st">&#39;marge haut&#39;</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></a></code></pre></div>
 <blockquote>
 <p>Note : les points virgules sont optionnels.</p>
 </blockquote>
 <p>Vous noterez qu’il existe deux types d’options. Les options dites « booléenne » qu’on active simplement en indiquant leur nom en argument (par exemple <code class="code">guide</code> ou <code class="code">code</code>) et il y a les options non booléennes qui attendent une valeur précise (par exemple <code class="code">marge haut</code> attend la valeur de cette marge haut).</p>
 <p>Dans les arguments de la méthode <code class="code">option</code>, la valeur des options non booléennes doit suivre immédiatement le nombre de l’option :</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb62-1" title="1"></a>
-<a class="sourceLine" id="cb62-2" title="2">  <span class="co">// Dans _tags_.js</span></a>
-<a class="sourceLine" id="cb62-3" title="3">  <span class="at">option</span>(<span class="st">&#39;marge haut&#39;</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></a></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb61-1" title="1"></a>
+<a class="sourceLine" id="cb61-2" title="2">  <span class="co">// Dans _tags_.js</span></a>
+<a class="sourceLine" id="cb61-3" title="3">  <span class="at">option</span>(<span class="st">&#39;marge haut&#39;</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></a></code></pre></div>
 <p>Ci-dessus, la valeur <code class="num">100</code> sera appliquée à l’option <code class="code">marge haut</code>.</p>
 <h3 id="choix_langue">Option « langue »</h3>
 <p>Option : <code class="code">lang</code>, <code class="code">langue</code></p>
@@ -1163,31 +1267,31 @@ mod Sol_min/(sous-dom.) 200 300
 <p>Pour la position de la ligne horizontale :</p>
 <p>Option : <code class="code">position repère horizontal</code>, <code class="code">horizontal line offset</code></p>
 <p>Exemple :</p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb63-1" title="1"></a>
-<a class="sourceLine" id="cb63-2" title="2">  <span class="co">// Dans le fichier _tags_.js de l&#39;analyse</span></a>
-<a class="sourceLine" id="cb63-3" title="3">   <span class="co">// à 120 pixels du haut et 200 de la gauche</span></a>
-<a class="sourceLine" id="cb63-4" title="4">  <span class="at">option</span>(<span class="st">&#39;vertical line offset&#39;</span><span class="op">,</span> <span class="dv">120</span><span class="op">,</span> <span class="st">&#39;horizontal line offset&#39;</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></a></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb62-1" title="1"></a>
+<a class="sourceLine" id="cb62-2" title="2">  <span class="co">// Dans le fichier _tags_.js de l&#39;analyse</span></a>
+<a class="sourceLine" id="cb62-3" title="3">   <span class="co">// à 120 pixels du haut et 200 de la gauche</span></a>
+<a class="sourceLine" id="cb62-4" title="4">  <span class="at">option</span>(<span class="st">&#39;vertical line offset&#39;</span><span class="op">,</span> <span class="dv">120</span><span class="op">,</span> <span class="st">&#39;horizontal line offset&#39;</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></a></code></pre></div>
 <h3 id="option_space_between_scores">Option « Espacement entre images »</h3>
 <p>Option : <code class="code">espacement images</code>, <code class="code">space between scores</code></p>
 <p>Type : non booléen, la valeur est le nombre de pixels</p>
 <p>Permet de régler l’espacement en pixels entre deux images lorsque l’<a href="#sequence_images">écriture séquentielle des images</a> a été adoptée.</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb64-1" title="1"></a>
-<a class="sourceLine" id="cb64-2" title="2">  <span class="co">// Dans _tags_.js</span></a>
-<a class="sourceLine" id="cb64-3" title="3">  <span class="at">option</span>(<span class="st">&#39;espacement images&#39;</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></a>
-<a class="sourceLine" id="cb64-4" title="4">  Tags<span class="op">=</span><span class="vs">`</span></a>
-<a class="sourceLine" id="cb64-5" title="5"><span class="vs">    ...</span></a>
-<a class="sourceLine" id="cb64-6" title="6"><span class="vs">  `</span><span class="op">;</span>  </a></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb63-1" title="1"></a>
+<a class="sourceLine" id="cb63-2" title="2">  <span class="co">// Dans _tags_.js</span></a>
+<a class="sourceLine" id="cb63-3" title="3">  <span class="at">option</span>(<span class="st">&#39;espacement images&#39;</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb63-4" title="4">  Tags<span class="op">=</span><span class="vs">`</span></a>
+<a class="sourceLine" id="cb63-5" title="5"><span class="vs">    ...</span></a>
+<a class="sourceLine" id="cb63-6" title="6"><span class="vs">  `</span><span class="op">;</span>  </a></code></pre></div>
 <p>Avec le code ci-dessus, l’espace entre les différents systèmes sera de 100 pixels.</p>
 <h3 id="option_top_first_score">Option « marge haut »</h3>
 <p>Option : <code class="code">marge haut</code>, <code class="code">top first score</code></p>
 <p>Type : non booléen, la valeur est le nombre de pixels</p>
 <p>Lors de l’<a href="#sequence_images">écriture séquentielle des images</a>, cette valeur permet de déterminer à quelle hauteur doit être placée la première image (le premier système ou la partition).</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb65-1" title="1"></a>
-<a class="sourceLine" id="cb65-2" title="2">  <span class="co">// Dans _tags_.js</span></a>
-<a class="sourceLine" id="cb65-3" title="3">  <span class="at">option</span>(<span class="st">&#39;marge haut&#39;</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></a>
-<a class="sourceLine" id="cb65-4" title="4">  Tags<span class="op">=</span><span class="vs">`</span></a>
-<a class="sourceLine" id="cb65-5" title="5"><span class="vs">    ...</span></a>
-<a class="sourceLine" id="cb65-6" title="6"><span class="vs">  `</span><span class="op">;</span>  </a></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb64-1" title="1"></a>
+<a class="sourceLine" id="cb64-2" title="2">  <span class="co">// Dans _tags_.js</span></a>
+<a class="sourceLine" id="cb64-3" title="3">  <span class="at">option</span>(<span class="st">&#39;marge haut&#39;</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb64-4" title="4">  Tags<span class="op">=</span><span class="vs">`</span></a>
+<a class="sourceLine" id="cb64-5" title="5"><span class="vs">    ...</span></a>
+<a class="sourceLine" id="cb64-6" title="6"><span class="vs">  `</span><span class="op">;</span>  </a></code></pre></div>
 <p>Avec le code ci-dessus, la première image de partition sera placée à 200 pixels du haut.</p>
 <blockquote>
 <p>Penser à laisser de la place pour le titre.</p>
@@ -1196,17 +1300,17 @@ mod Sol_min/(sous-dom.) 200 300
 <p>Option : <code class="code">marge gauche</code>, <code class="code">left margin</code></p>
 <p>Type : non booléen, la valeur est le nombre de pixels</p>
 <p>Lors de l’<a href="#sequence_images">écriture séquentielle des images</a>, cette valeur détermine la marge gauche où placer l’image (son <code class="prop">x</code>).</p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb66-1" title="1"></a>
-<a class="sourceLine" id="cb66-2" title="2">  <span class="co">// Dans _tags_.js</span></a>
-<a class="sourceLine" id="cb66-3" title="3">  <span class="at">option</span>(<span class="st">&#39;marge gauche&#39;</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span></a>
-<a class="sourceLine" id="cb66-4" title="4">  Tags<span class="op">=</span><span class="vs">`</span></a>
-<a class="sourceLine" id="cb66-5" title="5"><span class="vs">    ...</span></a>
-<a class="sourceLine" id="cb66-6" title="6"><span class="vs">  `</span><span class="op">;</span>  </a></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb65-1" title="1"></a>
+<a class="sourceLine" id="cb65-2" title="2">  <span class="co">// Dans _tags_.js</span></a>
+<a class="sourceLine" id="cb65-3" title="3">  <span class="at">option</span>(<span class="st">&#39;marge gauche&#39;</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb65-4" title="4">  Tags<span class="op">=</span><span class="vs">`</span></a>
+<a class="sourceLine" id="cb65-5" title="5"><span class="vs">    ...</span></a>
+<a class="sourceLine" id="cb65-6" title="6"><span class="vs">  `</span><span class="op">;</span>  </a></code></pre></div>
 <p>Avec le code ci-dessus, toutes les images de la séquence seront placées à 50 pixels de la gauche.</p>
 <h3 id="option_theme">Thème</h3>
 <p>L’option <code class="code">theme</code> permet de choisir le thème, c’est-à-dire l’apparence générale, de la partition. Pour choisir ce thème, utilisez, en haut de votre fichier <code class="path">_tags_.js</code> :</p>
-<div class="sourceCode" id="cb67"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb67-1" title="1"><span class="at">option</span>(<span class="st">&#39;theme&#39;</span><span class="op">,</span> <span class="st">&#39;&lt;nom du thème&gt;&#39;</span>)<span class="op">;</span></a>
-<a class="sourceLine" id="cb67-2" title="2"><span class="co">//...</span></a></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb66-1" title="1"><span class="at">option</span>(<span class="st">&#39;theme&#39;</span><span class="op">,</span> <span class="st">&#39;&lt;nom du thème&gt;&#39;</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb66-2" title="2"><span class="co">//...</span></a></code></pre></div>
 <p>Le thème par défaut est le thème <code class="str">muscat</code>. On peut trouver les autres thèmes dans le dossier <code class="path">/xlib/js/themes/</code>. Il suffit de retirer <code class="path">.js</code> au nom pour obtenir le nom du thème.</p>
 <h4 id="liste-des-thèmes">Liste des thèmes</h4>
 <p>Voici une liste complète des thèmes, mais ceux-ci devraient rapidement s’étoffer :</p>
@@ -1270,11 +1374,11 @@ mod Sol_min/(sous-dom.) 200 300
 <h3 id="aller_plus_loin">Pour aller plus loin</h3>
 <p>Pour aller plus loin, si vous êtes sur Mac et que vous vous sentez à l’aise avec le Terminal, vous pouvez créer un alias dans votre <code class="cmd">profil bash</code> pour ne pas avoir à rejoindre chaque fois le dossier de l’application et même utiliser les commandes plus simplement.</p>
 <p>Grâce à cet alias, vous pouvez jouer tous les scripts ci-dessus sans autre forme de procès. Par exemple, si vous utilisez l’alias <code class="cmd">mus</code>, alors il suffit d’ouvrir une nouvelle fenêtre de Terminal et de taper :</p>
-<div class="sourceCode" id="cb68"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb68-1" title="1"></a>
-<a class="sourceLine" id="cb68-2" title="2"><span class="op">&gt;</span> <span class="ex">mus</span> analyse <span class="st">&quot;Ma_Dernière_analyse&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb67-1" title="1"></a>
+<a class="sourceLine" id="cb67-2" title="2"><span class="op">&gt;</span> <span class="ex">mus</span> analyse <span class="st">&quot;Ma_Dernière_analyse&quot;</span></a></code></pre></div>
 <p>… pour ouvrir cette analyse.</p>
 <p>Il suffit de taper :</p>
-<div class="sourceCode" id="cb69"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb69-1" title="1"><span class="op">&gt;</span> <span class="ex">mus</span> rename_images <span class="st">&quot;MonAnalyse&quot;</span> <span class="st">&quot;systeme&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb68-1" title="1"><span class="op">&gt;</span> <span class="ex">mus</span> rename_images <span class="st">&quot;MonAnalyse&quot;</span> <span class="st">&quot;systeme&quot;</span></a></code></pre></div>
 <p>… pour renommer toutes les images du dossier <code class="path">images</code> de « MonAnalyse ».</p>
 <p>L’autre avantage de l’utilisation de cet alias, c’est qu’on peut utiliser les termes de différentes langues. Voir les <a href="#corresp_linguistiques">correspondances linguistiques</a>.</p>
 <h4 id="creation_alias_mus">Création de l’alias</h4>
@@ -1284,8 +1388,8 @@ mod Sol_min/(sous-dom.) 200 300
 </code></pre>
 <p>… pour éditer mon bash profile avec <a href="https://fr.wikipedia.org/wiki/Vim">Vim</a>.</p>
 <p>Dans ce fichier <code class="path">.bash_profile</code>, j’ajoute la ligne :</p>
-<div class="sourceCode" id="cb71"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb71-1" title="1"></a>
-<a class="sourceLine" id="cb71-2" title="2"><span class="bu">alias</span> mus=<span class="st">&quot;/Users/philippeperret/Programmation/MuScaT/utils/run.rb&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb70-1" title="1"></a>
+<a class="sourceLine" id="cb70-2" title="2"><span class="bu">alias</span> mus=<span class="st">&quot;/Users/philippeperret/Programmation/MuScaT/utils/run.rb&quot;</span></a></code></pre></div>
 <blockquote>
 <p>Note : pour obtenir facilement la ligne ci-dessus sans aucune erreur, il suffit par exemple de glisser le fichier ou le dossier dans une fenêtre de Terminal. Le chemin d’accès s’y inscrit aussitôt.</p>
 </blockquote>

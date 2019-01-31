@@ -166,7 +166,7 @@ const MuScaT = {
         // la position de ses lignes repères)
         return Options.to_tags_js();
       };
-      return options_to_tags_js + 'var Tags = `'+ RC + this.full_code() + RC + '`;' ;
+      return options_to_tags_js + 'Tags = `'+ RC + this.full_code() + RC + '`;' ;
     }
 
   // Retourne le code complet des lignes de tags

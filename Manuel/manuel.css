@@ -46,6 +46,7 @@ pre.sourceCode.javascript {
   padding-top: 1.5em;
 }
 
+.italic, .ital{font-style:italic;}
 
 .code {
   padding: 0 8px;
@@ -136,3 +137,9 @@ pre.sourceCode.javascript {
 }
 
 .rouge {color: red!important;}
+
+.label-table {
+  font-style: italic;
+  font-weight: bold;
+  color: #555555;
+}

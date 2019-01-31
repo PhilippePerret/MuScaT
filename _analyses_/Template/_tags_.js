@@ -1,6 +1,6 @@
 options('code beside', 'lines of reference') ;
 
-Tags = `
+var Tags = `
 sco sonate_haydn-0.png x=50 y=100 w=608
 mod G_min x=307 y=19
 sco sonate_haydn-1.png x=62 y=384

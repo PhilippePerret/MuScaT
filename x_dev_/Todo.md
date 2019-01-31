@@ -1,5 +1,6 @@
 # Todo list
 
+* [BUG] Quand on met un texte à une boite (box) et qu'on veut le retirer, ça ne fonctionne pas.
 
 ## TEST
 

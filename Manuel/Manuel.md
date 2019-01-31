@@ -277,7 +277,7 @@ Donc, après avoir disposé les systèmes sur la table d'analyse, demandez l'imp
 
 #### Ajout du titre, compositeur, etc. {#titre_et_auteur}
 
-Vous pouvez même placer dès à présent les titres et compositeur aux endroits voulus grâce aux TAGs `titre`{.prop}, `compositeur`{.prop}, `analyste`{.prop}, `date_composition`{.prop}, `opus`{.prop}, `date_analyse`{.prop}, etc.
+Vous pouvez même placer dès à présent les titre et compositeur aux endroits voulus grâce aux TAGs `titre`{.prop}, `compositeur`{.prop}, `analyste`{.prop}, `date_composition`{.prop}, `opus`{.prop}, `date_analyse`{.prop}, etc.
 
 C'est-à-dire que vous pouvez placer, en haut de votre définition de `Tags`{.prop} dans votre fichier `_tags_.js`{.path}, les informations suivantes :
 
@@ -346,11 +346,13 @@ Une fois l'analyse désignée comme analyse courante, on ouvre le fichier `_TABL
 On peut placer les éléments aux bons endroits simplement de plusieurs manières :
 
 * en les déplaçant à la souris,
+    ![Exemple de déplacement d'élément](./img/move_score.png)
 * en utilisant les flèches de son clavier,
 * en jouant sur les touches `x`{.prop} et `y`{.prop},
 * en modifiant leur coordonnées dans le champ de code.
 
 Pour le détail, cf. [Positionnement des tags](#modify_position_tag).
+
 
 On peut modifier les tailles des éléments de plusieurs manières aussi :
 
@@ -360,8 +362,6 @@ On peut modifier les tailles des éléments de plusieurs manières aussi :
 Pour le détail, cf. [Dimensionnement des tags](#dimensionner_les_tags).
 
 On peut en ajouter des nouveaux en dupliquant les lignes de code ou les ajoutant explicitement dans le code.
-
-![Exemple de déplacement d'élément](./img/move_score.png)
 
 À tout moment on peut annuler une opération pour revenir en arrière en jouant `CMD Z`{.shortcut} (sur Mac) ou `Ctrl Z`{.shortcut} (sur Windows).
 
@@ -429,7 +429,11 @@ Pour **modifier les dimensions d'un tag** (comme une ligne, une cadence, une boi
 
 ### Récupérer le code final {#syn_recuperation_code_final}
 
-Si l'on a travaillé dans le champ de texte à côté de la table d'analyse, on doit copier le code final dans le fichier `_tags_.js`{.path}, au risque de perdre tous les changements. Pour se faire, on clique sur le bouton des outils — en haut à gauche — et on demande à mettre le code complet dans le presse-papier.
+Si l'on a travaillé dans le champ de texte à côté de la table d'analyse, on doit copier le code final dans le fichier `_tags_.js`{.path}, au risque de perdre tous les changements.
+
+Pour se faire, on clique sur le bouton « code source -> presse papier » qui se trouve sous le champ de code si l'option `options`{.code} est activée, sinon, dans les outils — en haut à gauche.
+
+![Bouton « code source -> presse-papier »](img/bouton-code-source-clipboard.png)
 
 On colle ce code dans le fichier `_tags_.js`{.path}, en remplaçant l'intégralité de son contenu.
 
@@ -446,12 +450,12 @@ Noter que si vous préférez garder plusieurs versions de votre analyse (ce qui 
   `;
   // Version 1.2
   option('lang','fr', 'reperes');
-  var Tags = `
+  Tags = `
     //... tags de la version suivante
   `;
   // Version 2.0
   option('lang','fr', 'reperes');
-  var Tags = `
+  Tags = `
     //... tags de la version suivante
   `;
   // etc.
@@ -496,10 +500,33 @@ Cette boite à outils contient des outils pour regrouper ou dégrouper des tags,
 
 ### Le champ de code {#code_field}
 
-Si [l'option `guides`{.code}](#option_line_of_reference) est activée, un champ de code est ouvert à droite de la page, contenant le code défini dans votre fichier `_tags_.js`{.path} (seulement celui dans `Tags`{.prop}, pas le code intégral).
+Si [l'option `code`{.code}](#option_line_of_reference) est activée, un champ de code est ouvert à droite de la page, contenant le code défini dans votre fichier `_tags_.js`{.path} (seulement celui dans `Tags`{.prop}, pas le code intégral).
 
 En modifiant ce code, vous pouvez construire votre analyse (n'oubliez pas, ensuite, d'en copier le code intégralement).
 
+> Note : la touche `CMD`{.shortcut}, sur PC/Windows, doit être remplacée par la touche `Ctrl`{.shortcut}.
+
++-----------------------------+-------------------------------+
+| `Action`{.label-table}      | `Description`{.label-table}   |
++-----------------------------+-------------------------------+
+| `CMD Entrée`{.shortcut}<br> | Créer une nouvelle ligne/un   |
+| ou bouton « + »             | nouveau tag.                  |
++-----------------------------+-------------------------------+
+| Bouton « - »                | Suppression du tag courant    |
++-----------------------------+-------------------------------+
+| `flèche haut`{.shortcut}    | Passer au tag au-dessus       |
++-----------------------------+-------------------------------+
+| `flèche bas`{.shortcut}     | Passer au tag en dessous      |
++-----------------------------+-------------------------------+
+| `CMD flèche haut`{.shortcut}| Remonter le tag courant       |
++-----------------------------+-------------------------------+
+| `CMD flèche bas`{.shortcut} | Descendre le tag courant      |
++-----------------------------+-------------------------------+
+| `Tabulation`{.shortcut}     | Se place dans le code du tag  |
+|                             | sélectionné sur la table.     |
++-----------------------------+-------------------------------+
+
+Notez que dès que vous sélectionnez un *TAG* dans le code, le *TAG* est aussitôt sélectionné sur la table d'analyse (la table est « scrollée » pour toujours rendre visible ce *TAG*). L'opération inverse est vraie : toute sélection de *TAG* sur la table d'analyse est aussitôt sélectionné et affiché dans le code.
 
 ---
 
@@ -516,27 +543,21 @@ Voyons plus en détail comment se compose une ligne du fichier `_tags_.js`{.path
 
 Cette ligne a le format général suivant :
 
-```
-  <nat.>[ <cont.>][ <id>][ <coor./dim.>][ <opt., type>]
+`nature`{.ital}[ `contenu`{.ital}][ `coor./dim.`{.ital}][ `option/type`{.ital}]
 
-```
-
-`<nat.>`{.code}
+`nature`{.ital}
 : C'est la *nature* du TAG, ce qui détermine ce qu'il est, cadence, modulation, boite ou image, etc.
 
-`<cont.>`{.code}
+`contenu`{.ital}
 : C'est le *contenu* du TAG, parfois son *type* (pour les lignes par exemple). Pour un TAG de texte, c'est le texte, pour une modulation, c'est la tonalité vers laquelle on module.
 : Cf. [Note sur le contenu du TAG](#note_contenu_tag)
 
-`<id>`{.code}
-: L'identifiant du TAG. C'est une valeur que **MuScaT** ajoute d'elle-même, pour reconnaitre le TAG, et qui ne doit pas être modifié.
-
-`<coor./dim.>`{.code}
+`coor./dim.`{.ital}
 : Les coordonnées `x`{.prop} (position horizontale) et `y`{.prop} (position verticale) ainsi que les dimensions h (hauteur) et w (largeur) du TAG.
 : Ces coordonnées et ces dimensions se notent simplement en donnant les valeurs à l'aide d'un signe égal (`=`{.code}) **sans espace** : `x=12`{.code}, `y=20`{.code}, `w=12%`{.code}, `h=12mm`{.code} etc.
 : Cf. aussi [Note sur les coordonnées et dimensions](#note_coors_dims)
 
-`<opt./type>`{.code}
+`option/type`{.ital}
 : Des options ou des types, en fonction de la nature du TAG. Nous y reviendrons.
 
 Noter qu'à part les deux premiers éléments, tous les autres peuvent être donnés dans l'ordre qu'on veut, sans importance.
@@ -544,22 +565,23 @@ Noter qu'à part les deux premiers éléments, tous les autres peuvent être don
 Voici quelques définitions de TAGs :
 
 ```javascript
-
 Tags = `
 
   score ma_partition.jpg y=100 x=10
+
   // => L'image 'images/ma_partition.jpg' placé à 10 pixels de
   //    la marge gauche et 100 pixels du haut.
 
   cadence I type=parfaite y=200 x=100 w=100
+
   // => Une cadence de type parfaite, avec un trait de
   //    100 pixels de large (`w`).
 
   modulation G_min x=200 y=100
+
   // => Une modulation vers Sol mineur.
 
 `;
-
 ```
 
 > Noter les lignes commençant par `//`{.code} qui permettent de laisser un commentaire. C'est très utile lorsque l'on veut s'y retrouver lorsque l'analyse devient conséquente.
@@ -567,42 +589,39 @@ Tags = `
 Noter qu'une *nature* de TAG (le premier mot), peut toujours être exprimé par ses trois premières lettres (exception faite du terme « partition » qui rentrerait en conflit avec « partie »). Ainsi, on peut écrire le code ci-dessous :
 
 ```javascript
-
 Tags = `
 
   sco ma_partition.jpg y=100 x=10
+
   // sco => score (partition)
 
   cad V_I type=parfaite y=200 x=100
+
   // cad => cadence
 
   mod G_min x=200 y=100
+
   // mod => modulation
 
 `;
-
 ```
 
 L'intégralité des *natures* de TAG (et leur diminutif) [est détaillé ici](#complete_list_tags).
 
 ### Forme raccourcie d'écriture
 
-Pour la première définition du TAG, on peut utiliser une version raccourcie de définition qui la rend très simple et très rapide. Elle consiste à utiliser :
+Pour la première définition du *TAG*, on peut utiliser une version raccourcie de définition qui la rend très simple et très rapide. Elle consiste à utiliser :
 
 ```javascript
-
 Tags = `
-<nature>[ <contenu>] <valeur x seule> <valeur y seule>
+<nature>[ <contenu>] <valeur y seule> <valeur x seule>
 `;
-
 ```
 
 Par exemple, pour une *modulation* vers la tonalité de SOL mineur (G min.) qui doit se situer à 200 pixels du haut et 450 pixels de la gauche, on pourra écrire simplement :
 
 ```javascript
-
   mod G_min 200 450
-
 ```
 
 Il suffit de se souvenir que le premier nombre concerne la *hauteur*.
@@ -620,26 +639,20 @@ On doit obligatoirement remplacer les espaces par des traits plats (MAJ tiret su
 Ainsi, si l'on veut écrire « Second couplet », on doit écrire :
 
 ```javascript
-
   partie Second_couplet x=123 y=456
-
 ```
 
 Si l'on veut écrire la tonalité « Sol mineur », on doit impérativement écrire :
 
 ```javascript
-
   modulation Sol_mineur x=23 y=344
-
 ```
 
 En revanche, tous les autres caractères sont possibles, à l'exception des balances (`/`{.prop}) dans les modulations, car elles indiquent le texte qui devra apparaitre sous le trait biaisé :
 
 ```javascript
-
   // Une modulation vers la Sous-dominante
   mod Sol_min/(sous-dom.) x=23 y=344
-
 ```
 
 ![Modulation avec indication sous le trait](img/Modulation_Sous_dom.png)
@@ -663,16 +676,18 @@ Trouvez ci-dessous la liste complète de tous les tags.
 |                 | ```                                               |
 |                 |                                                   |
 |                 | Exemple                                           |
-|                 | : ```{.exemple} |
-|                 |sco system-5.src x=2 y=2 w=17cm |
-|                 |``` |
+|                 | : ```{.exemple}                                   |
+|                 |sco sonate_haydn-2.png x=24 y=200 w=12.5cm         |
+|                 |```                                                |
+|                 |                                                   |
+|                 | ![Un score](img/exemple-score.png)                |
 |                 |                                                   |
 |                 | Note                                              |
 |                 | : L'image doit se trouver dans le dossier         |
 |                 | "images" du dossier de l'analyse.                 |
 |                 |                                                   |
-|                 | Détail |
-|                 | : [Les Images](#les_images) |
+|                 | Détail                                            |
+|                 | : [Les Images](#les_images)                       |
 +-----------------+---------------------------------------------------+
 | accord<br>      | Écriture d'un accord au-dessus de la partition.   |
 | chord<br>       |                                                   |
@@ -683,6 +698,8 @@ Trouvez ci-dessous la liste complète de tous les tags.
 |                 | : ```{.exemple} |
 |                 | acc E_min x=100 y=200 |
 |                 | ``` |
+|                 |                                                   |
+|                 | ![Un accord](img/exemple-accord.png)              |
 | | |
 |                 | Détail |
 |                 | : [Les Accords](#les_accords) |
@@ -696,8 +713,10 @@ Trouvez ci-dessous la liste complète de tous les tags.
 |                 | ``` |
 |                 | Exemple |
 |                 | : ```{.exemple} |
-|                 | harmony I*** x=23 y=289 |
+|                 | har VII*** x=540 y=325 |
 |                 | ``` |
+|                 |                                                   |
+|                 | ![Une harmony](img/exemple-harmony.png)           |
 | | |
 |                 | Détail |
 |                 | : [Les Harmonies](#les_harmonies) |
@@ -710,8 +729,10 @@ Trouvez ci-dessous la liste complète de tous les tags.
 |                 | ``` |
 |                 | Exemple |
 |                 | : ```{.exemple} |
-|                 | mod B_min x=200 y=300 |
+|                 | mod G_Maj/Relatif_maj. x=83 y=77 h=70px |
 |                 | ``` |
+|                 |                                                   |
+|                 | ![Une modulation](img/exemple-modulation.png)     |
 | | |
 |                 | Détail |
 |                 | : [Les Modulations](#les_modulations) |
@@ -723,8 +744,10 @@ Trouvez ci-dessous la liste complète de tous les tags.
 |                 | ``` |
 |                 | Exemple |
 |                 | : ```{.exemple} |
-|                 | cad V type=demie x=23 y=3456 w=100 |
+|                 | cad V type=demi x=23 y=3456 w=80 |
 |                 | ``` |
+|                 |                                                   |
+|                 | ![Une cadence](img/exemple-cadence.png)     |
 |                 |                                                   |
 |                 | Note |
 |                 | : Noter ci-dessus l'emploi 1) d'un *type* (type de |
@@ -741,8 +764,10 @@ Trouvez ci-dessous la liste complète de tous les tags.
 |                 | ``` |
 |                 | Exemple |
 |                 | : ```{.exemple} |
-|                 | measure 12 x=23 y=1000 |
+|                 | measure 15 x=434 y=171 |
 |                 | ``` |
+|                 |                                                   |
+|                 | ![Une mesure](img/exemple-mesure.png)     |
 | | |
 |                 | Note|
 |                 | : Noter que le style dépend du thème choisi. |
@@ -758,9 +783,12 @@ Trouvez ci-dessous la liste complète de tous les tags.
 |                 | ``` |
 |                 | Exemple |
 |                 | : ```{.exemple} |
-|                 | degre 4 x=23 y=1200 |
+|                 | degre 4# x=23 y=1200 |
 |                 | ``` |
-| | |
+|                 |                                                   |
++-----------------+---------------------------------------------------+
+|                 | ![Un degré](img/mark_degree.png)     |
++-----------------+---------------------------------------------------+
 |                 | Détail |
 |                 | : [Les Degrés](#les_degres) |
 +-----------------+---------------------------------------------------+
@@ -772,9 +800,11 @@ Trouvez ci-dessous la liste complète de tous les tags.
 |                 | ``` |
 |                 | Exemple |
 |                 | : ```{.exemple} |
-|                 | lin |---| w=200 x=23 y=120 |
+|                 | line |___| x=242 y=323 h=15 w=110 |
 |                 | ``` |
-| | |
++-----------------+---------------------------------------------------+
+|                 | ![Une ligne](img/exemple-ligne.png)     |
++-----------------+---------------------------------------------------+
 |                 | Détail |
 |                 | : [Les Lignes](#les_lignes) |
 +-----------------+---------------------------------------------------+
@@ -789,12 +819,16 @@ Trouvez ci-dessous la liste complète de tous les tags.
 |                 | ``` |
 |                 | Exemple |
 |                 | : ```{.exemple} |
-|                 | boite w=200 h=53 x=23 y=120 |
+|                 | boite x=45 y=152 h=180 w=295 |
 |                 | ``` |
-| | |
++-----------------+---------------------------------------------------+
+|                 | ![Une boite](img/exemple-boite.png)     |
++-----------------+---------------------------------------------------+
 |                 | Note |
 |                 | La hauteur (`h`{.prop}) et la largeur (`w`{.prop}) sont ici très |
-|                 | importantes.
+|                 | importantes. Noter également que cette boite est visible  |
+|                 | sur la table d'analyse, mais elle sera invisible dans     |
+|                 | le document imprimé.                                      |
 | | |
 |                 | Détail |
 |                 | : [Les Boites](#les_boites) |
@@ -806,13 +840,19 @@ Trouvez ci-dessous la liste complète de tous les tags.
 |                 | ``` |
 |                 | Exemple |
 |                 | : ```{.exemple} |
-|                 | tex Doubles_octaves type=warning |
+|                 | tex Opposition_marquée x=296 y=138 w=73 |
 |                 | ``` |
-| | |
-|                 | Note |
-|                 | Les espaces sont remplacées par des traits plats |
++-----------------+---------------------------------------------------+
+|                 | ![Un texte](img/exemple-texte.png)     |
++-----------------+---------------------------------------------------+
+|                 | Notes |
++-----------------+---------------------------------------------------+
+|                 | * Les espaces sont remplacées par des traits plats |
 |                 | dans le texte à affiché. Mais ce seront des espaces |
-|                 | qui seront inscrites sur la table d'analyse.
+|                 | qui seront inscrites sur la table d'analyse.        |
+| | |
+|                 | * Grâce à la définition de la largeur (w), on met le |
+|                 | texte sur deux lignes.                            |
 | | |
 |                 | Détail |
 |                 | : [Les Textes](#les_textes) |
