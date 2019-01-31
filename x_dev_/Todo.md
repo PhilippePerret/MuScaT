@@ -1,6 +1,5 @@
 # Todo list
 
-* Pour le manuel, mettre en forme les .usage et .exemple utilisé pour la liste des natures.
 
 ## TEST
 

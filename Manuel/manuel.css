@@ -95,6 +95,24 @@ pre.sourceCode.javascript {
   margin-left: 2px;
 }
 
+.usage {
+  font-family: Courier;
+  background-color: grey;
+  color: yellow;
+  padding: 1px 4px;
+}
+.usage:before {
+  content: 'usage : ';
+  color: white;
+  font-size:0.75em;
+  /* position:absolute; */
+  font-style: italic;
+}
+.exemple {
+  color: black;
+  background-color: #CCCCCC;
+  padding: 0px 8px;
+}
 
 .center {
   display: block;
