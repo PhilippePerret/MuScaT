@@ -13,7 +13,14 @@ const ULTags = {
   , onEachLITag: function(method){
       var my = this ;
       my.jqObj.find('> li').each(function(idx, olitag){
-        method(my.domObjetToLITag(olitag));
+        var litag = my.domObjetToLITag(olitag);
+        if(litag.destroyed){
+          // Mais normalement ça ne devrait pas arriver puisqu'on
+          // lit depuis la liste affichée elle-même, et qu'un litag
+          // détruit n'est pas affiché.
+          return;
+        }
+        method(litag);
       })
     }
     /**

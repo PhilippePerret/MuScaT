@@ -75,6 +75,11 @@ const UI = {
         var top = this.TOP_FIRST_PAGE_END + Number.parseInt(this.HEIGTH_PRINTED_PAGE * i) ; // +10 pour la marge top
         $('body').append(`<div class="page-break" style="top:${top}px;"></div>`);
       };
+
+      if(Options.get('code beside')){
+        // On met le bouton pour obtenir le code dans le div des boutons
+        $('#div-ultags-buttons').append($('#btn-code-in-clipboard'));
+      }
     }
 };
 Object.defineProperties(UI,{

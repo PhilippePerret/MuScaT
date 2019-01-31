@@ -1,11 +1,8 @@
 # Todo list
 
-* Quand ULTags est activé, CMD flèche doit permettre de remonter le litag courant
-* Une méthode qui permet de toujours afficher le tag sélectionné dans ULTags (quand la liste est longue)
-  * Vérifier que l'inverse existe aussi
-* Ne pas mettre la touche pour copier le code dans la boite à outils si le code est affiché
+* La touche tabulation doit permettre d'aller dans le code de la sélection (lorsqu'il y a une sélection)
+* Le verrouillage ne fonctionne pas (quand on édite)
 * Pour le manuel, mettre en forme les .usage et .exemple utilisé pour la liste des natures.
-* Copier les styles du manuel dans le manuel des manuels
 
 ## TEST
 

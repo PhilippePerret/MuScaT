@@ -73,6 +73,7 @@ span.tag.cadence {
   text-align:     right;
   background-color: transparent;
   min-width:      60px;
+  z-index: 9 /* pour le pas recouvrir les éléments */
 }
 span.tag.cadence:after {
   position: absolute;

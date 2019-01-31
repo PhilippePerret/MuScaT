@@ -5,7 +5,7 @@
 *
 * On définit une taille pour les images (175mm est bien)
 * On rectifie les images avec Aperçu et le rectangle
-
+* Montrer comment déplacer les LITags avec CMD + flèche haut/bas
 
 
 

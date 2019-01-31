@@ -175,7 +175,7 @@ const MuScaT = {
   , full_code: function(){
       var arr = new Array() ;
       ULTags.onEachLITag(function(litag){
-        console.log('Mise dans le code du tag #', litag.id);
+        // console.log('Mise dans le code du tag #', litag.id);
         arr.push(CTags[litag.id].to_line());
       })
       return arr.join(RC) ;

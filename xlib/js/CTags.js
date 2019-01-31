@@ -104,7 +104,7 @@ const CTags = {
             break;
           default:
         }
-        my.selections.forEach(function(itag){itag.update(prop, value)});
+        my.onEachSelected(function(itag){itag.update(prop, value)})
         UI.hide_tools();
       }
     }

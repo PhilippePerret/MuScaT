@@ -8,8 +8,9 @@ const LITag = function(itag){
   // Noter qu'elle est mise à false alors que la valeur de ULTags.selected
   // peut-être encore mise à ce tag (parce que c'est au blur qu'on désélectionne
   // le LITag).
-  this.selected = false;
-  this.built    = false ;
+  this.selected   = false;
+  this.built      = false;
+  this.destroyed  = false;
 };
 
 // ---------------------------------------------------------------------
@@ -39,6 +40,17 @@ LITag.prototype.to_html = function(){
   return nod ;
 };
 
+/**
+ * Méthode principale de suppression d'un tag.
+ * Noter que si les deux objets sont détruits, les deux instances
+ * existent toujours, mais sont marquées destroyed
+ */
+LITag.prototype.remove = function(){
+  var my = this ;
+  my.destroyed = true ;
+  my.jqObj.remove();
+  my.itag.update('destroyed', true);
+};
 // ---------------------------------------------------------------------
 //  MÉTHODES DE DONNÉES
 
@@ -133,22 +145,35 @@ LITag.prototype.onKeyUp = function(ev){
   switch (ev.keyCode) {
     case 9: // Touche tabulation
     case 13: // Touche entrée => nouveau tag ou prendre en compte ?
-    case 40: // Flèche bas
       // console.log('Tabulation, je passe au suivant');
+      this.focus_next();return stop(ev);
+    case 40: // Flèche bas
       this.focus_next();return stop(ev);
     case 91:
       MEvents.with_meta_key = false;
       this.creating = false;
       return stop(ev);
   }
-  // MEvents.console_key(ev);
+  MEvents.console_key(ev);
 };
 LITag.prototype.onKeyDown = function(ev){
   switch (ev.keyCode) {
     case 38:
-      this.focus_previous();return stop(ev);
+      if (MEvents.with_meta_key){
+        this.jqObj.insertBefore(this.jqObj.prev());
+        this.jqObj.focus();
+      } else {
+        this.focus_previous();
+      }
+      return stop(ev);
     case 40: // Flèche bas
-      this.focus_next();return stop(ev);
+      if (MEvents.with_meta_key){
+        this.jqObj.insertAfter(this.jqObj.next());
+        this.jqObj.focus();
+      } else {
+        this.focus_next();
+      }
+      return stop(ev);
     case 13:
       if (MEvents.with_meta_key == true && !this.creating){
         this.creating = true ;

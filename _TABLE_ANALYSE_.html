@@ -44,8 +44,8 @@
       <div id="div-ultags" class="">
         <ul id="ultags"></ul>
         <div id="div-ultags-buttons">
-          <button type="button" id="ultags-btn-plus" onclick="$.proxy(ULTags,'addTag')()">➕</button>
-          <button type="button" id="ultags-btn-moins" onclick="$.proxy(ULTags,'removeTag')()">➖</button>
+          <button type="button" id="ultags-btn-plus" class="plus-moins" onclick="$.proxy(ULTags,'addTag')()">➕</button>
+          <button type="button" id="ultags-btn-moins" class="plus-moins" onclick="$.proxy(ULTags,'removeTag')()">➖</button>
         </div>
       </div>
     </section>
@@ -82,7 +82,7 @@
         </fieldset>
 
         <fieldset id="fs_code">
-          <button type="button" onclick="$.proxy(MuScaT,'codeAnalyseInClipboard')()"><span class="t-source-code"></span> -> <span class="t-clipboard"><span></button>
+          <button id="btn-code-in-clipboard" class="normal" type="button" onclick="$.proxy(MuScaT,'codeAnalyseInClipboard')()"><span class="t-source-code"></span> -> <span class="t-clipboard"><span></button>
         </fieldset>
 
         <fieldset id="fs_aide">

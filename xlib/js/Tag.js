@@ -138,6 +138,9 @@ Tag.prototype.update = function(prop, new_value, options) {
     return ; // impossible de mettre des valeurs inférieures à 5
     // Noter que même les pourcentages seront rejetés
   } else {
+
+    console.log(`Update de tag #${my.id}. Propriété ${prop} mise à ${new_value}`);
+
     if (!options || !options.no_histo){
       H.add([new HistoProp(my, prop, my[prop], new_value)]) ;
     }

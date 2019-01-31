@@ -105,7 +105,7 @@ div#div-ultags div#div-ultags-buttons {
   border-style: solid;
   border color: grey;
 }
-div#div-ultags div#div-ultags-buttons button {
+div#div-ultags div#div-ultags-buttons button.plus-moins {
   background-color: #CCCCCC;
   width: 36px;
   height: 36px;
@@ -114,12 +114,16 @@ div#div-ultags div#div-ultags-buttons button {
   margin-right: -4px;
   padding:0;
   border: 1px solid grey;
+  font-family: Arial, Helvetica;
 }
 div#div-ultags div#div-ultags-buttons button:active {
   background-color: green;
   color: white;
-  padding: 2px 3px 4px;
-  font-family: Arial, Helvetica;
+}
+div#div-ultags div#div-ultags-buttons button.normal {
+  border: 1px solid #777777;
+  border-radius: .5em;
+  margin-left: 1em;
 }
 /* --------------------------------------------------------------------- */
 /* Lignes de référence */
