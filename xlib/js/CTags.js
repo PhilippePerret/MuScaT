@@ -85,7 +85,7 @@ const CTags = {
       if (undefined == alignement){
         alignement = document.getElementById('alignement').value;
       }
-      if (my.selections.length < 2) { error('Il faut choisir les éléments à aligner !') }
+      if (my.selections.length < 2) { error(t('thinks-to-align-required')) }
       else {
         var referent = my.selections[0] ;
         var value, method ;

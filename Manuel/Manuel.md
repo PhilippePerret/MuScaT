@@ -48,6 +48,7 @@ Elle est semi-graphique, et permet d'ajuster très finement les TAGs — au pix
   * [Le champ de code](#code_field)
 * [Composition d'un tag](#composition_dun_tag)
   * [Note sur le contenu du TAG (texte)](#note_contenu_tag)
+  * [Note sur les couleurs](#note_couleurs)
 * [Liste complète de tous les TAGs](#complete_list_tags)
   * [Les Images](#les_images)
     * [Définition de la taille d'une image](#defining_image_size)
@@ -60,10 +61,10 @@ Elle est semi-graphique, et permet d'ajuster très finement les TAGs — au pix
     * [Les Parties](#les_parties)
     * [Les Mesures](#les_mesures)
     * [Les Degrés](#les_degres)
-* [Nature du TAG](#natures)
-  * [Contenu du TAG](#second_mot)
-  * [Autres données de la ligne](#autres_data_ligne)
-  * [Les types de textes](#types_de_textes)
+    * [Les marques musicales diverses](#marques_musicales)
+  * [Autres éléments graphiques](#autres_elements_graphiques)
+    * [Les Lignes](#les_lignes)
+    * [Les Boites](#les_boites)
 * [Opérations sur les tags](#operation_on_tags)
   * [Verrouillage des tags](#lock_tags)
   * [Grouper et dégrouper des tags](#grouper_tags)
@@ -539,11 +540,13 @@ Le *code* de l'analyse est constitué simplement de *lignes*, les unes au-dessus
 1 ligne = 1 TAG
 ```
 
+Chaque ligne de *TAG* est composé d'un nombre de propriétés souvent définies par le signe égal — exception faite des deux premiers « mots » qui déterminent le plus souvent la *nature* et le *contenu* du *TAG*.
+
 Voyons plus en détail comment se compose une ligne du fichier `_tags_.js`{.path}, une ligne définissant un *tag* ou une partition.
 
 Cette ligne a le format général suivant :
 
-`nature`{.ital}[ `contenu`{.ital}][ `coor./dim.`{.ital}][ `option/type`{.ital}]
+`nature`{.ital}[ `contenu`{.ital}][ `propriétés`{.ital}][ `option/type`{.ital}]
 
 `nature`{.ital}
 : C'est la *nature* du TAG, ce qui détermine ce qu'il est, cadence, modulation, boite ou image, etc.
@@ -552,10 +555,11 @@ Cette ligne a le format général suivant :
 : C'est le *contenu* du TAG, parfois son *type* (pour les lignes par exemple). Pour un TAG de texte, c'est le texte, pour une modulation, c'est la tonalité vers laquelle on module.
 : Cf. [Note sur le contenu du TAG](#note_contenu_tag)
 
-`coor./dim.`{.ital}
-: Les coordonnées `x`{.prop} (position horizontale) et `y`{.prop} (position verticale) ainsi que les dimensions h (hauteur) et w (largeur) du TAG.
+`propriétés`{.ital}
+: Les propriétés du *TAG*, à commencer par ses coordonnées `x`{.prop} (position horizontale) et `y`{.prop} (position verticale) ainsi que les dimensions h (hauteur) et w (largeur) du TAG.
 : Ces coordonnées et ces dimensions se notent simplement en donnant les valeurs à l'aide d'un signe égal (`=`{.code}) **sans espace** : `x=12`{.code}, `y=20`{.code}, `w=12%`{.code}, `h=12mm`{.code} etc.
 : Cf. aussi [Note sur les coordonnées et dimensions](#note_coors_dims)
+: On peut également trouver les propriétés de couleur. Cf. [Note sur les couleurs](#note_couleurs)
 
 `option/type`{.ital}
 : Des options ou des types, en fonction de la nature du TAG. Nous y reviendrons.
@@ -657,6 +661,33 @@ En revanche, tous les autres caractères sont possibles, à l'exception des bala
 
 ![Modulation avec indication sous le trait](img/Modulation_Sous_dom.png)
 
+### Note sur les couleurs {#note_couleurs}
+
+Tous les *TAG*, à part les images, peuvent avoir une couleur d'écriture et une couleur de fond.
+
+Ces couleurs sont définies par les propriéts suivantes au choix, suivant votre convenance. La première (`c` pour la *couleur* et `bgc` pour la *couleur de fond* sont les moins difficiles pour *MuScaT* puisque ce sont celles qu'il utilise dans sa langue ;-)) :
+
++---------------------------+---------------------------+
+|                           |                           |
++---------------------------+---------------------------+
+| `couleur`{.ital}          | `c`{.prop}                |
++---------------------------+---------------------------+
+|                           | `couleur`{.prop}          |
++---------------------------+---------------------------+
+|                           | `color`{.prop}            |
++---------------------------+---------------------------+
+| `couleur de fond`{.ital}  | `bgc`{.prop}              |
++---------------------------+---------------------------+
+|                           | `fond`{.prop}             |
++---------------------------+---------------------------+
+|                           | `cf`{.prop}               |
++---------------------------+---------------------------+
+|                           | `background-color`{.prop} |
++---------------------------+---------------------------+
+
+Pour la valeur, on peut utiliser soit la forme littérale en anglais (`red`{.code}, `yellowgreen`{.code}, etc.) soit la forme hexadécimale (`12FF67`{.code}, `#12FF67`{.code}) soit la forme RVB (`rgb(100,23,45)`{.code}).
+
+`Dans la forme RVB/RGB, attention de ne laisser aucune espace !`{.warning}
 
 ---
 
@@ -1060,9 +1091,6 @@ Il faut impérativement définir la ligne :
 
 ```
 
-
-#### Types de textes {#types_de_textes}
-
 En dehors des textes « normaux » ou simples, on peut utiliser :
 
 * [Les parties](#les_parties)
@@ -1096,9 +1124,15 @@ degree 4# x=123 y=678
 
 ![Marque des degrés](img/mark_degree.png)
 
+#### Les marques musicales diverses {#marques_musicales}
+
+TODO: Développer cette partie.
+
 ---
 
-### Dessiner des lignes {#types_de_lignes}
+### Autres éléments graphiques {#autres_elements_graphiques}
+
+#### Les Lignes {#les_lignes}
 
 Les lignes se définissent par `line`{.str} ou `ligne`{.str}.
 
@@ -1133,6 +1167,11 @@ Les types peuvent être les suivants :
 
 On peut ensuite définir sa taille et sa position avec les lettres habituelles `x`{.prop} (position horizontale), `y`{.prop} (position verticale) et `w`{.prop} (largeur en pixels).
 
+#### Les Boites {#les_boites}
+
+Les boites permettent aussi bien d'entourer un élément que de le masquer. Elles se définissent avec les propriété `x`{.prop}, `y`{.prop}, `w`{.prop} pour la largeur, `h`{.prop} pour la hauteur et `bgc`{.prop} pour la couleur de fond (cf. [Note sur les couleurs](#note_couleurs)).
+
+Noter qu'une boite sans couleur, sur la table d'analyse, apparaitra toujours grisée — pour être visible et manipulable —, mais qu'elle sera invisible à l'impression ou dans le PDF.
 
 ---
 

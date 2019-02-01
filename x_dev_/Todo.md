@@ -1,9 +1,12 @@
 # Todo list
 
-* [BUG] Quand on met un texte à une boite (box) et qu'on veut le retirer, ça ne fonctionne pas.
+* Traduire les messages dans Tags.js
+* Voir comment mettre des marques, comme des respirations (virgule) ou des crescendos. Est-ce qu'il suffit de faire des textes plus gros. Utiliser le paramètres 'r' pour 'rotation'/'rotate' pour faire tourner l'élément en degré.
+* Implémenter l'option de toutes les dimensions : 'chord size', 'cadence size', 'modulation size', etc. qui détermine la taille de base des éléments.
 
 ## TEST
 
+* Revoir tous les tests
 * L'application des thèmes
 * Destruction d'un tag (et annulation de destruction)
 * Options : 'vertical line offset', 600, 'horizontal line offset', 100
@@ -16,8 +19,6 @@
   * Faire des thèmes différents et les présenter dans les options du manuel (ci-possible, une image de chaque thème)
   * faire un script permettant de relever leurs noms ? (peut-être juste pour le manuel)
 * Animation : peut-être une mise en évidence de la nouvelle insertion (flash) (voir à l'usure, car ça peut être fatiguant => une option)
-* Faire le script 'open' pour :
-  * ouvrir le _tags_.js dans un éditeur
 * Mémoriser les dernières analyses, mettre la dernière en courante, comme pour scriv
 * Lignes : essayer de faire des flèches avec "->" et "<-" et "<->" (en notant qu'une flèche vers le haut ou le bas est comme celles-ci). Utiliser ensuite les h et les w pour jouer sur l'angle ou utiliser plutôt une autre propriété pour la rotation
 * Pouvoir entrer le titre et d'autres informations pour la première page (ou même une image de première page). Si informations textuelles, créer cette première page avec un @media qui ne rendrait pas les éléments visibles par défaut sur la page, mais les imprimeraient.

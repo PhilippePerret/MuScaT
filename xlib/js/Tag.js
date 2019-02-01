@@ -127,9 +127,15 @@ Tag.prototype.to_line = function(){
  * C'est devenu la méthode incontournable puisqu'elle gère aussi
  * l'historique des opérations (pour les annulations)
  *
+ * Cf. La constante TAG_PROPERTIES_LIST
  */
 Tag.prototype.update = function(prop, new_value, options) {
   var my = CTags[this.id];
+
+  // 'c', pour la couleur, peut avoir été donné par 'color', on change
+  // 'color' en 'c' ici.
+  prop = my.own_prop_to_real_prop(prop);
+
   if(undefined == prop){
     // Appel de la méthode sans argument
     my.updateXY(); // ça fait tout, normalement
@@ -139,7 +145,7 @@ Tag.prototype.update = function(prop, new_value, options) {
     // Noter que même les pourcentages seront rejetés
   } else {
 
-    console.log(`Update de tag #${my.id}. Propriété ${prop} mise à ${new_value}`);
+    // console.log(`Update de tag #${my.id}. Propriété ${prop} mise à ${new_value}`);
 
     if (!options || !options.no_histo){
       H.add([new HistoProp(my, prop, my[prop], new_value)]) ;
@@ -177,12 +183,31 @@ Tag.prototype.update = function(prop, new_value, options) {
         my.updateLock(new_value);break;
       case 'destroyed':
         my.updateDestroyed(new_value);break;
+      case 'c':
+        my.updateColor(new_value);break;
+      case 'bgc':
+        my.updateBackgroundColor(new_value);break;
     }
   };
   my.litag.update(my.to_line());
 };
 
-
+/**
+ * Transforme la propriété donnée en son vrai nom et mémorise sa forme
+ * initiale.
+ * Par exemple, la couleur est enregistrée dans le paramètre 'c', mais
+ * elle peut être fournie avec 'color' ou 'couleur'. Dans ce cas, on
+ * transforme 'couleur' en 'c' et on mémorise que le nom du paramètre,
+ * pour la ligne, doit être `couleur` (pour que l'utilisateur ne soit pas
+ * perturbé — grâce à `c_name`).
+ */
+Tag.prototype.own_prop_to_real_prop = function(prop){
+  var my = this ;
+  var real_prop = TAG_PROPS_TO_REAL[prop];
+  if(undefined == real_prop){return prop};
+  my[`${real_prop}_name`] = prop ;
+  return real_prop;
+}
 
 // Reset de l'identifiant (quand copie, par exemple)
 Tag.prototype.reset_id = function() {
@@ -319,6 +344,11 @@ Tag.prototype.to_html = function() {
   // Largeur et hauteur
   css.push(my.w ? my.width_to_str() : 'auto');
   if (my.h){ css.push(my.height_to_str()) };
+
+  // Couleur et taille de caractère
+  my.fs   && css.push(`font-size:${my.c}`);
+  my.c    && css.push(`color:${my.c}`);
+  my.bgc  && css.push(`background-color:${my.bgc}`);
 
   css = css.join(';')+';';
 
@@ -494,7 +524,7 @@ Tag.prototype.updateW = function(neww){
 
 Tag.prototype.updateText = function(newt){
   var my = CTags[this.id];
-  if(undefined != newt){ my.text = newt };
+  my.text = newt; // même si null
   if(my.type == 'modulation'){
     var [t, st] = my.text.split('/');
     my.main_text = t || '' ;
@@ -506,8 +536,9 @@ Tag.prototype.updateText = function(newt){
   }
 }
 Tag.prototype.updateSrc = function(news){
-  if(undefined != news){ this.src = news };
-  this.domObj.src = `${IMAGES_FOLDER}/${this.src}` ;
+  var my = CTags[this.id];
+  my.src = news;
+  my.domObj.src = `${IMAGES_FOLDER}/${my.src}` ;
 }
 Tag.prototype.updateLock = function(new_value){
   // Note : je ne sais pas pourquoi, ici, je dois utiliser cette
@@ -531,6 +562,21 @@ Tag.prototype.updateDestroyed = function(value){
     my.build_and_watch();
   };
 };
+Tag.prototype.updateBackgroundColor = function(newc){
+  var my = CTags[this.id];
+  my.bgc = newc;
+  my.jqObj.css('background-color',markColorToReal(newc));
+};
+Tag.prototype.updateColor = function(newc){
+  var my = CTags[this.id];
+  my.c = newc;
+  my.jqObj.css('color', markColorToReal(newc));
+};
+function markColorToReal(mark){
+  if(mark.match(/^[a-f0-9]{6,6}$/i)){mark = '#'+mark};
+  return mark;
+};
+// ---------------------------------------------------------------------
 
 // Return un code pour le style de la ligne
 // Ce code fonctionne en trois caractères :
@@ -566,6 +612,7 @@ Tag.prototype.decompose = function(){
     // write('el = ' + el + ' / première lettre : "'+first_letter+'"');
     if (el.split('=').length > 1){
       varia = el.split('=')[0].trim();
+      varia = my.own_prop_to_real_prop(varia);
       value = el.split('=')[1].trim();
       value_int = Number.parseInt(value,10);
       switch (varia) {
@@ -590,8 +637,11 @@ Tag.prototype.decompose = function(){
             case 'line':
               my.type = TABLECOR_TYPES_LINE[value] || value ; break;
             default:
-              console.error("La propriété 'type' de la nature '"+my.nature+"' n'est pas traitée…")
-          }
+              console.error(t('prop-non-treated', {nature: my.nature}));
+          };
+        default:
+        // Pour toutes les autres valeurs
+        my[varia] = value ;
       }
     } else {
       // En fonction du nature de l'objet (image, cadence, etc.), un
@@ -642,16 +692,30 @@ Tag.prototype.recompose = function(options){
     aLine.push('type='+my.type);
   }
   // La position
-  my.x && aLine.push('x=' + parseInt(my.x));
-  my.y && aLine.push('y=' + parseInt(my.y));
-  my.h && aLine.push('h=' + my.h + (my.h_unit||'')) ;
-  my.w && aLine.push('w=' + my.w + (my.w_unit||'')) ;
+  ['x','y','c','bgc'].forEach(function(prop){
+    my[prop] && aLine.push(`${my.prop_username(prop)}=${my[prop]}`);
+  })
+  my.h && aLine.push(`${my.prop_username('h')}=${my.h}${my.h_unit||''}`);
+  my.w && aLine.push(`${my.prop_username('w')}=${my.w}${my.w_unit||''}`);
 
   return aLine ;
 }
 
 // ---------------------------------------------------------------------
 // Helpers
+
+/**
+ * Une valeur n'a pas été forcément donnée avec le nom exact de la
+ * propriété. Cette méthode permet de récupérer le nom initial de la
+ * propriété pour la rendre dans la ligne de code (pour que l'utilisateur
+ * s'y retrouver).
+ */
+Tag.prototype.prop_username = function(prop){
+  var my = this;
+  var real_name = my[`${prop}_name`];
+  if (undefined == real_name){return prop}
+  else { return real_name };
+};
 
 
 // Retourne la position sous forme humaine
@@ -687,7 +751,7 @@ Tag.prototype.onStopMoving = function(){
     // Noter qu'il ne faut pas le faire pour la copie, puisque l'élément
     // original ne bouge pas, dans ce cas-là.
     H.add([new HistoProp(my, 'x', prev_x, my.x), new HistoProp(my, 'y', prev_y, my.y)]) ;
-    message("Nouvelle position de l'élément #" + my.id + " (« "+(my.src || my.text)+" ») : " + my.hposition());
+    message(t('new-position-tag', {ref: my.ref(), position: my.hposition()}));
   }
   // Que ce soit pour une copie ou pour un déplacement, il faut actualiser
   // les données de l'élément
@@ -708,7 +772,7 @@ Tag.prototype.createCopy = function() {
   var dline   = my.recompose() ;
   var newtag  = CTags.push(new Tag(dline));
   newtag.build_and_watch();
-  message(`Nouveau tag créé sur la partition (id #${newtag.id}). N’oubliez pas de copier-coller sa ligne ou tout le code dans votre fichier _tags_.js.`);
+  message(t('new-tag-created', {ref: my.ref()}));
 }
 
 /**
@@ -719,8 +783,6 @@ Tag.prototype.createCopy = function() {
  * Attention : maintenant, la nature même du tag peut être différente, ce qui
  * fait qu'il peut être construit ou non. Il faut en tenir compte.
  */
- const TAG_PROPERTIES_LIST = ['x', 'y', 'h', 'w', 'type', 'nature', 'nature_init', 'text', 'src', 'locked'] ;
-
 Tag.prototype.compare_and_update_against = function(tagComp) {
   var my = this ;
   my.modified = false ;
@@ -845,7 +907,7 @@ Object.defineProperties(Tag.prototype,{
         if( ! this._nature ){
           if(this.is_comment_line || this.is_empty_line){return null};
           if(!NATURES[this.nature_init]){
-            error(`La nature de tag "${this.nature_init}" est inconnue. Merci de corriger le code.`);
+            error(t('unknown-nature', {nature: this.nature_init}));
             return null ;
           }
           this._nature = NATURES[this.nature_init].aka || this.nature_init ;
@@ -875,7 +937,7 @@ Object.defineProperties(Tag.prototype,{
   , domId: {
       get: function(){
         if(undefined == this._domId){
-          if(null == this.id){throw('Impossible de définir domId, l’identifiant du tag est null…')}
+          if(null == this.id){throw(t('unable-to-define-domid'))}
           this._domId = `tag${this.id}`
         }
         return this._domId ;

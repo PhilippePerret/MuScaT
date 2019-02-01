@@ -132,6 +132,7 @@ pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel" --from=mark
 <li><a href="#composition_dun_tag">Composition d’un tag</a>
 <ul>
 <li><a href="#note_contenu_tag">Note sur le contenu du TAG (texte)</a></li>
+<li><a href="#note_couleurs">Note sur les couleurs</a></li>
 </ul></li>
 <li><a href="#complete_list_tags">Liste complète de tous les TAGs</a>
 <ul>
@@ -149,13 +150,13 @@ pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel" --from=mark
 <li><a href="#les_parties">Les Parties</a></li>
 <li><a href="#les_mesures">Les Mesures</a></li>
 <li><a href="#les_degres">Les Degrés</a></li>
+<li><a href="#marques_musicales">Les marques musicales diverses</a></li>
 </ul></li>
-</ul></li>
-<li><a href="#natures">Nature du TAG</a>
+<li><a href="#autres_elements_graphiques">Autres éléments graphiques</a>
 <ul>
-<li><a href="#second_mot">Contenu du TAG</a></li>
-<li><a href="#autres_data_ligne">Autres données de la ligne</a></li>
-<li><a href="#types_de_textes">Les types de textes</a></li>
+<li><a href="#les_lignes">Les Lignes</a></li>
+<li><a href="#les_boites">Les Boites</a></li>
+</ul></li>
 </ul></li>
 <li><a href="#operation_on_tags">Opérations sur les tags</a>
 <ul>
@@ -536,9 +537,10 @@ pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel" --from=mark
 <h2 id="composition_dun_tag">Composition d’un tag</h2>
 <p>Le <em>code</em> de l’analyse est constitué simplement de <em>lignes</em>, les unes au-dessus des autres, qui déterminent les images et les tags. Chaque ligne est une image ou un tag (exception faite des lignes vides et des lignes de commentaire).</p>
 <pre class="center exergue"><code>1 ligne = 1 TAG</code></pre>
+<p>Chaque ligne de <em>TAG</em> est composé d’un nombre de propriétés souvent définies par le signe égal — exception faite des deux premiers « mots » qui déterminent le plus souvent la <em>nature</em> et le <em>contenu</em> du <em>TAG</em>.</p>
 <p>Voyons plus en détail comment se compose une ligne du fichier <code class="path">_tags_.js</code>, une ligne définissant un <em>tag</em> ou une partition.</p>
 <p>Cette ligne a le format général suivant :</p>
-<p><code class="ital">nature</code>[ <code class="ital">contenu</code>][ <code class="ital">coor./dim.</code>][ <code class="ital">option/type</code>]</p>
+<p><code class="ital">nature</code>[ <code class="ital">contenu</code>][ <code class="ital">propriétés</code>][ <code class="ital">option/type</code>]</p>
 <dl>
 <dt><code class="ital">nature</code></dt>
 <dd>C’est la <em>nature</em> du TAG, ce qui détermine ce qu’il est, cadence, modulation, boite ou image, etc.
@@ -548,12 +550,14 @@ pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel" --from=mark
 </dd>
 <dd>Cf. <a href="#note_contenu_tag">Note sur le contenu du TAG</a>
 </dd>
-<dt><code class="ital">coor./dim.</code></dt>
-<dd>Les coordonnées <code class="prop">x</code> (position horizontale) et <code class="prop">y</code> (position verticale) ainsi que les dimensions h (hauteur) et w (largeur) du TAG.
+<dt><code class="ital">propriétés</code></dt>
+<dd>Les propriétés du <em>TAG</em>, à commencer par ses coordonnées <code class="prop">x</code> (position horizontale) et <code class="prop">y</code> (position verticale) ainsi que les dimensions h (hauteur) et w (largeur) du TAG.
 </dd>
 <dd>Ces coordonnées et ces dimensions se notent simplement en donnant les valeurs à l’aide d’un signe égal (<code class="code">=</code>) <strong>sans espace</strong> : <code class="code">x=12</code>, <code class="code">y=20</code>, <code class="code">w=12%</code>, <code class="code">h=12mm</code> etc.
 </dd>
 <dd>Cf. aussi <a href="#note_coors_dims">Note sur les coordonnées et dimensions</a>
+</dd>
+<dd>On peut également trouver les propriétés de couleur. Cf. <a href="#note_couleurs">Note sur les couleurs</a>
 </dd>
 <dt><code class="ital">option/type</code></dt>
 <dd>Des options ou des types, en fonction de la nature du TAG. Nous y reviendrons.
@@ -621,6 +625,51 @@ pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel" --from=mark
 <figure>
 <img src="img/Modulation_Sous_dom.png" alt="Modulation avec indication sous le trait" /><figcaption>Modulation avec indication sous le trait</figcaption>
 </figure>
+<h3 id="note_couleurs">Note sur les couleurs</h3>
+<p>Tous les <em>TAG</em>, à part les images, peuvent avoir une couleur d’écriture et une couleur de fond.</p>
+<p>Ces couleurs sont définies par les propriéts suivantes au choix, suivant votre convenance. La première (<code>c</code> pour la <em>couleur</em> et <code>bgc</code> pour la <em>couleur de fond</em> sont les moins difficiles pour <em>MuScaT</em> puisque ce sont celles qu’il utilise dans sa langue ;-)) :</p>
+<table style="width:78%;">
+<colgroup>
+<col style="width: 38%" />
+<col style="width: 38%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code class="ital">couleur</code></td>
+<td><code class="prop">c</code></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td><code class="prop">couleur</code></td>
+</tr>
+<tr class="even">
+<td></td>
+<td><code class="prop">color</code></td>
+</tr>
+<tr class="odd">
+<td><code class="ital">couleur de fond</code></td>
+<td><code class="prop">bgc</code></td>
+</tr>
+<tr class="even">
+<td></td>
+<td><code class="prop">fond</code></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td><code class="prop">cf</code></td>
+</tr>
+<tr class="even">
+<td></td>
+<td><code class="prop">background-color</code></td>
+</tr>
+</tbody>
+</table>
+<p>Pour la valeur, on peut utiliser soit la forme littérale en anglais (<code class="code">red</code>, <code class="code">yellowgreen</code>, etc.) soit la forme hexadécimale (<code class="code">12FF67</code>, <code class="code">#12FF67</code>) soit la forme RVB (<code class="code">rgb(100,23,45)</code>).</p>
+<p><code class="warning">Dans la forme RVB/RGB, attention de ne laisser aucune espace !</code></p>
 <hr />
 <h2 id="complete_list_tags">Liste complète de tous les TAGs</h2>
 <p>Trouvez ci-dessous la liste complète de tous les tags.</p>
@@ -985,7 +1034,6 @@ mod Sol_min/(sous-dom.) 200 300
 <pre><code>
     texte Premier_couplet y= 50 x=200
 </code></pre>
-<h4 id="types_de_textes">Types de textes</h4>
 <p>En dehors des textes « normaux » ou simples, on peut utiliser :</p>
 <ul>
 <li><a href="#les_parties">Les parties</a></li>
@@ -1012,8 +1060,11 @@ mod Sol_min/(sous-dom.) 200 300
 <figure>
 <img src="img/mark_degree.png" alt="Marque des degrés" /><figcaption>Marque des degrés</figcaption>
 </figure>
+<h4 id="marques_musicales">Les marques musicales diverses</h4>
+<p>TODO: Développer cette partie.</p>
 <hr />
-<h3 id="types_de_lignes">Dessiner des lignes</h3>
+<h3 id="autres_elements_graphiques">Autres éléments graphiques</h3>
+<h4 id="les_lignes">Les Lignes</h4>
 <p>Les lignes se définissent par <code class="str">line</code> ou <code class="str">ligne</code>.</p>
 <p>Le premier élément définit le <code class="prop">type</code> de la ligne. On trouve les types suivants. Bien noter, ici, que le <code class="prop">type</code> ne se définit pas avec la propriété <code class="prop">type</code>, mais simplement en second mot. Dans le code suivant :</p>
 <div class="sourceCode" id="cb54"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb54-1" title="1">Tags <span class="op">=</span> <span class="vs">`</span></a>
@@ -1066,6 +1117,9 @@ mod Sol_min/(sous-dom.) 200 300
 </tbody>
 </table>
 <p>On peut ensuite définir sa taille et sa position avec les lettres habituelles <code class="prop">x</code> (position horizontale), <code class="prop">y</code> (position verticale) et <code class="prop">w</code> (largeur en pixels).</p>
+<h4 id="les_boites">Les Boites</h4>
+<p>Les boites permettent aussi bien d’entourer un élément que de le masquer. Elles se définissent avec les propriété <code class="prop">x</code>, <code class="prop">y</code>, <code class="prop">w</code> pour la largeur, <code class="prop">h</code> pour la hauteur et <code class="prop">bgc</code> pour la couleur de fond (ou <code class="prop">fond</code>, <code class="prop">cf</code> — pour [c]ouleur [f]ond —, <code class="prop">background-color</code>).</p>
+<p>Noter qu’une boite sans couleur, sur la table d’analyse, apparaitra toujours grisée, mais qu’elle sera invisible à l’impression ou dans le PDF.</p>
 <hr />
 <h2 id="operation_on_tags">Opérations sur les tags</h2>
 <ul>

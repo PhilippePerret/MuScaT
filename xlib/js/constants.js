@@ -116,3 +116,26 @@ const DEFAULT_SCORES_SPACES     = 0 ; // espace entre les images de système
 
 // Dossier (dynamique) des images de l'analyse courante
 const IMAGES_FOLDER = `_analyses_/${ANALYSE}/images`;
+
+// Les propriétés du tag. Ce sont les propriétés qui seront checkées au cours
+// de la comparaison quand un changement se produit.
+const TAG_PROPERTIES_LIST = [
+  'x', 'y', 'h', 'w', 'type', 'nature', 'nature_init', 'text', 'src', 'locked',
+  'c', 'bgc', 'fs'
+];
+// Table de correspondance entre un nom de propriété et son nom générique.
+// Par exemple, pour la couleur du fond, on peut mettre `fond`, mais la
+// propriété s'appelle toujours `bgc`
+// On mémorise ces informations dans `<nom propriété>_name` pour les redonner
+// telles quelles dans la ligne
+const TAG_PROPS_TO_REAL = {
+    'propriété donnée': 'propriété du tag'
+  , 'font-size': 'fs'
+  , 'taille-police': 'fs'
+  , 'fond': 'bgc'
+  , 'background-color': 'bgc'
+  , 'cf': 'bgc' // comme "Couleur de Fond"
+  , 'couleur': 'c'
+  , 'color': 'c'
+
+}

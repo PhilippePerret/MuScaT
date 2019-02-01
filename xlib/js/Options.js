@@ -51,7 +51,7 @@ const Options = {
     if (undefined == options){options = {}}
     if (undefined == OPTIONS[opt_id]){
       if(options.no_alert != true){
-        F.error(`L'option ${opt_id} est inconnue de nos services.`);
+        F.error('unknown-option', {option: opt_id});
       }
       return undefined ;
     } else if (OPTIONS[opt_id].aka){

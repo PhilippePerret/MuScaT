@@ -125,6 +125,12 @@ pre.sourceCode.javascript {
   font-weight: bold;
   margin: 1em 5em;
 }
+.warning {
+  font-family: inherit;
+  font-size: inherit;
+  font-style: inherit;
+  color: red;
+}
 
 .footer {
   display: block;

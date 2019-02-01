@@ -187,7 +187,7 @@ LITag.prototype.onKeyDown = function(ev){
       break;
     case 91:
       MEvents.with_meta_key = true;
-      console.log('CMD pressée');
+      // console.log('CMD pressée');
       break;
   }
 }

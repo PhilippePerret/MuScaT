@@ -9,9 +9,12 @@ Object.assign(MSG,{
 
   , 'choose-litag': "Vous devez choisir le tag à %{operation} dans la liste."
   , 'should-destroy': 'Dois-je vraiment détruire %{what}'
+  , 'thinks-to-align-required': 'Il faut choisir les éléments à aligner !'
 
   // === INFORMATION ===
   , 'code-lines-added': "Des lignes de code ont été ajoutées (%{motif}), le nouveau code a été copié dans le presse-papier pour pouvoir être collé dans votre fichier _tags_.js."
+  , 'new-position-tag': "Nouvelle position du tag %{ref} : %{position}."
+  , 'new-tag-created': "Nouveau tag créé sur la partition (%{ref}). N’oubliez pas de copier-coller sa ligne ou tout le code dans votre fichier _tags_.js."
 
   // TAGS
   , 'full-code-in-clipboard' : "Le code complet de votre partition tagguée est copié dans le presse-papier.\n\nIl vous suffit de le coller dans votre fichier _tags_.js en remplaçant tout le code (p.e. sélectionnez tout l'ancien code avant de coller le nouveau)."
@@ -37,9 +40,14 @@ Object.assign(MSG,{
   // TAGS
 
   , 'tags-undefined': 'Il faut définir les images et les « TAGs » à poser (dans le fichier `tag.js`)'
-
+  , 'prop-non-treated': "La propriété 'type' de la nature '%{nature}' n'est pas traitée…"
   , 'no-w-pour-modulation': 'La largeur d’une modulation ne se modifie pas. Utiliser `h` pour modifier la hauteur de sa ligne verticale.'
   , 'no-h-pour-cadence':    "La hauteur d'une cadence ne se modifie pas. Utiliser `w` pour modifier la longueur de son trait."
+  , 'unknown-nature': 'La nature de tag "%{nature}" est inconnue. Merci de corriger le code.'
+  , 'unable-to-define-domid': 'Impossible de définir domId, l’identifiant du tag est null…'
 
   , 'loading-module-failed': "Navré, mais le chargement du module « %{name} » a échoué…"
+
+  , 'unknown-option': "L'option '%{option}' est inconnue de nos services."
+
 });
