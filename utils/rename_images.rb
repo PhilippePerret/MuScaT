@@ -39,7 +39,9 @@ unless ARGV.include?('-h') || ARGV.include?('--help')
     puts t('operation-successful').vert
 
   rescue Exception => e
-    puts t('fatal-error', {err_msg: e.message, command: 'rename_images'}).blanc_sur_fond_rouge
+    unless e.message.empty?
+      puts t('fatal-error', {err_msg: e.message, command: 'rename_images'}).blanc_sur_fond_rouge
+    end
   end
 
 else

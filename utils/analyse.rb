@@ -7,6 +7,7 @@ require 'io/console'
 require 'fileutils'
 require_relative 'required'
 
+
 unless ARGV.include?('-h') || ARGV.include?('--help')
   begin
 
@@ -50,7 +51,7 @@ unless ARGV.include?('-h') || ARGV.include?('--help')
       choix = STDIN.getch()
       puts ''
       if choix == 'q'
-        exit 1
+        raise
       end
       choix = choix.ord - 97
       analyse_folder = File.join(ANALYSES_FOLDER,names[choix])
@@ -80,7 +81,9 @@ unless ARGV.include?('-h') || ARGV.include?('--help')
 
 
   rescue Exception => e
-    puts t('fatal-error', {err_msg: e.message, command: 'analyse'}).blanc_sur_fond_rouge
+    unless e.message.empty?
+      puts t('fatal-error', {err_msg: e.message, command: 'analyse'}).blanc_sur_fond_rouge
+    end
   end
 
 else

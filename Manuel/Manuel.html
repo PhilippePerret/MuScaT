@@ -129,7 +129,7 @@ pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel" --from=mark
 <li><a href="#toolbox">La boite à outils</a></li>
 <li><a href="#code_field">Le champ de code</a></li>
 </ul></li>
-<li><a href="#composition_dun_tag">Composition d’un tag</a>
+<li><a href="#composition_dun_tag">Composition détaillé d’un tag</a>
 <ul>
 <li><a href="#note_contenu_tag">Note sur le contenu du TAG (texte)</a></li>
 <li><a href="#note_couleurs">Note sur les couleurs</a></li>
@@ -355,59 +355,44 @@ pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel" --from=mark
 <h3 id="syn_def_analysis_elements">Créer les <em>TAGs</em> (accords, les chiffrages, les cadences et autres éléments d’analyse)</h3>
 <p>L’élément graphique de base de l’application <strong>MuScaT</strong> est le « TAG » (comme on en trouve sur les murs des villes). Une analyse avec <strong>MuScaT</strong> consiste à « tagguer » une partition (remarquez que les partitions elles-mêmes, ou les images de leurs systèmes, sont elles aussi des <em>TAGs</em>). C’est donc tout naturellement que le fichier qui va les définir, pour une analyse donnée, s’appelle <code class="path">_tags_.js</code>. Ce fichier se trouve en haut de votre dossier d’analyse.</p>
 <p>Il existe plusieurs moyens de définir ces <em>TAGs</em>. À vous de choisir celui qui vous convient le mieux, en sachant qu’on utilise en réalité plusieurs moyens au cours de l’analyse.</p>
-<dl>
-<dt>Dans le fichier <code class="path">_tags_.js</code> lui-même</dt>
-<dd><p>On peut tout à fait définir/créer les tags dans le fichier du code lui-même, dans la variable dédiée <code>Tags</code> :</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb7-1" title="1">Tags <span class="op">=</span> <span class="vs">`</span></a>
-<a class="sourceLine" id="cb7-2" title="2"><span class="vs">// On peut définir les tags ici.</span></a>
-<a class="sourceLine" id="cb7-3" title="3"><span class="vs">`</span><span class="op">;</span></a></code></pre></div>
-</dd>
-<dd>On pourra seulement, afin d’obtenir les coordonnées de ces tags, aller cliquer aux endroits voulus sur la table d’analyse — dans le navigateur. Les coordonnées <code class="prop">x</code> et <code class="prop">y</code> sont automatiquement collées dans le presse-papier.
-</dd>
-<dt>Dans le code sur le table d’analyse</dt>
-<dd>Avec l’option <code class="code">code</code> activée (<code>option('code');</code> en haut du fichier <code class="path">_tags_.js</code>), le code apparait à côté de la table d’analyse, dans le navigateur.
-</dd>
-<dd>Plusieurs moyens permettent alors de créer un nouveau <em>TAG</em> :
-</dd>
-<dd><ul>
-<li>Utiliser le bouton « + »,
+<h4 id="dans-le-fichier-_tags_.js-lui-même">Dans le fichier <code class="path">_tags_.js</code> lui-même</h4>
+<p>On peut tout à fait définir/créer les tags dans le fichier du code lui-même, dans la variable dédiée <code>Tags</code> :</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb7-1" title="1">  Tags <span class="op">=</span> <span class="vs">`</span></a>
+<a class="sourceLine" id="cb7-2" title="2"><span class="vs">  // On peut définir les tags ici.</span></a>
+<a class="sourceLine" id="cb7-3" title="3"><span class="vs">  `</span><span class="op">;</span></a></code></pre></div>
+<p>On pourra, afin d’obtenir les coordonnées de ces tags, aller cliquer aux endroits voulus sur la table d’analyse — dans le navigateur. Les coordonnées <code class="prop">x</code> et <code class="prop">y</code> sont automatiquement collées dans le presse-papier.</p>
+<h4 id="dans-le-code-sur-le-table-danalyse">Dans le code sur le table d’analyse</h4>
+<p>Avec l’option <code class="code">code</code> activée (<code>option('code');</code> en haut du fichier <code class="path">_tags_.js</code>), le code apparait à côté de la table d’analyse, dans le navigateur.</p>
+<p>Plusieurs moyens permettent alors de créer un nouveau <em>TAG</em> :</p>
 <ul>
-<li>Sélectionner une ligne de code et jouer <code class="shortcut">CMD Entrée</code>,</li>
-</ul></li>
+<li>soit : utiliser le bouton « + »,</li>
+<li>soit : sélectionner une ligne de code et jouer <code class="shortcut">CMD Entrée</code>.</li>
 </ul>
-</dd>
-<dt>En faisant des copies d’élément existants</dt>
-<dd>Un moyen très rapide de créer de nouveaux éléments est de les copier depuis la table d’analyse.
-</dd>
-<dd>Cela consiste à déplacer l’élément <strong>en tenant la touche ALT pressée</strong> puis de relâcher l’élément (la copie) à l’endroit voulu.
-</dd>
-<dd>Une copie est alors créée, qui peut être réglée comme n’importe quel <em>TAG</em>.
-</dd>
-<dt>Versions ultérieures</dt>
-<dd>Dans les versions ultérieures, il sera possible de créer le <em>TAG</em> de toutes pièces à partir de la <a href="#toolbox">boite à outils</a>.
-</dd>
-</dl>
-<p>On définit tous les autres éléments graphiques, tous les <em>tags</em> (pour le détail de la procédure, voir <a href="#composition_dun_tag">Composition d’un tag</a>, voir aussi : <a href="#complete_list_tags">la liste complète des tags</a>) : marque de parties, accords, chiffrages, numéros de portée, degrés de la gamme, cadences, textes divers, etc.</p>
-<p>Chacun des éléments, chaque « tag », va être représenté dans le code par une unique ligne.</p>
-<p>Une image de système (<code class="str">score</code>) pourra être :</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb8-1" title="1"></a>
-<a class="sourceLine" id="cb8-2" title="2">Tags <span class="op">=</span> <span class="vs">`</span></a>
-<a class="sourceLine" id="cb8-3" title="3"><span class="vs">// ... d&#39;autres données ici</span></a>
+<h4 id="en-faisant-des-copies-délément-existants">En faisant des copies d’élément existants</h4>
+<p>Un moyen très rapide — et donc très efficace — de créer de nouveaux éléments est de les copier depuis la table d’analyse.</p>
+<p>Cela consiste à déplacer l’élément <strong>en tenant la touche ALT pressée</strong> puis de relâcher l’élément (la copie) à l’endroit voulu.</p>
+<p>Une copie est alors créée, qui peut être réglée comme n’importe quel <em>TAG</em>.</p>
+<h4 id="versions-ultérieures">Versions ultérieures</h4>
+<p>Dans les versions ultérieures, il sera possible de créer le <em>TAG</em> de toutes pièces à partir de la <a href="#toolbox">boite à outils</a>.</p>
+<h4 id="aperçu-de-la-composition-dun-tag">Aperçu de la composition d’un <em>TAG</em></h4>
+<p>Chaque <em>TAG</em> est représenté dans le code (la variable <code class="code">Tags</code> du fichier <code class="path">_tags_.js</code>) par une unique ligne.</p>
+<p>Une image de système (<code class="str">score</code>) peut être :</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb8-1" title="1">Tags <span class="op">=</span> <span class="vs">`</span></a>
+<a class="sourceLine" id="cb8-2" title="2"></a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="vs">score systeme-1.png x=50 y=3098</span></a>
 <a class="sourceLine" id="cb8-4" title="4"></a>
-<a class="sourceLine" id="cb8-5" title="5"><span class="vs">score systeme-1.png x=50 y=3098</span></a>
-<a class="sourceLine" id="cb8-6" title="6"></a>
-<a class="sourceLine" id="cb8-7" title="7"><span class="vs">// ... d&#39;autres données là</span></a>
-<a class="sourceLine" id="cb8-8" title="8"><span class="vs">`</span><span class="op">;</span></a></code></pre></div>
-<p>Une modulation pourra être inscrite par :</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb9-1" title="1"></a>
-<a class="sourceLine" id="cb9-2" title="2">Tags <span class="op">=</span> <span class="vs">`</span></a>
-<a class="sourceLine" id="cb9-3" title="3"><span class="vs">// ... d&#39;autres données ici</span></a>
+<a class="sourceLine" id="cb8-5" title="5"><span class="vs">`</span><span class="op">;</span></a></code></pre></div>
+<p>Une modulation peut être inscrite par :</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb9-1" title="1">Tags <span class="op">=</span> <span class="vs">`</span></a>
+<a class="sourceLine" id="cb9-2" title="2"></a>
+<a class="sourceLine" id="cb9-3" title="3"><span class="vs">mod G_min x=150 y=539</span></a>
 <a class="sourceLine" id="cb9-4" title="4"></a>
-<a class="sourceLine" id="cb9-5" title="5"><span class="vs">mod G_min x=150 y=539</span></a>
-<a class="sourceLine" id="cb9-6" title="6"></a>
-<a class="sourceLine" id="cb9-7" title="7"><span class="vs">// ... d&#39;autres données là</span></a>
-<a class="sourceLine" id="cb9-8" title="8"><span class="vs">`</span><span class="op">;</span></a></code></pre></div>
-<p>Le mieux est de s’arranger pour définir ces tags à peu près en fonction des positions sur la table d’analyse (i.e. sur l’analyse). Si une cadence doit se produire sur le troisième système, il vaut mieux la définir après la ligne insérant l’image de ce troisième système (remarquez cependant qu’il n’y a aucune obligation là-dessus, vous pouvez aussi rassembler tous les accords d’un côté, toutes les cadences de l’autre, etc. à votre guise).</p>
+<a class="sourceLine" id="cb9-5" title="5"><span class="vs">`</span><span class="op">;</span></a></code></pre></div>
+<h4 id="pour-aller-plus-loin">Pour aller plus loin…</h4>
+<ul>
+<li><a href="#composition_dun_tag">Composition détaillé d’un tag</a>,</li>
+<li><a href="#complete_list_tags">Liste complète des tags</a>).</li>
+</ul>
 <h3 id="syn_ajustement_elements">Positionnement et dimensionnement des éléments graphiques</h3>
 <p>Une fois l’analyse désignée comme analyse courante, on ouvre le fichier <code class="path">_TABLE_ANALYSE_.html</code> dans Chrome (ou un autre navigateur, mais pas Firefox, qui ne sait pas imprimer plusieurs pages avec des éléments en position absolue…).</p>
 <figure>
@@ -567,7 +552,7 @@ pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel" --from=mark
 </table>
 <p>Notez que dès que vous sélectionnez un <em>TAG</em> dans le code, le <em>TAG</em> est aussitôt sélectionné sur la table d’analyse (la table est « scrollée » pour toujours rendre visible ce <em>TAG</em>). L’opération inverse est vraie : toute sélection de <em>TAG</em> sur la table d’analyse est aussitôt sélectionné et affiché dans le code.</p>
 <hr />
-<h2 id="composition_dun_tag">Composition d’un tag</h2>
+<h2 id="composition_dun_tag">Composition détaillé d’un tag</h2>
 <p>Le <em>code</em> de l’analyse est constitué simplement de <em>lignes</em>, les unes au-dessus des autres, qui déterminent les images et les tags. Chaque ligne est une image ou un tag (exception faite des lignes vides et des lignes de commentaire).</p>
 <pre class="center exergue"><code>1 ligne = 1 TAG</code></pre>
 <p>Chaque ligne de <em>TAG</em> est composé d’un nombre de propriétés souvent définies par le signe égal — exception faite des deux premiers « mots » qui déterminent le plus souvent la <em>nature</em> et le <em>contenu</em> du <em>TAG</em>.</p>

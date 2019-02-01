@@ -61,7 +61,9 @@ unless ARGV.include?('-h') || ARGV.include?('--help') || ARGV.empty?
     end
 
   rescue Exception => e
-    puts t('fatal-error', {err_msg: e.message, command: 'set'}).blanc_sur_fond_rouge
+    unless e.message.empty?
+      puts t('fatal-error', {err_msg: e.message, command: 'set'}).blanc_sur_fond_rouge
+    end
   end
 else
   puts_help('set')

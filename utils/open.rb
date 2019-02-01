@@ -60,7 +60,7 @@ unless ARGV.include?('-h') || ARGV.include?('--help') || ARGV.empty?
         choix = STDIN.getch()
         puts ''
         if choix == 'q'
-          exit 1
+          raise
         end
         choix = choix.ord - 97
         analyse_folder = File.join(ANALYSES_FOLDER,names[choix])
@@ -85,7 +85,9 @@ unless ARGV.include?('-h') || ARGV.include?('--help') || ARGV.empty?
 
 
   rescue Exception => e
-    puts t('fatal-error', {err_msg: e.message, command: 'open'}).blanc_sur_fond_rouge
+    unless e.message.empty?
+      puts t('fatal-error', {err_msg: e.message, command: 'open'}).blanc_sur_fond_rouge
+    end
   end
 
 else

@@ -37,7 +37,9 @@ unless ARGV.include?('-h') || ARGV.include?('--help') || WHAT.nil?
       puts t('export-to-pdf').vert
     end
   rescue Exception => e
-    puts t('fatal-error', {err_msg: e.message, command: 'update'}).blanc_sur_fond_rouge
+    unless e.message.empty?
+      puts t('fatal-error', {err_msg: e.message, command: 'update'}).blanc_sur_fond_rouge
+    end
   end
 
 else
