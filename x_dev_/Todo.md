@@ -1,5 +1,8 @@
 # Todo list
 
+* Quand on modifie un tag, on reste dedans, on ne passe pas au suivant
+* Comme avant, l'ajout d'un tag par copie doit s'insérer au bon endroit, pas à la fin du code.
+
 ## TEST
 
 * Revoir tous les tests

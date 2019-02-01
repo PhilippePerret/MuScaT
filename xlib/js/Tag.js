@@ -161,6 +161,8 @@ Tag.prototype.update = function(prop, new_value, options) {
         my.nature = new_value;break;
       case 'nature_init':
         my.nature_init = new_value;break;
+      case 'type':
+        my.updateType(new_value);break;
       case 'y':
       case 'top':
         my.updateY(new_value);break;
@@ -398,7 +400,6 @@ Tag.prototype.to_html = function() {
       return `<img id="${my.domId}" data-id="${my.id}" class="${classes.join(' ')}" src="${IMAGES_FOLDER}/${my.src}" style="${css}" />`
     case 'cadence':
     case 'text':
-      // classes.push('typed') ; // permet d'ajouter du texte après
       classes.push(my.type) ;
       switch (my.type) {
         case 'modulation':    return my.buildAsModulation(classes, css);
@@ -484,6 +485,12 @@ const MODUL_SOUS_TEXT_ATTRS = {
 // ---------------------------------------------------------------------
 // Méthodes de transformation
 
+Tag.prototype.updateType = function(newt){
+  var my = CTags[this.id];
+  if(my.type){my.jqObj.removeClass(my.type)};
+  my.type = newt;
+  if(my.type){my.jqObj.addClass(my.type)};
+};
 Tag.prototype.updateXY = function(){
   var my = this ;
   my.update('x', my.x);

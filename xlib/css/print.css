@@ -18,11 +18,12 @@
   {display: none;}
 
   span.tag {
-    opacity: 1!important; 
+    opacity: 1!important;
   }
   span.tag.box {
     background-color: white ;
-
   }
-
+  .locked {
+    opacity: 1!important;
+  }
 }
