@@ -1,6 +1,6 @@
 # Todo list
 
-* Traduire les messages dans Tags.js
+* Revoir les textes à traduire depuis Page.js
 * Voir comment mettre des marques, comme des respirations (virgule) ou des crescendos. Est-ce qu'il suffit de faire des textes plus gros. Utiliser le paramètres 'r' pour 'rotation'/'rotate' pour faire tourner l'élément en degré.
 * Implémenter l'option de toutes les dimensions : 'chord size', 'cadence size', 'modulation size', etc. qui détermine la taille de base des éléments.
 

@@ -161,13 +161,13 @@ Object.defineProperties(Flash,{
     return `
       <style type="text/css">
       #flash {position:fixed; z-index:2000; top:100px; left: 35%; width:30%; border-radius:0.5em; shadow: background-color:grey;box-shadow: 10px 10px 10px grey;}
-      #flash div.msg {padding:1em 2em; font-family: Avenir, Helvetica; font-size: 15pt;}
+      #flash div.msg {padding:1em 2em; font-family: Avenir, Helvetica; font-size: 11pt;}
       #flash #flash-notice {color: blue; background-color:#CCCCFF;}
       #flash #flash-warning {color: red; background-color: #FFCCCC; border: 1px solid red;}
       #flash #flash-ask {color: green; background-color: #CCFFCC; border: 1px solid green;}
       #flash #flash-buttons {text-align:right;padding-top:1em;background-color:white;padding:0.5em 1em;}
       #flash #flash-buttons #cancel-btn {float: left;}
-      #flash #flash-buttons .btn {font-size: 16pt; padding: 8px;}
+      #flash #flash-buttons .btn {font-size: 11.5pt; padding: 8px;}
       </style>
     `
   }}

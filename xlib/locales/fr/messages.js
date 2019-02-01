@@ -48,6 +48,8 @@ Object.assign(MSG,{
 
   , 'loading-module-failed': "Navré, mais le chargement du module « %{name} » a échoué…"
 
+  // OPTIONS
   , 'unknown-option': "L'option '%{option}' est inconnue de nos services."
+  , 'value-option-required': "Dans _tags_.js, il faut définir la valeur de l'option non booléenne '%{option}'."
 
 });

@@ -50,5 +50,6 @@ Object.assign(MSG,{
   , 'loading-module-failed': "Sorry, the loading of module « %{name} » failed…"
 
   , 'unknown-option': "'%{option}' option is unknown."
+  , 'value-option-required': "You must define, in your _tags_.js file, the value of '%{option}' option (non boolean)."
 
 });

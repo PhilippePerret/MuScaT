@@ -7,9 +7,9 @@
  OPTIONS = {
      'animation speed':             {boolean: false, value: null, default: 50}
    , 'vitesse animation':           {aka: 'animation speed'}
-   , 'code beside':                 {boolean: true, value: false}
-   , 'code à côté':                 {aka: 'code beside'}
-   , 'code':                        {aka: 'code beside'}
+   , 'code':                        {boolean: true, value: false}
+   , 'code beside':                 {aka: 'code'}
+   , 'code à côté':                 {aka: 'code'}
    , 'crop image':                  {boolean: true, value: false}
    , 'images PNG':                  {boolean: true, value: false} // true si on veut des noms de fichier ne png (pour convert par exemple)
    , 'découpe image':               {aka: 'crop image'}
@@ -51,7 +51,7 @@ const Options = {
     if (undefined == options){options = {}}
     if (undefined == OPTIONS[opt_id]){
       if(options.no_alert != true){
-        F.error('unknown-option', {option: opt_id});
+        F.error(t('unknown-option', {option: opt_id}));
       }
       return undefined ;
     } else if (OPTIONS[opt_id].aka){
@@ -75,7 +75,7 @@ const Options = {
         opt_id = dopt[1] ;
         // console.log('Traitement de opt_id: ', opt_id);
         if(undefined == OPTIONS[opt_id]){
-          F.error(`L'option ${opt_id} est inconnue de nos services !…`);
+          F.error(t('unknown-option', {option: opt_id}));
           continue;
         } else if (OPTIONS[opt_id].aka) {
           opt_id = OPTIONS[opt_id].aka ;
@@ -84,7 +84,7 @@ const Options = {
         if (doption.boolean) {
           OPTIONS[opt_id].value = true ;
         } else {
-          err_msg = `Dans _tags_.js, il faut définir la valeur de l'option non booléenne '${opt_id}'.` ;
+          err_msg = t('value-option-required', {option: opt_id});
           var nextopt = seq_options.next() ;
           if (nextopt.value){
             var valopt = nextopt.value[1] ;
@@ -171,5 +171,4 @@ const Options = {
       else {OPTIONS[k].value = null };
     }
   }
-
 }
