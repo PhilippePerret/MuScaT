@@ -1,1 +1,1 @@
-const ANALYSE="EssaisInPlace";
+const ANALYSE="Template";

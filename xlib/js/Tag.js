@@ -315,12 +315,12 @@ Tag.prototype.resize = function(prop, dim, mult, fin){
   var pas = (fin ? 1 : (5 * (mult ? 5 : 1))) * (dim ? -1 : 1) ;
   var unit = '';
   // Cas spécial de la hauteur avec 1) les images 2) les modulations
-  if (prop == 'h' && (my.is_image || my.is_modulation)) {
+  if (prop == 'h' && (my.is_image || my.is_modulation || !my.h)) {
     [my.h, my.h_unit] = my.getH();
     unit = my.h_unit;
   }
   // Cas spécial de la largeur avec les images
-  if (prop == 'w' && my.is_image){
+  if (prop == 'w' && (my.is_image || !my.w)){
     [my.w, my.w_unit] = my.getW();
     unit = my.w_unit;
   };
