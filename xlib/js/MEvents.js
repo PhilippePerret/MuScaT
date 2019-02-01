@@ -74,7 +74,7 @@ const MEvents = {
           case 40: // ALT + DOWN => diminuer en hauteur par le bas
             prop = this.w_is_pressed ? 'w' : 'h' ;
             sens = this.ARROWKEYS_SENS[ev.keyCode];
-            CTags.onEachSelected(function(itag){itag.set_dimension(prop, sens, ev.shiftKey)})
+            CTags.onEachSelected(function(itag){itag.resize(prop, sens, ev.shiftKey)})
             return stop(ev);
             break;
         }
@@ -89,7 +89,7 @@ const MEvents = {
         case 87: /*  w */
         case 72: /* h  */
           var prop = ev.which == 87 ? 'w' : 'h';
-          CTags.selection.set_dimension(prop, ev.altKey, ev.shiftKey, ev.ctrlKey);
+          CTags.selection.resize(prop, ev.altKey, ev.shiftKey, ev.ctrlKey);
           return stop(ev);
         case 88: /*  x */
         case 89: /*  y */

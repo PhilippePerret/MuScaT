@@ -310,7 +310,7 @@ Tag.prototype.scrollIfNotVisible = function(){
   my.domObj.scrollIntoView({behavior: 'smooth'});
 };
 
-Tag.prototype.set_dimension = function(prop, dim, mult, fin){
+Tag.prototype.resize = function(prop, dim, mult, fin){
   var my  = CTags[this.id];
   var pas = (fin ? 1 : (5 * (mult ? 5 : 1))) * (dim ? -1 : 1) ;
   var unit = '';
@@ -325,7 +325,7 @@ Tag.prototype.set_dimension = function(prop, dim, mult, fin){
     unit = my.w_unit;
   };
   // Finalement, on affecte la dimension
-  my.update(prop, `${my[prop]+pas}${unit}`);
+  my.update(prop, `${Number.parseInt(my[prop],10)+pas}${unit}`);
 };
 
 Tag.prototype.move = function(sens, mult, fin){
