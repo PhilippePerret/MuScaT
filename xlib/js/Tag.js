@@ -802,7 +802,8 @@ Tag.prototype.createCopy = function() {
   var my = this ;
   // Il faut créer un nouveau tag à partir de celui-ci
   var dline   = my.recompose() ;
-  var newtag  = CTags.push(new Tag(dline));
+  var newtag    = CTags.push(new Tag(dline));
+  var newlitag  = new LITag(newtag).build();
   newtag.build_and_watch();
   message(t('new-tag-created', {ref: my.ref()}));
 }

@@ -35,7 +35,7 @@ Elle est semi-graphique, et permet d'ajuster très finement les TAGs — au pix
   * [Inscrire les images-systèmes dans l'analyse](#syn_inscription_images_systemes)
   * [Préparer l'impression](#prepare_print)
     * [Ajout du titre, compositeur, etc.](#titre_et_auteur)
-  * [Ajouter les accords, les chiffrages, les cadences, tous les éléments d'analyse](#syn_def_analysis_elements)
+  * [Créer les *TAGs* (accords, les chiffrages, les cadences et autres éléments d'analyse)](#syn_def_analysis_elements)
   * [Positionner les éléments graphiques](#syn_ajustement_elements)
     * [Les lignes repères](#ligne_reperes)
     * [Note sur les coordonnées et dimensions](#note_coors_dims)
@@ -46,7 +46,7 @@ Elle est semi-graphique, et permet d'ajuster très finement les TAGs — au pix
   * [La Table d'analyse](#la_table_danalyse)
   * [La boite à outils](#toolbox)
   * [Le champ de code](#code_field)
-* [Composition d'un tag](#composition_dun_tag)
+* [Composition détaillé d'un tag](#composition_dun_tag)
   * [Note sur le contenu du TAG (texte)](#note_contenu_tag)
   * [Note sur les couleurs](#note_couleurs)
 * [Liste complète de tous les TAGs](#complete_list_tags)
@@ -300,43 +300,75 @@ C'est-à-dire que vous pouvez placer, en haut de votre définition de `Tags`{.pr
 Notez que pour ces « TAGs » il est inutile de préciser les positions. C'est le thème qui s'en charge (le thème par défaut est le thème « Muscat», évidemment). Mais vous pouvez tout à fait les déplacer pour les ajuster à votre guise, ou [choisir un autre thème](#option_theme).
 
 
-### Définir tous les éléments de l'analyse {#syn_def_analysis_elements}
+### Créer les *TAGs* (accords, les chiffrages, les cadences et autres éléments d'analyse) {#syn_def_analysis_elements}
 
-L'élément graphique de base de l'application **MuScaT** est le « TAG » (comme on en parle sur les murs des villes). Une analyse avec **MuScaT** consiste donc à « tagguer » une partition (remarquez que les partitions elles-mêmes, ou les images de leurs systèmes, sont aussi des « TAGs »). C'est la raison pour laquelle le fichier qui va les définir s'appelle `_tags_.js`{.path}.
+L'élément graphique de base de l'application **MuScaT** est le « TAG » (comme on en trouve sur les murs des villes). Une analyse avec **MuScaT** consiste à « tagguer » une partition (remarquez que les partitions elles-mêmes, ou les images de leurs systèmes, sont elles aussi des *TAGs*). C'est donc tout naturellement que le fichier qui va les définir, pour une analyse donnée, s'appelle `_tags_.js`{.path}. Ce fichier se trouve en haut de votre dossier d'analyse.
 
-On définit tous les autres éléments graphiques, tous les *tags* (pour le détail de la procédure, voir [Composition d'un tag](#composition_dun_tag), voir aussi : [la liste complète des tags](#complete_list_tags)) : marque de parties, accords, chiffrages, numéros de portée, degrés de la gamme, cadences, textes divers, etc.
+Il existe plusieurs moyens de définir ces *TAGs*. À vous de choisir celui qui vous convient le mieux, en sachant qu'on utilise en réalité plusieurs moyens au cours de l'analyse.
 
-Chacun des éléments, chaque « tag », va être représenté dans le code par une unique ligne.
+#### Dans le fichier `_tags_.js`{.path} lui-même
 
-Une image de système (`score`{.str}) pourra être :
+On peut tout à fait définir/créer les tags dans le fichier du code lui-même, dans la variable dédiée `Tags` :
 
 ```javascript
+  Tags = `
+  // On peut définir les tags ici.
+  `;
+```
 
+On pourra, afin d'obtenir les coordonnées de ces tags, aller cliquer aux endroits voulus sur la table d'analyse — dans le navigateur. Les coordonnées `x`{.prop} et `y`{.prop} sont automatiquement collées dans le presse-papier.
+
+#### Dans le code sur le table d'analyse
+
+Avec l'option `code`{.code} activée (`option('code');` en haut du fichier `_tags_.js`{.path}), le code apparait à côté de la table d'analyse, dans le navigateur.
+
+Plusieurs moyens permettent alors de créer un nouveau *TAG* :
+
+* soit : utiliser le bouton « + »,
+* soit : sélectionner une ligne de code et jouer `CMD Entrée`{.shortcut}.
+
+#### En faisant des copies d'élément existants
+
+Un moyen très rapide — et donc très efficace — de créer de nouveaux éléments est de les copier depuis la table d'analyse.
+
+Cela consiste à déplacer l'élément **en tenant la touche ALT pressée** puis de relâcher l'élément (la copie) à l'endroit voulu.
+
+Une copie est alors créée, qui peut être réglée comme n'importe quel *TAG*.
+
+#### Versions ultérieures
+
+Dans les versions ultérieures, il sera possible de créer le *TAG* de toutes pièces à partir de la [boite à outils](#toolbox).
+
+
+#### Aperçu de la composition d'un *TAG*
+
+Chaque *TAG* est représenté dans le code (la variable `Tags`{.code} du fichier `_tags_.js`{.path}) par une unique ligne.
+
+Une image de système (`score`{.str}) peut être :
+
+```javascript
 Tags = `
-// ... d'autres données ici
 
 score systeme-1.png x=50 y=3098
 
-// ... d'autres données là
 `;
-
 ```
 
-Une modulation pourra être inscrite par :
+Une modulation peut être inscrite par :
 
 ```javascript
-
 Tags = `
-// ... d'autres données ici
 
 mod G_min x=150 y=539
 
-// ... d'autres données là
 `;
 
 ```
 
-Le mieux est de s'arranger pour définir ces tags à peu près en fonction des positions sur la table d'analyse (i.e. sur l'analyse). Si une cadence doit se produire sur le troisième système, il vaut mieux la définir après la ligne insérant l'image de ce troisième système (remarquez cependant qu'il n'y a aucune obligation là-dessus, vous pouvez aussi rassembler tous les accords d'un côté, toutes les cadences de l'autre, etc. à votre guise).
+#### Pour aller plus loin…
+
+* [Composition détaillé d'un tag](#composition_dun_tag),
+* [Liste complète des tags](#complete_list_tags)).
 
 ### Positionnement  et dimensionnement des éléments graphiques {#syn_ajustement_elements}
 
@@ -532,7 +564,7 @@ Notez que dès que vous sélectionnez un *TAG* dans le code, le *TAG* est aussit
 ---
 
 
-## Composition d'un tag {#composition_dun_tag}
+## Composition détaillé d'un tag {#composition_dun_tag}
 
 Le *code* de l'analyse est constitué simplement de *lignes*, les unes au-dessus des autres, qui déterminent les images et les tags. Chaque ligne est une image ou un tag (exception faite des lignes vides et des lignes de commentaire).
 

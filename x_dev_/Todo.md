@@ -1,8 +1,5 @@
 # Todo list
 
-* [BUG] Refaire marcher la copie avec la touche ALT.
-  * Documenter la copie avec la touche ALT.
-
 ## TEST
 
 * Revoir tous les tests
