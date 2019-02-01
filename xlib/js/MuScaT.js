@@ -83,7 +83,7 @@ const MuScaT = {
 
     // Quand on clique sur la partition, en dehors d'un élément,
     // ça déselectionne tout
-    // $('#tags').on('click', function(ev){CTags.deselect_all()})
+    // $('#tags').on('click', function(ev){CTags.deselectAll()})
     if(!Options.get('crop image')){
       Page.table_analyse.on('click', $.proxy(Page, 'onClickOut'));
     }

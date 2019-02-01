@@ -35,21 +35,21 @@ const CTags = {
       return itag; // pour chainage
     }
 
-  , on_select: function(itag, with_maj){
+  , onSelect: function(itag, with_maj){
       var my = this ;
       if (itag.selected){
         // Si c'est une reselection de l'élément déjà sélectionné,
         // on le désélectionne
         my.remove_from_selection(itag);
       } else {
-        if (false == with_maj) { my.deselect_all() }
+        if (false == with_maj) { my.deselectAll() }
         my.selections.push(itag);
         itag.select();
         my.selection = itag;
       }
-    } // on_select
+    } // onSelect
 
-  , deselect_all: function(){
+  , deselectAll: function(){
       var my = this ;
       my.selections.forEach(function(el){el.deselect()})
       my.selections = new Array();

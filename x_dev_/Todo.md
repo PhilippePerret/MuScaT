@@ -1,6 +1,5 @@
 # Todo list
 
-* Comme avant, l'ajout d'un tag par copie doit s'insérer au bon endroit, pas à la fin du code.
 
 ## TEST
 

@@ -767,7 +767,7 @@ Tag.prototype.hposition = function(){
 // Méthodes évènementielles
 
 Tag.prototype.onStopMoving = function(){
-  var my = this ;
+  var my = CTags[this.id] ;
   var msg ;
   // Utile pour la copie
   var   prev_x = my.x
@@ -780,8 +780,12 @@ Tag.prototype.onStopMoving = function(){
   my.x = my.getX();
   my.y = my.getY();
 
+  var tagcopy;
   if (my.pour_copie){
-    my.createCopy();
+    // Si le tag courant est sélectionné, on le déselectionne
+    if(my.selected){CTags.onSelect(my)}
+    // On fait la copie
+    tagcopy = my.createCopy();
     // Il faut remettre le tag à sa place (seulement ici, pour que les valeurs
     // de x et y ci-dessus soit bien les nouvelles)
     my.x = prev_x ; my.y = prev_y ;
@@ -795,6 +799,8 @@ Tag.prototype.onStopMoving = function(){
   // Que ce soit pour une copie ou pour un déplacement, il faut actualiser
   // les données de l'élément
   my.updateXY();
+  // Il faudrait pouvoir sélectionner la copie, mais je n'y arrive pas…
+  // if(tagcopy){CTags.onSelect(tagcopy)};
 };
 
 Tag.prototype.onStartMoving = function(ev, ui){
@@ -810,9 +816,10 @@ Tag.prototype.createCopy = function() {
   // Il faut créer un nouveau tag à partir de celui-ci
   var dline   = my.recompose() ;
   var newtag    = CTags.push(new Tag(dline));
-  var newlitag  = new LITag(newtag).build();
+  var newlitag  = new LITag(newtag).build({after: my.litag.jqObj});
   newtag.build_and_watch();
   message(t('new-tag-created', {ref: my.ref()}));
+  return newtag;
 }
 
 /**
@@ -878,7 +885,7 @@ Tag.prototype.unobserve = function(){
 Tag.prototype.onClick = function(ev){
   var my = this ;
   var withMaj = ev.shiftKey;
-  CTags.on_select(my, ev.shiftKey);
+  CTags.onSelect(my, ev.shiftKey);
   Page.getCoordonates(ev);
 }
 Tag.prototype.select = function(){
