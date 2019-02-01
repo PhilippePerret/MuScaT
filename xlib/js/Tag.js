@@ -191,6 +191,8 @@ Tag.prototype.update = function(prop, new_value, options) {
         my.updateColor(new_value);break;
       case 'bgc':
         my.updateBackgroundColor(new_value);break;
+      case 'fs':
+        my.updateFontSize(new_value);break;
     }
   };
   my.litag.update(my.to_line());
@@ -361,11 +363,18 @@ Tag.prototype.to_html = function() {
   css.push(my.w ? my.width_to_str() : 'auto');
   if (my.h){ css.push(my.height_to_str()) };
 
-  // Couleur et taille de caractère
-  my.fs   && css.push(`font-size:${my.c}`);
+  // Couleurs
   my.c    && css.push(`color:${my.c}`);
   my.bgc  && css.push(`background-color:${my.bgc}`);
 
+  // Taille du caractère. Il peut être défini explicitement pour l'élément,
+  // (prioritaire) ou pour le type de tag
+  var fsize ;
+  if (my.fs){fsize = my.fs}
+  else if (fsize = my.defaultFontSize){
+    if(`${fsize}`.match(/^[0-9.]+$/)){fsize += 'px'};
+  };
+  fsize && css.push(`font-size:${fsize}`);
   css = css.join(';')+';';
 
   /*/
@@ -593,6 +602,12 @@ function markColorToReal(mark){
   if(mark.match(/^[a-f0-9]{6,6}$/i)){mark = '#'+mark};
   return mark;
 };
+
+Tag.prototype.updateFontSize = function(newc){
+  var my = CTags[this.id];
+  my.fs = newc ;
+  my.jqObj.css('font-size', my.fs || my.defaultFontSize || '')
+}
 // ---------------------------------------------------------------------
 
 // Return un code pour le style de la ligne
@@ -709,7 +724,7 @@ Tag.prototype.recompose = function(options){
     aLine.push('type='+my.type);
   }
   // La position
-  ['x','y','c','bgc'].forEach(function(prop){
+  ['x','y','c','bgc','fs'].forEach(function(prop){
     my[prop] && aLine.push(`${my.prop_username(prop)}=${my[prop]}`);
   })
   my.h && aLine.push(`${my.prop_username('h')}=${my.h}${my.h_unit||''}`);
@@ -970,6 +985,9 @@ Object.defineProperties(Tag.prototype,{
     }
   , litag:{
       get: function(){return ULTags[this.id];}
+    }
+  , defaultFontSize: {
+      get:function(){return Options.get(`${this.nature} size`, {no_alert: true})}
     }
   // Nature de la ligne du tag
   , real: {

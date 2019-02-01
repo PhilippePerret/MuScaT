@@ -33,6 +33,18 @@
    , 'position repère horizontal':  {aka: 'horizontal line offset'}
    , 'theme':                       {boolean: false, value: null}
    , 'vertical line offset':        {boolean: false, value: null}
+   // TOUTES LES DIMENSIONS
+   , 'cadence size':                {boolean: false, value: null}
+   , 'chord size':                  {boolean: false, value: null}
+   , 'degree size':                 {boolean: false, value: null}
+   , 'degre size':                  {aka: 'degree size'}
+   , 'harmony size':                {boolean: false, value: null}
+   , 'harmonie size':               {aka: 'harmony size'}
+   , 'measure size':                {boolean: false, value: null}
+   , 'mesure size':                 {aka:'measure size'}
+   , 'modulation size':             {boolean: false, value: null}
+   , 'part size':                   {boolean: false, value: null}
+   , 'text size':                   {boolean: false, value: null}
  }
 
  // pour ajouter une option

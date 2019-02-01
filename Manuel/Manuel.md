@@ -402,7 +402,7 @@ Toutes les autres propriétés de dimension et de position peuvent s'indiquer sa
     ... w=200
     ... w=20%
     ... h=23mm
-    ... z=2pt
+    ... fs=12pt
     `;
 ```
 
@@ -1001,11 +1001,15 @@ Le code ci-dessus produira :
 
 ![Marque accords, traits plats](img/Mark_accords.png)
 
+La taille du texte peut se régler de façon générale avec l'option `chord size`{.code} ou, pour un accord particulier, avec la propriété `fs`{.prop}. Pour des renseignements complets sur les options des tailles, cf. [Options de taille pour les textes](#options_size_for_texts).
+
 ### Les Chiffrages (Harmonie) {#les_harmonies}
 
 On indique un chiffrage d'accord, sous la partition, à l'aide de la *nature* `harmonie`{.str}, `harmony`{.str}, `chiffrage`{.str} ou `har`{.str}.
 
 Les recommandations sont les mêmes que pour les accords : aucune espace.
+
+La taille du texte peut se régler de façon générale avec l'option `harmony size`{.code} ou, pour un chiffrage particulier, avec la propriété `fs`{.prop}. Pour des renseignements complets sur les options des tailles, cf. [Options de taille pour les textes](#options_size_for_texts).
 
 #### Les Cadences {#les_cadences}
 
@@ -1020,6 +1024,8 @@ Tags=`
 > Remarquer que deux nouvelles propriétés apparaissent ici : le `type`{.code}, qui définit comme son nom l’indique le type de cadence (cf. la liste ci-dessous) et `w`{.prop}, la largeur, qui détermine ici la longueur du trait.
 
 On peut faire varier la longueur du trait, visuellement, on jouant sur la touche `w`{.prop} (pour augmenter la longueur du trait) et `ALT w`{.shortcut} (pour la diminuer). Les touches `MAJ`{.shortcut} et `CTRL`{.shortcut} servent respectivement à augmenter le pas ou à le diminuer (action plus précise).
+
+La taille du texte peut se régler de façon générale avec l'option `cadence size`{.code} ou, pour une cadence particulière, avec la propriété `fs`{.prop}. Pour des renseignements complets sur les options de tailles, cf. [Options de taille pour les textes](#options_size_for_texts).
 
 ##### Types de cadence {#les_types_de_cadences}
 
@@ -1069,9 +1075,11 @@ mod Sol_min/(sous-dom.) 200 300
 
 On peut modifier la hauteur du trait vertical qui rejoint la partition en modifiant la propriété `h`{.prop}. On peut donc la modifier en pressant la touche `h`{.prop} (augmente la longueur du trait) ou les touches `ALT h`{.shortcut} (diminiue la longueur du trait).
 
+La taille du texte peut se régler de façon générale avec l'option `modulation size`{.code} ou, pour une modulation particulière, avec la propriété `fs`{.prop}. Pour des renseignements complets sur les options des tailles, cf. [Options de taille pour les textes](#options_size_for_texts).
+
 ### Les autres types de textes {#les_textes}
 
-Ce que l'on appelle les « textes », ici, ce sont tous les textes hors des accords, modulations, chiffrages, etc. Ce sont vraiment des textes qu'on peut placer n'importe où. À commencer par la définition des grandes parties de la pièce (« Introduction », « Coda », etc.).
+Ce que l'on appelle spécifiquement les « textes », ici, ce sont tous les textes hors des accords, modulations, chiffrages, etc. Ce sont vraiment des textes qu'on peut placer n'importe où. À commencer par la définition des grandes parties de la pièce (« Introduction », « Coda », etc.).
 
 Dans un texte, il est impératif de remplacer toutes les espaces par des traits plats (on les obtient, sur mac, à l'aide de Maj+tiret).
 
@@ -1103,12 +1111,15 @@ Les marques de partie s'indiquent avec le tag `partie`{.str} (ou `par`{.str} ou 
 
 ![Marque de partie](img/marque_partie.png)
 
+La taille du texte peut se régler de façon générale avec l'option `part size`{.code} ou, pour une partie en particulier, avec la propriété `fs`{.prop}. Pour des renseignements complets sur les options des tailles, cf. [Options de taille pour les textes](#options_size_for_texts).
 
 #### Les mesures {#les_mesures}
 
 Les numéros de mesure, s'il ne sont pas indiqués sur la partition elle-même, peuvent être ajoutés à l'aide du tag `mesure`{.str} (ou `measure`{.str}, ou `mes`{.str}), suivant du numéro de mesure puis des coordonnées.
 
 ![Marque mesure](img/mark_mesure.png)
+
+La taille du texte peut se régler de façon générale avec l'option `mesure size`{.code} ou, pour un numéro de mesure en particulier, avec la propriété `fs`{.prop}. Pour des renseignements complets sur les options des tailles, cf. [Options de taille pour les textes](#options_size_for_texts).
 
 #### Les degrés {#les_degres}
 
@@ -1124,9 +1135,11 @@ degree 4# x=123 y=678
 
 ![Marque des degrés](img/mark_degree.png)
 
+La taille du texte peut se régler de façon générale avec l'option `degre size`{.code} ou, pour un degré en particulier, avec la propriété `fs`{.prop}. Pour des renseignements complets sur les options des tailles, cf. [Options de taille pour les textes](#options_size_for_texts).
+
 #### Les marques musicales diverses {#marques_musicales}
 
-TODO: Développer cette partie.
+TODO: Version suivante.
 
 ---
 
@@ -1347,13 +1360,14 @@ On peut régler la vitesse de l'animation à l'aide de l'option `vitesse animati
 
 * [Options de la langue](#choix_langue)
 * [Option « code à côté »](#option_code_beside)
-* [Option « découpe image »](#option_crop_image)
 * [Option « lignes de repère »](#option_line_of_reference)
   * [Position des lignes repères](#position_lignes_reperes)
+* [Options de taille pour les textes](#options_size_for_texts)
 * [Option « espacement images »](#option_space_between_scores)
 * [Option « marge haut »](#option_top_first_score)
 * [Option « marge gauche »](#option_left_margin)
 * [Thème](#option_theme)
+* [Option « découpe image »](#option_crop_image)
 * [Vitesse de l'animation](#vitesse_animation)
 
 Comme les tags et les partitions, les options se règlent dans le fichier `_tags_.js`{.path}. On utilise tout naturellement la fonction `option`{.code} (ou `options`{.code}) avec en argument les options à activer.
@@ -1470,6 +1484,53 @@ Exemple :
 
 ```
 
+
+### Options de taille pour les textes {#options_size_for_texts}
+
+Grâce aux options, on peut définir la taille par défaut de tous les types de texte de l'analyse (accords, cadences, etc.).
+
+```javascript
+// Dans _tags_.js
+option('<type> size', '<valeur>');
+```
+
+Par exemple :
+
+```javascript
+// Dans _tags_.js
+option('harmony size', '11pt');
+```
+
+Voici la table de toutes les options et ce qu'elles affectent.
+
++---------------------------+-----------------------+
+| L'option…                 | affecte…              |
++---------------------------+-----------------------+
+| `chord size`{.code}       | Les accords           |
++---------------------------+-----------------------+
+| `harmony size`{.code}     | Les chiffrages        |
++---------------------------+-----------------------+
+| `harmonie size`{.code}    | idem                  |
++---------------------------+-----------------------+
+| `cadence size`{.code}     | Les cadences          |
++---------------------------+-----------------------+
+| `modulation size`{.code}  | Les modulations       |
++---------------------------+-----------------------+
+| `measure size`{.code}     | Les numéros de mesures|
++---------------------------+-----------------------+
+| `mesure size`{.code}      | idem                  |
++---------------------------+-----------------------+
+| `degre size`{.code}       | Les degrés de gamme   |
++---------------------------+-----------------------+
+| `degree size`{.code}      | idem                  |
++---------------------------+-----------------------+
+| `part size`{.code}        | Les noms de parties   |
++---------------------------+-----------------------+
+| `text size`{.code}        | Tous les autres       |
+|                           | textes                |
++---------------------------+-----------------------+
+
+Noter que même si une taille est définie par les options, on peut fixer individuellement la taille des tags à l'aide de la propriété `fs`{.prop} (ou `font-size`{.prop}) dans la ligne de code du *TAG*.
 
 ### Option « Espacement entre images » {#option_space_between_scores}
 

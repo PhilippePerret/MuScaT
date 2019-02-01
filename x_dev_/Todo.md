@@ -1,9 +1,7 @@
 # Todo list
 
-* [BUG] Quand on veut supprimer une propriété (par exemple 'w'), ça ne fonctionne pas, et c'est normal, puisque la méthode ne vérifier que les propriétés dans un sens (la tag de comparaison).
-* [BUG] Quand on veut changer l'unité d'une 'w', ça ne fonctionne pas (essayer avec une image)
-* Voir comment mettre des marques, comme des respirations (virgule) ou des crescendos. Est-ce qu'il suffit de faire des textes plus gros. Utiliser le paramètres 'r' pour 'rotation'/'rotate' pour faire tourner l'élément en degré.
-* Implémenter l'option de toutes les dimensions : 'chord size', 'cadence size', 'modulation size', etc. qui détermine la taille de base des éléments.
+* [BUG] Refaire marcher la copie avec la touche ALT.
+  * Documenter la copie avec la touche ALT.
 
 ## TEST
 
@@ -12,8 +10,9 @@
 * Destruction d'un tag (et annulation de destruction)
 * Options : 'vertical line offset', 600, 'horizontal line offset', 100
 
-## Développements futurs
+## Développements versions suivantes
 
+* Voir comment mettre des marques, comme des respirations (virgule) ou des crescendos. Est-ce qu'il suffit de faire des textes plus gros. Utiliser le paramètres 'r' pour 'rotation'/'rotate' pour faire tourner l'élément en degré.
 * Quand on développera l'enregistrement des groupes, etc., on pourra simplement enregistrer l'index des lignes, dans le fichier _tags_.js (puisqu'on ne mémorise plus les IDs)
 * THÈMES
   * Documenter la fabrication d'un thème (programme ou utilisateur confirmé)
