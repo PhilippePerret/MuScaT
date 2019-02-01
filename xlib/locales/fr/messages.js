@@ -7,6 +7,7 @@ Object.assign(MSG,{
 
   // === DEMANDES ===
 
+  , 'please-fix-the-code': 'Merci de corriger le code de votre analyse.'
   , 'choose-litag': "Vous devez choisir le tag à %{operation} dans la liste."
   , 'should-destroy': 'Dois-je vraiment détruire %{what}'
   , 'thinks-to-align-required': 'Il faut choisir les éléments à aligner !'
@@ -15,6 +16,7 @@ Object.assign(MSG,{
   , 'code-lines-added': "Des lignes de code ont été ajoutées (%{motif}), le nouveau code a été copié dans le presse-papier pour pouvoir être collé dans votre fichier _tags_.js."
   , 'new-position-tag': "Nouvelle position du tag %{ref} : %{position}."
   , 'new-tag-created': "Nouveau tag créé sur la partition (%{ref}). N’oubliez pas de copier-coller sa ligne ou tout le code dans votre fichier _tags_.js."
+  , 'update-required': "Actualisation demandée…"
 
   // TAGS
   , 'full-code-in-clipboard' : "Le code complet de votre partition tagguée est copié dans le presse-papier.\n\nIl vous suffit de le coller dans votre fichier _tags_.js en remplaçant tout le code (p.e. sélectionnez tout l'ancien code avant de coller le nouveau)."
@@ -51,5 +53,6 @@ Object.assign(MSG,{
   // OPTIONS
   , 'unknown-option': "L'option '%{option}' est inconnue de nos services."
   , 'value-option-required': "Dans _tags_.js, il faut définir la valeur de l'option non booléenne '%{option}'."
+  , 'images-errors-occured': `Des erreurs sont survenues avec les images suivantes (introuvables) :%{rc}  - %{errors}`
 
 });

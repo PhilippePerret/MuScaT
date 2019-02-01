@@ -7,6 +7,7 @@ Object.assign(MSG,{
 
   // === DEMANDES ===
 
+  , 'please-fix-the-code': 'Please correct your analysis code.'
   , 'choose-litag': "Please choose the tag to %{operation} in the list."
   , 'should-destroy': 'Should I really destroy %{what}'
   , 'thinks-to-align-required': 'Choose the tags to align!'
@@ -15,6 +16,7 @@ Object.assign(MSG,{
   , 'code-lines-added': "Code lines has been added (%{motif}). New code copied in the clipboard to be pasted in your `_tags_.js` file. Do it right now! ;-)"
   , 'new-position-tag': "New position for tag %{ref}: %{position}."
   , 'new-tag-created': "New tag created on analysis table (%{ref}). Don't forget to copy-paste its code line or the whole analysis code in your '_tags_.js' file."
+  , 'update-required': "Update…"
 
   // TAGS
   , 'full-code-in-clipboard' : "The full code of your tagged analysis is copied in the clipboard.\n\nYou can paste it in your `_tags_.js` file (select the whole code and replace it)."
@@ -51,5 +53,6 @@ Object.assign(MSG,{
 
   , 'unknown-option': "'%{option}' option is unknown."
   , 'value-option-required': "You must define, in your _tags_.js file, the value of '%{option}' option (non boolean)."
+  , 'images-errors-occured': `Errors occured with following images (unfound):%{rc}  - %{errors}`
 
 });

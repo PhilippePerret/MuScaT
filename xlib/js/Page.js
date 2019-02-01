@@ -34,12 +34,11 @@ const Page = {
    * Raccourci : ALT+ENTRÉE
    */
   update: function(){
-    message('Actualisation demandée…');
+    message(t('update-required'));
     Tags = MuScaT.codeField().value ;
     MuScaT.update();
     message(' ');
   },
-
   /**
    * On doit s'assurer que les images sont bien chargées. Dans le cas
    * contraire, on signale une erreur à l'utilisateur.
@@ -87,7 +86,7 @@ const Page = {
         }
         errs.push(spath.reverse().slice(2, spath.length).join('/'));
       }
-      var msg = `Des erreurs sont survenues avec les images suivantes (introuvables) :${RC}  - ${errs.join(RC+'  - ')}${RC+RC}Merci de corriger le texte de votre analyse.`
+      var msg = `${t('images-errors-occured', {errors: errs.join(RC+'  - '), rc: RC})}${RC+RC}${t('please-fix-the-code')}`
       error(msg);
     }
   },

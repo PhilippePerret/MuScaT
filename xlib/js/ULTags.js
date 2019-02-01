@@ -73,7 +73,7 @@ const ULTags = {
       var my = this ;
       // Sans sélection, ne rien faire
       if(!my.selected && !my.activated){return};
-      console.log('Je dois peut-être actualiser le litag');
+      // console.log('Je dois peut-être actualiser le litag');
     }
     /**
      * Méthode appelée pour créer une nouvelle ligne sous la ligne
