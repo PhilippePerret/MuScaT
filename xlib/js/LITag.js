@@ -66,6 +66,24 @@ LITag.prototype.parse_and_compare = function(){
   // console.log('data:',data);
 };
 
+/**
+ * Auparavant, ce code était exécuté au blur du LITag. Mais maintenant,
+ * on veut rester dans le tag lorsqu'il a été modifié.
+ * La méthode retourne `true` si le code a été modifié et `false` dans
+ * le cas suivant.
+ */
+LITag.prototype.checkAndUpdate = function(){
+  var my = this;
+  my.newContent = my.jqObj.text();
+  if (my.iniContent != my.newContent) {
+    my.parse_and_compare(my.newContent);
+    my.iniContent = my.newContent;
+    return true; // pour dire que oui, il y a eu actualisation
+  } else {
+    return false;
+  }
+};
+
 // ---------------------------------------------------------------------
 //  MÉTHODES D'AFFICHAGE
 
@@ -133,10 +151,7 @@ LITag.prototype.onBlur = function(ev){
   console.log(`Blur de #${my.id}`);
   my.activated      = false ;
   ULTags.activated  = false ;
-  my.newContent = my.jqObj.text();
-  if (my.iniContent != my.newContent) {
-    my.parse_and_compare(my.newContent);
-  }
+  my.checkAndUpdate();
   my.jqObj.removeClass('selected');
   my.itag.desactivate();
   my.selected = null; // ULTags.selected reste à ce tag
@@ -149,7 +164,10 @@ LITag.prototype.onKeyUp = function(ev){
       return stop(ev); // ne rien faire, c'est pour sélectionner le code
     case 13: // Touche entrée => nouveau tag ou prendre en compte ?
       // console.log('Tabulation, je passe au suivant');
-      this.focus_next();return stop(ev);
+      // Pour la touche Entrée, on ne passe au tag suivant que si le tag
+      // courant n'a pas été modifié.
+      if(false == this.checkAndUpdate()){this.focus_next()};
+      return stop(ev);
     case 40: // Flèche bas
       this.focus_next();return stop(ev);
     case 91:
@@ -192,7 +210,7 @@ LITag.prototype.onKeyDown = function(ev){
   }
 }
 
-// /FIn des méthodes évènementielles
+// /Fin des méthodes évènementielles
 // ---------------------------------------------------------------------
 
 Object.defineProperties(LITag.prototype,{
