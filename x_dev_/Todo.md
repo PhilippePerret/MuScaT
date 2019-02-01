@@ -1,6 +1,7 @@
 # Todo list
 
-* Revoir les textes à traduire depuis Page.js
+* [BUG] Quand on veut supprimer une propriété (par exemple 'w'), ça ne fonctionne pas, et c'est normal, puisque la méthode ne vérifier que les propriétés dans un sens (la tag de comparaison).
+* [BUG] Quand on veut changer l'unité d'une 'w', ça ne fonctionne pas (essayer avec une image)
 * Voir comment mettre des marques, comme des respirations (virgule) ou des crescendos. Est-ce qu'il suffit de faire des textes plus gros. Utiliser le paramètres 'r' pour 'rotation'/'rotate' pour faire tourner l'élément en degré.
 * Implémenter l'option de toutes les dimensions : 'chord size', 'cadence size', 'modulation size', etc. qui détermine la taille de base des éléments.
 

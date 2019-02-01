@@ -59,7 +59,7 @@ LITag.prototype.parse_and_compare = function(){
   var txt = my.jqObj.text().trim().replace(/[\n\r]/g,'');
   my.jqObj.text(txt);
   var d = M.epure_and_split_raw_line(txt);
-  console.log(d);
+  // console.log(d);
   var tagprov = new Tag(d.data);
   tagprov.locked = d.locked;
   my.itag.compare_and_update_against(tagprov);

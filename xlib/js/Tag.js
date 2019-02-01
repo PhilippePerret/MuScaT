@@ -140,10 +140,14 @@ Tag.prototype.update = function(prop, new_value, options) {
     // Appel de la méthode sans argument
     my.updateXY(); // ça fait tout, normalement
 
-  } else if (undefined!=new_value && Number.parseInt(new_value,10) < 5) {
-    return ; // impossible de mettre des valeurs inférieures à 5
-    // Noter que même les pourcentages seront rejetés
   } else {
+
+    // impossible de mettre des valeurs inférieures à 5
+    // if (undefined != new_value && new_value.match(/^[0-9.]+$/) && Number.parseInt(new_value,10) < 5) {
+    if ('string' == typeof(new_value) && new_value.match(/^[0-9.]$/)){
+      new_value = Number.parseInt(new_value,10);
+    }
+    if ('number' == typeof(new_value) && new_value < 5) {new_value = 5};
 
     // console.log(`Update de tag #${my.id}. Propriété ${prop} mise à ${new_value}`);
 
@@ -222,16 +226,24 @@ Tag.prototype.reset_id = function() {
 // Méthodes de coordonnées
 
 Tag.prototype.width_to_obj = function(){
-  return {'width': `${this.w}${this.w_unit||'px'}`};
+  if(this.w){
+    return {'width': `${this.w}${this.w_unit||'px'}`};
+  } else {
+    return {'width':''};
+  }
+
 };
 Tag.prototype.width_to_str = function(){
-  return `width:${this.w}${this.w_unit||'px'}`;
+  if(this.w){return `width:${this.w}${this.w_unit||'px'}`;}
+  else {return ''}
 };
 Tag.prototype.height_to_obj = function(){
-  return {'height': `${this.h}${this.h_unit||'px'}`};
+  if(this.h){return {'height': `${this.h}${this.h_unit||'px'}`};}
+  else {return {'height':''}}
 };
 Tag.prototype.height_to_str = function(){
-  return `height:${this.h}${this.h_unit||'px'}`;
+  if(this.h){return `height:${this.h}${this.h_unit||'px'}`;}
+  else {return ''};
 };
 
 /**
@@ -239,7 +251,7 @@ Tag.prototype.height_to_str = function(){
  */
 Tag.prototype.get_value_and_unit = function(fullvalue) {
   var my = this._domId ? CTags[this.id] : this ;
-  if('number'==typeof(fullvalue)){
+  if('number' == typeof(fullvalue)){
     return [fullvalue, 'px'];
   } else {
     var arr = fullvalue.trim().match(/^([0-9\.]+)([a-z%]+)?$/);
@@ -261,6 +273,7 @@ Tag.prototype.getY = function() {
 // contenant [value, unit]
 Tag.prototype.getW = function(){
   var thew = this.hStyles()['width'] || this.jqObj.width();
+  console.log('thew',thew);
   if (thew == 'auto') { return [this.jqObj.width(), 'px'] }
   else { return this.get_value_and_unit(thew) };
 };
@@ -296,16 +309,19 @@ Tag.prototype.scrollIfNotVisible = function(){
 Tag.prototype.set_dimension = function(prop, dim, mult, fin){
   var my  = CTags[this.id];
   var pas = (fin ? 1 : (5 * (mult ? 5 : 1))) * (dim ? -1 : 1) ;
+  var unit = '';
   // Cas spécial de la hauteur avec 1) les images 2) les modulations
-  if (prop == 'h' && !my.h && (my.is_image || my.is_modulation)) {
+  if (prop == 'h' && (my.is_image || my.is_modulation)) {
     [my.h, my.h_unit] = my.getH();
+    unit = my.h_unit;
   }
   // Cas spécial de la largeur avec les images
-  if (prop == 'w' && my.is_image && !my.w){
+  if (prop == 'w' && my.is_image){
     [my.w, my.w_unit] = my.getW();
+    unit = my.w_unit;
   };
   // Finalement, on affecte la dimension
-  my.update(prop, my[prop] + pas);
+  my.update(prop, `${my[prop]+pas}${unit}`);
 };
 
 Tag.prototype.move = function(sens, mult, fin){
@@ -473,42 +489,42 @@ Tag.prototype.checkPositionned = function(){
   else {my.jqObj.addClass('warntag')};
 }
 Tag.prototype.updateY = function(newy){
-  if(undefined != newy){
-    if (newy < 5){return};
-    this.y = newy;
-  };
-  this.jqObj.css({'top': this.y + 'px'});
+  this.y = newy;
+  this.jqObj.css({'top': (this.y||100) + 'px'});
   this.checkPositionned();
 };
 Tag.prototype.updateX = function(newx){
-  if(undefined != newx){
-    if (newx < 5){return};
-    this.x = newx;
-  };
-  this.jqObj.css({'left': this.x + 'px'});
+  this.x = newx;
+  this.jqObj.css({'left': (this.x||100) + 'px'});
   this.checkPositionned();
 };
 Tag.prototype.updateH = function(newh){
   var my = this ;
   if(my.nature == 'cadence'){return F.error(t('no-h-pour-cadence'))};
-  if(undefined != newh) {
-    if (newh < 5){return};
+  if(newh === null){
+    my.h = null; my.h_unit = null;
+  } else {
     my.h = newh;
   };
   // Traitement particulier pour les modulations
   if(my.type == 'modulation'){
-    my.jqObj.find('svg')[0].setAttribute('height', this.h + 50) ;
-    var line = my.jqObj.find('svg line.vertline')[0] ;
-    line.setAttribute('y2', Number.parseInt(line.getAttribute('y1'),10) + this.h);
+    if(my.h){
+      my.jqObj.find('svg')[0].setAttribute('height', this.h + 50) ;
+      var line = my.jqObj.find('svg line.vertline')[0] ;
+      line.setAttribute('y2', Number.parseInt(line.getAttribute('y1'),10) + this.h);
+    }
   } else {
     this.jqObj.css(my.height_to_obj());
   }
 }
 Tag.prototype.updateW = function(neww){
+  // console.log('-> updateW');
   var my = CTags[this.id];
   if (my.type == 'modulation'){return F.error(t('no-w-pour-modulation'))};
-  if(undefined != neww){
-    if (neww < 5){return};
+  if(neww === null){
+    my.w = null;
+    my.w_unit = null;
+  } else {
     var [new_w, new_w_unit] = my.get_value_and_unit(neww);
     if(my.nature == 'cadence'){
       // Pour une cadence, la largeur doit ajouter vers la
@@ -517,10 +533,11 @@ Tag.prototype.updateW = function(neww){
       var newx = this.x - dif ;
       my.update('x', newx);
     }
-    my.w = new_w ;
+    my.w      = new_w;
+    my.w_unit = new_w_unit;
   }
   this.jqObj.css(my.width_to_obj()) ;
-}
+};
 
 Tag.prototype.updateText = function(newt){
   var my = CTags[this.id];
@@ -787,22 +804,23 @@ Tag.prototype.compare_and_update_against = function(tagComp) {
   var my = this ;
   my.modified = false ;
 
-  // console.log(tagComp);
-  // console.log('tagComp.real:', tagComp.real);
   if (tagComp.real && !my.built){
     // Pour pouvoir faire une "pré-construction" du tag, il faut donner
     // quelques propriétés tout de suite.
     my.nature_init = tagComp.nature_init ;
     my.type   = tagComp.type ;
-    // console.log('-> on doit construire le tag');
     my.build_and_watch();
   } else if (!tagComp.real && my.built){
-    // console.log('-> on doit détruire le tag');
     my.remove();
   };
   for(var prop of TAG_PROPERTIES_LIST){
+    are_different = tagComp[prop] != my[prop] ;
+    if('undefined' != typeof(my[`${prop}_unit`])){
+      are_different = are_different && tagComp[`${prop}_unit`] != my[`${prop}_unit`];
+      if(are_different){tagComp[prop] += tagComp[`${prop}_unit`]} ;
+    }
     // console.log(`Comparaison de ${prop} : ${my[prop]} / ${tagComp[prop]}`)
-    if (tagComp[prop] != my[prop]){
+    if (are_different){
       // console.log(`Actualisation de ${prop}`);
       my.update(prop, tagComp[prop]) ;
       my.modified = true ;
