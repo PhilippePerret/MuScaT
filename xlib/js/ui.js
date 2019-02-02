@@ -22,23 +22,26 @@ const UI = {
       return this.domTools.className == 'opened';
     }
 
+    /**
+     * Méthode appelée quand on ouvre la boite à outils
+     */
   , show_tools: function(){
       this.set_ui(); // pour les textes pas encore mis
       this.domTools.className = 'opened';
-      var group_vis = ['#fs_alignment','#btn-grouper','#btn-repartir'];
       var plusieurs_selections = CTags.selections.length > 1 ;
+
       if(plusieurs_selections){
+        // On affiche les outils multiselection
+        $('.multisel').show();
         // Pour tous les champs/textes qui en ont besoin
         $('.selected_count').text(CTags.selections.length);
         // Pour le verbe grouper ou dégrouper, suivant que la sélection est
         // grouper ou non
         $('#verb-grouper').text(CTags.selections[0].group ? t('Ungroup') : t('Group'));
         $('#verb-repartir').text(t('Arrange'));
-
-      };
-      var method = plusieurs_selections ? 'removeClass' : 'addClass' ;
-      group_vis.forEach(function(o){$(o)[method]('undisplayed')});
-      // $('#selecteds_count').innerHTML = CTags.selections.length;
+      } else {
+        $('.multisel').hide();
+      }
     }
 
   , hide_tools: function(){
@@ -77,7 +80,9 @@ const UI = {
       };
 
       // Réglage du listing de code (ULTags/LITag)
-      $('div#div-ultags')[Options.get('code')?'show':'hide']();
+      var with_code = Options.get('code');
+      $('div#div-ultags')[with_code?'show':'hide']();
+      $('#fs_code')[with_code?'hide':'show']();
       if(Options.get('code')){
         // On met le bouton pour obtenir le code dans le div des boutons
         $('#div-ultags-buttons').append($('#btn-code-in-clipboard'));

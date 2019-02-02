@@ -62,15 +62,15 @@
     -->
     <section id="tools" class="closed">
       <div id="picto_tools" onclick="$.proxy(UI,'toggle_tools')()">🛠</div>
-      <div class="masked">
+      <div id="tools-container" class="masked">
 
-        <fieldset id="fs_boutons">
+        <fieldset id="fs_boutons" class="multisel" style="display:none;">
           <legend><span class="t-operations"></span> <span class="t-sur"></span> <span class="the"></span> <span class="selected_count">0</span> <span class="t-selected-tags"></span></legend>
           <button type="button" id="btn-grouper" class="undisplayed" onclick="$.proxy(CTags,'grouper_selected')()"><span id="verb-grouper">Grouper</span></button>
           <button type="button" id="btn-repartir" class="undisplayed" onclick="$.proxy(CTags,'repartir_selected')()"><span id="verb-repartir">Répartir</span></button>
         </fieldset>
 
-        <fieldset id="fs_alignment" class="undisplayed">
+        <fieldset id="fs_alignment" class="multisel" style="display:none">
           <legend id="fs-alignment-legend">Alignement</legend>
           <span><span id="Align-the"></span> <span class="selected_count">0</span> <span class="t-selected-tags"></span></span>
           <select id="alignement">
@@ -89,7 +89,7 @@
         </fieldset>
 
         <fieldset id="fs_aide">
-          <a href="../Manuel.pdf" target="_new"><span class="t-Open"></span> <span class="t-the-help"></span></a>
+          <a href="Manuel/Manuel.pdf" target="_new"><span class="t-Open"></span> <span class="t-the-help"></span></a>
         </fieldset>
 
       </div>

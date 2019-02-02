@@ -28,11 +28,11 @@
    , 'marge haut':                  {aka: 'top first score'}
    , 'left margin':                 {boolean: false, value: null}
    , 'marge gauche':                {aka: 'left margin'}
-   , 'horizontal line offset':      {boolean: false, value: null}
+   , 'horizontal line offset':      {boolean: false, value: null, default: 46}
    , 'position repère vertical':    {aka: 'vertical line offset'}
    , 'position repère horizontal':  {aka: 'horizontal line offset'}
    , 'theme':                       {boolean: false, value: null}
-   , 'vertical line offset':        {boolean: false, value: null}
+   , 'vertical line offset':        {boolean: false, value: null, default: 42}
    // TOUTES LES DIMENSIONS
    , 'cadence size':                {boolean: false, value: null}
    , 'chord size':                  {boolean: false, value: null}

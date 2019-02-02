@@ -4,16 +4,11 @@ body {
   width: 21.01cm;
   background-color: #DDDDDD;
 }
-section#tools {
-  background-color: #CCFFCC;
-  text-align: left;
-  position: fixed;
-  border-radius: 1em;
-  text-align: left;
-  padding:0.3em;
-  left: 10px;
-  top: 10px;
-  z-index: 1000; /* au-dessus de tout */
+
+a, a:link, a:hover, a:visited {
+  text-decoration: none;
+  color: #000099;
+  font-family: Arial, Helvetica;
 }
 
 .displayed {display: block;}
@@ -30,6 +25,47 @@ span#analyse_name {
   font-style: italic;
 }
 
+section#tools {
+  background-color: #CCFFCC;
+  text-align: left;
+  position: fixed;
+  border-radius: 1em;
+  text-align: left;
+  padding:  0.8em;
+  left: 10px;
+  top: 10px;
+  z-index: 1000; /* au-dessus de tout */
+}
+section#tools.closed {
+  padding: 0.3em;
+}
+/* Quand les outils sont affichés */
+section#tools.opened {
+  /* background-color: #EEEEEE; */
+  background-color: #666666;
+  min-width: 250px;
+  min-height: 300px;
+}
+
+section#tools div#tools-container
+{
+  background-color: #EEEEEE;
+  border: 2px solid #222222;
+  min-height: 250px;
+}
+
+section#tools fieldset {
+  margin: 1em 0;
+  border-width: 1px;
+  border-color: #CCCCCC;
+}
+section#tools fieldset legend {
+  font-style: italic;
+  color: #555555;
+}
+section#tools fieldset button {
+  margin: 0.5em 0;
+}
 /* Quand les outils sont masqués */
 section#tools.closed div#picto_tools {
   display: block;
@@ -38,10 +74,6 @@ section#tools.closed .masked {
   display: none;
 }
 
-/* Quand les outils sont affichés */
-section#tools.opened {
-  background-color: #EEEEEE;
-}
 section#tools.opened .masked {
   display: block;
   text-align: left;
