@@ -7,7 +7,7 @@
  OPTIONS = {
      'animation speed':             {boolean: false, value: null, default: 50}
    , 'vitesse animation':           {aka: 'animation speed'}
-   , 'code':                        {boolean: true, value: false}
+   , 'code':                        {boolean: true, value: false, default: false}
    , 'code beside':                 {aka: 'code'}
    , 'code à côté':                 {aka: 'code'}
    , 'crop image':                  {boolean: true, value: false}

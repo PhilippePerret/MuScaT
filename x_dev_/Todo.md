@@ -1,6 +1,6 @@
 # Todo list
 
-* [BUG] Quand on n'utilise pas l'option 'code', la liste des lignes ne doit pas être affichée
+* Améliorer l'aspect de la boite à outils
 * [BUG] On ne peut pas rentrer les w et h sans les unités
 * [BUG] Si on clique sur ENTRÉE pour valider un changement et qu'on fait FLÈCHE BAS, ça va deux plus bas au lieu d'un.
 

@@ -76,7 +76,9 @@ const UI = {
         $('body').append(`<div class="page-break" style="top:${top}px;"></div>`);
       };
 
-      if(Options.get('code beside')){
+      // Réglage du listing de code (ULTags/LITag)
+      $('div#div-ultags')[Options.get('code')?'show':'hide']();
+      if(Options.get('code')){
         // On met le bouton pour obtenir le code dans le div des boutons
         $('#div-ultags-buttons').append($('#btn-code-in-clipboard'));
       }

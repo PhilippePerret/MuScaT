@@ -82,11 +82,6 @@ const MuScaT = {
     if(!Options.get('crop image')){
       Page.table_analyse.on('click', $.proxy(Page, 'onClickOut'));
     }
-    // Si l'option 'code beside' a été activée, il faut préparer la
-    // page
-    if (Options.get('code beside')){
-      Page.set_code_beside();
-    }
 
     // Dans tous les cas, on construit la liste des liTags
     ULTags.build();
