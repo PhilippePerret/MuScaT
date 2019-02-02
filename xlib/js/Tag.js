@@ -159,9 +159,9 @@ Tag.prototype.update = function(prop, new_value, options) {
     // actualiser
     switch (prop) {
       case 'nature':
-        my.nature = new_value;break;
+        throw('On ne peut pas changer directement la nature d’un tag…');
       case 'nature_init':
-        my.nature_init = new_value;break;
+        my.updateNatureInit(new_value);break;
       case 'type':
         my.updateType(new_value);break;
       case 'y':
@@ -487,7 +487,17 @@ const MODUL_SOUS_TEXT_ATTRS = {
 
 // ---------------------------------------------------------------------
 // Méthodes de transformation
-
+Tag.prototype.updateNatureInit = function(newn){
+  var my = CTags[this.id];
+  my.jqObj.removeClass(my.nature);
+  delete my._data_nature ;
+  delete my._nature;
+  my.nature_init = newn;
+  // Pour gérer les changements importants de nature (modulation, image, etc.),
+  // on ne prend aucun risque, on reconstruit toujours le tag dès que sa nature
+  // change.
+  if(my.built){my.jqObj.replaceWith(my.to_html())};
+};
 Tag.prototype.updateType = function(newt){
   var my = CTags[this.id];
   if(my.type){my.jqObj.removeClass(my.type)};
@@ -857,7 +867,9 @@ Tag.prototype.compare_and_update_against = function(tagComp) {
       are_different = !are_different && (tagComp[`${prop}_unit`]||'px') != my[`${prop}_unit`];
       if(are_different){tagComp[prop] += tagComp[`${prop}_unit`]||''} ;
     }
+
     if (are_different){
+      console.log('---> update', prop);
       my.update(prop, tagComp[prop]) ;
       my.modified = true ;
     }

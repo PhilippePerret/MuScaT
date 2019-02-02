@@ -119,8 +119,9 @@ const IMAGES_FOLDER = `_analyses_/${ANALYSE}/images`;
 
 // Les propriétés du tag. Ce sont les propriétés qui seront checkées au cours
 // de la comparaison quand un changement se produit.
+// Note : le type doit être traité avant 'nature_init'
 const TAG_PROPERTIES_LIST = [
-  'x', 'y', 'h', 'w', 'type', 'nature', 'nature_init', 'text', 'src', 'locked',
+  'x', 'y', 'h', 'w', 'text', 'src', 'type', 'nature_init', 'locked',
   'c', 'bgc', 'fs'
 ];
 // Table de correspondance entre un nom de propriété et son nom générique.
