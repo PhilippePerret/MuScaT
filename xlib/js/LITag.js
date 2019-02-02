@@ -236,10 +236,11 @@ LITag.prototype.onKeyDown = function(ev){
       return stop(ev);
     case 40: // Flèche bas
       if (MEvents.with_meta_key){
+        // Pour bouger la ligne
         this.jqObj.insertAfter(this.jqObj.next());
         this.jqObj.focus();
       } else {
-        this.focus_next();
+        // Ne rien faire, c'est le keyUp qui fait passer au suivant
       }
       return stop(ev);
     case 13:

@@ -1,9 +1,5 @@
 # Todo list
 
-* [BUG] Si on clique sur ENTRÉE pour valider un changement et qu'on fait FLÈCHE BAS, ça va deux plus bas au lieu d'un.
-  * Ça se produit avec les flèches down, plutôt.
-
-
 ## TEST
 
 * Revoir tous les tests
