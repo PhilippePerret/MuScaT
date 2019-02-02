@@ -185,3 +185,13 @@ fieldset#fs_boutons {
 fieldset#fs_boutons button {
   display: block;
 }
+
+/* Juste une "viseur", pour le développement, pour voir où on clique,
+  ou plus exactement les coordonnées x/y comprises */
+div#visor {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: orange;
+  z-index: 3000;
+}

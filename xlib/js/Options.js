@@ -32,6 +32,8 @@
    , 'position repère vertical':    {aka: 'vertical line offset'}
    , 'position repère horizontal':  {aka: 'horizontal line offset'}
    , 'theme':                       {boolean: false, value: null}
+   , 'visor':                       {boolean: true, value: null, default: false}
+   , 'viseur':                      {aka: 'visor'}
    , 'vertical line offset':        {boolean: false, value: null, default: 42}
    // TOUTES LES DIMENSIONS
    , 'cadence size':                {boolean: false, value: null}

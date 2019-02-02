@@ -1,14 +1,19 @@
 # MuScaT<br>Manuel d'utilisation
 
 <!--
-Pour actualiser le PDF
+Pour actualiser le PDF, jouer simplement :
 
+  > mus update manuel
+
+OU, plus compliqué
 1. Jouer cette commande dans le Terminal
 
 pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel" --from=markdown --output=Manuel.html;open Manuel.html;
 
 2. Exporter le fichier en PDF (Safari offre un menu directement dans « Fichier »)
 -->
+
+[Github de MuScaT]: https://github.com/PhilippePerret/MuScaT
 
 ## Introduction (histoire)
 
@@ -105,7 +110,7 @@ Après ce bref aperçu des étapes de la fabrication d'une analyse, abordons-en 
 
 ### Chargement de l'application **MuScaT** {#download_muscat}
 
-La toute première chose à faire, bien sûr, est de charger **MuScaT**. Pour le moment, on peut le faire par le biais de son [repository Github de **MuScaT**](https://github.com/PhilippePerret/MuScaT).
+La toute première chose à faire, bien sûr, est de charger **MuScaT**. Pour le moment, on peut le faire par le biais de son [repository Github de **MuScaT**][Github de MuScaT].
 
 Il suffit de cliquer sur le bouton « Clone or download »,
 
@@ -1401,6 +1406,7 @@ On peut régler la vitesse de l'animation à l'aide de l'option `vitesse animati
 * [Thème](#option_theme)
 * [Option « découpe image »](#option_crop_image)
 * [Vitesse de l'animation](#vitesse_animation)
+* [Option « Viseur de position »](#position_visor)
 
 Comme les tags et les partitions, les options se règlent dans le fichier `_tags_.js`{.path}. On utilise tout naturellement la fonction `option`{.code} (ou `options`{.code}) avec en argument les options à activer.
 
@@ -1658,6 +1664,13 @@ Type : un nombre de 1 à 100.
 `1`{.num} correspond au plus lent, `100`{.num} au plus rapide.
 
 Pour le détail, cf. [animation d'une analyse](#animation_analyse)
+
+
+### Option « Viseur de position » {#position_visor}
+
+C'est plutôt un outil de développement (pour implémenter l'application), qui affiche un rectangle orange à l'endroit du click (un peu plus en haut et à gauche).
+
+Mais il peut être utile parfois, pour signaler un problème, lorsque ce « viseur » se positionne trop loin de la position cliquée. Si le problème se reproduit, vous pouvez soumettre une « issue » (un problème, une erreur) sur le [Github de MuScaT][].
 
 ---
 

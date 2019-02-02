@@ -82,8 +82,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <body>
 <h1 id="muscat-manuel-dutilisation">MuScaT<br>Manuel d’utilisation</h1>
 <!--
-Pour actualiser le PDF
+Pour actualiser le PDF, jouer simplement :
 
+  > mus update manuel
+
+OU, plus compliqué
 1. Jouer cette commande dans le Terminal
 
 pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel" --from=markdown --output=Manuel.html;open Manuel.html;
@@ -1289,6 +1292,7 @@ mod Sol_min/(sous-dom.) 200 300
 <li><a href="#option_theme">Thème</a></li>
 <li><a href="#option_crop_image">Option « découpe image »</a></li>
 <li><a href="#vitesse_animation">Vitesse de l’animation</a></li>
+<li><a href="#position_visor">Viseur de position</a></li>
 </ul>
 <p>Comme les tags et les partitions, les options se règlent dans le fichier <code class="path">_tags_.js</code>. On utilise tout naturellement la fonction <code class="code">option</code> (ou <code class="code">options</code>) avec en argument les options à activer.</p>
 <p>Ci-dessous, par exemple, on active l’option <code class="code">guide</code> qui affiche deux lignes repère déplaçables pour aligner des éléments à la souris (ou par magnétisation).</p>
@@ -1470,6 +1474,9 @@ mod Sol_min/(sous-dom.) 200 300
 <p>Type : un nombre de 1 à 100.</p>
 <p><code class="num">1</code> correspond au plus lent, <code class="num">100</code> au plus rapide.</p>
 <p>Pour le détail, cf. <a href="#animation_analyse">animation d’une analyse</a></p>
+<h3 id="position_visor">Option « Viseur de position »</h3>
+<p>C’est plutôt un outil de développement (pour implémenter l’application), qui affiche un rectangle orange à l’endroit du click (un peu plus en haut et à gauche).</p>
+<p>Mais il peut être utile parfois, pour signaler un problème, lorsque ce « viseur » se positionne trop loin de la position cliquée. Si le problème se reproduit, vous pouvez soumettre une « issue » (un problème, une erreur) sur le <a href="https://github.com/PhilippePerret/MuScaT">Github de MuScaT</a>.</p>
 <hr />
 <h2 id="les_utilitaires">Utilitaires</h2>
 <p>L’application <strong>MuScaT</strong>, comme tout bon vin, est fournie avec quelques utilitaires pour se faciliter la vie, en tout cas sur Mac. En voici la liste avec leur mode d’utilisation.</p>

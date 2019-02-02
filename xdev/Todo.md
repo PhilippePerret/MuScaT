@@ -2,10 +2,7 @@
 
 ## TEST
 
-* Revoir tous les tests
-* L'application des thèmes
-* Destruction d'un tag (et annulation de destruction)
-* Options : 'vertical line offset', 600, 'horizontal line offset', 100
+Voir sur githut avec `ghi list`
 
 ## Développements versions suivantes
 
