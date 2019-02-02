@@ -84,6 +84,7 @@ const ULTags = {
       var itag  = new Tag('');
       CTags.push(itag);
       var litag = new LITag(itag);
+      litag.new = true ;
       if (litagBefore){
         litagBefore.jqObj.blur();
         litag.build({after: litagBefore.jqObj});
@@ -105,6 +106,44 @@ const ULTags = {
   , first: function(){
       return this.index(0);
     }
+
+  /**
+   * Méthode qui reçoit la ligne brute, telle qu'elle peut se trouver dans
+   * le Tags du fichier _tags_.js et qui retourne un objet contenant
+   * :data et :locked
+   * :data est la liste des parties de la ligne (split avec espace), sans
+   * la marque de verrou.
+   * :locked est mis à true si la ligne est verrouillée.
+   *
+   * Note : cette méthode sert aussi bien lors du chargement que lors de
+   * la modification des lignes.
+   */
+   // TODO Cette méthode doit être placée ailleurs, c'est plutôt une méthode de CTags
+  , epure_and_split_raw_line: function(line){
+      var rg
+        , type // 'real-tag', 'empty-line', 'comments-line'
+        ;
+      line = line.trim().replace(/[\t ]/g, ' ') ; //insécable et tabulation
+      line = line.replace(/[\r\n]/g, ' ');
+      line = line.replace(/ +/g, ' ') ;
+      // Marque de ligne verrouillée
+      var premier_car = line.substring(0,1);
+      var locked_line = premier_car == '*' || premier_car == '•' || line.substring(0,2) == '🔒' ;
+      if (locked_line){
+        // <= C'est une ligne verrouillée
+        firstoff = line.substring(0,2) == '🔒' ? 2 : 1
+        line = line.substring(firstoff,line.length).trim();
+      };
+
+      if (rg = line.match(/^([a-z]+) (.*) ([0-9]+) ([0-9]+)$/i)){
+        // Est-ce une version raccourcie d'écriture :
+        // <nature> <valeur> <y> <x>
+        line = `${rg[1]} ${rg[2]} y=${rg[3]} x=${rg[4]}`;
+      };
+
+      return {data: line.split(' '), line: line, locked: locked_line, nature_init: line.split(' ')[0]}
+    }
+
     /**
      * Reçoit un DOMElement et retourne l'instance LITag correspondante
      */

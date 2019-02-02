@@ -2,7 +2,7 @@
 
 Le « tagger de partition » permet de « marquer » sur une partition les éléments d'analyse tels que les modulations, les cadences, les degrés etc.
 
-## Cachier des charges
+## Cahier des charges
 
 * Elle doit être simple d'utilisation
 * Elle doit fonctionner sur tout ordinateur de la même manière
@@ -18,4 +18,6 @@ On fonctionne avec un dossier où on va mettre :
 
 ## Nomenclature
 
-TAG   On appelle « tag » un élément textuelle ou visuel posé sur la partition. Ça peut être le nom d'un accord, une marque de modulation, une marque de cadence, etc.
+TAG   On appelle *TAG* un élément textuelle ou visuel posé sur la partition. Ça peut être le nom d'un accord, une marque de modulation, une marque de cadence, etc. C'est aussi les images des systèmes.
+
+Deux listes-objets fonctionnent en parallèle : `CTags` qui consigne les instances `Tag` et gère l'affichage des tags sur la table d'analyse et `ULTags` qui consigne les instances `LITag` et gère l'affichage des lignes de code.

@@ -1,8 +1,7 @@
 # Todo list
 
-* Améliorer l'aspect de la boite à outils
-* [BUG] On ne peut pas rentrer les w et h sans les unités
 * [BUG] Si on clique sur ENTRÉE pour valider un changement et qu'on fait FLÈCHE BAS, ça va deux plus bas au lieu d'un.
+  * Ça se produit avec les flèches down, plutôt.
 
 
 ## TEST

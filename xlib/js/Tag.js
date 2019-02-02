@@ -6,7 +6,7 @@ function Tag(data_line) {
   // Si +data_line+ est un string, c'est la ligne qui est passée de
   // façon brute
   if ('string' == typeof(data_line)){
-    var ret = M.epure_and_split_raw_line(data_line) ;
+    var ret = ULTags.epure_and_split_raw_line(data_line) ;
     data_line = ret.data ;
     locked    = ret.locked ;
     // this.id   = ret.id ; // seulement pour les commentaires et vides
@@ -93,7 +93,7 @@ Tag.prototype.ref = function(){
  */
 Tag.prototype.parse = function(newline){
   var my = this ;
-  var ret = M.epure_and_split_raw_line(newline) ;
+  var ret = ULTags.epure_and_split_raw_line(newline) ;
   my.data_line  = ret.data ;
   my.locked     = ret.locked ;
   // nature_init permettra de déterminer le type du tag, vrai tag ou
@@ -147,7 +147,8 @@ Tag.prototype.update = function(prop, new_value, options) {
     if ('string' == typeof(new_value) && new_value.match(/^[0-9.]$/)){
       new_value = Number.parseInt(new_value,10);
     }
-    if ('number' == typeof(new_value) && new_value < 5) {new_value = 5};
+    // Non : maintenant on laisse mettre n'importe quelle mesure, même négative
+    // if ('number' == typeof(new_value) && new_value < 5) {new_value = 5};
 
     // console.log(`Update de tag #${my.id}. Propriété ${prop} mise à ${new_value}`);
 
@@ -277,7 +278,6 @@ Tag.prototype.getY = function() {
 // contenant [value, unit]
 Tag.prototype.getW = function(){
   var thew = this.hStyles()['width'] || this.jqObj.width();
-  console.log('thew',thew);
   if (thew == 'auto') { return [this.jqObj.width(), 'px'] }
   else { return this.get_value_and_unit(thew) };
 };
@@ -373,9 +373,6 @@ Tag.prototype.to_html = function() {
   // (prioritaire) ou pour le type de tag
   var fsize ;
   if (my.fs){fsize = my.fs}
-  else if (fsize = my.defaultFontSize){
-    if(`${fsize}`.match(/^[0-9.]+$/)){fsize += 'px'};
-  };
   fsize && css.push(`font-size:${fsize}`);
   switch (my.nature) {
     case 'text':
@@ -840,6 +837,9 @@ Tag.prototype.compare_and_update_against = function(tagComp) {
   var my = this ;
   my.modified = false ;
 
+  // console.log('Tag courant:', my);
+  // console.log('Tag à comparer :', tagComp);
+
   if (tagComp.real && !my.built){
     // Pour pouvoir faire une "pré-construction" du tag, il faut donner
     // quelques propriétés tout de suite.
@@ -851,13 +851,13 @@ Tag.prototype.compare_and_update_against = function(tagComp) {
   };
   for(var prop of TAG_PROPERTIES_LIST){
     are_different = tagComp[prop] != my[prop] ;
-    if('undefined' != typeof(my[`${prop}_unit`])){
-      are_different = are_different && tagComp[`${prop}_unit`] != my[`${prop}_unit`];
-      if(are_different){tagComp[prop] += tagComp[`${prop}_unit`]} ;
+    if(my[`${prop}_unit`]){
+      // Si c'est une propriété qui possède une unité (w, h), il faut mieux
+      // vérifier la valeur
+      are_different = !are_different && (tagComp[`${prop}_unit`]||'px') != my[`${prop}_unit`];
+      if(are_different){tagComp[prop] += tagComp[`${prop}_unit`]||''} ;
     }
-    // console.log(`Comparaison de ${prop} : ${my[prop]} / ${tagComp[prop]}`)
     if (are_different){
-      // console.log(`Actualisation de ${prop}`);
       my.update(prop, tagComp[prop]) ;
       my.modified = true ;
     }
@@ -893,7 +893,32 @@ Tag.prototype.onClick = function(ev){
   var withMaj = ev.shiftKey;
   CTags.onSelect(my, ev.shiftKey);
   Page.getCoordonates(ev);
-}
+};
+/**
+ * Méthode pour focusser dans le Tag.
+ * Utilisé par exemple pour basculer de la
+ * sélection du code à la sélection du tag.
+ */
+Tag.prototype.focus = function(){
+  var my = CTags[this.id];
+  CTags.onSelect(my);
+  my.jqObj.focus(); // pas de listener
+};
+Tag.prototype.blur = function(){
+  var my = CTags[this.id];
+  CTags.onSelect(my); // pour déselectionner
+  my.jqObj.blur(); // pas de listener
+};
+/**
+ * Méthode appelée par exemple quand on TAB sur le tag,
+ * pour focusser sur le LITag et blurer d'ici
+ */
+Tag.prototype.focus_litag = function(){
+  var my = CTags[this.id];
+  CTags.activated = false ;
+  my.blur();
+  my.litag.focus();
+};
 Tag.prototype.select = function(){
   var my = this ;
   my.jqObj.addClass('selected');
@@ -916,12 +941,10 @@ Tag.prototype.activate = function(){
   var my = this ;
   my.scrollIfNotVisible();
   my.jqObj.addClass('activated');
-  my.activated = true ;
 };
 Tag.prototype.desactivate = function(){
   var my = this ;
   my.jqObj.removeClass('activated');
-  my.activated = false ;
 };
 
 // ---------------------------------------------------------------------

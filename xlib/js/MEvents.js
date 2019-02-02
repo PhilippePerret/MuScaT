@@ -57,6 +57,7 @@ const MEvents = {
    * Les flèches ne génèrent pas d'évènement keypress,
    */
   , onkeyup_with_selection: function(ev){
+      console.log('-> onkeyup_with_selection');
       if (ev.which == 87 /* w */ ){
         this.w_is_pressed = false; return stop(ev);
       } else if (ev.which == 72 /* h */){
@@ -85,6 +86,7 @@ const MEvents = {
       // this.console_key(ev);
       // switch (ev.keyCode) {
       // };
+      console.log('-> onkeydown_with_selection');
       switch (ev.which) {
         case 87: /*  w */
         case 72: /* h  */
@@ -102,7 +104,7 @@ const MEvents = {
       switch (ev.keyCode) {
         case 9:
           if(ULTags.activated){return true};
-          ULTags[CTags.selection.id].jqObj.focus();
+          CTags.selection.focus_litag();
           return stop(ev);
         case 37: // LEFT ARROW
         case 38: // UP ARROW

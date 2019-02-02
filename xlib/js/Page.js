@@ -170,10 +170,10 @@ const Page = {
   // que pour une image cliquée
   getCoordonates: function(ev){
     // console.log(ev);
-    // var x = ev.pageX ;
-    // var y = ev.pageY ;
-    var x = ev.offsetX - 15 ;
-    var y = ev.offsetY - 15 ;
+    var x = ev.pageX -15 ;
+    var y = ev.pageY -15 ;
+    // var x = ev.offsetX - 15 ;
+    // var y = ev.offsetY - 15 ;
     clip(' x='+x+" y="+y);
     message(`« x=${x} y=${y} » -> ${t('clipboard')}`);
   }

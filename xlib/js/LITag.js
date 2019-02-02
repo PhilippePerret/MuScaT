@@ -11,6 +11,9 @@ const LITag = function(itag){
   this.selected   = false;
   this.built      = false;
   this.destroyed  = false;
+  // Pour indiquer que c'est un nouveau tag. Quand c'est un nouveau
+  // tag, on ne sort pas du champ inopinément
+  this.new = false;
 };
 
 // ---------------------------------------------------------------------
@@ -58,12 +61,11 @@ LITag.prototype.parse_and_compare = function(){
   var my = this ;
   var txt = my.jqObj.text().trim().replace(/[\n\r]/g,'');
   my.jqObj.text(txt);
-  var d = M.epure_and_split_raw_line(txt);
-  // console.log(d);
+  var d = ULTags.epure_and_split_raw_line(txt);
   var tagprov = new Tag(d.data);
   tagprov.locked = d.locked;
+  // console.log('tagprov:', tagprov);
   my.itag.compare_and_update_against(tagprov);
-  // console.log('data:',data);
 };
 
 /**
@@ -86,7 +88,11 @@ LITag.prototype.checkAndUpdate = function(){
 
 // ---------------------------------------------------------------------
 //  MÉTHODES D'AFFICHAGE
-
+/**
+ * Cette méthode sert à montrer que le tag
+ * est sélectionné sur la table d'analyse.
+ * Avec la classe 'activated', on voit le litag.
+ */
 LITag.prototype.activate = function(){
   var my = this ;
   my.jqObj.addClass('activated');
@@ -108,6 +114,31 @@ LITag.prototype.focus_previous = function(){
   my.prevObj.focus();
 };
 
+/**
+ * Pour focusser sur le tag sur la table d'analyse
+ */
+LITag.prototype.focus_tag = function(){
+  var my = ULTags[this.id];
+  my.blur();
+};
+/**
+ * Pour focusser sur cet élément
+ */
+LITag.prototype.focus = function(){
+  var my = ULTags[this.id];
+  my.desactivate(); // oui
+  ULTags.activated = true ;
+  my.jqObj.focus();
+};
+/**
+ * Pour blurer complètement de cet élément
+ */
+LITag.prototype.blur = function(){
+  var my = ULTags[this.id];
+  my.desactivate();
+  ULTags.activated = false ;
+  my.jqObj.blur();
+};
 /**
  * Quand le tag a été modifié (sur la table d'analyse par exemple,
  * c'est cette méthode qu'on appelle pour actualiser la ligne)
@@ -137,7 +168,7 @@ LITag.prototype.observe = function(){
 }
 LITag.prototype.onFocus = function(ev){
   var my = this ;
-  console.log(`Focus dans #${my.id}`);
+  // console.log(`Focus dans #${my.id}`);
   my.activated    = true ;
   ULTags.activated = true ;
   my.itag.activate();
@@ -148,7 +179,8 @@ LITag.prototype.onFocus = function(ev){
 };
 LITag.prototype.onBlur = function(ev){
   var my = this ;
-  console.log(`Blur de #${my.id}`);
+  // console.log(`Blur de #${my.id}`);
+  if(my.new){my.new = false};
   my.activated      = false ;
   ULTags.activated  = false ;
   my.checkAndUpdate();
@@ -157,11 +189,26 @@ LITag.prototype.onBlur = function(ev){
   my.selected = null; // ULTags.selected reste à ce tag
 };
 LITag.prototype.onKeyPress = function(ev){
+  // switch (ev.keyCode) {
+  //   case 9: // Touche tabulation
+  //     // console.log('TAG dans onKeyPress');
+  //     break;
+  //     // return stop(ev); // ne rien faire, c'est pour sélectionner le code
+  // }
 };
 LITag.prototype.onKeyUp = function(ev){
   switch (ev.keyCode) {
     case 9: // Touche tabulation
-      return stop(ev); // ne rien faire, c'est pour sélectionner le code
+      if (this.tabHasBeenPressed){
+        // console.log('TAG dans onKeyUp');
+        this.jqObj.blur();
+        this.itag.focus();
+        this.tabHasBeenPressed = false;
+      } else {
+        // console.log('TAB dans onKeyUp mais sans DOWN (je ne fais rien)');
+      }
+      return stop(ev);
+      // return stop(ev); // ne rien faire, c'est pour sélectionner le code
     case 13: // Touche entrée => nouveau tag ou prendre en compte ?
       // console.log('Tabulation, je passe au suivant');
       // Pour la touche Entrée, on ne passe au tag suivant que si le tag
@@ -202,7 +249,10 @@ LITag.prototype.onKeyDown = function(ev){
         ULTags.create_after(this);
       }
       return stop(ev);
-      break;
+    case 9:
+      // console.log('TAG dans onKeyDown');
+      this.tabHasBeenPressed = true ;
+      return stop(ev);
     case 91:
       MEvents.with_meta_key = true;
       // console.log('CMD pressée');
