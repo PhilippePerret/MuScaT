@@ -31,14 +31,8 @@ acc G x=200 y= 300
     'MuScaT devrait répondre à la méthode `load`'
   )
 
-  assert(
-    'object' == typeof(M.tags),
-    'MuScaT connait la propriété `tags`',
-    'MuScaT devrait avoir une propriété `tags`'
-  );
-
-  for(var i=0, len=M.tags.length; i<len; ++i){
-    itag = M.tags[i]; // Tag ou NoTag
+  for(var i=1, len=CTags.length; i<=len; ++i){
+    itag = CTags[i]; // Tag
 
     // console.log(itag);
 

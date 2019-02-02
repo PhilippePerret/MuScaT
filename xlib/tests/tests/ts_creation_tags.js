@@ -67,7 +67,7 @@ tes.check_definition_forme_raccourcie = function(){
 
   assert_nombre_tags(1);
   var premier = tags[0];
-  var tag = M.tags[0];
+  var tag = CTags[1];
   assert(
     tag.id == 1,
     "L'identifiant du premier tag est 1",

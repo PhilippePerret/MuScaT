@@ -95,6 +95,17 @@ const ULTags = {
     }
 
     /**
+     * Retourne le LITag qui se trouve à l'index +idx+
+     */
+  , index: function(idx){
+      var nod = this.jqObj.find('> li')[idx];
+      var tid = nod.getAttribute('data-id');
+      return this[tid];
+    }
+  , first: function(){
+      return this.index(0);
+    }
+    /**
      * Reçoit un DOMElement et retourne l'instance LITag correspondante
      */
   , domObjetToLITag: function(domObj){

@@ -4,7 +4,7 @@ function  write(str) {
 }
 
 const UI = {
-    first: 'virgule'
+    pour: 'virgule'
   , TOP_FIRST_PAGE_END: 1150
   , HEIGTH_PRINTED_PAGE: 1230
 

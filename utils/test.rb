@@ -52,7 +52,7 @@ begin
   # Ouverture du fichier test.html pour lancer le test
   if ARGV.include?('-o') || ARGV.include?('--open')
     # `open -a Firefox "#{TEST_FILE_PATH}"`
-    `open -a Chrome "#{TEST_FILE_PATH}"`
+    `open -a "Google Chrome" "#{TEST_FILE_PATH}"`
   else
     puts '
   Add `-o` option (at the end) to open a first time

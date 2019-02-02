@@ -118,7 +118,7 @@ testCreateImage.before_avec_taille_sans_unite = function(){
 testCreateImage.avec_taille_sans_unite = function(){
   var tags = assert_nombre_tags(2)
   var widths = [];
-  for(var i=0;i<2;++i){widths.push(M.tags[i].jqObj.width())};
+  for(var i=1;i<3;++i){widths.push(CTags[i].jqObj.width())};
   // var widths_par_dom = [];
   // for(var i=0;i<2;++i){widths_par_dom.push(tags[i].style.width)};
   // console.log("widths_par_dom:", widths_par_dom);
@@ -144,7 +144,7 @@ testCreateImage.before_avec_taille_et_unite = function(){
 testCreateImage.avec_taille_et_unite = function(){
   var tags = assert_nombre_tags(3);
   var widths = [];
-  for(var i=0;i<2;++i){widths.push(M.tags[i].domObj.style.width)};
+  for(var i=1;i<3;++i){widths.push(CTags[i].domObj.style.width)};
   assert(
     widths[0] == '20cm' && widths[1] == '20cm'
     , "La taille des images a bien été mise à '20cm'"
@@ -166,7 +166,7 @@ testCreateImage.before_avec_taille_en_pourcentage = function(){
 testCreateImage.avec_taille_en_pourcentage = function(){
   var tags = assert_nombre_tags(2);
   var widths = [];
-  for(var i=0;i<2;++i){widths.push(M.tags[i].domObj.style.width)};
+  for(var i=1;i<3;++i){widths.push(CTags[i].domObj.style.width)};
   assert(
     widths[0] == '40%' && widths[1] == '40%'
     , "La taille des images a bien été mise à '40%'"

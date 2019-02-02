@@ -23,27 +23,27 @@ acc G x=100 y=100
   M.relaunch_for_tests();
 
   assert(
-    M.tags.length == 1,
+    ULTags.length == 1,
     'Il y a un seul M.tag.',
-    `Il ne devrait y avoir qu'un seul M.tag, il y en a ${M.tags.length}.`
+    `Il ne devrait y avoir qu'un seul M.tag, il y en a ${ULTags.length}.`
   )
 
   assert(
-    M.tags.length == 2,
-    'Il y a deux tags (dans M.tags)',
-    `Il devrait y avoir deux tags dans M.tags. Il y en a ${M.tags.length}.`
+    ULTags.length == 2,
+    'Il y a deux tags (dans ULTags)',
+    `Il devrait y avoir deux tags dans ULTags. Il y en a ${ULTags.length}.`
   );
   var expect_id = 1
   assert(
-    M.tags[0].id == expect_id,
+    ULTags.first().id == expect_id,
     `Le premier tag a bien l’identifiant #${expect_id}`,
-    `Le premier tag devrait avoir l'identifiant #${expect_id}, il a #${M.tags[0].id}`
+    `Le premier tag devrait avoir l'identifiant #${expect_id}, il a #${ULTags.first().id}`
   )
   expect_id = 2
   assert(
-    M.tags[1].id == expect_id,
+    ULTags.first().id == expect_id,
     `Le second tag a l’identifiant #${expect_id}`,
-    `Le second tag devrait avoir l'identifiant #${expect_id}, il a #${M.tags[0].id}`
+    `Le second tag devrait avoir l'identifiant #${expect_id}, il a #${ULTags.first().id}`
   )
 }
 
@@ -81,7 +81,7 @@ sco extrait-analyse/sonate-haydn-2.png x=38 y=127
 
   assert_nombre_tags(5, 3);
 
-  var newtag = M.tags[4];
+  var newtag = ULTags.index(4);
   assert(
     newtag.id == 5,
     'Le nouveau tag a le bon ID (#5)',
@@ -109,14 +109,14 @@ sco extrait-analyse/sonate-haydn-2.png x=38 y=127
 
   assert_nombre_tags(6, 4);
 
-  var newtag = M.tags[4];
+  var newtag = CTags[4];
   assert(
     newtag.id == 5,
     'Le premier nouveau tag a le bon ID (#5)',
     `Le premier nouveau tag devrait avoir l'ID #5, son ID est #${newtag.id}`
   );
 
-  var newtag2 = M.tags[5];
+  var newtag2 = CTags[5];
   assert(
     newtag2.id == 6,
     'Le second nouveau tag a le bon ID (#6)',
@@ -166,7 +166,7 @@ acc G x=100 y=200
   }
   var i = 0, len = 5, dexpect ;
   for(i;i<len;++i){
-    ctag = M.tags[i];
+    ctag = CTags[i];
     dexpect = data_expected[i];
     assert(
       ctag.id == dexpect.id,

@@ -1,7 +1,7 @@
 # Todo list
 
+* [BUG] Quand on n'utilise pas l'option 'code', la liste des lignes ne doit pas être affichée
 * [BUG] On ne peut pas rentrer les w et h sans les unités
-* [BUG?] Les textes de côté ne s'affichent pas de côté à l'impression/PDF
 * [BUG] Si on clique sur ENTRÉE pour valider un changement et qu'on fait FLÈCHE BAS, ça va deux plus bas au lieu d'un.
 
 
@@ -36,29 +36,3 @@
 * Pouvoir jouer le code progressivement (pour une sorte d'animation) : on définit où l'animation doit commencer (START) et à partir de là, les lignes s'exécutent l'une après l'autre (option('anim'|'animation')).
 * Donner le code sous la forme d'un fichier zip à downloader
 * Pouvoir double cliquer sur la page pour ajouter un élément quelconque (un formulaire s'ouvre, qui permet de définir l'élément)
-
-
-NOUVELLE RÉFLEXION SUR LA GESTION DU CODE À DROITE
-
-L'actualisation doit se faire dans les deux sens :
-* On modifie l'aspect sur la table et ça modifie le code (p.e. déplacement de tag)
-* On modifie le code et ça modifie l'aspect sur la table (p.e. suppression d'un élément)
-
-M.tags contient tous les tags créé, dans l'ordre du code
-
-Il faut garder les lignes vides vides.
-Une ligne vide => un tag vide, sans ID (contrairement à maintenant). On fait quand même un tag pour simplifier.
-Si on supprime une ligne vide :
-
-Une autre solution serait de faire une fausse liste composée qui serait un UL avec des LI, modifiables, qui aurait l'apparence d'une vraie liste de code. Il faudrait gérer le comportement pour que tout semble comme une liste :
-* les flèches permettent de passer d'un élément à un autre
-* la touche entrée crée un élément en dessous
-* la touche erase supprime l'élément vide
-Les avantages :
-* la touche tabulation permet de passer de tag en tag
-* on contrôle élément par élément
-* On peut déplacer les éléments avec les flèches (CMD + flèche)
-* On peut mettre en exergue le tag plus facilement
-* Plus besoin de mettre l'identifiant dans la ligne
-Les désavantages :
-* on ne peut plus copier tout le code, il faut utiliser le bouton "-> clipboard"

@@ -5,11 +5,6 @@
   Class MuScaT (alias : M)
   -------------
 
-  M.tags      Contient dans l'ordre la liste des instances Tag de chaque
-              ligne.
-              Attention car chaque élément n'est pas un tag. Les commentaires
-              ou les lignes vides sont des notag (pour pouvoir posséder des
-              méthodes communes)
 */
 // La classe principale
 // MuScaT pour "Mu Sc Ta (à l'envers)" pour "Music Score Tagger"
@@ -318,23 +313,28 @@ const MuScaT = {
       });
     }
   , build_tags_for_anim: function(tag_idx){
-      var my      = this
-        , nbtags  = my.tags.length
+      var my = this
+        , litag
         , itag
         , i
         ;
       if (my.timer){clearTimeout(my.timer)};
 
+      // On fait une liste ordonnée
       // On construit les tags jusqu'à trouver une ligne vide ou un
       // commentaire
+      // TODO Attention : ci-dessous, ça implique que tout soit déjà
+      // construit et qu'on révèle les éléments les uns après les autres
+      // (ce qui au final ne serait pas plus mal!)
+      // => Possibilité de construire les éléments en les masquant
       while(true) {
-        itag = my.tags[tag_idx];
+        litag = ULTags.get_by_index(tag_idx);
+        itag  = litag.itag;
         if(itag){
           if ( itag.real ){
-            itag.build();
-            ++tag_idx ;
+            itag.reveal(); // il est construit, il faut le montrer
           } else {
-            break;
+            break;// On s'arrête là pour le moment
           };
         } else {
           return message(t('fin-anim'));
@@ -397,7 +397,6 @@ const MuScaT = {
   // celle-ci)
   , reset_all: function(){
       var my = this ;
-      my.tags   = new Array();
       my.errors = new Array();
       CTags.last_tag_id = 0 ; // commence à 1
       Page.table_analyse[0].innerHTML = '' ;

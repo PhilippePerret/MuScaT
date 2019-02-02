@@ -32,8 +32,10 @@ Object.assign(MuScaT,{
   reset_for_tests: function(options){
     if(undefined==options){options={}};
     if(undefined==options.init_tags){options.init_tags = true};
-    Options.reset() ;
-    this.reset_all() ;
+    Options.reset();
+    this.reset_all();
+    CTags.reset();
+    ULTags.reset();
     Flash.reset();
     if(!!options.init_tags){Tags = "// Juste un commentaire de reset_for_tests"};
     $('#rcolumn').hide();

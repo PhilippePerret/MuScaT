@@ -5,7 +5,7 @@
     Pour vérifier qu'une erreur a bien été produite.
 
  var tags = assert_nombre_tags(<nombre>[, <nombre sur table>])
-    Pour vérifier le nombre de tags dans MuScaT.tags ET sur la table
+    Pour vérifier le nombre de tags dans ULTags ET sur la table
     Retourne les DOMElements des tags existants
 
 assert_classes(<nodes>, <classes>) / inverse : assert_not_classes
@@ -61,9 +61,9 @@ window.matchError = function(err_msg, err_type){
 window.assert_nombre_tags = function(nombre, nombre_sur_table){
  if(undefined==nombre_sur_table){nombre_sur_table = nombre};
  assert(
-   CTags.length == nombre,
-   `Il y a bien ${nombre} tags dans MuScaT.tags`,
-   `Il devrait y avoir ${nombre} tags dans MuScaT.tags, il y en a ${CTags.length}`
+   ULTags.length == nombre,
+   `Il y a bien ${nombre} tags dans ULTags`,
+   `Il devrait y avoir ${nombre} tags dans ULTags, il y en a ${ULTags.length}`
  );
  var tags = document.getElementsByClassName('tag');
  assert(

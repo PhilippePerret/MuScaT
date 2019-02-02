@@ -18,7 +18,7 @@ test.image_sequentielle_commented = function(){
   `;
   M.relaunch_for_tests();
 
-  var tag = M.tags[0];
+  var tag = CTags[1];
 
   assert_nombre_tags(1, 0);
   assert(
