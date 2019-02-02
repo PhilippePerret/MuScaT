@@ -1635,7 +1635,11 @@ option('theme', '<nom du thème>');
 //...
 ```
 
-Le thème par défaut est le thème `muscat`{.str}. On peut trouver les autres thèmes dans le dossier `/xlib/js/themes/`{.path}. Il suffit de retirer `.js`{.path} au nom pour obtenir le nom du thème.
+Le thème par défaut est le thème `MuScaT`{.str}. On peut trouver les autres thèmes dans le dossier `/xlib/css/themes/`{.path}. Il suffit de retirer `.css`{.path} à leur nom pour obtenir le nom du thème.
+
+```
+muscat.css => thème 'muscat'
+```
 
 #### Liste des thèmes
 

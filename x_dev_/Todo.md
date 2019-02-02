@@ -1,5 +1,9 @@
 # Todo list
 
+* [BUG] On ne peut pas rentrer les w et h sans les unités
+* [BUG?] Les textes de côté ne s'affichent pas de côté à l'impression/PDF
+* [BUG] Si on clique sur ENTRÉE pour valider un changement et qu'on fait FLÈCHE BAS, ça va deux plus bas au lieu d'un.
+
 
 ## TEST
 

@@ -3,7 +3,7 @@
     absolus. Ça permet, dans un premier temps, d'avoir les éléments
     les uns au-dessous des autres (en tout cas les images)
 */
-@import 'tags/texts.css' screen;
+/* @import 'tags/texts.css' screen; */
 
 /* La section qui contient tous les tags */
 section#tags {
@@ -165,4 +165,34 @@ ul#ultags li.activated,
 #tags .tag.activated
 {
   border-color: #9ACD28;
+}
+
+/**
+  * Styles de texte
+  */
+.tag.text.date:after{content:')'}
+.tag.text.date:before{content:'('}
+
+.text.degree {
+  font-size: 10.1pt;
+  height: 12px;
+  text-align: center;
+  border: 1px solid #333;
+  border-radius: 1em;
+  padding: 1px 2px 4px;
+  min-width: 12px;
+}
+.text.part {
+  font-size: 1.1rem;
+  border: 1px solid #333;
+  padding: 2px 4px;
+  font-variant: small-caps;
+  transform: rotate(-38.9deg);
+  transform-origin: center;
+}
+/* Numéros de mesure */
+.text.measure {
+  font-size: 0.9rem;
+  border: 1px solid #333;
+  padding: 3px 3px 1px 2px;
 }

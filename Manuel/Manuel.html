@@ -1456,7 +1456,8 @@ mod Sol_min/(sous-dom.) 200 300
 <p>L’option <code class="code">theme</code> permet de choisir le thème, c’est-à-dire l’apparence générale, de la partition. Pour choisir ce thème, utilisez, en haut de votre fichier <code class="path">_tags_.js</code> :</p>
 <div class="sourceCode" id="cb69"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb69-1" title="1"><span class="at">option</span>(<span class="st">&#39;theme&#39;</span><span class="op">,</span> <span class="st">&#39;&lt;nom du thème&gt;&#39;</span>)<span class="op">;</span></a>
 <a class="sourceLine" id="cb69-2" title="2"><span class="co">//...</span></a></code></pre></div>
-<p>Le thème par défaut est le thème <code class="str">muscat</code>. On peut trouver les autres thèmes dans le dossier <code class="path">/xlib/js/themes/</code>. Il suffit de retirer <code class="path">.js</code> au nom pour obtenir le nom du thème.</p>
+<p>Le thème par défaut est le thème <code class="str">MuScaT</code>. On peut trouver les autres thèmes dans le dossier <code class="path">/xlib/css/themes/</code>. Il suffit de retirer <code class="path">.css</code> à leur nom pour obtenir le nom du thème.</p>
+<pre><code>muscat.css =&gt; thème &#39;muscat&#39;</code></pre>
 <h4 id="liste-des-thèmes">Liste des thèmes</h4>
 <p>Voici une liste complète des thèmes, mais ceux-ci devraient rapidement s’étoffer :</p>
 <ul>
@@ -1519,11 +1520,11 @@ mod Sol_min/(sous-dom.) 200 300
 <h3 id="aller_plus_loin">Pour aller plus loin</h3>
 <p>Pour aller plus loin, si vous êtes sur Mac et que vous vous sentez à l’aise avec le Terminal, vous pouvez créer un alias dans votre <code class="cmd">profil bash</code> pour ne pas avoir à rejoindre chaque fois le dossier de l’application et même utiliser les commandes plus simplement.</p>
 <p>Grâce à cet alias, vous pouvez jouer tous les scripts ci-dessus sans autre forme de procès. Par exemple, si vous utilisez l’alias <code class="cmd">mus</code>, alors il suffit d’ouvrir une nouvelle fenêtre de Terminal et de taper :</p>
-<div class="sourceCode" id="cb70"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb70-1" title="1"></a>
-<a class="sourceLine" id="cb70-2" title="2"><span class="op">&gt;</span> <span class="ex">mus</span> analyse <span class="st">&quot;Ma_Dernière_analyse&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb71"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb71-1" title="1"></a>
+<a class="sourceLine" id="cb71-2" title="2"><span class="op">&gt;</span> <span class="ex">mus</span> analyse <span class="st">&quot;Ma_Dernière_analyse&quot;</span></a></code></pre></div>
 <p>… pour ouvrir cette analyse.</p>
 <p>Il suffit de taper :</p>
-<div class="sourceCode" id="cb71"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb71-1" title="1"><span class="op">&gt;</span> <span class="ex">mus</span> rename_images <span class="st">&quot;MonAnalyse&quot;</span> <span class="st">&quot;systeme&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb72-1" title="1"><span class="op">&gt;</span> <span class="ex">mus</span> rename_images <span class="st">&quot;MonAnalyse&quot;</span> <span class="st">&quot;systeme&quot;</span></a></code></pre></div>
 <p>… pour renommer toutes les images du dossier <code class="path">images</code> de « MonAnalyse ».</p>
 <p>L’autre avantage de l’utilisation de cet alias, c’est qu’on peut utiliser les termes de différentes langues. Voir les <a href="#corresp_linguistiques">correspondances linguistiques</a>.</p>
 <h4 id="creation_alias_mus">Création de l’alias</h4>
@@ -1533,8 +1534,8 @@ mod Sol_min/(sous-dom.) 200 300
 </code></pre>
 <p>… pour éditer mon bash profile avec <a href="https://fr.wikipedia.org/wiki/Vim">Vim</a>.</p>
 <p>Dans ce fichier <code class="path">.bash_profile</code>, j’ajoute la ligne :</p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb73-1" title="1"></a>
-<a class="sourceLine" id="cb73-2" title="2"><span class="bu">alias</span> mus=<span class="st">&quot;/Users/philippeperret/Programmation/MuScaT/utils/run.rb&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb74-1" title="1"></a>
+<a class="sourceLine" id="cb74-2" title="2"><span class="bu">alias</span> mus=<span class="st">&quot;/Users/philippeperret/Programmation/MuScaT/utils/run.rb&quot;</span></a></code></pre></div>
 <blockquote>
 <p>Note : pour obtenir facilement la ligne ci-dessus sans aucune erreur, il suffit par exemple de glisser le fichier ou le dossier dans une fenêtre de Terminal. Le chemin d’accès s’y inscrit aussitôt.</p>
 </blockquote>

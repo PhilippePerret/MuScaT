@@ -377,6 +377,16 @@ Tag.prototype.to_html = function() {
     if(`${fsize}`.match(/^[0-9.]+$/)){fsize += 'px'};
   };
   fsize && css.push(`font-size:${fsize}`);
+  switch (my.nature) {
+    case 'text':
+      switch (my.type) {
+        case 'part':
+          css.push('transform:rotate(-38.9deg);transform-origin:center');
+          break;
+        default:
+
+      }
+  }
   css = css.join(';')+';';
 
   /*/
@@ -405,10 +415,6 @@ Tag.prototype.to_html = function() {
         case 'modulation':    return my.buildAsModulation(classes, css);
         case 'analyst':       ftext = `${t('analyzed-by')} ${ftext}`;break;
         case 'analysis_date': ftext = `${t('le-of-date')} ${ftext}`;break;
-      }
-      // Si un style précis est défini, on le prend
-      if (MTHEME[`${my.nature}.${my.type}`]){
-        css += Th.get(`${my.nature}.${this.type}`, my.jqObj);
       }
       break;
     case 'line':

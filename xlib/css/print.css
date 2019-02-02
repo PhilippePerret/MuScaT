@@ -17,13 +17,14 @@
   div.refline
   {display: none;}
 
-  span.tag {
+  .tag {
     opacity: 1!important;
   }
-  span.tag.box {
-    background-color: white ;
+  .tag.box {
+    background-color: white;
   }
   .locked {
     opacity: 1!important;
   }
-}
+
+  }/* / @media print*/

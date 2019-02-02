@@ -1,0 +1,59 @@
+/**
+  * Thème 'muscat'
+  *
+  * Version: 1.0.0
+  * Author: Philippe Perret
+  * Date: 2 1 '19
+  *
+  */
+.text.title,
+.text.composer ,
+.text.date,
+.text.opus,
+.text.analyst,
+.text.analysis_date
+{
+  font-family: Avenir;
+}
+
+.text.title,
+.text.composer ,
+.text.date
+{
+  left: 20%;
+}
+/* TITRE DE L'ŒUVRE */
+.text.title {
+  font-size: 1.6em;
+  top: 10mm;
+}
+/* COMPOSITEUR */
+.text.composer
+{
+  font-size: 1.2em;
+  top: 19mm;
+}
+.text.date
+{
+  font-size: 0.92em;
+  top: 28mm;
+}
+.text.opus {
+  font-size: 0.92em;
+  left: 35%;
+  top: 28mm;
+}
+.text.analyst,
+.text.analysis_date
+{
+  font-size: 0.95em;
+  right: 20mm;
+}
+.text.analyst
+{
+  top: 44mm;
+}
+.text.analysis_date
+{
+  top: 49mm;
+}
