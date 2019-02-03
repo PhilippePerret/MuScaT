@@ -39,6 +39,9 @@ Object.assign(MSG,{
   // ---------------------------------------------------------------------
   //  === ERRORS ===
 
+  // GÉNÉRAL
+  , 'pixels-required': 'Un nombre de pixels est requis (%{value} fourni).'
+
   // TAGS
 
   , 'tags-undefined': 'Il faut définir les images et les « TAGs » à poser (dans le fichier `tag.js`)'

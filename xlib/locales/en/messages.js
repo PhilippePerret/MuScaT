@@ -40,6 +40,9 @@ Object.assign(MSG,{
   // ---------------------------------------------------------------------
   //  === ERRORS ===
 
+  // GÉNÉRAL
+  , 'pixels-required': 'A number of pixels is required (%{value} provided).'
+
   // TAGS
 
   , 'tags-undefined': 'You have to define TAGs and scores lines (in `tag.js` file)!'

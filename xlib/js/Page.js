@@ -89,26 +89,28 @@ const Page = {
         var msg = `${t('images-errors-occured', {errors: errs.join(RC+'  - '), rc: RC})}${RC+RC}${t('please-fix-the-code')}`
         error(msg);
       }
+      MuScaT.suite_load(); // on poursuit le chargement
     }
 
   , wait_to_treate_images_spaces: function(){
       var my = this ;
-      var unloadeds = $('.tags img').length ;
-      $('.tags img')
+      var unloadeds = $('#tags img').length ;
+      $('#tags img')
         .on('load error', function(){
           -- unloadeds ;
-          if(!unloadeds){my.treate_images_spaces()};
+          if(unloadeds == 0){my.treate_images_spaces()};
+          return true;
         });
     }
 
-  , treate_images_spaces: function(){
-      var voffset = Options.get('espacement images') || DEFAULT_SCORES_SPACES ;
+  , treate_images_spaces: function(fn_suite){
+      var voffset = asPixels(Options.get('espacement images') || DEFAULT_SCORES_SPACES) ;
       var topImage ;
       CTags.onEachTag(function(itag){
         if(!itag.is_image){return};
         if(undefined == topImage){
           // <= Première image (ne pas la bouger)
-          topImage = itag.jqObj.offset().top ;
+          topImage = Number.parseInt(itag.jqObj.offset().top,10) ;
         } else {
           itag.y = topImage ;
           itag.jqObj.css('top', topImage + 'px');
@@ -116,6 +118,7 @@ const Page = {
         // Pour la prochaine image
         topImage = topImage + itag.jqObj.height() + voffset;
       });
+      return MuScaT.suite_load();
     }
 
   /**

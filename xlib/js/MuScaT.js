@@ -9,15 +9,16 @@
 // La classe principale
 // MuScaT pour "Mu Sc Ta (à l'envers)" pour "Music Score Tagger"
 const MuScaT = {
-  // Liste des erreurs rencontrées (sert surtout aux textes)
-  motif_lines_added: null,
+  class: 'MuScaT'
+    // Liste des erreurs rencontrées (sert surtout aux textes)
+  , motif_lines_added: null
 
-  // Exécute la fonction +method+ sur toutes les lignes de la
-  // constante Tags.
-  onEachTagsLine: function(method){
-    var  i = 0, lines = Tags.trim().split(RC), len = lines.length ;
-    for(i;i<len;++i){method(lines[i])};
-  },
+    // Exécute la fonction +method+ sur toutes les lignes de la
+    // constante Tags.
+  , onEachTagsLine: function(method){
+      var  i = 0, lines = Tags.trim().split(RC), len = lines.length ;
+      for(i;i<len;++i){method(lines[i])};
+    }
 
   /**
    * Cette méthode est appelée par toutes celles qui lancent des chargements,
@@ -26,19 +27,19 @@ const MuScaT = {
    * Note : cette méthode fonctionne en parallèle de `loading_error` qui est
    * appelée en cas d'erreur.
    */
-  loadings: {'messages': false, 'things': false, 'ui': false, 'analyse': false, 'theme': false, count: 5},
-  test_if_ready: function(loading_id){
-    this.loadings[loading_id] = true ;
-    -- this.loadings.count ;
-    // On doit d'abord attendre que le fichier _tags_.js soit chargé, avant
-    // de charger les locales, car elles dépendent de la langue choisie.
-    if(loading_id == 'analyse'){
-      Locales.load();
-      Theme.load(); // TODO vérifier si ça marche ou s'il faut charger plus tard
-    } else if ( this.loadings.count == 0 ){
-      this.start_and_run();
-    }
-  },
+  , loadings: {'messages': false, 'things': false, 'ui': false, 'analyse': false, 'theme': false, count: 5}
+  , test_if_ready: function(loading_id){
+      this.loadings[loading_id] = true ;
+      -- this.loadings.count ;
+      // On doit d'abord attendre que le fichier _tags_.js soit chargé, avant
+      // de charger les locales, car elles dépendent de la langue choisie.
+      if(loading_id == 'analyse'){
+        Locales.load();
+        Theme.load(); // TODO vérifier si ça marche ou s'il faut charger plus tard
+      } else if ( this.loadings.count == 0 ){
+        this.start_and_run();
+      }
+    },
 
   loading_error: function(){
     F.error(function(){
@@ -50,92 +51,99 @@ const MuScaT = {
           return 'Une erreur fatale est malheureusement survenue. Je ne peux pas lancer MuScaT…';
         }
       }());
-  },
+  }
 
-  // Première méthode appelée par document.ready
-  //
-  start_and_run: function(){
+    // Première méthode appelée par document.ready
+    //
+  , start_and_run: function(){
 
-    // On prépare l'interface (notamment au niveau de la langue)
-    UI.set_ui();
+      // On prépare l'interface (notamment au niveau de la langue)
+      UI.set_ui();
 
-    // console.log('-> start_and_run');
-    // On doit construire les éléments d'après les définitions faites dans
-    // le fichier tag.js
-    this.load() ;
+      // console.log('-> start_and_run');
+      // On doit construire les éléments d'après les définitions faites dans
+      // le fichier tag.js
+      this.load() ;
 
-    // On met le titre du dossier d'analyse
-    $('span#analyse_name').text(ANALYSE);
+      // On met le titre du dossier d'analyse
+      $('span#analyse_name').text(ANALYSE);
 
-    // Pour une raison pas encore expliquée, il arrive que les
-    // éléments se bloquent et ne prenent plus leur position
-    // absolute (bug dans le draggable de jQuery).
-    // Donc, ici, on s'assure toujours que les éléments draggable
-    // soit en bonne position
-    // On fera la même chose, un peu plus bas, avec les lignes de
-    // référence
-    CTags.onEachTag(function(tg){tg.jqObj.css('position','absolute')});
+      // Pour une raison pas encore expliquée, il arrive que les
+      // éléments se bloquent et ne prenent plus leur position
+      // absolute (bug dans le draggable de jQuery).
+      // Donc, ici, on s'assure toujours que les éléments draggable
+      // soit en bonne position
+      // On fera la même chose, un peu plus bas, avec les lignes de
+      // référence
+      CTags.onEachTag(function(tg){tg.jqObj.css('position','absolute')});
 
-    // Quand on clique sur la partition, en dehors d'un élément,
-    // ça déselectionne tout
-    // $('#tags').on('click', function(ev){CTags.deselectAll()})
-    if(!Options.get('crop image')){
-      Page.table_analyse.on('click', $.proxy(Page, 'onClickOut'));
-    }
+      // Quand on clique sur la partition, en dehors d'un élément,
+      // ça déselectionne tout
+      // $('#tags').on('click', function(ev){CTags.deselectAll()})
+      if(!Options.get('crop image')){
+        Page.table_analyse.on('click', $.proxy(Page, 'onClickOut'));
+      }
 
-    // Dans tous les cas, on construit la liste des liTags
-    ULTags.build();
+      // Dans tous les cas, on construit la liste des liTags
+      ULTags.build();
 
-    // Si l'option 'lines of reference' a été activée, il faut
-    // ajouter les deux lignes repères
-    if(Options.get('lines of reference')){
-      Page.build_lines_of_reference();
-      Page.assure_lines_draggable();
-    }
-  },
-
-  /**
-   * Chargement du fichier _tags_.js, analyse du code et construction de
-   * l'analyse sur la table.
-   */
-  load: function(){
-    var my = this ;
-
-    // Il faut d'abord s'assurer que le fichier _tags_.js a été correctement
-    // défini.
-    if ('undefined' == typeof Tags) {
-      alert(t('tags-undefined'));
-      return ;
-    }
-
-    // Pour débug
-    // console.log('dans load, Tags=', Tags);
-
-    my.reset_all();
-
-    my.parse_tags_js() ;
-
-    my.build_tags() ;
-
-    if (my.treate_images_spaces) {
-      Page.wait_to_treate_images_spaces();
-    } else {
-      Page.wait_for_images();
-    }
-
-    if (Options.get('crop image')){
-      my.loadModule('cropper', function(){$.proxy(MuScaT, 'prepare_crop_image')()});
-    } else {
-      // Placement des observers
-      this.set_observers();
-      // Si des lignes ont été créées au cours ud processus,
-      // on demande à l'utilisateur de sauver le code
-      if (my.motif_lines_added) {
-        my.codeAnalyseInClipboard(t('code-lines-added', {motif: my.motif_lines_added}));
+      // Si l'option 'lines of reference' a été activée, il faut
+      // ajouter les deux lignes repères
+      if(Options.get('lines of reference')){
+        Page.build_lines_of_reference();
+        Page.assure_lines_draggable();
       }
     }
-  }
-  // load
+
+    /**
+     * Chargement du fichier _tags_.js, analyse du code et construction de
+     * l'analyse sur la table.
+     */
+  , load: function(){
+      var my = this ;
+
+      // Il faut d'abord s'assurer que le fichier _tags_.js a été correctement
+      // défini.
+      if ('undefined' == typeof Tags) {
+        alert(t('tags-undefined'));
+        return ;
+      }
+
+      // Pour débug
+      // console.log('dans load, Tags=', Tags);
+
+      my.reset_all();
+
+      my.parse_tags_js() ;
+
+      my.build_tags() ;
+
+      if (my.treate_images_spaces) {
+        Page.wait_to_treate_images_spaces();
+      } else {
+        Page.wait_for_images();
+      }
+    } // Fin début de load
+
+    /**
+      * Méthode appelée après le traitement des images
+     */
+  , suite_load: function(){
+      var my = MuScaT ;
+
+      if (Options.get('crop image')){
+        my.loadModule('cropper', function(){$.proxy(MuScaT, 'prepare_crop_image')()});
+      } else {
+        // Placement des observers
+        this.set_observers();
+        // Si des lignes ont été créées au cours ud processus,
+        // on demande à l'utilisateur de sauver le code
+        if (my.motif_lines_added) {
+          my.codeAnalyseInClipboard(t('code-lines-added', {motif: my.motif_lines_added}));
+        }
+      }
+      return true;
+    } // load
 
   // Méthode appelée par le bouton pour afficher le code source
   // On met le code dans le clipboard pour qu'il soit copié-collé
@@ -179,8 +187,7 @@ const MuScaT = {
       var my = this, itag ;
       my.check_sequence_image_in_tags();
       my.onEachTagsLine(function(line){
-        itag = new Tag(line) ;
-        CTags.push(itag) ;
+        CTags.push(new Tag(line)) ;
       });
     }
   //parse_tags_js
@@ -218,13 +225,13 @@ const MuScaT = {
         , src_name
         , itag
         , i = from_indice
-        , data_img    = my.get_data_in_line(aft_name)
+        , data_img    = CTags.parseLine(aft_name)
         , images_list = new Array()
         ;
 
-      var left      = Options.get('marge gauche')       || DEFAULT_SCORE_LEFT_MARGIN ;
-      var top_first = Options.get('marge haut')         || DEFAULT_SCORE_TOP_MARGIN ;
-      var voffset   = Options.get('espacement images') ;
+      var left      = asPixels(Options.get('marge gauche') || DEFAULT_SCORE_LEFT_MARGIN) ;
+      var top_first = asPixels(Options.get('marge haut') || DEFAULT_SCORE_TOP_MARGIN) ;
+      var voffset   = asPixels(Options.get('espacement images')) ;
 
       // Pour indiquer qu'il faut calculer la position des images en fonction
       // de 1. l'espacement choisi ou par défaut et 2. la hauteur de l'image
@@ -235,13 +242,13 @@ const MuScaT = {
       if (data_img.x) {
         // console.log('La marge gauche est définie à ', data_img.x);
       } else {
-        data_img.x = left ;
+        data_img.x = asPixels(left) ;
       }
       if (data_img.y) {
         // console.log("La marge haute est définie à ", data_img.y)
-        top_first = data_img.y ;
+        top_first = asPixels(data_img.y) ;
       } else {
-        data_img.y = top_first -  voffset ; // -voffset pour éviter une condition ci-dessous
+        data_img.y = top_first - voffset ; // -voffset pour éviter une condition ci-dessous
       }
       if (data_img.w) {
         // console.log("La largeur est définie à ", data_img.w);
@@ -254,36 +261,9 @@ const MuScaT = {
         // Placement vertical provisoire. La vraie position sera recalculée dans
         // Page.treate_images_spaces
         data_img.y += voffset ;
-        lines_finales.push(bef_name + i + suffix + my.data_in_line_to_str(data_img));
+        lines_finales.push(`${bef_name}${i}${suffix} ${CTags.compactLine(data_img)}`);
       };
       M.motif_lines_added = t('image-sequentielle');
-    }
-
-  // Reçoit {x: 120, y: 130} et retourne " x=120 y=130"
-  // Noter le ' ' au début (pour coller directement)
-  , data_in_line_to_str: function(h){
-      var arr = new Array();
-      for(var k in h){arr.push(`${k}=${h[k]}`)};
-      return ' ' + arr.join(' ')
-    }
-
-    /**
-     * Utilisé pour les séquences image, pour obtenir les dimensions
-     * éventuellement définies.
-     */
-  , get_data_in_line: function(str){
-      var h = {} ;
-      str = str.trim().replace(/\t/g, ' ') ;
-      str = str.replace(/ +/g, ' ') ;
-      str.split(' ').forEach(function(paire){
-        [prop, value] = paire.split('=');
-        h[prop] = value || true ;
-      });
-      if (h.left)   { h.x = delete h.left   };
-      if (h.top)    { h.y = delete h.top    };
-      if (h.width)  { h.w = delete h.width  };
-      if (h.height) { h.h = delete h.height };
-      return h ;
     }
 
   /**

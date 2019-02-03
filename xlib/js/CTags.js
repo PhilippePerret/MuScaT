@@ -28,6 +28,43 @@ const CTags = {
       }
     }
 
+    /**
+      * Reçoit une ligne de code de TAG et retourne une table des
+      * données qui en sont tirées.
+      *
+      * TODO Faire de cette méthode la seule qui analyse une ligne de
+      * données de Tag. Il faut qu'elle soit complète et fiable.
+      */
+  , parseLine: function(str){
+      var h = {} ;
+      str = str.trim().replace(/[\t ]/g, ' ') ;
+      str = str.replace(/ +/g, ' ') ;
+      str.split(' ').forEach(function(paire){
+        [prop, value] = paire.split('=');
+        h[prop] = value || true ;
+      });
+      if (h.left)   { h.x = delete h.left   };
+      if (h.top)    { h.y = delete h.top    };
+      if (h.width)  { h.w = delete h.width  };
+      if (h.height) { h.h = delete h.height };
+      ['x','y','w','h'].forEach(function(prop){
+        if(h[prop]){h[prop] = asPixels(h[prop])}
+      });
+      return h ;
+    }
+
+  /**
+    * Inverse de la précédente
+    * Reçoit {x: 120, y: 130} et retourne " x=120 y=130"
+    * TODO Faire aussi de cette méthode une méthode générale/générique
+    */
+  , compactLine: function(h){
+      var arr = new Array();
+      for(var k in h){arr.push(`${k}=${h[k]}`)};
+      return arr.join(' ')
+    }
+
+
   , push: function(itag){
       if(undefined == itag.id){itag.id = ++ this.last_tag_id;}
       this[itag.id] = itag;
