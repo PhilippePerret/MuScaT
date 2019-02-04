@@ -75,6 +75,7 @@ const CTags = {
   , onSelect: function(itag, with_maj){
       var my = this ;
       if (itag.selected){
+        // console.log('-> itag est sélectionné')
         // Si c'est une reselection de l'élément déjà sélectionné,
         // on le désélectionne
         my.remove_from_selection(itag);
@@ -82,7 +83,7 @@ const CTags = {
         if (false == with_maj) { my.deselectAll() }
         my.selections.push(itag);
         itag.select();
-        my.selection = itag;
+        my.selection = itag ;
       }
     } // onSelect
 
@@ -180,7 +181,7 @@ const CTags = {
     var upper = sorteds[0] ;
     var lower = sorteds[sorteds.length - 1];
     var dist = lower.y - upper.y ;
-    console.log('dist:', dist);
+    // console.log('dist:', dist);
 
     // TODO Faut-il considérer la hauteur de l'élément le plus bas, pour
     // répartir visuellement ?
@@ -197,11 +198,10 @@ const CTags = {
    * Méthode directement appelée lorsque l'on clique sur un TAG
    * quelconque
    */
-  , onclick: function(ev){
+  , onclick: function(itag, ev){
     // On ferme la boite d'outils si elle était ouverte
     if(UI.tools_are_opened()){UI.hide_tools()}
     // On traite le clic sur l'élément courant
-    var itag = CTags[Number.parseInt($(this)[0].getAttribute('data-id'),10)] ;
     if(itag.group){
       ev.shiftKey = true ;
       itag.group.onEachTag(function(itag){itag.onClick(ev)})

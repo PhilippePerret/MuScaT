@@ -2,21 +2,21 @@
 
 
 * MISE EN PLACE DES SYSTÈMES POUR L'ANALYSE MUSICALE
-  * On présente l'espace trop petit
-  * On lance le terminal pour lancer le script de dossier de capture
-  * On met le dossier visible pour voir les captures se mettre dedans au fur et à mesure
-  * On procède au découpage.
-    * On conseille de faire les images plus grande pour une meilleure qualité.
-    * On découpe mal volontairement certaines images pour pouvoir les redécouper.
-  * On remet le dossier de captures au bureau (aucun argument)
-  * On lance le script de renommage de fichiers
-  * On montre comment rectifier une image mal découpée
-  * On montre la ligne unique qu'il suffit d'utiliser pour injecter tous les systèmes
-  * On ajoute les titres pour savoir à quelle hauteur commencer
-  * On définit l'espacement entre les systèmes + la hauteur du premier système avec les options.
-  * On définit une taille pour les systèmes.
-  * On vérifie la position en regardant l'impression, on rectifie pour obtenir des pages.
-    * Bien insister sur ce point : une bonne répartition dès le départ n'obligera pas à tout déplacer ensuite.
+  * [OK] On présente l'espace trop petit
+  * [OK] On lance le terminal pour lancer le script de dossier de capture
+  * [OK] On met le dossier visible pour voir les captures se mettre dedans au fur et à mesure
+  * [OK] On procède au découpage.
+    [OK] * On conseille de faire les images plus grande pour une meilleure qualité.
+    [OK] * On découpe mal volontairement certaines images pour pouvoir les redécouper.
+  * [OK] On remet le dossier de captures au bureau (aucun argument)
+  * [OK] On lance le script de renommage de fichiers
+  * [OK] On montre comment rectifier une image mal découpée
+  * [OK] On montre la ligne unique qu'il suffit d'utiliser pour injecter tous les systèmes
+  * [OK] On ajoute les titres pour savoir à quelle hauteur commencer
+  * [OK] On définit l'espacement entre les systèmes
+  * [OK] On définit une taille pour les systèmes.
+  * [OK] On vérifie la position en regardant l'impression, on rectifie pour obtenir des pages.
+    * [OK] Bien insister sur ce point : une bonne répartition dès le départ n'obligera pas à tout déplacer ensuite.
   * On peut verrouiller les partitions une fois qu'elles sont bien placées
       Pour ça, montrer comment faire dans un éditeur (sélectionner 'sco', faire autant de CMD D que nécessaire, venir au début et ajouter un '\*' — sans IDE : rechercher "RETURNsco" et remplacer par "RETURN* sco")
   * On peut commencer l'analyse.

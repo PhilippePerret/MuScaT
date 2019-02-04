@@ -32,17 +32,17 @@ img.tag {
   background-color: transparent;
   padding:  4px;
   z-index:  10;
-}
-
-.tag {
   border-width: 2px;
   border-style: solid;
-  border-color: transparent;
+  border-color: #EFEFEF;
 }
-.tag.selected {
+.tag.selected, .tag.selectedtag {
   border-color: blue !important;
   color: blue !important;
   background-color: #EEEEFF;
+}
+.tag.preselected {
+  border: 1px dashed blue;
 }
 .tag.warntag {
   background-color: #FFBBBB !important;

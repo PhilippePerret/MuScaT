@@ -431,6 +431,7 @@ Tag.prototype.build_and_watch = function(){
 Tag.prototype.build = function(){
   // console.log(`Construction du tag #${this.id} (y=${this.y})`);
   Page.add(this);
+  this.observe();
   this.built = true ;
   return this; // chainage
 };
@@ -520,11 +521,13 @@ Tag.prototype.checkPositionned = function(){
 Tag.prototype.updateY = function(newy){
   this.y = newy;
   this.jqObj.css({'top': (this.y||100) + 'px'});
+  this._surf = null ;
   this.checkPositionned();
 };
 Tag.prototype.updateX = function(newx){
   this.x = newx;
   this.jqObj.css({'left': (this.x||100) + 'px'});
+  this._surf = null ;
   this.checkPositionned();
 };
 Tag.prototype.updateH = function(newh){
@@ -535,6 +538,7 @@ Tag.prototype.updateH = function(newh){
   } else {
     my.h = newh;
   };
+  this._surf = null ;
   // Traitement particulier pour les modulations
   if(my.type == 'modulation'){
     if(my.h){
@@ -565,6 +569,7 @@ Tag.prototype.updateW = function(neww){
     my.w      = new_w;
     my.w_unit = new_w_unit;
   }
+  this._surf = null ;
   this.jqObj.css(my.width_to_obj()) ;
 };
 
@@ -869,7 +874,6 @@ Tag.prototype.compare_and_update_against = function(tagComp) {
     }
 
     if (are_different){
-      console.log('---> update', prop);
       my.update(prop, tagComp[prop]) ;
       my.modified = true ;
     }
@@ -877,6 +881,9 @@ Tag.prototype.compare_and_update_against = function(tagComp) {
   return my.modified == true ; // seulement pour les messages, je crois
 };
 
+
+// ---------------------------------------------------------------------
+// MÉTHODES ÉVÈNEMENTIELLES
 
 // Méthode qui place les observeurs sur l'élément, lorsqu'il a été
 // créé après la première fabrication (copies)
@@ -887,7 +894,10 @@ Tag.prototype.observe = function(){
     my.is_draggabled = true ;
   }
   my.jqObj.draggable('option', 'disabled', false) ;
-  my.jqObj.on('click', CTags.onclick) ;
+  my.jqObj
+    .on('mousedown',  $.proxy(my,'onMouseDown'))
+    .on('mouseup',    $.proxy(my,'onMouseUp'))
+    ;
 };
 
 Tag.prototype.unobserve = function(){
@@ -897,14 +907,34 @@ Tag.prototype.unobserve = function(){
     my.is_draggabled = true ;
   }
   my.jqObj.draggable('option', 'disabled', true) ;
-  my.jqObj.off('click') ;
+  my.jqObj
+    .off('mousedown')
+    .off('mouseup')
+    ;
+
 }
 
+Tag.prototype.onMouseDown = function(ev){
+  this.downed = true ;
+  return stop(ev);
+};
+Tag.prototype.onMouseUp = function(ev){
+  // Si le tag a vraiment été cliqué (mouse down), on
+  // effectue un click normal. Sinon, on retourne false
+  if (this.downed){
+    this.downed = false ;
+    CTags.onclick(this, ev);
+    return stop(ev)
+  } else {
+    return true; // pour se propager à la page
+  }
+}
 Tag.prototype.onClick = function(ev){
   var my = this ;
   var withMaj = ev.shiftKey;
   CTags.onSelect(my, ev.shiftKey);
   Page.getCoordonates(ev);
+  return stop(ev);
 };
 /**
  * Méthode pour focusser dans le Tag.
@@ -917,6 +947,7 @@ Tag.prototype.focus = function(){
   my.jqObj.focus(); // pas de listener
 };
 Tag.prototype.blur = function(){
+  // console.log('-> Tag#blur', this.ref());
   var my = CTags[this.id];
   CTags.onSelect(my); // pour déselectionner
   my.jqObj.blur(); // pas de listener
@@ -932,14 +963,17 @@ Tag.prototype.focus_litag = function(){
   my.litag.focus();
 };
 Tag.prototype.select = function(){
-  var my = this ;
+  var my = CTags[this.id];
+  // console.log('-> select', my.ref());
   my.jqObj.addClass('selected');
+  // console.log(my.jqObj);
   my.litag.activate();
   my.selected = true ;
 };
 
 Tag.prototype.deselect = function(){
   var my = this ;
+  // console.log('-> deselect', my.ref());
   my.jqObj.removeClass('selected');
   my.litag.desactivate();
   my.selected = false ;
@@ -1035,6 +1069,14 @@ Object.defineProperties(Tag.prototype,{
     }
   , jqObj: {
       get: function(){return $(`#${this.domId}`);}
+    }
+  , surf: {
+      get: function(){
+        if(!this._surf){
+          this._surf = new Surf({x:this.x, y: this.y, w:this.getW()[0], h: this.getH()[0]});
+        }
+        return this._surf;
+      }
     }
   , domObj: {
       get: function(){return document.getElementById(this.domId);}

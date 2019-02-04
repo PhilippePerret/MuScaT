@@ -1,5 +1,5 @@
 // Version avec titre
-options('code', 'repere', 'theme', 'muscat') ;
+options('code', 'reperes', 'theme', 'muscat') ;
 
 Tags = `
 titre Sonate_en_Mi_min

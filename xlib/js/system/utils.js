@@ -17,3 +17,7 @@ function asPixels(value){
     throw(t('pixels-required', {value: value}));
   }
 }
+
+function isKnown(value){
+  return 'undefined' != typeof(value); // est-ce que ça suffit ?
+}

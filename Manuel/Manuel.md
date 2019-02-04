@@ -86,6 +86,12 @@ Elle est semi-graphique, et permet d'ajuster très finement les TAGs — au pix
   * [Application « Terminal »](#application_terminal)
   * [Raccourcis clavier](#keyboard_shortcuts)
 
+
+## Remerciements
+
+Remerciements à [Thibault Jan Beyer](https://github.com/ThibaultJanBeyer/DragSelect) pour son excellent `DragSelect`.
+
+
 ## Synopsis général de création d'une analyse {#synopsis_fabrication}
 
 Commençons par un aperçu du processus général qui va permettre de produire une analyse musicale à l'aide de **MuScaT**. Noter que chaque item de cette liste est cliquable et permet de rejoindre la partie détaillée correspondante.

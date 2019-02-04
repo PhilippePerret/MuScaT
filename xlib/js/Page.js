@@ -3,6 +3,8 @@
   */
 const Page = {
     class: 'Page'
+  , RECTIF_X: 38  // On peut aussi utiliser RX (cf. tout en bas)
+  , RECTIF_Y: 38  // On peut aussi utiliser RY (cf. tout en bas)
   /**
     * Ajoute un élément quelconque dans la page (image, cadence, accord, etc.)
     *
@@ -38,6 +40,14 @@ const Page = {
       Tags = MuScaT.codeField().value ;
       MuScaT.update();
       message(' ');
+    }
+
+    /**
+     * Reçoit un noeud (tag sur la table) et retourne l'itag
+     * correspondant.
+     */
+  , tagFromNode: function(node){
+      return CTags[Number.parseInt(node.getAttribute('data-id'),10)];
     }
   /**
    * On doit s'assurer que les images sont bien chargées. Dans le cas
@@ -153,14 +163,40 @@ const Page = {
     *   . fermer la boite d'outils si elle était ouvert
     *   . tout désélectionner
     *   . mettre les coordonnées dans le presse-papier
+    *   . déclencher la sélection par rectangle
     */
   , onClickOut: function(ev){
       // console.log(ev);
       if(UI.tools_are_opened()){UI.hide_tools()};
       CTags.deselectAll();
-      this.getCoordonates(ev);
+      Page.getCoordonates(ev);
     }
 
+  , onMouseDown: function(ev){
+      // console.log('-> Page.onMouseDown')
+      if(!this.rectSelection){
+        // console.log(' Définition de this.rectSelection');
+        this.rectSelection = new DragSelect({
+            selectables: document.getElementsByClassName('tag')
+          , multiSelectMode: false
+          // , selectedClass: 'preselected'
+          // , area: document.getElementById('tags')
+          , callback: Page.finSelectionRectangle.bind(Page)
+        });
+        this.rectSelection.start();
+      }
+      return true;
+    }
+  , onMouseUp: function(ev){
+      if (this.rectSelection) {
+        this.rectSelection.stop();
+        this.rectSelection = null ;
+        delete this.rectSelection;
+      } else {
+        this.onClickOut();
+      }
+      // return stop(ev);
+    }
   , showVisorMaybe: function(){
       if(Options.get('visor')){this.showVisorAtCoordonates();}
     }
@@ -181,13 +217,34 @@ const Page = {
   // que pour une image cliquée
   , getCoordonates: function(ev){
       // console.log(ev);
-      var x = this.lastX = ev.pageX -45 ;
-      var y = this.lastY = ev.pageY -45 ;
+      var x = this.lastX = ev.pageX - 45 ;
+      var y = this.lastY = ev.pageY - 45 ;
       // var x = ev.offsetX - 15 ;
       // var y = ev.offsetY - 15 ;
       clip(' x='+x+" y="+y);
       message(`« x=${x} y=${y} » -> ${t('clipboard')}`);
       this.showVisorMaybe();
+    }
+
+  , observe: function(){
+      // console.log('-> Page.observe');
+      var my = this ;
+      my.table_analyse
+        .on('mousedown', $.proxy(Page,'onMouseDown'))
+        .on('mouseup', $.proxy(Page, 'onMouseUp'))
+        ;
+    }
+
+    /**
+     * Méthode appelée à la fin du DragSelect
+     */
+  , finSelectionRectangle: function(selecteds){
+      // console.log('-> finSelectionRectangle');
+      CTags.deselectAll();
+      for(var t of selecteds){
+        itag = this.tagFromNode(t);
+        CTags.onSelect(itag, true);
+      }
     }
 };
 Object.defineProperties(Page,{
@@ -199,4 +256,7 @@ Object.defineProperties(Page,{
       }
     }
 
-})
+});
+
+const RX = Page.RECTIF_X;
+const RY = Page.RECTIF_Y;

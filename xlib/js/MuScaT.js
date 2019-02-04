@@ -56,11 +56,11 @@ const MuScaT = {
     // Première méthode appelée par document.ready
     //
   , start_and_run: function(){
+      // console.log('-> start_and_run');
 
       // On prépare l'interface (notamment au niveau de la langue)
       UI.set_ui();
 
-      // console.log('-> start_and_run');
       // On doit construire les éléments d'après les définitions faites dans
       // le fichier tag.js
       this.load() ;
@@ -81,7 +81,7 @@ const MuScaT = {
       // ça déselectionne tout
       // $('#tags').on('click', function(ev){CTags.deselectAll()})
       if(!Options.get('crop image')){
-        Page.table_analyse.on('click', $.proxy(Page, 'onClickOut'));
+        Page.observe();
       }
 
       // Dans tous les cas, on construit la liste des liTags
@@ -343,9 +343,7 @@ const MuScaT = {
     }
 
   , set_observers: function(){
-      // On rend tous les éléments sensibles au click (mais sans propagation)
-      Page.table_analyse.find('.tag').on('click', CTags.onclick);
-      // On ajout un observateur de clic sur les images (ils en ont déjà un
+      // On ajoute un observateur de clic sur les images (ils en ont déjà un
       // par .tag) pour qu'ils donnent les coordonnées au clic de la souris,
       // ce qui peut servir à place un élément sur l'image directement
       Page.table_analyse.find('img').on('click', $.proxy(Page,'getCoordonates'))

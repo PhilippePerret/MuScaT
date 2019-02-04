@@ -1,5 +1,8 @@
 # Todo list
 
+* Sélection rectangle
+* Pouvoir demander à ne pas donner les options quand on donne le code final (option 'code sans options')
+
 ## TEST
 
 Voir sur githut avec `ghi list`

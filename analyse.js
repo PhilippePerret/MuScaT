@@ -1,1 +1,1 @@
-const ANALYSE="SONATE-MOZARTInPlace";
+const ANALYSE="EssaisInPlace";
