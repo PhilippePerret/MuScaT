@@ -256,7 +256,6 @@ const MuScaT = {
       // if (data_img.h){
       //   console.log("La hauteur est définie à ", data_img.h);
       // }
-
       for(i;i<=to_indice;++i){
         // Placement vertical provisoire. La vraie position sera recalculée dans
         // Page.treate_images_spaces

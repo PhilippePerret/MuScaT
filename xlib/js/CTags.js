@@ -47,8 +47,15 @@ const CTags = {
       if (h.top)    { h.y = delete h.top    };
       if (h.width)  { h.w = delete h.width  };
       if (h.height) { h.h = delete h.height };
-      ['x','y','w','h'].forEach(function(prop){
+      ['x','y'].forEach(function(prop){
         if(h[prop]){h[prop] = asPixels(h[prop])}
+      });
+      ['w','h'].forEach(function(prop){
+        if(h[prop]){
+          var pair = valueAndUnitOf(h[prop]);
+          h[prop] = pair[0] ;
+          h[`${prop}_unit`] = pair[1];
+        };
       });
       return h ;
     }

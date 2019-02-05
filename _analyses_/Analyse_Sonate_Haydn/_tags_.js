@@ -420,3 +420,7 @@ score sonate_haydn-24.png x=-2 y=5657 w=175mm
 score sonate_haydn-25.png x=10 y=5285 w=175mm
 score sonate_haydn-26.png x=9 y=5843 w=175mm
 `;
+
+Tags = `
+score sonate_haydn-[0-26].png x=5 y=271 w=175mm
+`;

@@ -255,14 +255,7 @@ Tag.prototype.height_to_str = function(){
  * Méthode qui sépare la valeur de l'unité
  */
 Tag.prototype.get_value_and_unit = function(fullvalue) {
-  var my = this._domId ? CTags[this.id] : this ;
-  if('number' == typeof(fullvalue)){
-    return [fullvalue, 'px'];
-  } else {
-    var arr = fullvalue.trim().match(/^([0-9\.]+)([a-z%]+)?$/);
-    if ( !arr ){ return [null, null] }
-    else { return [Number.parseInt(arr[1],10), arr[2]] };
-  };
+  return valueAndUnitOf(fullvalue);
 };
 // Pour obtenir la valeur x et y des éléments
 // Plutôt que d'utiliser les méthodes top et left de jQuery (qui retournent

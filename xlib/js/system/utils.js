@@ -16,8 +16,23 @@ function asPixels(value){
   } else {
     throw(t('pixels-required', {value: value}));
   }
-}
+};
+
+/**
+ * Reçoit une valeur comme "124" (chiffre ou string), "129px", etc.
+ * et retourn e [<nombre>, <unité>], par exemple [124, null] ou [129, 'px']
+ */
+function valueAndUnitOf(value){
+  if('number' == typeof(value)){
+    return [value, 'px'];
+  } else {
+    var arr = value.trim().match(/^([0-9\.]+)([a-z%]+)?$/);
+    if ( !arr ){ return [null, null] }
+    else { return [Number.parseInt(arr[1],10), arr[2]] };
+  };
+
+};
 
 function isKnown(value){
   return 'undefined' != typeof(value); // est-ce que ça suffit ?
-}
+};

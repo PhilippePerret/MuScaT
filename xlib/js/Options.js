@@ -23,7 +23,7 @@
    , 'langage':                     {aka: 'lang'}
    , 'lines of reference':          {boolean: true, value: false} // si true, affiche les lignes de guide
    , 'espacement images':           {aka: 'space between scores'}
-   , 'space between scores':        {boolean: false, value: null, default: 0}
+   , 'space between scores':        {boolean: false, value: null, default: 10}
    , 'top first score':             {boolean: false, value: null}
    , 'marge haut':                  {aka: 'top first score'}
    , 'left margin':                 {boolean: false, value: null}
