@@ -37,6 +37,14 @@ Surf.prototype.observe = function(){
     this.jqObj.on('mouseup', this.onMouseUp)
   }
 };
+Surf.prototype.inspect = function(){
+  return {
+    left: this.x,
+    top: this.y,
+    right: this.r,
+    bottom: this.b
+  }
+};
 // ---------------------------------------------------------------------
 //  MÉTHODES DE CALCULS
 /**
@@ -44,15 +52,15 @@ Surf.prototype.observe = function(){
  * +rect+.
  */
 Surf.prototype.isIn = function(rect){
-  console.log('-> isIn ?');
+  // console.log('-> isIn ?');
   var res = this.x >= rect.x && this.y >= rect.y && this.b <= rect.b && this.r <= rect.r;
-  console.log({
-    tag_x: this.x, rect_x: rect.x,
-    tag_y: this.y, rect_y: rect.y,
-    tag_b: this.b, rect_b: rect.b,
-    tag_r: this.r, rect_r: rect.r,
-  })
-  console.log('isIn:',res);
+  // console.log({
+  //   tag_x: this.x, rect_x: rect.x,
+  //   tag_y: this.y, rect_y: rect.y,
+  //   tag_b: this.b, rect_b: rect.b,
+  //   tag_r: this.r, rect_r: rect.r,
+  // })
+  // console.log('isIn:',res);
   return res;
 };
 
@@ -76,7 +84,7 @@ Object.defineProperties(Surf.prototype,{
         get: function(){
           if(isKnown(this._y)){return this._y}
           if(isKnown(this._b) && isKnown(this._h)){
-            this._y = this._h - this._b;
+            this._y = asNum(this._h) - asNum(this._b);
           }
           return this._y;
         }
@@ -86,13 +94,13 @@ Object.defineProperties(Surf.prototype,{
         get: function(){
           if(isKnown(this._w)){return this._w};
           if(isKnown(this._x) && isKnown(this._r)){
-            this._w = this._r - this._x ;
+            this._w = asNum(this._r) - asNum(this._x) ;
           }
           return this._w;
         }
       , set:function(value){
           this._w = value;
-          this._r = this._x + this._w;
+          this._r = asNum(this._x) + asNum(this._w);
           this.update();
         }
     }
@@ -100,13 +108,13 @@ Object.defineProperties(Surf.prototype,{
         get: function(){
           if(isKnown(this._h)){return this._h};
           if(isKnown(this._y) && isKnown(this._b)){
-            this._h = this._b - this._y;
+            this._h = asNum(this._b) - asNum(this._y);
           }
           return this._h;
         }
       , set:function(value){
           this._h = value;
-          this._b = this._y + this._h;
+          this._b = asNum(this._y) + asNum(this._h);
           this.update();
         }
     }
@@ -114,27 +122,27 @@ Object.defineProperties(Surf.prototype,{
         get: function(){
           if(isKnown(this._r)){return this._r}
           if(isKnown(this._x) && isKnown(this._w)){
-            this._r = this._x + this._w;
+            this._r = asNum(this._x) + asNum(this._w);
           }
           return this._r;
         }
       , set:function(value){
           this._r = value;
-          this._w = this._r - this._x;
+          this._w = asNum(this._r) - asNum(this._x);
           this.update();
         }
     }
   , b: {
         get: function(){
           if(isKnown(this._b)){return this._b};
-          if(isKnown(this._x) && isKnown(this._h)){
-            this._b = this._x + this._h;
+          if(isKnown(this._y) && isKnown(this._h)){
+            this._b = asNum(this._y) + asNum(this._h);
           };
           return this._b;
         }
       , set:function(value){
           this._b = value;
-          this._h = this._b - this._y;
+          this._h = asNum(this._b) - asNum(this._y);
           this.update();
         }
     }

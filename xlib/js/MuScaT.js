@@ -342,12 +342,10 @@ const MuScaT = {
     }
 
   , set_observers: function(){
-      // On ajoute un observateur de clic sur les images (ils en ont déjà un
-      // par .tag) pour qu'ils donnent les coordonnées au clic de la souris,
-      // ce qui peut servir à place un élément sur l'image directement
-      Page.table_analyse.find('img').on('click', $.proxy(Page,'getCoordonates'))
-      // On rend tous les éléments draggable
-      Page.table_analyse.find('.drag').draggable(DATA_DRAGGABLE)
+      // // On ajoute un observateur de clic sur les images (ils en ont déjà un
+      // // par .tag) pour qu'ils donnent les coordonnées au clic de la souris,
+      // // ce qui peut servir à place un élément sur l'image directement
+      // Page.table_analyse.find('img').on('click', $.proxy(Page,'getCoordonates'))
     }
 
   /**

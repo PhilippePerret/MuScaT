@@ -19,6 +19,13 @@ function asPixels(value){
 };
 
 /**
+ * Retourne +value+ sous forme d'entier en base 10
+ */
+function asNum(value){
+  return Number.parseInt(value,10);
+}
+
+/**
  * Reçoit une valeur comme "124" (chiffre ou string), "129px", etc.
  * et retourn e [<nombre>, <unité>], par exemple [124, null] ou [129, 'px']
  */
@@ -35,4 +42,8 @@ function valueAndUnitOf(value){
 
 function isKnown(value){
   return 'undefined' != typeof(value); // est-ce que ça suffit ?
+};
+
+function isEvent(foo){
+  return foo && 'function' == typeof(foo.stopPropagation);
 };

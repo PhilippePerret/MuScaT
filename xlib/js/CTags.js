@@ -204,17 +204,19 @@ const CTags = {
   /**
    * Méthode directement appelée lorsque l'on clique sur un TAG
    * quelconque
+   *
+   * +ev+ est l'évènement click, mais il peut être null aussi.
    */
   , onclick: function(itag, ev){
     // On ferme la boite d'outils si elle était ouverte
     if(UI.tools_are_opened()){UI.hide_tools()}
     // On traite le clic sur l'élément courant
     if(itag.group){
-      ev.shiftKey = true ;
+      ev.shiftKey = true;
       itag.group.onEachTag(function(itag){itag.onClick(ev)})
     } else {
       if( !itag.locked ) {
-        itag.onClick(ev)
+        itag.onClick(ev);
       }
     }
     return stop(ev);

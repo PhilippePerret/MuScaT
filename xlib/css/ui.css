@@ -195,3 +195,12 @@ div#visor {
   background-color: orange;
   z-index: 3000;
 }
+
+/* --------------------------------------------------------------------- */
+/* Pour la sélection multiple */
+div.rectangle-selection {
+  position: absolute;
+  border: 1px dashed green;
+  background-color: rgba(200, 255, 200, 0.3);
+  z-index: 4000;
+}

@@ -45,9 +45,10 @@ const DATA_DRAGGABLE = {
     }
   , drag: function(ev, ui){
       var my = this ;
+      $.proxy(my._tag,'onMoving')(ev);
       if(my._tag.group){
         // Si le tag courant est dans un group, il faut reproduire
-        // sur chaque élément le déplacement
+        // le déplacement sur chaque élément
         var deltaX = my._tag.getX() - my._tag.startX ;
         var deltaY = my._tag.getY() - my._tag.startY ;
         my._tag.group.onEachTag(function(tg){

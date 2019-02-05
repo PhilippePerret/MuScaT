@@ -289,7 +289,8 @@ Tag.prototype.getH = function(){
 // Retourne une table de clé:valeur des styles définis
 // dans la balise
 Tag.prototype.hStyles = function(){
-  var domstl  = this.domObj.style ;
+  var my = CTags[this.id];
+  var domstl  = my.domObj.style ;
   var hstyles = {};
   ['left','top','width','height'].forEach(function(prop){
     if (domstl[prop]) { hstyles[prop] = domstl[prop] } ;
@@ -774,50 +775,6 @@ Tag.prototype.hposition = function(){
   return "x: " + my.x + ' / y: ' + my.y ;
 }
 
-// ---------------------------------------------------------------------
-// Méthodes évènementielles
-
-Tag.prototype.onStopMoving = function(){
-  var my = CTags[this.id] ;
-  var msg ;
-  // Utile pour la copie
-  var   prev_x = my.x
-      , prev_y = my.y
-      , position = my.jqObj.offset();
-
-  // Dans tous les cas, pour une copie ou un pur déplacement, on doit
-  // mettre les x et y à leur valeur. Pour la copie, ils serviront pour
-  // le nouveau tag et on remettra ensuite les anciennes valeurs.
-  my.x = my.getX();
-  my.y = my.getY();
-
-  var tagcopy;
-  if (my.pour_copie){
-    // Si le tag courant est sélectionné, on le déselectionne
-    if(my.selected){CTags.onSelect(my)}
-    // On fait la copie
-    tagcopy = my.createCopy();
-    // Il faut remettre le tag à sa place (seulement ici, pour que les valeurs
-    // de x et y ci-dessus soit bien les nouvelles)
-    my.x = prev_x ; my.y = prev_y ;
-  } else {
-    // Gérer l'historique des opérations.
-    // Noter qu'il ne faut pas le faire pour la copie, puisque l'élément
-    // original ne bouge pas, dans ce cas-là.
-    H.add([new HistoProp(my, 'x', prev_x, my.x), new HistoProp(my, 'y', prev_y, my.y)]) ;
-    message(t('new-position-tag', {ref: my.ref(), position: my.hposition()}));
-  }
-  // Que ce soit pour une copie ou pour un déplacement, il faut actualiser
-  // les données de l'élément
-  my.updateXY();
-  // Il faudrait pouvoir sélectionner la copie, mais je n'y arrive pas…
-  // if(tagcopy){CTags.onSelect(tagcopy)};
-};
-
-Tag.prototype.onStartMoving = function(ev, ui){
-  var my = this ;
-  my.pour_copie = (ev.altKey == true) ;
-};
 
 // ---------------------------------------------------------------------
 //  Méthodes de création
@@ -882,11 +839,6 @@ Tag.prototype.compare_and_update_against = function(tagComp) {
 // créé après la première fabrication (copies)
 Tag.prototype.observe = function(){
   var my = this ;
-  if( ! my.is_draggabled ){
-    my.jqObj.draggable(DATA_DRAGGABLE) ;
-    my.is_draggabled = true ;
-  }
-  my.jqObj.draggable('option', 'disabled', false) ;
   my.jqObj
     .on('mousedown',  $.proxy(my,'onMouseDown'))
     .on('mouseup',    $.proxy(my,'onMouseUp'))
@@ -895,20 +847,74 @@ Tag.prototype.observe = function(){
 
 Tag.prototype.unobserve = function(){
   var my = this ;
-  if( ! my.is_draggabled ){
-    my.jqObj.draggable(DATA_DRAGGABLE) ;
-    my.is_draggabled = true ;
-  }
-  my.jqObj.draggable('option', 'disabled', true) ;
   my.jqObj
     .off('mousedown')
     .off('mouseup')
     ;
+};
 
-}
+Tag.prototype.onStopMoving = function(){
+  var my = CTags[this.id] ;
+  var msg ;
+  // Utile pour la copie
+  var   prev_x = my.x
+      , prev_y = my.y
+      , position = my.jqObj.offset();
+
+  CTags.currentMovingTag = null ;
+
+  // Dans tous les cas, pour une copie ou un pur déplacement, on doit
+  // mettre les x et y à leur valeur. Pour la copie, ils serviront pour
+  // le nouveau tag et on remettra ensuite les anciennes valeurs.
+  my.x = my.getX();
+  my.y = my.getY();
+
+  var tagcopy;
+  if (my.pour_copie){
+    // Si le tag courant est sélectionné, on le déselectionne
+    if(my.selected){CTags.onSelect(my)}
+    // On fait la copie
+    tagcopy = my.createCopy();
+    // Il faut remettre le tag à sa place (seulement ici, pour que les valeurs
+    // de x et y ci-dessus soit bien les nouvelles)
+    my.x = prev_x ; my.y = prev_y ;
+  } else {
+    // Gérer l'historique des opérations.
+    // Noter qu'il ne faut pas le faire pour la copie, puisque l'élément
+    // original ne bouge pas, dans ce cas-là.
+    H.add([new HistoProp(my, 'x', prev_x, my.x), new HistoProp(my, 'y', prev_y, my.y)]) ;
+    message(t('new-position-tag', {ref: my.ref(), position: my.hposition()}));
+  }
+  // Que ce soit pour une copie ou pour un déplacement, il faut actualiser
+  // les données de l'élément
+  my.updateXY();
+  // Il faudrait pouvoir sélectionner la copie, mais je n'y arrive pas…
+  // if(tagcopy){CTags.onSelect(tagcopy)};
+};
+
+Tag.prototype.onStartMoving = function(ev, ui){
+  var my = CTags[this.id] ;
+  // Pour connaitre le tag qui se déplace actuellement et pouvoir interrompre
+  // le déplacement avec ESCAPE (quand un blocage survient)
+  CTags.currentMovingTag = my ;
+  my.pour_copie = (ev.altKey == true) ;
+};
+
+Tag.prototype.startMoving = function(ev){
+  console.log('début de déplacement de #', this.id);
+  Mover.start(this, ev);
+};
+Tag.prototype.stopMoving = function(ev){
+  console.log('arrêt de déplacement de #',this.id);
+  Mover.stop(this, ev);
+};
+Tag.prototype.onStopMoving = function(ev){
+
+};
 
 Tag.prototype.onMouseDown = function(ev){
   this.downed = true ;
+  this.startMoving(ev);
   return stop(ev);
 };
 Tag.prototype.onMouseUp = function(ev){
@@ -917,17 +923,20 @@ Tag.prototype.onMouseUp = function(ev){
   if (this.downed){
     this.downed = false ;
     CTags.onclick(this, ev);
-    return stop(ev)
+    this.stopMoving();
+    return stop(ev);
   } else {
     return true; // pour se propager à la page
   }
 }
+
 Tag.prototype.onClick = function(ev){
   var my = this ;
-  var withMaj = ev.shiftKey;
   CTags.onSelect(my, ev.shiftKey);
-  Page.getCoordonates(ev);
-  return stop(ev);
+  if(isEvent(ev)){
+    Page.getCoordonates(ev);
+    return stop(ev)
+  };
 };
 /**
  * Méthode pour focusser dans le Tag.

@@ -138,5 +138,4 @@ const TAG_PROPS_TO_REAL = {
   , 'cf': 'bgc' // comme "Couleur de Fond"
   , 'couleur': 'c'
   , 'color': 'c'
-
-}
+};

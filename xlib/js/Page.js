@@ -3,8 +3,8 @@
   */
 const Page = {
     class: 'Page'
-  , RECTIF_X: 38  // On peut aussi utiliser RX (cf. tout en bas)
-  , RECTIF_Y: 38  // On peut aussi utiliser RY (cf. tout en bas)
+  , RECTIF_X: 30  // On peut aussi utiliser RX (cf. tout en bas)
+  , RECTIF_Y: 30  // On peut aussi utiliser RY (cf. tout en bas)
   /**
     * Ajoute un élément quelconque dans la page (image, cadence, accord, etc.)
     *
@@ -49,6 +49,37 @@ const Page = {
   , tagFromNode: function(node){
       return CTags[Number.parseInt(node.getAttribute('data-id'),10)];
     }
+
+  /**
+    * Méthode appelée quand on clique sur la page, en dehors d'un tag
+    * Ça permet notamment de :
+    *   . fermer la boite d'outils si elle était ouvert
+    *   . tout désélectionner
+    *   . mettre les coordonnées dans le presse-papier
+    *   . déclencher la sélection par rectangle
+    */
+  , onClickOut: function(ev){
+      // console.log(ev);
+      if(UI.tools_are_opened()){UI.hide_tools()};
+      CTags.deselectAll();
+      Page.getCoordonates(ev);
+    }
+
+  , onMouseDown: function(ev){
+      // console.log('-> Page.onMouseDown')
+      // this.rectSelection.start();
+      return true;
+    }
+  , onMouseUp: function(ev){
+      // this.rectSelection.stop();
+      // +ev+ n'est pas défini, par exemple, quand on passe par ici avec
+      // la touche ESCAPE.
+      if(ev){
+        this.onClickOut(ev);
+        return stop(ev);
+      } else { return false };
+    }
+
   /**
    * On doit s'assurer que les images sont bien chargées. Dans le cas
    * contraire, on signale une erreur à l'utilisateur.
@@ -156,47 +187,6 @@ const Page = {
        $('#refline_h').css('position','fixed');
        $('#refline_v').css('position','fixed');
      }
-
-  /**
-    * Méthode appelée quand on clique sur la page, en dehors d'un tag
-    * Ça permet notamment de :
-    *   . fermer la boite d'outils si elle était ouvert
-    *   . tout désélectionner
-    *   . mettre les coordonnées dans le presse-papier
-    *   . déclencher la sélection par rectangle
-    */
-  , onClickOut: function(ev){
-      // console.log(ev);
-      if(UI.tools_are_opened()){UI.hide_tools()};
-      CTags.deselectAll();
-      Page.getCoordonates(ev);
-    }
-
-  , onMouseDown: function(ev){
-      // console.log('-> Page.onMouseDown')
-      if(!this.rectSelection){
-        // console.log(' Définition de this.rectSelection');
-        this.rectSelection = new DragSelect({
-            selectables: document.getElementsByClassName('tag')
-          , multiSelectMode: false
-          // , selectedClass: 'preselected'
-          // , area: document.getElementById('tags')
-          , callback: Page.finSelectionRectangle.bind(Page)
-        });
-        this.rectSelection.start();
-      }
-      return true;
-    }
-  , onMouseUp: function(ev){
-      if (this.rectSelection) {
-        this.rectSelection.stop();
-        this.rectSelection = null ;
-        delete this.rectSelection;
-      } else {
-        this.onClickOut();
-      }
-      // return stop(ev);
-    }
   , showVisorMaybe: function(){
       if(Options.get('visor')){this.showVisorAtCoordonates();}
     }
@@ -227,25 +217,55 @@ const Page = {
     }
 
   , observe: function(){
-      // console.log('-> Page.observe');
-      var my = this ;
-      my.table_analyse
-        .on('mousedown', $.proxy(Page,'onMouseDown'))
-        .on('mouseup', $.proxy(Page, 'onMouseUp'))
-        ;
+      // On se sert du Mover, maintenant
+      Mover.init();
+      // // console.log('-> Page.observe');
+      // var my = this ;
+      // my.table_analyse
+      //   .on('mousedown',  $.proxy(Page,'onMouseDown'))
+      //   .on('mouseup',    $.proxy(Page, 'onMouseUp'))
+      //   .on('mousemove',  $.proxy(Page, 'onMouseMove'))
+      //   ;
+      //
+      // // On crée le rectangle de sélection
+      // my.rectSelection = new DragSelect({
+      //     selectables: document.getElementsByClassName('tag')
+      //   , multiSelectMode: false
+      //   // , selectedClass: 'preselected'
+      //   // , area: document.getElementById('tags')
+      //   , callback: Page.finSelectionRectangle.bind(Page)
+      // });
+
+
     }
 
-    /**
-     * Méthode appelée à la fin du DragSelect
-     */
-  , finSelectionRectangle: function(selecteds){
-      // console.log('-> finSelectionRectangle');
-      CTags.deselectAll();
-      for(var t of selecteds){
-        itag = this.tagFromNode(t);
-        CTags.onSelect(itag, true);
-      }
-    }
+  //   /**
+  //    * La méthode qui reçoit tous les mousemoves, quels qu'ils soient.
+  //    * On essaie de tout gérer par elle, pour s'en sortir, sinon, les
+  //    * évènements fusent de partout.
+  //    * Avec cette méthode, on définit un "sujet" (qui peut être un tag) et
+  //    * c'est toujours ce sujet qu'on déplace en fonction de ses positions
+  //    * de départ et de fin
+  //    */
+  // , onMouseMove: function(){
+  //     var my = this ;
+  //     if(my.subject){
+  //       console.log('Je bouge le sujet #', my.subject.id);
+  //     } else {
+  //       console.log('on bouge sur la table sans sujet…');
+  //     }
+  //   }
+  //   /**
+  //    * Méthode appelée à la fin du DragSelect
+  //    */
+  // , finSelectionRectangle: function(selecteds){
+  //     // console.log('-> finSelectionRectangle');
+  //     CTags.deselectAll();
+  //     for(var t of selecteds){
+  //       itag = this.tagFromNode(t);
+  //       CTags.onSelect(itag, true);
+  //     }
+  //   }
 };
 Object.defineProperties(Page,{
     pour_virgule: {}
