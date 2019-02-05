@@ -25,7 +25,6 @@ const Mover = {
       this.startEvent = ev ;
       this.startObjectPosition = {x: s.getX(), y: s.getY()};
       this.startPosition = {x: ev.pageX, y: ev.pageY};
-      // this.startPosition = {x: ev.pageX - Page.RECTIF_X, y: ev.pageY - Page.RECTIF_Y};
       // console.log('start-position:',this.startPosition);
       // console.log('start-objet-position:',this.startObjectPosition);
     }
@@ -36,15 +35,12 @@ const Mover = {
      * lorsque par exemple la souris s'est déplacée en dehors du sujet.
      */
   , stop: function(s, ev){
+      // console.log('-> Mover.stop', ev);
       this.stopEvent = ev ;
       this.subject.onStopMoving(ev);
       this.subject = null ;
     }
   , init: function(){
-      $('#tags')
-        .on('mousedown',  $.proxy(Mover,'onMouseDown'))
-        .on('mouseup',    $.proxy(Mover,'onMouseUp'))
-        .on('mousemove',  $.proxy(Mover,'onMouseMove'));
       Mover.onMouseDown = Mover.onMouseDown.bind(Mover);
       Mover.onMouseUp   = Mover.onMouseUp.bind(Mover);
       Mover.onMouseMove = Mover.onMouseMove.bind(Mover);
@@ -52,6 +48,10 @@ const Mover = {
       Mover.stop        = Mover.stop.bind(Mover);
       Mover.startSelection  = Mover.startSelection.bind(Mover);
       Mover.stopSelection   = Mover.stopSelection.bind(Mover);
+      $('#tags')
+        .on('mousedown',  $.proxy(Mover,'onMouseDown'))
+        .on('mouseup',    $.proxy(Mover,'onMouseUp'))
+        .on('mousemove',  $.proxy(Mover,'onMouseMove'));
       // console.log('Mover initialisé.');
     }
 
@@ -69,6 +69,7 @@ const Mover = {
       // this.startSelection(ev);
     }
   , onMouseUp: function(ev){
+      // console.log('-> Mover.onMouseUp');
       if (this.subject){
         // console.log('fin du déplacement, du sujet #', this.subject.id);
         this.stop(this.subject, ev);

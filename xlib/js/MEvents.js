@@ -143,17 +143,7 @@ const MEvents = {
         case 9:
           return stop(ev);
         case 27: // la touche escape, pour se tirer des mauvais pas
-          console.log('ESCAPE');
-          Page.onMouseUp(null);
-          if(CTags.currentMovingTag){
-            // RIEN NE FONCTIONNE POUR LE MOMENT
-            console.log('Tag courant mouvant', CTags.currentMovingTag);
-            CTags.currentMovingTag.jqObj.bind('dragstop', $.proxy(CTags.currentMovingTag,'onStopMoving'))
-            CTags.currentMovingTag.jqObj.trigger('dragstop');
-            // CTags.currentMovingTag.unobserve();
-            // CTags.currentMovingTag.observe();
-            // CTags.currentMovingTag.onStopMoving(null);
-          }
+          // console.log('ESCAPE');
           return stop(ev);
       }
       // this.console_key(ev);

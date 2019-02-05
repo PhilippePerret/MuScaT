@@ -158,12 +158,12 @@ LITag.prototype.scrollIfNotVisible = function(){
 
 LITag.prototype.observe = function(){
   var my = this ;
-  // console.log(`-> observe #${my.id}`);
-  my.jqObj.on('focus', $.proxy(my, 'onFocus'));
-  my.jqObj.on('blur', $.proxy(my, 'onBlur'));
-  my.jqObj.on('keypress', $.proxy(my, 'onKeyPress'));
-  my.jqObj.on('keyup', $.proxy(my, 'onKeyUp'));
-  my.jqObj.on('keydown', $.proxy(my, 'onKeyDown'));
+  my.jqObj
+    .on('focus', $.proxy(my, 'onFocus'))
+    .on('blur', $.proxy(my, 'onBlur'))
+    .on('keyup', $.proxy(my, 'onKeyUp'))
+    .on('keydown', $.proxy(my, 'onKeyDown'))
+    ;
   // my.jqObj.on('click', function(){console.log(`Click dans #${my.id}`)});
 }
 LITag.prototype.onFocus = function(ev){
@@ -189,12 +189,6 @@ LITag.prototype.onBlur = function(ev){
   my.selected = null; // ULTags.selected reste à ce tag
 };
 LITag.prototype.onKeyPress = function(ev){
-  // switch (ev.keyCode) {
-  //   case 9: // Touche tabulation
-  //     // console.log('TAG dans onKeyPress');
-  //     break;
-  //     // return stop(ev); // ne rien faire, c'est pour sélectionner le code
-  // }
 };
 LITag.prototype.onKeyUp = function(ev){
   switch (ev.keyCode) {

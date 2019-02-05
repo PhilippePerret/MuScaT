@@ -251,28 +251,22 @@ Tag.prototype.height_to_str = function(){
   else {return ''};
 };
 
-/**
- * Méthode qui sépare la valeur de l'unité
- */
-Tag.prototype.get_value_and_unit = function(fullvalue) {
-  return valueAndUnitOf(fullvalue);
-};
 // Pour obtenir la valeur x et y des éléments
 // Plutôt que d'utiliser les méthodes top et left de jQuery (qui retournent
 // des valeurs fantaisistes pour les objets transformés (rotate), on va
 // voir directement dans le style de l'objet)
 Tag.prototype.getX = function() {
-  return this.get_value_and_unit(this.hStyles()['left'])[0] ;
+  return valueAndUnitOf(this.hStyles()['left'])[0] ;
 };
 Tag.prototype.getY = function() {
-  return this.get_value_and_unit(this.hStyles()['top'])[0] ;
+  return valueAndUnitOf(this.hStyles()['top'])[0] ;
 };
 // ATTENTION : contrairement à getX et getY, la fonction retourne un array
 // contenant [value, unit]
 Tag.prototype.getW = function(){
   var thew = this.hStyles()['width'] || this.jqObj.width();
   if (thew == 'auto') { return [this.jqObj.width(), 'px'] }
-  else { return this.get_value_and_unit(thew) };
+  else { return valueAndUnitOf(thew) };
 };
 // ATTENTION : contrairement à getX et getY, la fonction retourne un objet
 // contenant [value, unit]
@@ -283,7 +277,7 @@ Tag.prototype.getH = function(){
   } else {
     var theh = this.hStyles()['height'] || this.jqObj.height();
     if (theh == 'auto'){return {value: this.jqObj.height(), unit: 'px'}}
-    else { return this.get_value_and_unit(theh) };
+    else { return valueAndUnitOf(theh) };
   }
 };
 // Retourne une table de clé:valeur des styles définis
@@ -334,7 +328,7 @@ Tag.prototype.move = function(sens, mult, fin){
     };
   }(sens);
   my.update(prop, my[prop] + (pas * mltpas));
-}
+};
 // ---------------------------------------------------------------------
 //  Méthodes de CONSTRUCTION
 
@@ -552,7 +546,7 @@ Tag.prototype.updateW = function(neww){
     my.w = null;
     my.w_unit = null;
   } else {
-    var [new_w, new_w_unit] = my.get_value_and_unit(neww);
+    var [new_w, new_w_unit] = valueAndUnitOf(neww);
     if(my.nature == 'cadence'){
       // Pour une cadence, la largeur doit ajouter vers la
       // droite et laisser le bout à gauche
@@ -629,19 +623,6 @@ Tag.prototype.updateFontSize = function(newc){
 }
 // ---------------------------------------------------------------------
 
-// Return un code pour le style de la ligne
-// Ce code fonctionne en trois caractères :
-//  1. bit indiquant s'il y a une ligne verticale pour commencer 0/1
-//  2. bit indiquant si la ligne est en haut ou en bas (B/T)
-//  3. bit indiquant s'il y a une ligne verticale à la fin.
-Tag.prototype.code_line_by_type = function() {
-  var my = this ;
-  var c = '' ;
-  c += ['U', 'L'].includes(my.type) ? '1' : '0' ;
-  c += ['U', 'L', 'V'].includes(my.type) ? 'B' : 'T' ; // ligne bottom/top
-  c += ['U', 'V', '^'].includes(my.type) ? '1' : '0' ;
-  return c;
-}
 
 // ---------------------------------------------------------------------
 //  Méthodes d'analyse
@@ -675,7 +656,7 @@ Tag.prototype.decompose = function(){
         case 'w':
           // Pour la hauteur et la largeur, valeur et unité sont stockées
           // dans deux propriétés différentes, w et w_unit, h et y_unit
-          var [new_val, new_unit] = my.get_value_and_unit(value);
+          var [new_val, new_unit] = valueAndUnitOf(value);
           my[varia] = new_val;
           my[`${varia}_unit`] = new_unit;
           break;
@@ -759,7 +740,7 @@ Tag.prototype.recompose = function(options){
  * Une valeur n'a pas été forcément donnée avec le nom exact de la
  * propriété. Cette méthode permet de récupérer le nom initial de la
  * propriété pour la rendre dans la ligne de code (pour que l'utilisateur
- * s'y retrouver).
+ * s'y retrouve).
  */
 Tag.prototype.prop_username = function(prop){
   var my = this;
@@ -853,15 +834,18 @@ Tag.prototype.unobserve = function(){
     ;
 };
 
-Tag.prototype.onStopMoving = function(){
+Tag.prototype.onStopMoving = function(ev){
+  // console.log('-> onStopMoving #', this.ref());
   var my = CTags[this.id] ;
   var msg ;
   // Utile pour la copie
   var   prev_x = my.x
       , prev_y = my.y
-      , position = my.jqObj.offset();
+      , position = my.jqObj.offset()
+      , pour_copie = ev.altKey
+      ;
 
-  CTags.currentMovingTag = null ;
+  // CTags.currentMovingTag = null ;
 
   // Dans tous les cas, pour une copie ou un pur déplacement, on doit
   // mettre les x et y à leur valeur. Pour la copie, ils serviront pour
@@ -870,11 +854,12 @@ Tag.prototype.onStopMoving = function(){
   my.y = my.getY();
 
   var tagcopy;
-  if (my.pour_copie){
+  if (pour_copie){
     // Si le tag courant est sélectionné, on le déselectionne
     if(my.selected){CTags.onSelect(my)}
     // On fait la copie
     tagcopy = my.createCopy();
+    tagcopy.onClick({shiftKey: false});//on sélectionne la copie
     // Il faut remettre le tag à sa place (seulement ici, pour que les valeurs
     // de x et y ci-dessus soit bien les nouvelles)
     my.x = prev_x ; my.y = prev_y ;
@@ -888,28 +873,15 @@ Tag.prototype.onStopMoving = function(){
   // Que ce soit pour une copie ou pour un déplacement, il faut actualiser
   // les données de l'élément
   my.updateXY();
-  // Il faudrait pouvoir sélectionner la copie, mais je n'y arrive pas…
-  // if(tagcopy){CTags.onSelect(tagcopy)};
-};
-
-Tag.prototype.onStartMoving = function(ev, ui){
-  var my = CTags[this.id] ;
-  // Pour connaitre le tag qui se déplace actuellement et pouvoir interrompre
-  // le déplacement avec ESCAPE (quand un blocage survient)
-  CTags.currentMovingTag = my ;
-  my.pour_copie = (ev.altKey == true) ;
 };
 
 Tag.prototype.startMoving = function(ev){
-  console.log('début de déplacement de #', this.id);
+  // console.log('début de déplacement de #', this.id);
   Mover.start(this, ev);
 };
 Tag.prototype.stopMoving = function(ev){
-  console.log('arrêt de déplacement de #',this.id);
+  // console.log('arrêt de déplacement de #',this.id);
   Mover.stop(this, ev);
-};
-Tag.prototype.onStopMoving = function(ev){
-
 };
 
 Tag.prototype.onMouseDown = function(ev){
@@ -923,7 +895,7 @@ Tag.prototype.onMouseUp = function(ev){
   if (this.downed){
     this.downed = false ;
     CTags.onclick(this, ev);
-    this.stopMoving();
+    this.stopMoving(ev);
     return stop(ev);
   } else {
     return true; // pour se propager à la page
@@ -1016,6 +988,19 @@ Tag.prototype.ungroup = function(){
 Tag.prototype.is_nature_shortcut = function(){
   return !!this._is_nature_shortcut ;
 };
+// Return un code pour le style de la ligne
+// Ce code fonctionne en trois caractères :
+//  1. bit indiquant s'il y a une ligne verticale pour commencer 0/1
+//  2. bit indiquant si la ligne est en haut ou en bas (B/T)
+//  3. bit indiquant s'il y a une ligne verticale à la fin.
+Tag.prototype.code_line_by_type = function() {
+  var my = this ;
+  var c = '' ;
+  c += ['U', 'L'].includes(my.type) ? '1' : '0' ;
+  c += ['U', 'L', 'V'].includes(my.type) ? 'B' : 'T' ; // ligne bottom/top
+  c += ['U', 'V', '^'].includes(my.type) ? '1' : '0' ;
+  return c;
+};
 
 Object.defineProperties(Tag.prototype,{
   data_nature: {
@@ -1081,7 +1066,10 @@ Object.defineProperties(Tag.prototype,{
       }
     }
   , domObj: {
-      get: function(){return document.getElementById(this.domId);}
+      get: function(){
+        // console.log('-> domObj avec domId', this.domId);
+        return document.getElementById(this.domId);
+      }
     }
   , litag:{
       get: function(){return ULTags[this.id];}

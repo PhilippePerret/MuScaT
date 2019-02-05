@@ -18,48 +18,6 @@ function clip(str){
   navigator.clipboard.writeText(str) ;
 };
 
-// Mis dans un object pour pouvoir être réaffectées lors de l'update
-// des tags sur la partition.
-const DATA_DRAGGABLE = {
-    delay: 300
-  // 'classes.ui-draggable': 'dragged'
-  , cursor: 'crosshair'
-    // grid: [50, 50], // Fonctionne très mal => le faire en code
-  , start: function(ev, ui){
-      var my = this ;
-      my._tag = Page.tagFromNode(ui.helper[0]);
-      my._tag.onStartMoving(ev, ui);
-      if(my._tag.group){
-        my._tag.group.onEachTag(function(tg){tg.startX=tg.x;tg.startY=tg.y});
-      }
-    }
-  , stop: function(ev, ui){
-      var my = this ;
-      this._tag.onStopMoving(ev, ui);
-      if(my._tag.group){
-        my._tag.group.onEachTag(function(tg){
-          if(tg.id == my._tag.id){return};
-          tg.updateXY();
-        });
-      };
-    }
-  , drag: function(ev, ui){
-      var my = this ;
-      $.proxy(my._tag,'onMoving')(ev);
-      if(my._tag.group){
-        // Si le tag courant est dans un group, il faut reproduire
-        // le déplacement sur chaque élément
-        var deltaX = my._tag.getX() - my._tag.startX ;
-        var deltaY = my._tag.getY() - my._tag.startY ;
-        my._tag.group.onEachTag(function(tg){
-          if(tg.id == my._tag.id){return};
-          tg.updateX(tg.startX + deltaX);tg.updateY(tg.startY + deltaY);
-        })
-      }
-  }
-}
-
-
 $(document).ready(function(){
 
   // On charge les éléments de l'analyse courante
