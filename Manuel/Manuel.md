@@ -89,7 +89,7 @@ Elle est semi-graphique, et permet d'ajuster très finement les TAGs — au pix
 
 ## Remerciements
 
-Remerciements à [Thibault Jan Beyer](https://github.com/ThibaultJanBeyer/DragSelect) pour son excellent `DragSelect`.
+* Merci à Marion M. pour sa lecture corrective de ce manuel.
 
 
 ## Synopsis général de création d'une analyse {#synopsis_fabrication}
