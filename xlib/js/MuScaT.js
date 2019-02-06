@@ -186,13 +186,17 @@ const MuScaT = {
    */
   , build_very_full_code: function(options_to_tags_js){
       var my = this ;
-      if (undefined === options_to_tags_js){
-        // Note : c'est vraiment un return, ci-dessus, car c'est un
-        // traitement asynchrone (on demande à l'user s'il veut conserver
-        // la position de ses lignes repères)
-        return Options.to_tags_js();
-      };
-      return options_to_tags_js + 'Tags = `'+ RC + this.full_code() + RC + '`;' ;
+      if (Options.get('code no option')){
+        options_to_tags_js = RC+RC + '// Version X.X' + RC+RC ;
+      } else {
+        if (undefined === options_to_tags_js){
+          // Note : c'est vraiment un return, ci-dessus, car c'est un
+          // traitement asynchrone (on demande à l'user s'il veut conserver
+          // la position de ses lignes repères)
+          return Options.to_tags_js();
+        };
+      }
+      return options_to_tags_js + 'Tags = `'+ RC + this.full_code() + RC + '`;';
     }
 
   // Retourne le code complet des lignes de tags

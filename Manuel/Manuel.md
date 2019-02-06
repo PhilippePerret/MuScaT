@@ -1526,6 +1526,7 @@ On peut régler la vitesse de l'animation à l'aide de l'option `vitesse animati
 
 * [Options de la langue](#choix_langue)
 * [Option « code à côté »](#option_code_beside)
+* [Option « code sans options »](#option_code_sans_options)
 * [Option « lignes de repère »](#option_line_of_reference)
   * [Position des lignes repères](#position_lignes_reperes)
 * [Options de taille pour les textes](#options_size_for_texts)
@@ -1635,6 +1636,45 @@ L'option « code à côté » permet d'avoir le fichier contenant le code juste
 +---------------------+---------------------------------------------+
 
 Cette option fait passer dans un mode d'utilisation qui va permettre de découper l'image de façon aisée (par simple copié-collé).
+
+### Option « code sans options » #option_code_sans_options}
+
++---------------------+---------------------------------------------+
+|                     |                                             |
++---------------------+---------------------------------------------+
+| Option              | `code sans option`{.code}, `code sans options`{.code}, |
+|                     | `code no option`{.code}                     |
++---------------------+---------------------------------------------+
+| Type                | booléen                                     |
++---------------------+---------------------------------------------+
+
+Par défaut, le code de l'analyse copiée dans le presse-papier contient l'intégralité de ce que doit contenir le fichier `_tags_.js`{.path}, c'est-à-dire la définition des options et la valeur de la variable `Tags`{.code}.
+
+Mais lorsque l'on veut garder plusieurs versions de son code, en les mettant au bout les unes des autres plutôt qu'en les remplaçant, des définitions d'options peuvent se contredire.
+
+Avec l'option `code sans option`{.code} activée, seule la définition de la variable `Tags`{.code} est copiée dans le presse-papier, ce qui permet de ne garder que la ligne en haut du fichier pour définir les options. Impossible dans ce cas de s'y perdre :
+
+```javascript
+  // Dans _tags_.js
+  option('code', 'code sans options', 'reperes');
+
+  // Version 1
+  Tags = `
+  // ... tags de la version 1
+  `;
+
+  // Version 2
+  Tags = `
+  // ... tags de la version 2
+  `;
+
+  // Version 3
+  Tags = `
+  // ... tags de la version 3
+  `;
+
+  // etc.
+```
 
 ### Option « lignes de repère » {#option_line_of_reference}
 

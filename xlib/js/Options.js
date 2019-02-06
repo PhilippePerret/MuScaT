@@ -5,11 +5,17 @@
  */
  // Les options utilisables
  OPTIONS = {
-     'animation speed':             {boolean: false, value: null, default: 50}
+   // Note : `user_name` permet de garder la trace du nom de l'option que l'user
+   // à employée, en cas de "aka" pour lui redonner la même.
+     'animation speed':             {boolean: false, value: null, default: 50, user_name: null}
    , 'vitesse animation':           {aka: 'animation speed'}
    , 'code':                        {boolean: true, value: false, default: false}
    , 'code beside':                 {aka: 'code'}
    , 'code à côté':                 {aka: 'code'}
+   , 'code no option':              {boolean: true, value: null}
+   , 'code no options':             {aka: 'code no option'}
+   , 'code sans option':            {aka: 'code no option'}
+   , 'code sans options':           {aka: 'code no option'}
    , 'crop image':                  {boolean: true, value: false}
    , 'images PNG':                  {boolean: true, value: false} // true si on veut des noms de fichier ne png (pour convert par exemple)
    , 'découpe image':               {aka: 'crop image'}
@@ -87,14 +93,18 @@ const Options = {
       seq_options = seq_options.entries();
       while(dopt = seq_options.next().value){
         opt_id = dopt[1] ;
+        opt_id_init = `${opt_id}`;
         // console.log('Traitement de opt_id: ', opt_id);
         if(undefined == OPTIONS[opt_id]){
           F.error(t('unknown-option', {option: opt_id}));
           continue;
-        } else if (OPTIONS[opt_id].aka) {
+        }
+
+        if (OPTIONS[opt_id].aka) {
           opt_id = OPTIONS[opt_id].aka ;
         }
         doption = OPTIONS[opt_id] ;
+        doption.user_name = opt_id_init;
         if (doption.boolean) {
           OPTIONS[opt_id].value = true ;
         } else {
@@ -162,11 +172,12 @@ const Options = {
     }
     for(opt in OPTIONS){
       if(OPTIONS[opt].aka){continue};
+      var opt_user_name = OPTIONS[opt].user_name||opt;
       if(OPTIONS[opt].boolean){
-        if (OPTIONS[opt].value) {opts.push("'" + opt + "'")};
+        if (OPTIONS[opt].value) {opts.push("'" + opt_user_name + "'")};
       } else if (val = OPTIONS[opt].value) {
         if ('string' == typeof(val)){ val= "'"+val+"'"}
-        opts.push("'" + opt + "', " + val);
+        opts.push("'" + opt_user_name + "', " + val);
       };
     };
     if (opts.length){
