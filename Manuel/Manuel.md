@@ -206,9 +206,9 @@ Donc, pour que notre nouvelle analyse devienne l'analyse courante, nous devons e
 
 C'est ici qu'il faut bien comprendre : nous parlons bien du fichier `analyse.js` principal, celui qui se trouve à la racine de l'application, PAS celui qui se trouve dans notre dossier d'analyse.
 
-Pour faire de notre analyse l'analyse courante, nous avons donc la solution d'éditer le fichier `MuScaT/analyse.js` (en texte simple, comme tous les fichiers **MuScaT**) et de changer la valeur d'`ANALYSE`{.code} comme nous l'avons fait ci-dessus.
+Pour faire de notre analyse l'analyse courante, nous avons donc la solution d'éditer le fichier `MuScaT/analyse.js` (en texte simple, comme tous les fichiers **MuScaT**) et de changer la valeur d'`ANALYSE`{.code} comme nous venons de le faire.
 
-Nous avons aussi d'autres façon de procéder :
+Voici d'autres façons de procéder :
 
 Avec la commande `mus`{.cmd}
 : Si [vous avez installé la commande `mus`{.cmd}](#aller_plus_loin), alors il vous suffit de jouer `mus analyse Analyse_Son`{.cmd} dans une fenêtre de [Terminal](#application_terminal).
