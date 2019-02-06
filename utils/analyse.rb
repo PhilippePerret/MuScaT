@@ -7,6 +7,9 @@ require 'io/console'
 require 'fileutils'
 require_relative 'required'
 
+def get_current_analyse
+  File.read(CUR_ANALYSE_FILE).match(/ANALYSE(?:.*?)=(?:.*?)"(.*?)"/).to_a[1]
+end
 
 unless ARGV.include?('-h') || ARGV.include?('--help')
   begin
@@ -47,37 +50,43 @@ unless ARGV.include?('-h') || ARGV.include?('--help')
         puts "    #{(97+idx).chr}: #{aname}"
       end
       puts "\n\n"
+      puts RC*2 + "#{t('currente')} #{get_current_analyse}"
       print t('which-folder')
       choix = STDIN.getch()
       puts ''
-      if choix == 'q'
+      if choix.to_s.strip == ''
+        choix = nil # pour plus bas
+      elsif choix == 'q'
         raise
+      else
+        choix = choix.ord - 97
+        analyse_folder = File.join(ANALYSES_FOLDER,names[choix])
       end
-      choix = choix.ord - 97
-      analyse_folder = File.join(ANALYSES_FOLDER,names[choix])
     end
 
-    ANALYSE_FOLDER    = analyse_folder
-    ANALYSE_NAME      = File.basename(analyse_folder)
-    ANALYSE_TAGS_FILE = File.join(ANALYSE_FOLDER,'_tags_.js')
-
-    if analyse_folder
-      puts t('analysis-folder-chosen', {name: ANALYSE_NAME.inspect})
-      # Pour activer une analyse, il suffit de modifier le fichier
-      # analyse.js en racine
-
-      File.open(CUR_ANALYSE_FILE,'wb'){|f|f.write("const ANALYSE=\"#{ANALYSE_NAME}\";")}
-
-      # On ouvre l'analyse
-      `open -a "Google Chrome" "#{PARTITION_PATH}"`
-      # On ouvre le fichier _tags_.js s'il ne faut
-      if ARGV.include?('-t') || ARGV.include?('--tags')
-        `open -a #{INFOS[:editor]} #{ANALYSE_TAGS_FILE}`
-      end
-
+    if choix == nil
+      # Rien à faire
     else
-      puts 'unknown-folder'
+      ANALYSE_FOLDER    = analyse_folder
+      ANALYSE_NAME      = File.basename(analyse_folder)
+      ANALYSE_TAGS_FILE = File.join(ANALYSE_FOLDER,'_tags_.js')
+
+      if analyse_folder
+        puts t('analysis-folder-chosen', {name: ANALYSE_NAME.inspect})
+        # Pour activer une analyse, il suffit de modifier le fichier
+        # analyse.js en racine
+        File.open(CUR_ANALYSE_FILE,'wb'){|f|f.write("const ANALYSE=\"#{ANALYSE_NAME}\";")}
+      else
+        puts 'unknown-folder'
+      end
     end
+    # On ouvre l'analyse
+    `open -a "Google Chrome" "#{PARTITION_PATH}"`
+    # On ouvre le fichier _tags_.js s'il ne faut
+    if ARGV.include?('-t') || ARGV.include?('--tags')
+      `open -a #{INFOS[:editor]} #{ANALYSE_TAGS_FILE}`
+    end
+
 
 
   rescue Exception => e

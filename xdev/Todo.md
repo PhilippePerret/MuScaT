@@ -1,10 +1,10 @@
 # Todo list
 
-* Pouvoir demander à ne pas donner les options quand on donne le code final (option 'code sans options')
-
 ## TEST
 
 Voir sur githut avec `ghi list`
+
+* Mémoriser les dernières analyses, mettre la dernière en courante, comme pour scriv (note : en fait, c'est tout à fait inutile puisqu'elle est définie dans 'analyse.js'). Donc, plutôt : quand on fait juste 'mus analyse', on présente la liste, mais on dit que si on fait entrée sans rien on va ouvrir la dernière analyse (on indique son nom).
 
 ## Développements versions suivantes
 
@@ -15,8 +15,6 @@ Voir sur githut avec `ghi list`
   * Documenter la fabrication d'un thème (programme ou utilisateur confirmé)
   * Faire des thèmes différents et les présenter dans les options du manuel (ci-possible, une image de chaque thème)
   * faire un script permettant de relever leurs noms ? (peut-être juste pour le manuel)
-* Animation : peut-être une mise en évidence de la nouvelle insertion (flash) (voir à l'usure, car ça peut être fatiguant => une option)
-* Mémoriser les dernières analyses, mettre la dernière en courante, comme pour scriv
 * Lignes : essayer de faire des flèches avec "->" et "<-" et "<->" (en notant qu'une flèche vers le haut ou le bas est comme celles-ci). Utiliser ensuite les h et les w pour jouer sur l'angle ou utiliser plutôt une autre propriété pour la rotation
 * Pouvoir entrer le titre et d'autres informations pour la première page (ou même une image de première page). Si informations textuelles, créer cette première page avec un @media qui ne rendrait pas les éléments visibles par défaut sur la page, mais les imprimeraient.
 * Pouvoir changer le nombre d'opérations mémorisées par l'historique ('historique', <nombre>)

@@ -23,6 +23,8 @@ EOT
 
 LOCALES = {
 
+  'currente'  => 'Current:',
+
   'analysis-folder' => "Analysis folder: %{name}",
 
   'analysis-folder-chosen' => "You choosed the analysis folder: %{name}",
@@ -35,10 +37,10 @@ LOCALES = {
   'export-to-pdf' => "You can now export the HTML document to PDF.",
   'lang-successfully-defined' => "OK, let's speak english from now!",
   'editor-successfully-defined' => "Editor defined.",
-  
+
   # === QUESTIONS ===
 
-  'which-folder' => "Which folder do you choose (its letter) ? ('q' to quit)",
+  'which-folder' => "Which folder do you choose (letter above) ? ('q' to quit, nothing for the current analysis)",
 
   # === ERREURS ===
 

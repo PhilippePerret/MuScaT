@@ -23,6 +23,8 @@ EOT
 
 LOCALES = {
 
+  'currente'  => 'Courante :',
+
   'analysis-folder' => "Dossier analyse : %{name}",
 
   'analysis-folder-chosen' => "Vous avez choisi le dossier d'analyse : %{name}",
@@ -38,7 +40,7 @@ LOCALES = {
 
   # === QUESTIONS ===
 
-  'which-folder' => "Quel dossier choisir (lettre) ? ('q' pour renoncer)",
+  'which-folder' => "Quel dossier choisir (lettre) ? ('q' pour renoncer, rien pour la courante)",
 
   # === ERREURS ===
 
