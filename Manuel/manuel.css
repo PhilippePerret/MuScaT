@@ -149,3 +149,16 @@ pre.sourceCode.javascript {
   font-weight: bold;
   color: #555555;
 }
+
+dl {
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+dl dt {
+  font-family: Arial,Helvetica,Geneva;
+  font-weight: bold;
+  margin-top: 1em;
+}
+dl dd {
+  margin-top: 0.5em;
+}
