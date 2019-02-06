@@ -1380,8 +1380,8 @@ On peut obtenir la ligne de code d'un tag ou même de plusieurs tags de cette ma
 ## Animation d'une analyse {#animation_analyse}
 
 * [Démarrage de l'animaton](#starting_animation)
-* [Pause de l'animation](#pause_animation)
-* [Réglage de la vitesse de l'animation](#set_animation_speed)
+* [Boutons de l'animation](#boutons_animation)
+* [Réglage de l'animation](#set_animation)
 
 Serait-ce la cerise sur le gâteau de **MuScaT** ?… L'application ne permet pas seulement de faire une analyse statique, elle permet aussi de créer une animation qu'on peut utiliser pour YouTube ou pour donner un cours physique à la manière d'un power-point.
 
@@ -1391,15 +1391,85 @@ Vous pouvez en trouver des illustrations sur les vidéos de ma chaine : https://
 
 ### Démarrage de l'animaton {#starting_animation}
 
-Pour lancer une animation, il n'y a rien de plus simple à faire que d'ajouter le commentaire `// START`{.str} à l'endroit où l'on veut qu'elle démarre. À partir de ce `START`{.str}, tous les groupes de TAGs non espacés seront affichés ensemble et l'animation fera une pause lorsqu'elle rencontrera une ligne vide.
+Pour lancer une animation, il n'y a rien de plus simple à faire que d'ajouter le commentaire `// START`{.code} à l'endroit où l'on veut qu'elle démarre.
 
-### Pause de l'animation {#pause_animation}
+À partir de ce `START`{.code}, tous les groupes de TAGs non espacés seront affichés ensemble et l'animation fera une pause lorsqu'elle rencontrera une ligne vide.
 
-Pour une utilisation « en live », comme un power-point, il peut être intéressant de mettre l'animation en vraie pause, pas en « suspend », c'est-à-dire de l'arrêter jusqu'à ce qu'une touche soit pressée. Pour cela, on utilise tout simplement la ligne `// PAUSE`{.str} à l'endroit où l'on veut que ça se fasse.
+Tout ce qui précède ce commentaire `// START`{.code} sera affiché d'un seul coup.
 
-### Réglage de la vitesse de l'animation {#set_animation_speed}
+Ensuite, chaque « groupe de TAGs » est affiché en laissant une pause entre chacun d'eux. Un « groupe de TAGs » est une suite de TAGs qui ne sont séparés d'aucune ligne vide. Par exemple, ci-dessous, on trouve deux groupes de TAGs, qui s'afficheront donc en deux temps lors de l'animation :
 
-On peut régler la vitesse de l'animation à l'aide de l'option `vitesse animation`{.code} ou `animation speed`{.code}. C'est un nombre de 1 à 100. Plus il est élevé et plus l'animation est rapide (i.e. plus les pauses sont courtes).
+```javascript
+  // dans _tags_.js
+  Tags = `
+  // ...
+
+  // START
+
+  // Premier groupe de TAGs
+  acc C x=100 y=23
+  cad I x=100 y=233
+  sco mon-systeme-d.png x=3 y=200
+
+  // Second groupe de TAGs
+  mod G/(sous-dom) x=34 y=340
+  sco mon-systeme-e.jpg x=5 y=400
+
+  // ... suite...
+  `;
+```
+
+On peut [régler la vitesse générale de l'animation](#set_animation_speed) en option mais on peut également définir des temps plus ou moins longs entre l'affichage des différents **TAGs**, par exemple pour aménager un temps plus long d'explication entre deux tags. Pour ce faire, on joue simplement sur le nombre de lignes vides entre ces **TAGs**.
+
+Par exemple, ci-dessous, il y aura deux fois plus de temps entre la `acc D x=100 y=200`{.code} et la ligne `acc E x=120 y=200`{.code} qu'entre la ligne `acc E x=120 y=200`{.code} et la ligne `acc F x=140 y=200`{.code}.
+
+```javascript
+  // Dans le fichier _tags_.js
+  Tags= `
+ 1| // ...
+ 2|
+ 3| // START
+ 4|
+ 5| acc D x=100 y=200
+ 6|
+ 7|
+ 8|
+ 9| acc E x=120 y=200
+10|
+11| acc F x=140 y=200
+12|
+  `;
+```
+
+### Boutons de l'animation {#boutons_animation}
+
+Des boutons permettent permettent d'interagir sur l'animation pour la mettre en pause, remonter les pas ou l'arrêter et la reprendre grâce à des boutons « Retour en arrière », « Stop » et « Jouer/Pause ».
+
+![Boutons animation](img/boutons-anim.png)
+
+Comme vous pouvez le voir sur l'image ci-dessus, si le code de l'animation est activé, les boutons se trouve en dessous du code.
+
+### Réglage de l'animation {#set_animation}
+
+Plusieurs options permettent de régler les paramètres de l'animation.
+
+* [Réglage de la vitesse](#set_animation_speed)
+
+#### Réglage de la vitesse de l'animation {#set_animation_speed}
+
+On peut régler la vitesse de l'animation à l'aide de l'option `vitesse animation`{.code} ou `animation speed`{.code}. C'est un nombre de 1 à 100. Plus il est élevé et plus l'animation est rapide (i.e. plus les pauses sont courtes). Par exemple :
+
+```javascript
+  // Dans le fichier _tags_.js
+  option('vitesse animation', 80);
+  Tags = `
+  // Premiers tags à afficher d'un coup
+
+  // START
+
+  // Tags qui s'afficheront progressivement.
+  `;
+
 
 ---
 

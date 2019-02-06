@@ -1,9 +1,6 @@
 # Todo list
 
 * Pouvoir demander à ne pas donner les options quand on donne le code final (option 'code sans options')
-* ANIMATION
-  * Quand on est en mode animation => un bouton "Run" pour jouer l'animation dont le code a changé
-  * Document le fait qu'on peut régler la vitesse d'apparition des tags en jouant sur les lignes vides
 
 ## TEST
 
