@@ -22,12 +22,7 @@ const Page = {
       // Si on est en mode animation, on doit faire apparaitre l'élément
       // doucement.
       var xpage = 1 ;
-      my.table_analyse.append(M.animated ? $(itag.to_html()).fadeIn() : itag.to_html()) ;
-
-      // Si on est en mode animation, il faut voir si le tag est bien
-      // placé dans la page (on doit le voir entièrement)
-      if(M.animated){itag.scrollToIt()};
-
+      my.table_analyse.append(itag.to_html());
     }
 
   /**

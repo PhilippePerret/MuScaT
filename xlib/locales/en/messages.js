@@ -35,6 +35,7 @@ Object.assign(MSG,{
 
   // ANIMATION
   , 'press-space-animation': "Press SPACE bar to continue animation."
+  , 'anim-ending': 'Anim ended. Thanks for attention.'
   , 'fin-anim': 'The End'
 
   // ---------------------------------------------------------------------

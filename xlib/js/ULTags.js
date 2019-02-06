@@ -100,8 +100,10 @@ const ULTags = {
      */
   , index: function(idx){
       var nod = this.jqObj.find('> li')[idx];
-      var tid = nod.getAttribute('data-id');
-      return this[tid];
+      if(nod){
+        var tid = nod.getAttribute('data-id');
+        return this[tid];
+      }
     }
   , first: function(){
       return this.index(0);

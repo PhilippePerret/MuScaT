@@ -688,9 +688,11 @@ options('code', 'lang', 'fr', 'space between scores', 80) ;
 Tags = `
 // === SYSTÈME 1 ===
 
-acc E_min x=98 y=404
-acc E_min x=298 y=404
 score sonate_haydn-0.png x=5 y=435 w=170mm
+
+acc E_min x=98 y=404
+
+acc E_min x=298 y=404
 
 // === SYSTÈME 2 ===
 

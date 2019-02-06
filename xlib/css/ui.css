@@ -148,6 +148,12 @@ div#div-ultags div#div-ultags-buttons button.plus-moins {
   border: 1px solid grey;
   font-family: Arial, Helvetica;
 }
+div#div-ultags div#div-ultags-buttons div.buttons-block {
+  display: inline-block;
+  vertical-align:top;
+  margin-right: 1em;
+  background-color: transparent;
+}
 div#div-ultags div#div-ultags-buttons button:active {
   background-color: green;
   color: white;
@@ -157,6 +163,26 @@ div#div-ultags div#div-ultags-buttons button.normal {
   border-radius: .5em;
   margin-left: 1em;
 }
+
+div#div-ultags div#div-ultags-buttons div#anim-buttons {
+  /* border: 1px solid black; */
+  border-radius: 0.3em;
+}
+div#div-ultags div#div-ultags-buttons div#anim-buttons img{
+  width: 34px;
+  height: 34px;
+  border: 1px solid black;
+  margin: 0;
+  padding: 0;
+}
+div#div-ultags div#div-ultags-buttons div#anim-buttons img#anim-btn-rewind {
+  margin-right: -5px;
+}
+div#div-ultags div#div-ultags-buttons div#anim-buttons img#anim-btn-play {
+  margin-left: -5px;
+}
+
+
 /* --------------------------------------------------------------------- */
 /* Lignes de référence */
 

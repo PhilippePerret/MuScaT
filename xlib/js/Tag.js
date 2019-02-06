@@ -416,12 +416,30 @@ Tag.prototype.build_and_watch = function(){
   this.real && this.build().observe();
 };
 // Méthode qui construit l'élément dans la page
-Tag.prototype.build = function(){
-  // console.log(`Construction du tag #${this.id} (y=${this.y})`);
+Tag.prototype.build = function(options){
+  // console.log(`Construction du tag ${this.ref()}`);
   Page.add(this);
   this.observe();
   this.built = true ;
+  if(options && options.visible === false){
+    this.jqObj.hide();
+  }
   return this; // chainage
+};
+// Pour l'animation, par exemple
+Tag.prototype.reveal = function(options){
+  var my = this ;
+  if(undefined==options){options={duration:400, exergue: false}};
+  if(options.exergue){
+    var old_bgc = my.jqObj.css('border-color');
+    my.jqObj.css('border-color','red');
+  };
+  my.jqObj.fadeIn(options.duration, function(){
+    if(options.exergue){
+      my.jqObj.css('border-color',old_bgc);
+    };
+  });
+  my.domObj.scrollIntoView({behavior: 'smooth'});
 };
 Tag.prototype.remove = function(){
   var my = this ;
@@ -1092,6 +1110,9 @@ Object.defineProperties(Tag.prototype,{
     }
   , is_modulation:{
       get: function(){return this.type == 'modulation'}
+    }
+  , is_anim_start:{
+      get: function(){return this.is_comment_line && this.text.match(/START/)}
     }
   // Return true si c'est une nature de tag qui peut ne pas
   // avoir de coordonnées, comme par exemple les titres

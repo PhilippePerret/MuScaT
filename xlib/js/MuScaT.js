@@ -84,7 +84,7 @@ const MuScaT = {
         Page.observe();
       }
 
-      // Dans tous les cas, on construit la liste des liTags
+      // Dans tous les cas, on construit les liTags
       ULTags.build();
 
       // Si l'option 'lines of reference' a été activée, il faut
@@ -93,8 +93,17 @@ const MuScaT = {
         Page.build_lines_of_reference();
         Page.assure_lines_draggable();
       }
+
+      // Et enfin, si c'est une animation, il faut la jouer
+      if(this.animated){this.run_animation()};
     }
 
+    /**
+     * Quand l'animation est demandée
+     */
+  , run_animation: function(){
+      this.loadModule('Anim', 'start');
+    }
     /**
      * Chargement du fichier _tags_.js, analyse du code et construction de
      * l'analyse sur la table.
@@ -145,6 +154,25 @@ const MuScaT = {
       return true;
     } // load
 
+
+  /**
+   * Méthode qui construit les tags sur la table
+   *
+   * Note les watchers ne sont pas placés, ici, car ils le seront
+   * d'un seul coup (cette méthode est seulement appelée par load)
+   */
+  , animated: false
+  , build_tags: function(){
+      var my = this ;
+      // On construit d'abord tous les tags, mais en les masquant si c'est
+      // pour une animation.
+      CTags.onEachTag(function(itag){
+        // if(itag.real){itag.build_and_watch()};
+        if(itag.real){itag.build({visible: !my.animated})};
+        if(itag.is_anim_start){my.animated = true}
+      });
+    }
+
   // Méthode appelée par le bouton pour afficher le code source
   // On met le code dans le clipboard pour qu'il soit copié-collé
   , codeAnalyseInClipboard: function(message){
@@ -177,8 +205,6 @@ const MuScaT = {
       return arr.join(RC) ;
     }
 
-
-
   /**
    * Méthode qui prend le code du fichier Tags.js et le décompose pour
    * en tirer le code de l'analyse.
@@ -190,7 +216,6 @@ const MuScaT = {
         CTags.push(new Tag(line)) ;
       });
     }
-  //parse_tags_js
 
   /**
    * Méthode qui, avant toute autre opération sur les lignes de la donnée
@@ -265,66 +290,6 @@ const MuScaT = {
       M.motif_lines_added = t('image-sequentielle');
     }
 
-  /**
-   * Méthode qui construit les tags sur la table
-   *
-   * Note les watchers ne sont pas placés, ici, car ils le seront
-   * d'un seul coup (cette méthode est seulement appelée par load)
-   */
-  , animated: false
-  , build_tags: function(){
-      var my = this
-        ;
-
-      CTags.onEachTag(function(itag, idx){
-        if(my.animated){return};
-        if(itag.real){itag.build()}
-        else if(itag.is_comment_line && itag.text.match(/START/)){
-          my.animated = true ;
-          my.animation_speed = Options.get('animation speed');
-          my.build_tags_for_anim(idx);
-        }
-      });
-    }
-  , build_tags_for_anim: function(tag_idx){
-      var my = this
-        , litag
-        , itag
-        , i
-        ;
-      if (my.timer){clearTimeout(my.timer)};
-
-      // On fait une liste ordonnée
-      // On construit les tags jusqu'à trouver une ligne vide ou un
-      // commentaire
-      // TODO Attention : ci-dessous, ça implique que tout soit déjà
-      // construit et qu'on révèle les éléments les uns après les autres
-      // (ce qui au final ne serait pas plus mal!)
-      // => Possibilité de construire les éléments en les masquant
-      while(true) {
-        litag = ULTags.get_by_index(tag_idx);
-        itag  = litag.itag;
-        if(itag){
-          if ( itag.real ){
-            itag.reveal(); // il est construit, il faut le montrer
-          } else {
-            break;// On s'arrête là pour le moment
-          };
-        } else {
-          return message(t('fin-anim'));
-        }
-      };
-      // Noter ci-dessous qu'on reprend le dernir index
-      var method_next = $.proxy(MuScaT,'build_tags_for_anim', ++tag_idx) ;
-      if (itag.is_comment_line && (itag.text||'').match(/PAUSE/)){
-        // On s'arrête là en attendant une touche
-        MEvents.onSpaceBar = method_next ;
-        message(t('press-space-animation'));
-      } else {
-        // On marque une pause et on reprend
-        my.timer = setTimeout(method_next, 40 * (100 - my.animation_speed));
-      };
-    }
 
   // ---------------------------------------------------------------------
   // Méthodes fonctionnelles
@@ -356,12 +321,22 @@ const MuScaT = {
    *                pas être une méthode du module puisqu'elle n'existe pas
    *                encore au moment du chargement. En revanche, ça peut être
    *                une fonction qui appelle cette méthode.
+   *                SAUF si +module_name+ est le nom d'une classe (ou d'un
+   *                objet) et que +fn_callback+ est seulement le nom de la
+   *                méthode. Par exemple, avec  `loadModule('Anim','start')`,
+   *                c'est la méthode Anim.start() qui sera jouée.
    */
   , loadModule: function(module_name, fn_callback){
       var nod = document.body.appendChild(document.createElement('script'));
       nod.src = `xlib/js/modules/${module_name}.js`;
       $(nod)
-        .on('load', function(){fn_callback();})
+        .on('load', function(){
+          if('string' == typeof(fn_callback) && 'function'!=typeof(fn_callback)){
+            var objet = eval(module_name);
+            fn_callback = objet[fn_callback].bind(objet);
+          }
+          fn_callback();
+        })
         .on('error', function(){
           F.error(t('loading-module-failed', {name: module_name}));
         })

@@ -1,7 +1,9 @@
 # Todo list
 
-* Sélection rectangle
 * Pouvoir demander à ne pas donner les options quand on donne le code final (option 'code sans options')
+* ANIMATION
+  * Quand on est en mode animation => un bouton "Run" pour jouer l'animation dont le code a changé
+  * Document le fait qu'on peut régler la vitesse d'apparition des tags en jouant sur les lignes vides
 
 ## TEST
 
@@ -9,6 +11,7 @@ Voir sur githut avec `ghi list`
 
 ## Développements versions suivantes
 
+* Pouvoir régler la vitesse d'apparition des éléments dans une animation (options.duration envoyée à Tag#reveal, 400 par défaut — voir la méthode `reveal`).
 * Voir comment mettre des marques, comme des respirations (virgule) ou des crescendos. Est-ce qu'il suffit de faire des textes plus gros. Utiliser le paramètres 'r' pour 'rotation'/'rotate' pour faire tourner l'élément en degré.
 * Quand on développera l'enregistrement des groupes, etc., on pourra simplement enregistrer l'index des lignes, dans le fichier _tags_.js (puisqu'on ne mémorise plus les IDs)
 * THÈMES

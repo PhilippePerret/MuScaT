@@ -89,7 +89,9 @@ Elle est semi-graphique, et permet d'ajuster très finement les TAGs — au pix
 
 ## Remerciements
 
-* Merci à Marion M. pour sa lecture corrective de ce manuel.
+Mes remerciements vont :
+
+* à Marion MICHEL pour la relecture attentive et patiente de ce manuel, et ces nombreuses corrections.
 
 
 ## Synopsis général de création d'une analyse {#synopsis_fabrication}
@@ -1044,7 +1046,9 @@ Le code ci-dessus produira :
 
 ![Marque accords, traits plats](img/Mark_accords.png)
 
-La taille du texte peut se régler de façon générale avec l'option `chord size`{.code} ou, pour un accord particulier, avec la propriété `fs`{.prop}. Pour des renseignements complets sur les options des tailles, cf. [Options de taille pour les textes](#options_size_for_texts).
+La taille du texte peut se régler de façon générale avec l'option `chord size`{.code} ou, pour un accord particulier, avec la propriété `fs`{.prop}. Pour des renseignements complets sur les options des tailles.
+
+cf. [Options de taille pour les textes](#options_size_for_texts).
 
 ### Les Chiffrages (Harmonie) {#les_harmonies}
 
@@ -1838,57 +1842,57 @@ Cette application se trouve dans le dossier `/Applications/Utilitaires`{.path} m
 | ![v][K_Fb]            |                                         |
 | ![haut][K_Fh]         |                                         |
 +-----------------------+-----------------------------------------+
-|            \+ MAJ |         \+ fortement    |
+|            \+ MAJ     |         \+ fortement    |
 +-----------------------+-----------------------------------------+
-|            \+ ALT |         \+ finement     |
+|            \+ ALT     |         \+ finement     |
 +-----------------------+-----------------------------------------+
-| w                 | Augmente la largeur     |
+| w                     | Augmente la largeur     |
 +-----------------------+-----------------------------------------+
-|            \+ MAJ |         \+ fortement    |
+|            \+ MAJ     |         \+ fortement    |
 +-----------------------+-----------------------------------------+
-|            \+ CTRL|         \+ finement     |
+|            \+ CTRL    |         \+ finement     |
 +-----------------------+-----------------------------------------+
-| ALT w             | Diminue la taille       |
+| ALT w                 | Diminue la taille       |
 +-----------------------+-----------------------------------------+
-|            \+ MAJ |         \+ fortement    |
+|            \+ MAJ     |         \+ fortement    |
 +-----------------------+-----------------------------------------+
-|            \+ CTRL|         \+ finement     |
+|            \+ CTRL    |         \+ finement     |
 +-----------------------+-----------------------------------------+
-| h                 | Augmente la hauteur     |
+| h                     | Augmente la hauteur     |
 +-----------------------+-----------------------------------------+
-|            \+ MAJ |         \+ fortement    |
+|            \+ MAJ     |         \+ fortement    |
 +-----------------------+-----------------------------------------+
-|            \+ CTRL|         \+ finement     |
+|            \+ CTRL    |         \+ finement     |
 +-----------------------+-----------------------------------------+
-| ALT h             | Diminue la hauteur      |
+| ALT h                 | Diminue la hauteur      |
 +-----------------------+-----------------------------------------+
-|            \+ MAJ |         \+ fortement    |
+|            \+ MAJ     |         \+ fortement    |
 +-----------------------+-----------------------------------------+
-|            \+ CTRL|         \+ finement     |
+|            \+ CTRL    |         \+ finement     |
 +-----------------------+-----------------------------------------+
-| x                 | Augmente la position H  |
+| x                     | Augmente la position H  |
 +-----------------------+-----------------------------------------+
-|            \+ MAJ |         \+ fortement    |
+|            \+ MAJ     |         \+ fortement    |
 +-----------------------+-----------------------------------------+
-|            \+ CTRL|         \+ finement     |
+|            \+ CTRL    |         \+ finement     |
 +-----------------------+-----------------------------------------+
-| ALT x             | Diminue la position H   |
+| ALT x                 | Diminue la position H   |
 +-----------------------+-----------------------------------------+
-|            \+ MAJ |         \+ fortement    |
+|            \+ MAJ     |         \+ fortement    |
 +-----------------------+-----------------------------------------+
-|            \+ CTRL|         \+ finement     |
+|            \+ CTRL    |         \+ finement     |
 +-----------------------+-----------------------------------------+
-| y                 | Augmente la position V  |
+| y                     | Augmente la position V  |
 +-----------------------+-----------------------------------------+
-|            \+ MAJ |         \+ fortement    |
+|            \+ MAJ     |         \+ fortement    |
 +-----------------------+-----------------------------------------+
-|            \+ CTRL|         \+ finement     |
+|            \+ CTRL    |         \+ finement     |
 +-----------------------+-----------------------------------------+
-| ALT y             | Diminue la position V   |
+| ALT y                 | Diminue la position V   |
 +-----------------------+-----------------------------------------+
-|            \+ MAJ |         \+ fortement    |
+|            \+ MAJ     |         \+ fortement    |
 +-----------------------+-----------------------------------------+
-|            \+ CTRL|         \+ finement     |
+|            \+ CTRL    |         \+ finement     |
 +-----------------------+-----------------------------------------+
 
 `Document rédigé par Phil (Philippe Perret <philippe.perret@yahoo.fr>)`{.footer .copyright}

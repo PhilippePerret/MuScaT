@@ -46,13 +46,28 @@
     <!-- Colonne gauche, non visible, pour travailler avec le code à côté-->
     <section id="rcolumn">
 
-      <!-- La liste de lignes de code -->
       <div id="div-ultags" style="display:none;">
+        <!-- La liste de lignes de code -->
         <ul id="ultags"></ul>
+
+        <!-- Les boutons fonctionnant avec le code -->
         <div id="div-ultags-buttons">
-          <button type="button" id="ultags-btn-plus" class="plus-moins" onclick="$.proxy(ULTags,'addTag')()">➕</button>
-          <button type="button" id="ultags-btn-moins" class="plus-moins" onclick="$.proxy(ULTags,'removeTag')()">➖</button>
+
+          <!-- Les boutons pour ajouter/supprimer des tags -->
+          <div class="buttons-block">
+            <button type="button" id="ultags-btn-plus" class="plus-moins" onclick="$.proxy(ULTags,'addTag')()">➕</button>
+            <button type="button" id="ultags-btn-moins" class="plus-moins" onclick="$.proxy(ULTags,'removeTag')()">➖</button>
+          </div>
+
+          <!-- Les boutons pour l'animation -->
+          <div id="anim-buttons" class="buttons-block" style="display:none;">
+            <img id="anim-btn-rewind" src="xlib/images/anim/btn-rewind.jpg" alt="Rewind" onclick="Anim.onRewind.bind(Anim)()" />
+            <img id="anim-btn-stop" src="xlib/images/anim/btn-stop.jpg" alt="Stop/Play" onclick="Anim.onStop.bind(Anim)()" />
+            <img id="anim-btn-play" src="xlib/images/anim/btn-pause.jpg" alt="Pause" onclick="Anim.onTogglePause.bind(Anim)()" />
+          </div>
+
         </div>
+
       </div>
 
     </section>
