@@ -38,6 +38,7 @@ end
 # Pour définir l'éditeur
 def set_editor data_prop
   INFOS[:updated_at] = Time.now.to_i
+  INFOS[:editor] = data_prop[:value]
   File.open(INFOS_FILE,'wb'){|f| f.write(<<-EOF)}
 # MuScaT Infos
 # encoding: UTF-8

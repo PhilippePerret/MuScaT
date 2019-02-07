@@ -65,7 +65,7 @@ unless ARGV.include?('-h') || ARGV.include?('--help')
     end
 
     if choix == nil
-      # Rien à faire
+      # Rien à faire, c'est l'ouverture de la dernière analyse
     else
       ANALYSE_FOLDER    = analyse_folder
       ANALYSE_NAME      = File.basename(analyse_folder)
