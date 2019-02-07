@@ -58,6 +58,12 @@ const MuScaT = {
   , start_and_run: function(){
       // console.log('-> start_and_run');
 
+      // Quand c'est pour jouer les tests, on ne fait rien quand ils sont
+      // finis (test_ending est true)
+      // TODO : il pourrait être sympa d'afficher les tests au lieu de la
+      // table d'analyse.
+      if(this.testing && this.test_ending){return};
+
       // On prépare l'interface (notamment au niveau de la langue)
       UI.set_ui();
 
@@ -167,7 +173,6 @@ const MuScaT = {
       // On construit d'abord tous les tags, mais en les masquant si c'est
       // pour une animation.
       CTags.onEachTag(function(itag){
-        // if(itag.real){itag.build_and_watch()};
         if(itag.real){itag.build({visible: !my.animated})};
         if(itag.is_anim_start){my.animated = true}
       });

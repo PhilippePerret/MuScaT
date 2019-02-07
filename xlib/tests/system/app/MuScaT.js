@@ -34,9 +34,9 @@ Object.assign(MuScaT,{
     if(undefined==options.init_tags){options.init_tags = true};
     Options.reset();
     this.reset_all();
-    CTags.reset();
-    ULTags.reset();
-    Flash.reset();
+    CTags.reset.bind(CTags)();
+    ULTags.reset.bind(ULTags)();
+    Flash.reset.bind(Flash)();
     if(!!options.init_tags){Tags = "// Juste un commentaire de reset_for_tests"};
     $('#rcolumn').hide();
     $('.refline').hide(); // les lignes repère

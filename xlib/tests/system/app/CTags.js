@@ -1,13 +1,13 @@
 Object.assign(CTags,{
-    pour: 'virgule'
+    class: 'CTags'
     /**
      * Réinitialisation complète de la donnée (pour les tests)
      */
   , reset: function(){
       var my = this
-        , i = 1
+        , i = 0
         ;
-      for(i;i<=this.length;++i){
+      while('undefined' != typeof(CTags[++i])){
         delete my[i];
       }
       my.length = 0;

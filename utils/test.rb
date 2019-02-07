@@ -24,15 +24,21 @@ begin
   # On récupère les feuilles de tests
   paths_tests = nil
   if ARGV.first && !ARGV.first.start_with?('-')
-    path_test = File.join(FOLDER_TESTS,'tests',ARGV.first)
-    path_test_file = path_test
-    path_test_file.concat('.js') unless path_test.end_with?('.js')
+    # <= Un argument a été donné
+    # => C'est le test ou le dossier de tests qu'il faut jouer
+    path_test = File.join(FOLDER_TESTS,'tests', ARGV.first)
     if File.exist?(path_test) && File.directory?(path_test)
+      # <= Un dossier a été transmis
+      # => Il faut jouer tous les tests qu'il contient
       paths_tests = Dir["#{path_test}/**/*.js"].shuffle
-    elsif File.exist?(path_test_file)
-      paths_tests = [path_test_file]
     else
-      raise "Test file is unfoundable (#{ARGV.first.inspect})"
+      path_test_file = path_test
+      path_test_file.concat('.js') unless path_test.end_with?('.js')
+      if File.exist?(path_test_file)
+        paths_tests = [path_test_file]
+      else
+        raise "Test file is unfoundable (#{ARGV.first.inspect})"
+      end
     end
   end
   paths_tests ||= Dir["#{FOLDER_TESTS}/tests/**/*.js"].shuffle

@@ -9,12 +9,16 @@
     <script type="text/javascript" src="analyse.js"></script>
     <script type="text/javascript" src="xlib/js/system/jquery-min.js"></script>
     <script type="text/javascript" src="xlib/js/system/jquery-ui-min.js"></script>
+    <script type="text/javascript" src="xlib/js/system/utils.js"></script>
     <script type="text/javascript" src="xlib/js/system/Flash.js"></script>
     <script type="text/javascript" src="xlib/js/system/Cook.js"></script>
+    <script type="text/javascript" src="xlib/js/system/miniClasses.js"></script>
+    <script type="text/javascript" src="xlib/js/system/dragselect.min.js"></script>
     <script type="text/javascript" src="xlib/js/constants.js"></script>
     <script type="text/javascript" src="xlib/js/Locales.js"></script>
     <script type="text/javascript" src="xlib/js/Errors.js"></script>
     <script type="text/javascript" src="xlib/js/Historique.js"></script>
+    <script type="text/javascript" src="xlib/js/Mover.js"></script>
     <script type="text/javascript" src="xlib/js/Theme.js"></script>
     <script type="text/javascript" src="xlib/js/MEvents.js"></script>
     <script type="text/javascript" src="xlib/js/Options.js"></script>
@@ -42,13 +46,28 @@
     <!-- Colonne gauche, non visible, pour travailler avec le code à côté-->
     <section id="rcolumn">
 
-      <!-- La liste de lignes de code -->
-      <div id="div-ultags" class="undisplayed">
+      <div id="div-ultags" style="display:none;">
+        <!-- La liste de lignes de code -->
         <ul id="ultags"></ul>
+
+        <!-- Les boutons fonctionnant avec le code -->
         <div id="div-ultags-buttons">
-          <button type="button" id="ultags-btn-plus" class="plus-moins" onclick="$.proxy(ULTags,'addTag')()">➕</button>
-          <button type="button" id="ultags-btn-moins" class="plus-moins" onclick="$.proxy(ULTags,'removeTag')()">➖</button>
+
+          <!-- Les boutons pour ajouter/supprimer des tags -->
+          <div class="buttons-block">
+            <button type="button" id="ultags-btn-plus" class="plus-moins" onclick="$.proxy(ULTags,'addTag')()">➕</button>
+            <button type="button" id="ultags-btn-moins" class="plus-moins" onclick="$.proxy(ULTags,'removeTag')()">➖</button>
+          </div>
+
+          <!-- Les boutons pour l'animation -->
+          <div id="anim-buttons" class="buttons-block" style="display:none;">
+            <img id="anim-btn-rewind" src="xlib/images/anim/btn-rewind.jpg" alt="Rewind" onclick="Anim.onRewind.bind(Anim)()" />
+            <img id="anim-btn-stop" src="xlib/images/anim/btn-stop.jpg" alt="Stop/Play" onclick="Anim.onStop.bind(Anim)()" />
+            <img id="anim-btn-play" src="xlib/images/anim/btn-pause.jpg" alt="Pause" onclick="Anim.onTogglePause.bind(Anim)()" />
+          </div>
+
         </div>
+
       </div>
 
     </section>
@@ -62,15 +81,15 @@
     -->
     <section id="tools" class="closed">
       <div id="picto_tools" onclick="$.proxy(UI,'toggle_tools')()">🛠</div>
-      <div class="masked">
+      <div id="tools-container" class="masked">
 
-        <fieldset id="fs_boutons">
+        <fieldset id="fs_boutons" class="multisel" style="display:none;">
           <legend><span class="t-operations"></span> <span class="t-sur"></span> <span class="the"></span> <span class="selected_count">0</span> <span class="t-selected-tags"></span></legend>
           <button type="button" id="btn-grouper" class="undisplayed" onclick="$.proxy(CTags,'grouper_selected')()"><span id="verb-grouper">Grouper</span></button>
           <button type="button" id="btn-repartir" class="undisplayed" onclick="$.proxy(CTags,'repartir_selected')()"><span id="verb-repartir">Répartir</span></button>
         </fieldset>
 
-        <fieldset id="fs_alignment" class="undisplayed">
+        <fieldset id="fs_alignment" class="multisel" style="display:none">
           <legend id="fs-alignment-legend">Alignement</legend>
           <span><span id="Align-the"></span> <span class="selected_count">0</span> <span class="t-selected-tags"></span></span>
           <select id="alignement">
@@ -89,7 +108,7 @@
         </fieldset>
 
         <fieldset id="fs_aide">
-          <a href="../Manuel.pdf" target="_new"><span class="t-Open"></span> <span class="t-the-help"></span></a>
+          <a href="Manuel/Manuel.pdf" target="_new"><span class="t-Open"></span> <span class="t-the-help"></span></a>
         </fieldset>
 
       </div>
@@ -103,18 +122,10 @@
 <script type="text/javascript" src="xlib/tests/system/app/CTags.js"></script>
 <script type="text/javascript" src="xlib/tests/system/app/ULTags.js"></script>
 <script type="text/javascript" src="xlib/tests/system/app/MuScaT.js"></script>
+<script type="text/javascript" src="xlib/tests/system/assertions.js"></script>
 <script type="text/javascript" src="xlib/tests/system/Tests.js"></script>
 <script type="text/javascript" src="xlib/tests/system/main.js"></script>
 <script type="text/javascript" src="xlib/tests/system/assertions_app.js"></script>
-<script type="text/javascript" src="xlib/tests/tests/ts_ajout_tags.js"></script>
-<script type="text/javascript" src="xlib/tests/tests/options/ts_options.js"></script>
-<script type="text/javascript" src="xlib/tests/tests/ts_comments.js"></script>
-<script type="text/javascript" src="xlib/tests/tests/ts_definition_des_elements.js"></script>
-<script type="text/javascript" src="xlib/tests/tests/options/ts_reperes.js"></script>
-<script type="text/javascript" src="xlib/tests/tests/options/code_beside.js"></script>
-<script type="text/javascript" src="xlib/tests/tests/ts_images.js"></script>
-<script type="text/javascript" src="xlib/tests/tests/ts_suppressions.js"></script>
-<script type="text/javascript" src="xlib/tests/tests/ts_creation_tags.js"></script>
-<script type="text/javascript" src="xlib/tests/tests/ts_MuScaT.js"></script>
+<script type="text/javascript" src="xlib/tests/tests/unit/muscat/ts_main.js"></script>
   </body>
 </html>

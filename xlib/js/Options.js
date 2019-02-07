@@ -23,7 +23,7 @@
    , 'repères':                     {aka: 'lines of reference'}
    , 'reperes':                     {aka: 'lines of reference'}
    , 'guides':                      {aka: 'lines of reference'}
-   , 'lang':                        {boolean: false, value: 'fr'}
+   , 'lang':                        {boolean: false, value: null, default: 'fr'}
    , 'langue':                      {aka: 'lang'}
    , 'language':                    {aka: 'lang'}
    , 'langage':                     {aka: 'lang'}
