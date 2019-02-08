@@ -14,12 +14,21 @@
   section#footer,
   div.page-break,
   div.mark-margin,
-  div.refline
+  div.refline,
+  div#rectangle-selection
   {display: none;}
 
   .tag {
     opacity: 1!important;
   }
+
+  .tag:not(.line0T1):not(.line1T1):not(.line0T0):not(.line1T0):not(.line1B1):not(.line0B1):not(.line1B0):not(.line0B0):not(.cadence){
+    border-color: transparent!important;
+  }
+  /* .tag {
+    border-color: transparent!important;
+  } */
+
   .tag.box {
     background-color: white;
   }
@@ -27,4 +36,5 @@
     opacity: 1!important;
   }
 
-  }/* / @media print*/
+
+}/* / @media print*/

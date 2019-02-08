@@ -392,7 +392,7 @@ Tag.prototype.to_html = function() {
   var ftext = my.text || '';
   switch (my.nature) {
     case 'score':
-      return `<img id="${my.domId}" data-id="${my.id}" class="${classes.join(' ')}" src="${IMAGES_FOLDER}/${my.src}" style="${css}" />`
+      return `<img id="${my.domId}" data-id="${my.id}" class="${classes.join(' ')}" src="${M.images_folder}/${my.src}" style="${css}" />`
     case 'cadence':
     case 'text':
       classes.push(my.type) ;
@@ -595,7 +595,7 @@ Tag.prototype.updateText = function(newt){
 Tag.prototype.updateSrc = function(news){
   var my = CTags[this.id];
   my.src = news;
-  my.domObj.src = `${IMAGES_FOLDER}/${my.src}` ;
+  my.domObj.src = `${M.images_folder}/${my.src}` ;
 }
 Tag.prototype.updateLock = function(new_value){
   // Note : je ne sais pas pourquoi, ici, je dois utiliser cette

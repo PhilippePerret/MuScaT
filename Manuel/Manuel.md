@@ -230,11 +230,11 @@ Très souvent, on part d'un fichier PDF contenant une partition ou les systèmes
 
 La première opération consiste donc à transformer le fichier PDF en images-systèmes. Pour ce faire, vous pouvez passer par [Gimp](https://www.gimp.org), Photoshop ou tout autre logiciel de traitement de l'image. Je vous renvoie à leur manuel pour la procédure à adopter.
 
-Mais vous avez plus simple, beaucoup plus pratique et extrêmement plus rapide : les fonctions de capture d'écran. Si vous êtes sur Mac, vous pouvez utiliser l'application [Aperçu](https://support.apple.com/fr-fr/guide/preview/welcome/mac). Si vous êtes sur PC/Windows, ce sera plutôt [LighShot](https://app.prntscr.com/en/index.html) par exemple.
+Mais vous avez plus simple, beaucoup plus pratique et extrêmement plus rapide : les fonctions de capture d'écran. Si vous êtes sur Mac, vous pouvez utiliser l'application [Aperçu](https://support.apple.com/fr-fr/guide/preview/welcome/mac). Si vous êtes sur PC/Windows, ce sera plutôt [LightShot](https://app.prntscr.com/en/index.html) par exemple.
 
 Pour une version détaillée et illustrée de la procédure, je vous renvoie à [ma chaine YouTube](https://www.youtube.com/channel/UCX3XhJw9x1RsVx1s3GNYceA) [[TODO: Mettre adresse de la vidéo]]. Je l'explique rapidement seulement ici.
 
-* Sur Mac, vous pouvez modifier le dossier de capture (le dossier où seront automatiquement enregistrées les captures d'écran) en utilisant l'utilitaire `change_folder_caputres.rb` de **MuScaT**. Dans le [Terminal](#application_terminal), taper :
+* Sur Mac, vous pouvez modifier le dossier de capture (le dossier où seront automatiquement enregistrées les captures d'écran) en utilisant l'utilitaire `change_folder_captures.rb` de **MuScaT**. Dans le [Terminal](#application_terminal), taper :
 
     ```
 
@@ -248,7 +248,7 @@ Pour une version détaillée et illustrée de la procédure, je vous renvoie à 
 * ouvrir le PDF dans Aperçu,
 * activer la combinaison de touches `CMD MAJ 4`{.shortcut},
 * sélectionner le système (ou la portion de partition à isoler),
-* recommencer ces opérations pour chaque système (ou chaque portion de partition),
+* recommencer ces opérations pour chaque système (ou chaque portion de partition).
 
 Pour renommer automatiquement toutes les captures produites — qui possèdent pour le moment des noms quelque peu ésotériques… — vous pouvez utiliser [l'utilitaire `/utils/rename_images.rb`{.path}](#utils_renommer_fichiers). Je vous renvoie à son mode d'utilisation qu'on peut obtenir, par la console (ou le Terimnal), grâce à :
 
@@ -284,7 +284,7 @@ Quel que soit l'éditeur ou le traitement de texte que vous utilisez pour ouvrir
 
 Dans ce fichier `_tags_.js`{.path} On définit d'abord les images de la partition, en ajoutant des commentaires pour pouvoir s'y retrouver plus tard, lorsque le fichier deviendra volumineux.
 
-Le contenu d'un fichier `_tags_.js`{.path}, au départ, peut ressembler — parfois de loin — à l'illustration ci-dessous. L'important est de trouver le code `option(...)`.{.code} et la définition de `Tags`{.code}.
+Le contenu d'un fichier `_tags_.js`{.path}, au départ, peut ressembler — parfois de loin — à l'illustration ci-dessous. L'important est de trouver le code `option(...)`{.code} et la définition de `Tags`{.code}.
 
 ```javascript
 
@@ -311,7 +311,7 @@ Le contenu d'un fichier `_tags_.js`{.path}, au départ, peut ressembler — par
 
 #### Dimensionner et positionner en fonction de l'aperçu d'impression {#dim_et_pos_against_overview}
 
-Avant de placer quelconque marque d'analyse autre que la partition, nous vous invitons vivement à regarder ce que l'agencement des systèmes produit au niveau de l'impression ou de la sortie du PDF. Lorsque tous les *TAGs* seront placés, il sera extrêmement difficile et pénible de devoir les repositionner pour qu'ils soient correctement placés sur la page ou le PDF.
+Avant de placer quelconque marque d'analyse sur la partition, nous vous invitons vivement à regarder ce que l'agencement des systèmes produit au niveau de l'impression ou de la sortie du PDF. Lorsque tous les *TAGs* seront placés, il sera extrêmement difficile et pénible de devoir les repositionner pour qu'ils soient correctement placés sur la page ou le PDF.
 
 > N'hésitez pas à [ajouter les titre, compositeur, etc.](#titre_et_auteur) avant de procéder à l'opération ci-dessus.
 
@@ -417,11 +417,11 @@ mod G_min x=150 y=539
 #### Pour aller plus loin…
 
 * [Composition détaillé d'un *TAG*](#composition_dun_tag),
-* [Liste complète des *TAGs*](#complete_list_tags)).
+* [Liste complète des *TAGs*](#complete_list_tags).
 
 ### Positionnement  et dimensionnement des éléments graphiques {#syn_ajustement_elements}
 
-Une fois l'analyse désignée comme analyse courante, on ouvre le fichier `_TABLE_ANALYSE_.html`{.path} dans Chrome (ou un autre navigateur, mais pas Firefox, qui ne sait pas imprimer plusieurs pages avec des éléments en position absolue…).
+Une fois l'analyse désignée comme analyse courante, on ouvre le fichier `_TABLE_ANALYSE_.html`{.path} dans Chrome (ou un autre navigateur, mais pas Firefox, qui échoue dans beaucoup d'opérations…).
 
 ![Fichier Table d'analyse](img/10.Fichier_Table_analyse.png)
 
@@ -625,7 +625,7 @@ Le *code* de l'analyse est constitué simplement de *lignes*, les unes au-dessus
 
 Chaque ligne de *TAG* est composée d'un nombre de propriétés souvent définies par le signe égal — exception faite des deux premiers « mots » qui déterminent le plus souvent la *nature* et le *contenu* du *TAG*.
 
-Voyons plus en détail comment se compose une ligne du fichier `_tags_.js`{.path}, une ligne définissant un *tag* ou une partition.
+Voyons plus en détail comment se compose une ligne du fichier `_tags_.js`{.path}, une ligne définissant un *TAG* ou une partition.
 
 Cette ligne a le format général suivant :
 
@@ -640,7 +640,7 @@ Cette ligne a le format général suivant :
 
 `propriétés`{.ital}
 : Les propriétés du *TAG*, à commencer par ses coordonnées `x`{.prop} (position horizontale) et `y`{.prop} (position verticale) ainsi que les dimensions h (hauteur) et w (largeur) du *TAG*.
-: Ces coordonnées et ces dimensions se notent simplement en donnant les valeurs à l'aide d'un signe égal (`=`{.code}) **sans espace** : `x=12`{.code}, `y=20`{.code}, `w=12%`{.code}, `h=12mm`{.code} etc.
+: Ces coordonnées et ces dimensions se notent simplement en donnant les valeurs à l'aide d'un signe égal (`=`{.code}) **sans espace** : `x=12`{.code}, `y=20`{.code}, `w=12%`{.code}, `h=12mm`{.code}, etc.
 : Cf. aussi [Note sur les coordonnées et dimensions](#note_coors_dims)
 : On peut également trouver les propriétés de couleur. Cf. [Note sur les couleurs](#note_couleurs)
 
@@ -870,6 +870,7 @@ Trouvez ci-dessous la liste complète de tous les *TAGs*.
 | | |
 |                 | Détail |
 |                 | : [Les Cadences](#les_cadences) |
+| | |
 +-----------------+---------------------------------------------------+
 | mesure<br>      | Marque de mesure à placer à l'endroit voulu.      |
 | measure<br>     |                                                   |
@@ -906,7 +907,7 @@ Trouvez ci-dessous la liste complète de tous les *TAGs*.
 |                 | Détail |
 |                 | : [Les Degrés](#les_degres) |
 +-----------------+---------------------------------------------------+
-| ligne<br>       | Marquer une ligne, par exemple pour indiquer la   |
+| ligne<br>       | Marque une ligne, par exemple pour indiquer la   |
 | line<br>        | poursuite d'un chiffrage sur plusieurs temps.     |
 | lig<br>         |                                                   |
 | lin             |  ```{.usage} |
@@ -926,7 +927,7 @@ Trouvez ci-dessous la liste complète de tous les *TAGs*.
 | boite<br>       | de masquer des éléments de la partition. Bien que |
 | boi             | ces boites apparaissent en gris sur la table      |
 |                 | d'analyse, elles seront invisibles dans le        |
-|                 | document PDF final ou l'impression.               |
+|                 | document PDF final ou à l'impression.               |
 | | |
 |                 |  ```{.usage} |
 |                 | box x=... y=... w=<largeur> h=<hauteur> |
@@ -961,9 +962,10 @@ Trouvez ci-dessous la liste complète de tous les *TAGs*.
 +-----------------+---------------------------------------------------+
 |                 | Notes |
 +-----------------+---------------------------------------------------+
-|                 | * Les espaces sont remplacées par des traits plats |
-|                 | dans le texte à afficher, mais ce seront des espaces |
-|                 | qui seront inscrites sur la table d'analyse.        |
+|                 | * Mettre des traits plats à la place des espaces  |
+|                 | dans le code. Ils seront remplacés par de vraies  |
+|                 | espaces lors de l'inscription du texte sur la     |
+|                 | table d'analyse.                                  |
 | | |
 |                 | * Grâce à la définition de la largeur (w), on met le |
 |                 | texte sur deux lignes.                            |
@@ -1313,7 +1315,7 @@ Pour déverrouiller un *TAG* et le rendre à nouveau mobile, il suffit tout simp
 Pour grouper :
 
 * sélectionner les *TAGs* les uns après les autres en maintenant la touche MAJ appuyée,
-* activer le bouton « Grouper les x *TAGs* sélectionnés » dans [la boite à outils](#toolbox) ou jouer la combinaison clavier `CMD G`{.shortcut} (`Ctrl G`{.shortcut} sur Windows).
+* activer le bouton « Grouper » dans [la boite à outils](#toolbox) ou jouer la combinaison clavier `CMD G`{.shortcut} (`Ctrl G`{.shortcut} sur Windows).
 
 Pour dégrouper :
 
@@ -1470,7 +1472,7 @@ Ensuite, chaque « groupe de *TAGs* » est affiché en laissant une pause entr
 
 On peut [régler la vitesse générale de l'animation](#set_animation_speed) en option mais on peut également définir des temps plus ou moins longs entre l'affichage des différents *TAGs*, par exemple pour aménager un temps plus long d'explication entre deux *TAGs*. Pour ce faire, on joue simplement sur le nombre de lignes vides entre ces *TAGs*.
 
-Par exemple, ci-dessous, il y aura deux fois plus de temps entre la `acc D x=100 y=200`{.code} et la ligne `acc E x=120 y=200`{.code} qu'entre la ligne `acc E x=120 y=200`{.code} et la ligne `acc F x=140 y=200`{.code}.
+Par exemple, ci-dessous, il y aura deux fois plus de temps entre la ligne `acc D x=100 y=200`{.code} et la ligne `acc E x=120 y=200`{.code} qu'entre la ligne `acc E x=120 y=200`{.code} et la ligne `acc F x=140 y=200`{.code}.
 
 ```javascript
   // Dans le fichier _tags_.js
@@ -1492,7 +1494,7 @@ Par exemple, ci-dessous, il y aura deux fois plus de temps entre la `acc D x=100
 
 ### Boutons de l'animation {#boutons_animation}
 
-Des boutons permettent permettent d'interagir sur l'animation pour la mettre en pause, remonter les pas ou l'arrêter et la reprendre grâce à des boutons « Retour en arrière », « Stop » et « Jouer/Pause ».
+Des boutons permettent d'interagir sur l'animation pour la mettre en pause, remonter les pas ou l'arrêter et la reprendre grâce à des boutons « Retour en arrière », « Stop » et « Jouer/Pause ».
 
 ![Boutons animation](img/boutons-anim.png)
 
@@ -1621,7 +1623,7 @@ Pour définir la langue parlée par l'application. Pour le moment, l'application
 | Type                | booléen                                     |
 +---------------------+---------------------------------------------+
 
-L'option « code à côté » permet d'avoir le fichier contenant le code juste à côté de la partition, ce qui est très pratique pour le modifier sans avoir à changer d'application. On le voit ci-dessous dans la boite noir.
+L'option « code à côté » permet d'avoir le fichier contenant le code juste à côté de la partition, ce qui est très pratique pour le modifier sans avoir à changer d'application. On le voit ci-dessous dans la boite noire.
 
 ![Code à côté de la partition](img/option_code_beside.png)
 
@@ -1970,7 +1972,7 @@ L'autre avantage de l'utilisation de cet alias, c'est qu'on peut utiliser les te
 
 #### Création de l'alias {#creation_alias_mus}
 
-Pour créer cet alias, il suffit d'éditer le fichier de profil bash et d'ajouter la ligne `alias mus="/path/to/dossier/MuScat/utils"`{.code} en remplaçant "mus" par le mot que vous voudrez et "/path/to_dossier" par le chemin d'accès réel à votre dossier MuScaT.
+Pour créer cet alias, il suffit d'éditer le fichier de profil bash et d'ajouter la ligne `alias mus="/path/to/dossier/MuScat/utils"`{.code} en remplaçant "mus" par le mot que vous voudrez et "/path/to/dossier" par le chemin d'accès réel à votre dossier MuScaT.
 
 Chez moi, cela revient à faire :
 
@@ -2101,7 +2103,8 @@ Cette application se trouve dans le dossier `/Applications/Utilitaires`{.path} m
 |            \+ CTRL    |         \+ finement     |
 +-----------------------+-----------------------------------------+
 
-`Document rédigé par Phil (Philippe Perret <philippe.perret@yahoo.fr>) et corrigé par Marion MICHEL.`{.footer .copyright}
+`Document rédigé par Phil (Philippe Perret <philippe.perret@yahoo.fr>)
+et corrigé par Marion MICHEL.`{.footer .copyright}
 
 [K_Fb]: img/clavier/K_FlecheB.png
 [K_Fd]: img/clavier/K_FlecheD.png

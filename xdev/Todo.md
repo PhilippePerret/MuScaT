@@ -4,8 +4,6 @@
 
 Voir sur githut avec `ghi list`
 
-* Mémoriser les dernières analyses, mettre la dernière en courante, comme pour scriv (note : en fait, c'est tout à fait inutile puisqu'elle est définie dans 'analyse.js'). Donc, plutôt : quand on fait juste 'mus analyse', on présente la liste, mais on dit que si on fait entrée sans rien on va ouvrir la dernière analyse (on indique son nom).
-
 ## Développements versions suivantes
 
 * Pouvoir régler la vitesse d'apparition des éléments dans une animation (options.duration envoyée à Tag#reveal, 400 par défaut — voir la méthode `reveal`).

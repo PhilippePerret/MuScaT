@@ -43,9 +43,12 @@ begin
   end
   paths_tests ||= Dir["#{FOLDER_TESTS}/tests/**/*.js"].shuffle
 
+  # On construit les balises script qui vont charger les tests
+  # On passe le dossier 'offtests'
   all_js_tags += paths_tests.collect do |pth|
+    next if pth.match(/\/offtests\//)
     '<script type="text/javascript" src="%s"></script>' % [pth.sub(/^#{APPFOLDER}\//,'')]
-  end
+  end.compact
 
   # puts all_js_tags.join("\n")
 

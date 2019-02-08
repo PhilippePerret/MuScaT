@@ -53,6 +53,46 @@ const MuScaT = {
       }());
   }
 
+    /**
+     * Toute première méthode appelée, qui va charger le fichier de données
+     * _tags_.js de l'application. S'il ne le trouve pas ou qu'une erreur
+     * se produit, l'application charge l'analyse 'Analyse_Sonate_Haydn' qui
+     * se trouve toujours dans la distribution.
+     */
+  , load_analyse_data: function(){
+      var my = this ;
+      // On charge les éléments de l'analyse courante
+      my.load_analyse_of(my.analyse_name)
+        .then(function(){
+          MuScaT.test_if_ready('analyse');
+        })
+        .catch(function(e){
+          if (my.analyse_name == 'Analyse_Sonate_Haydn'){
+            MuScaT.loading_error('analyse');
+            console.error(e);
+          } else {
+            my.analyse_name = 'Analyse_Sonate_Haydn'
+            my.load_analyse_data();
+          }
+        });
+    }
+  , load_analyse_of: function(analyse_folder_name){
+      return new Promise(function(ok, ko){
+        var nodetags = document.body.appendChild(document.createElement('script'));
+        nodetags.src = `_analyses_/${analyse_folder_name}/_tags_.js`;
+        $(nodetags)
+          .on('load', function(){
+            // Fichier _tags_.js chargé, on peut commencer les hostilités
+            ok();
+          })
+          .on('error',function(e){
+            // MuScaT.loading_error('analyse');
+            // console.error(e);
+            ko(e);
+          });
+      })
+    }
+
     // Première méthode appelée par document.ready
     //
   , start_and_run: function(){
@@ -72,7 +112,7 @@ const MuScaT = {
       this.load() ;
 
       // On met le titre du dossier d'analyse
-      $('span#analyse_name').text(ANALYSE);
+      $('span#analyse_name').text(this.analyse_name);
 
       // Pour une raison pas encore expliquée, il arrive que les
       // éléments se bloquent et ne prenent plus leur position
@@ -356,6 +396,15 @@ Object.defineProperties(MuScaT,{
   lang:{
     get: function(){ return Options.get('lang').toLowerCase() } // 'fr par défaut'
   }
+    /**
+     * Le dossier contenant les images de l'analyse courante
+     */
+  , images_folder: {
+      get:function(){
+        return `_analyses_/${this.analyse_name}/images`;
+      }
+    }
+
 })
 
 // Alias

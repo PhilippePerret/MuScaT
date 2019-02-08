@@ -47,3 +47,19 @@ function isKnown(value){
 function isEvent(foo){
   return foo && 'function' == typeof(foo.stopPropagation);
 };
+
+// Dans le cas où l'utilisateur n'aurait pas Firebug ou autre.
+if ('undefined'==typeof(console)){
+  console = {log:function(e){},error:function(e){}}
+}
+
+window.message = function(str){
+  var dom = document.getElementById('message');
+  dom.className = 'notice';
+  dom.innerHTML = str;
+};
+
+// Pour mettre dans le presse-papier
+function clip(str){
+  navigator.clipboard.writeText(str) ;
+};

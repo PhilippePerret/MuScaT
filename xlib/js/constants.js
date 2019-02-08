@@ -114,9 +114,6 @@ const DEFAULT_SCORE_LEFT_MARGIN = 50  ;
 const DEFAULT_SCORE_TOP_MARGIN  = 100 ;
 const DEFAULT_SCORES_SPACES     = 0 ; // espace entre les images de système
 
-// Dossier (dynamique) des images de l'analyse courante
-const IMAGES_FOLDER = `_analyses_/${ANALYSE}/images`;
-
 // Les propriétés du tag. Ce sont les propriétés qui seront checkées au cours
 // de la comparaison quand un changement se produit.
 // Note : le type doit être traité avant 'nature_init'

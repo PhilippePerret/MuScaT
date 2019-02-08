@@ -29,7 +29,7 @@
        this.sumarize() ;
        return ;
      }
-     console.log(`\n\n------- Test : ${current_sheet.name} ---`);
+     console.log(`\n\n------- Test : ${current_sheet.name} (${current_sheet.relative_path}) ---`);
      if('function' == typeof(current_sheet.run_async)){
        current_sheet.run_async();
      } else {
@@ -46,6 +46,7 @@
    sumarize: function(){
     var color = this.nombre_failures > 0 ? 'red' : (this.nombre_pendings > 0 ? 'orange' : '#00BB00') ;
     var str = `${this.nombre_success} success ${this.nombre_failures} failures ${this.nombre_pendings} pendings`
+    $('#tags').html(`<div>${str}</div><div>Open the console to see the details.</div>`);
     console.log(RC+RC+RC+'%c' + str, `color:${color};font-weight:bold;`);
    },
 
