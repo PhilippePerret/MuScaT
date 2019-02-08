@@ -38,22 +38,28 @@ const Locales = {
       arr.push(msg);
     });
     return arr.join(' ');
-  },
-
-  /**
-   * Méthode qui charge les locales au lancement de la page
-   */
-  load: function(){
-    var pth, nod ;
-    ['messages','ui','things'].forEach(function(affixe){
-      pth = `xlib/locales/${M.lang}/${affixe}.js`;
-      nod = document.body.appendChild(document.createElement('script'));
-      nod.src = pth;
-      $(nod)
-        .on('load',  function(){MuScaT.test_if_ready(affixe)})
-        .on('error', function(){MuScaT.loading_error(affixe)});
-    });
   }
+
+  , PLoad: function(){
+      console.log('-> Locales.PLoad');
+      return new Promise(function(ok,ko){
+        Locales.PLoadLocale('messages')
+          .then(Locales.PLoadLocale('ui'))
+          .then(Locales.PLoadLocale('things'))
+          .then(ok);
+      })
+    }
+  , PLoadLocale: function(locale_name){
+      var pth, nod ;
+      return new Promise(function(ok,ko){
+        pth = `xlib/locales/${M.lang}/${locale_name}.js`;
+        nod = document.body.appendChild(document.createElement('script'));
+        nod.src = pth;
+        $(nod)
+          .on('load',  function(){ok()})
+          .on('error', function(){MuScaT.loading_error(pth)});
+      });
+    }
 };
 // Méthode raccourci pratique
 const t = Locales.translate ;

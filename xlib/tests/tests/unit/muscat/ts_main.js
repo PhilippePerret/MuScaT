@@ -2,10 +2,10 @@ var test = new Test('Test principal de MuScaT (unit/muscat/ts_main.js)');
 
 test.run = function(){
   this.test_methode_onEachTagsLine();
-  assert_function('test_if_ready', MuScaT);
+  assert_function('preload', MuScaT);
   assert_function('start_and_run', MuScaT);
   assert_function('load', MuScaT);
-  assert_function('suite_load', MuScaT);
+  assert_function('endLoading', MuScaT);
   this.test_method_build_tags();
   assert_function('run_animation', MuScaT);
   this.test_fonction_codeAnalyseInClipboard();

@@ -19,24 +19,22 @@ const Theme = {
   }
   ,  style_commun: {}
 
-  /**
-   * Fonction permettant de charger le thème et de prévenir MuScaT que
-   * c'est bon (ou pas…)
-   */
-  , load: function(){
-      this.current = Options.get('theme') || 'muscat';
-      var nod = document.body.appendChild(document.createElement('link'));
-      nod.setAttribute('rel', 'stylesheet');
-      nod.setAttribute('media', 'screen, print');
-      nod.href = `xlib/css/themes/${this.current}.css`;
-      $(nod)
-        .on('load', function(){
-          MuScaT.test_if_ready('theme');
-        })
-        .on('error', function(e){
-          MuScaT.loading_error('theme');
-          console.error(e);
-        });
-    }
+  , PLoad: function(){
+      console.log('-> Theme.PLoad');
+      return new Promise(function(ok,ko){
+        var my = Theme ;
+        my.current = Options.get('theme') || 'muscat';
+        var nod = document.body.appendChild(document.createElement('link'));
+        nod.setAttribute('rel', 'stylesheet');
+        nod.setAttribute('media', 'screen, print');
+        nod.href = `xlib/css/themes/${my.current}.css`;
+        $(nod)
+          .on('load', ok)
+          .on('error', function(e){
+            MuScaT.loading_error('theme');
+            console.error(e);
+          });
+      })
+  }
 }
 const Th = Theme ;

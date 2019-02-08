@@ -85,27 +85,35 @@ const Page = {
    *    contient une image-séquence.
    */
   , wait_for_images: function(){
-      var my = this ;
-      my.counts = {
-          images:  $('#tags img').length
-        , loaded:  0
-        , treated: 0
-        , errors:  new Array()
-      };
-      $('#tags img')
-        .on('load', function(){
-          // On passe ici chaque fois qu'une image est chargée
-          my.counts.loaded ++ ;
-          my.counts.treated ++ ;
-          if(my.counts.treated == my.counts.images){ my.conclusions_images() }
-        })
-        .on('error', function(){
-          // On passe ici chaque fois qu'une image pose problème
-          my.counts.errors.push($(this)[0].src) ;
-          my.counts.treated ++ ;
-          if(my.counts.treated == my.counts.images){ my.conclusions_images() }
-          return true ;
-        })
+      return new Promise(function(ok,ko){
+        Page.counts = {
+            images:  $('#tags img').length
+          , loaded:  0
+          , treated: 0
+          , errors:  new Array()
+        };
+        $('#tags img')
+          .on('load', function(){
+            // On passe ici chaque fois qu'une image est chargée
+            Page.counts.loaded ++ ;
+            Page.counts.treated ++ ;
+            if(Page.counts.treated == Page.counts.images){
+              // Toutes les images ont été traitées, soit en bon soit en
+              // erreur
+              Page.conclusions_images();
+              ok();
+            }
+          })
+          .on('error', function(){
+            // On passe ici chaque fois qu'une image pose problème
+            Page.counts.errors.push($(this)[0].src) ;
+            Page.counts.treated ++ ;
+            if(Page.counts.treated == Page.counts.images){
+              Page.conclusions_images();
+              ok();// Oui, car une erreur, même la dernière, ne peut être fatale
+            }
+          })
+      })
     }
   , conclusions_images: function(){
       var my = this ;
@@ -125,36 +133,47 @@ const Page = {
         var msg = `${t('images-errors-occured', {errors: errs.join(RC+'  - '), rc: RC})}${RC+RC}${t('please-fix-the-code')}`
         error(msg);
       }
-      MuScaT.suite_load(); // on poursuit le chargement
     }
 
   , wait_to_treate_images_spaces: function(){
       var my = this ;
-      var unloadeds = $('#tags img').length ;
-      $('#tags img')
-        .on('load error', function(){
-          -- unloadeds ;
-          if(unloadeds == 0){my.treate_images_spaces()};
-          return true;
-        });
+      return new Promise(function(ok,ko){
+        Page.loadImages()
+          .then(Page.treate_images_spaces)
+          .then(ok);
+      })
+    }
+
+  , loadImages: function(){
+      return new Promise(function(ok,ko){
+        var unloadeds = $('#tags img').length ;
+        $('#tags img')
+          .on('load error', function(){
+            -- unloadeds ;
+            if(unloadeds == 0){ok()};
+            return true;
+          });
+      })
     }
 
   , treate_images_spaces: function(fn_suite){
-      var voffset = asPixels(Options.get('espacement images') || DEFAULT_SCORES_SPACES) ;
-      var topImage ;
-      CTags.onEachTag(function(itag){
-        if(!itag.is_image){return};
-        if(undefined == topImage){
-          // <= Première image (ne pas la bouger)
-          topImage = Number.parseInt(itag.jqObj.offset().top,10) ;
-        } else {
-          itag.y = topImage ;
-          itag.jqObj.css('top', topImage + 'px');
-        }
-        // Pour la prochaine image
-        topImage = topImage + itag.jqObj.height() + voffset;
-      });
-      return MuScaT.suite_load();
+      return new Promise(function(ok,ko){
+        var voffset = asPixels(Options.get('espacement images') || DEFAULT_SCORES_SPACES) ;
+        var topImage ;
+        CTags.onEachTag(function(itag){
+          if(!itag.is_image){return};
+          if(undefined == topImage){
+            // <= Première image (ne pas la bouger)
+            topImage = Number.parseInt(itag.jqObj.offset().top,10) ;
+          } else {
+            itag.y = topImage ;
+            itag.jqObj.css('top', topImage + 'px');
+          }
+          // Pour la prochaine image
+          topImage = topImage + itag.jqObj.height() + voffset;
+        });
+        ok();
+      })
     }
 
   /**

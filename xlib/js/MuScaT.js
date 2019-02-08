@@ -20,38 +20,30 @@ const MuScaT = {
       for(i;i<len;++i){method(lines[i])};
     }
 
-  /**
-   * Cette méthode est appelée par toutes celles qui lancent des chargements,
-   * à commencer par le chargement des langues et de l'analyse courante.
-   * Une fois que tout est OK, la méthode lance `start_and_run`
-   * Note : cette méthode fonctionne en parallèle de `loading_error` qui est
-   * appelée en cas d'erreur.
-   */
-  , loadings: {'messages': false, 'things': false, 'ui': false, 'analyse': false, 'theme': false, count: 5}
-  , test_if_ready: function(loading_id){
-      this.loadings[loading_id] = true ;
-      -- this.loadings.count ;
-      // On doit d'abord attendre que le fichier _tags_.js soit chargé, avant
-      // de charger les locales, car elles dépendent de la langue choisie.
-      if(loading_id == 'analyse'){
-        Locales.load();
-        Theme.load(); // TODO vérifier si ça marche ou s'il faut charger plus tard
-      } else if ( this.loadings.count == 0 ){
-        this.start_and_run();
-      }
-    },
+    /**
+     * Nouvelle méthode utilisant les promises pour charger tous les
+     * premiers éléments asynchrones.
+     */
+  , preload: function(){
+      return new Promise(function(ok, ko){
+        M.load_analyse_data()
+          .then(Locales.PLoad)
+          .then(Theme.PLoad)
+          .then(ok);//on peut commencer
+      })
+    }
 
-  loading_error: function(){
-    F.error(function(){
-      switch(M.lang){
-        case 'en':
-          return 'An error occured. I can’t launch MuScaT, sorry.';
-          break;
-        default:
-          return 'Une erreur fatale est malheureusement survenue. Je ne peux pas lancer MuScaT…';
-        }
-      }());
-  }
+  , loading_error: function(){
+      F.error(function(){
+        switch(M.lang){
+          case 'en':
+            return 'An error occured. I can’t launch MuScaT, sorry.';
+            break;
+          default:
+            return 'Une erreur fatale est malheureusement survenue. Je ne peux pas lancer MuScaT…';
+          }
+        }());
+    }
 
     /**
      * Toute première méthode appelée, qui va charger le fichier de données
@@ -60,35 +52,32 @@ const MuScaT = {
      * se trouve toujours dans la distribution.
      */
   , load_analyse_data: function(){
+      console.log('-> load_analyse_data');
       var my = this ;
-      // On charge les éléments de l'analyse courante
-      my.load_analyse_of(my.analyse_name)
-        .then(function(){
-          MuScaT.test_if_ready('analyse');
-        })
-        .catch(function(e){
-          if (my.analyse_name == 'Analyse_Sonate_Haydn'){
-            MuScaT.loading_error('analyse');
-            console.error(e);
-          } else {
-            my.analyse_name = 'Analyse_Sonate_Haydn'
-            my.load_analyse_data();
-          }
-        });
+      return new Promise(function(ok, ko){
+        // On charge les éléments de l'analyse courante
+        my.load_analyse_of(my.analyse_name)
+          .then(ok)
+          .catch(function(e){
+            if (my.analyse_name == 'Analyse_Sonate_Haydn'){
+              MuScaT.loading_error('analyse');
+              console.error(e);
+            } else {
+              my.analyse_name = 'Analyse_Sonate_Haydn'
+              return my.load_analyse_data();
+            }
+          });
+      })
     }
   , load_analyse_of: function(analyse_folder_name){
       return new Promise(function(ok, ko){
         var nodetags = document.body.appendChild(document.createElement('script'));
         nodetags.src = `_analyses_/${analyse_folder_name}/_tags_.js`;
         $(nodetags)
-          .on('load', function(){
-            // Fichier _tags_.js chargé, on peut commencer les hostilités
-            ok();
-          })
+          .on('load', ok)
           .on('error',function(e){
-            // MuScaT.loading_error('analyse');
-            // console.error(e);
-            ko(e);
+            MuScaT.loading_error('analyse');
+            console.error(e);
           });
       })
     }
@@ -96,7 +85,7 @@ const MuScaT = {
     // Première méthode appelée par document.ready
     //
   , start_and_run: function(){
-      // console.log('-> start_and_run');
+      console.log('-> MuScat.start_and_run');
 
       // Quand c'est pour jouer les tests, on ne fait rien quand ils sont
       // finis (test_ending est true)
@@ -109,88 +98,84 @@ const MuScaT = {
 
       // On doit construire les éléments d'après les définitions faites dans
       // le fichier tag.js
-      this.load() ;
+      this.load()
+        .then(function(){
+          // On met le titre du dossier d'analyse
+          $('span#analyse_name').text(M.analyse_name);
 
-      // On met le titre du dossier d'analyse
-      $('span#analyse_name').text(this.analyse_name);
+          // Pour une raison pas encore expliquée, il arrive que les
+          // éléments se bloquent et ne prenent plus leur position
+          // absolute (bug dans le draggable de jQuery).
+          // Donc, ici, on s'assure toujours que les éléments draggable
+          // soit en bonne position
+          // On fera la même chose, un peu plus bas, avec les lignes de
+          // référence
+          CTags.onEachTag(function(tg){tg.jqObj.css('position','absolute')});
 
-      // Pour une raison pas encore expliquée, il arrive que les
-      // éléments se bloquent et ne prenent plus leur position
-      // absolute (bug dans le draggable de jQuery).
-      // Donc, ici, on s'assure toujours que les éléments draggable
-      // soit en bonne position
-      // On fera la même chose, un peu plus bas, avec les lignes de
-      // référence
-      CTags.onEachTag(function(tg){tg.jqObj.css('position','absolute')});
+          // Quand on clique sur la partition, en dehors d'un élément,
+          // ça déselectionne tout
+          // $('#tags').on('click', function(ev){CTags.deselectAll()})
+          if(!Options.get('crop image')){
+            Page.observe();
+          }
 
-      // Quand on clique sur la partition, en dehors d'un élément,
-      // ça déselectionne tout
-      // $('#tags').on('click', function(ev){CTags.deselectAll()})
-      if(!Options.get('crop image')){
-        Page.observe();
-      }
+          // Dans tous les cas, on construit les liTags
+          ULTags.build();
 
-      // Dans tous les cas, on construit les liTags
-      ULTags.build();
+          // Si l'option 'lines of reference' a été activée, il faut
+          // ajouter les deux lignes repères
+          if(Options.get('lines of reference')){
+            Page.build_lines_of_reference();
+            Page.assure_lines_draggable();
+          }
 
-      // Si l'option 'lines of reference' a été activée, il faut
-      // ajouter les deux lignes repères
-      if(Options.get('lines of reference')){
-        Page.build_lines_of_reference();
-        Page.assure_lines_draggable();
-      }
+          // Et enfin, si c'est une animation, il faut la jouer
+          if(M.animated){M.run_animation()};
+        });
 
-      // Et enfin, si c'est une animation, il faut la jouer
-      if(this.animated){this.run_animation()};
     }
 
     /**
      * Quand l'animation est demandée
      */
   , run_animation: function(){
-      this.loadModule('Anim', 'start');
+      this.loadModule('Anim').then(function(){Anim.start()});
     }
     /**
      * Chargement du fichier _tags_.js, analyse du code et construction de
      * l'analyse sur la table.
      */
   , load: function(){
-      var my = this ;
+      return new Promise(function(ok,ko){
+        if ('undefined' == typeof Tags) {return alert(t('tags-undefined'))};
+        M.reset_all();
+        M.parse_tags_js() ;
+        M.build_tags() ;
+        M.traite_images()
+          .then(M.endLoading)
+          .then(ok);
+      });
 
-      // Il faut d'abord s'assurer que le fichier _tags_.js a été correctement
-      // défini.
-      if ('undefined' == typeof Tags) {
-        alert(t('tags-undefined'));
-        return ;
-      }
+    } // Fin du chargement des éléments
 
-      // Pour débug
-      // console.log('dans load, Tags=', Tags);
-
-      my.reset_all();
-
-      my.parse_tags_js() ;
-
-      my.build_tags() ;
-
-      if (my.treate_images_spaces) {
-        Page.wait_to_treate_images_spaces();
-      } else {
-        Page.wait_for_images();
-      }
-    } // Fin début de load
-
+  , traite_images: function(){
+      return new Promise(function(ok,ko){
+        if (M.treate_images_spaces) {
+          Page.wait_to_treate_images_spaces().then(ok);
+        } else {
+          Page.wait_for_images().then(ok);
+        }
+      })
+    }
     /**
-      * Méthode appelée après le traitement des images
+      * Finir le chargement
      */
-  , suite_load: function(){
+  , endLoading: function(){
       var my = MuScaT ;
 
       if (Options.get('crop image')){
-        my.loadModule('cropper', function(){$.proxy(MuScaT, 'prepare_crop_image')()});
+        my.loadModule('cropper').then(function(){MuScaT.prepare_crop_image.bind(MuScat)()});
       } else {
-        // Placement des observers
-        this.set_observers();
         // Si des lignes ont été créées au cours ud processus,
         // on demande à l'utilisateur de sauver le code
         if (my.motif_lines_added) {
@@ -355,41 +340,17 @@ const MuScaT = {
       my.motif_lines_added = null ;
     }
 
-  , set_observers: function(){
-      // // On ajoute un observateur de clic sur les images (ils en ont déjà un
-      // // par .tag) pour qu'ils donnent les coordonnées au clic de la souris,
-      // // ce qui peut servir à place un élément sur l'image directement
-      // Page.table_analyse.find('img').on('click', $.proxy(Page,'getCoordonates'))
-    }
-
-  /**
-   * Chargement d'un module du dossier xlib/js/modules
-   *
-   * +module_name+  Le nom du module, sans 'js'
-   * +fn_callback+  La méthode à appeler. Penser que cette méthode ne peut
-   *                pas être une méthode du module puisqu'elle n'existe pas
-   *                encore au moment du chargement. En revanche, ça peut être
-   *                une fonction qui appelle cette méthode.
-   *                SAUF si +module_name+ est le nom d'une classe (ou d'un
-   *                objet) et que +fn_callback+ est seulement le nom de la
-   *                méthode. Par exemple, avec  `loadModule('Anim','start')`,
-   *                c'est la méthode Anim.start() qui sera jouée.
-   */
-  , loadModule: function(module_name, fn_callback){
-      var nod = document.body.appendChild(document.createElement('script'));
-      nod.src = `xlib/js/modules/${module_name}.js`;
-      $(nod)
-        .on('load', function(){
-          if('string' == typeof(fn_callback) && 'function'!=typeof(fn_callback)){
-            var objet = eval(module_name);
-            fn_callback = objet[fn_callback].bind(objet);
-          }
-          fn_callback();
-        })
-        .on('error', function(){
-          F.error(t('loading-module-failed', {name: module_name}));
-        })
-    },
+  , loadModule: function(module_name){
+      return new Promise(function(ok,ko){
+        var nod = document.body.appendChild(document.createElement('script'));
+        nod.src = `xlib/js/modules/${module_name}.js`;
+        $(nod)
+          .on('load', ok)
+          .on('error', function(e){
+            F.error(t('loading-module-failed', {name: module_name}));
+          })
+      });
+  }
 };
 Object.defineProperties(MuScaT,{
   // Langue de l'application (on la change avec l'option 'lang'/'langue')

@@ -7,6 +7,7 @@ $(document).ready(function(){
   Cook.parse();
 
   MuScaT.analyse_name = ANALYSE ;// Modifiée si inexistante
-  MuScaT.load_analyse_data();
+  MuScaT.preload()
+    .then(MuScaT.start_and_run.bind(MuScaT));
 
 });
