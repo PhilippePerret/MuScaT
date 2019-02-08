@@ -3,10 +3,9 @@
  *
  * Il construit
  */
-
+const TESTING = true ;
 
 $(document).ready(function(){
-  MuScaT.testing = true ;
-  Tests.run();
-  MuScaT.test_ending = true ;
+  // Rien à faire pour le moment au démarrage. Tests.run() sera appelé
+  // quand l'application aura chargé.
 })

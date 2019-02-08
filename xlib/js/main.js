@@ -1,13 +1,12 @@
 /*
   Script principal
 */
-
-
 $(document).ready(function(){
-  Cook.parse();
+  if('undefined'==typeof(TESTING)){TESTING = false};
+  // console.log(TESTING?'Oui, du test':'NON, pas de test');
 
-  MuScaT.analyse_name = ANALYSE ;// Modifiée si inexistante
+  MuScaT.analyse_name = TESTING?'Tests':ANALYSE ;// Modifiée si inexistante
   MuScaT.preload()
-    .then(MuScaT.start_and_run.bind(MuScaT));
-
+    .then(MuScaT.start_and_run.bind(MuScaT))
+    .then(function(){if(TESTING){Tests.run()}});
 });
