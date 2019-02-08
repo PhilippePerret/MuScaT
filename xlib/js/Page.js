@@ -92,6 +92,8 @@ const Page = {
           , treated: 0
           , errors:  new Array()
         };
+        // S'il n'y a aucune image, on peut s'arrêter tout de suite
+        if (Page.counts.images == 0){return ok();}
         $('#tags img')
           .on('load', function(){
             // On passe ici chaque fois qu'une image est chargée
@@ -113,7 +115,7 @@ const Page = {
               ok();// Oui, car une erreur, même la dernière, ne peut être fatale
             }
           })
-      })
+      });
     }
   , conclusions_images: function(){
       var my = this ;

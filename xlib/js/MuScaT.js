@@ -26,6 +26,7 @@ const MuScaT = {
      */
   , preload: function(){
       return new Promise(function(ok, ko){
+        Cook.parse();
         M.load_analyse_data()
           .then(Locales.PLoad)
           .then(Theme.PLoad)
@@ -37,7 +38,7 @@ const MuScaT = {
       F.error(function(){
         switch(M.lang){
           case 'en':
-            return 'An error occured. I can’t launch MuScaT, sorry.';
+            return 'An error occured. Can’t launch MuScaT, sorry.';
             break;
           default:
             return 'Une erreur fatale est malheureusement survenue. Je ne peux pas lancer MuScaT…';
@@ -82,57 +83,24 @@ const MuScaT = {
       })
     }
 
-    // Première méthode appelée par document.ready
-    //
   , start_and_run: function(){
-      console.log('-> MuScat.start_and_run');
-
-      // Quand c'est pour jouer les tests, on ne fait rien quand ils sont
-      // finis (test_ending est true)
-      // TODO : il pourrait être sympa d'afficher les tests au lieu de la
-      // table d'analyse.
-      if(this.testing && this.test_ending){return};
-
-      // On prépare l'interface (notamment au niveau de la langue)
-      UI.set_ui();
-
-      // On doit construire les éléments d'après les définitions faites dans
-      // le fichier tag.js
-      this.load()
-        .then(function(){
-          // On met le titre du dossier d'analyse
-          $('span#analyse_name').text(M.analyse_name);
-
-          // Pour une raison pas encore expliquée, il arrive que les
-          // éléments se bloquent et ne prenent plus leur position
-          // absolute (bug dans le draggable de jQuery).
-          // Donc, ici, on s'assure toujours que les éléments draggable
-          // soit en bonne position
-          // On fera la même chose, un peu plus bas, avec les lignes de
-          // référence
-          CTags.onEachTag(function(tg){tg.jqObj.css('position','absolute')});
-
-          // Quand on clique sur la partition, en dehors d'un élément,
-          // ça déselectionne tout
-          // $('#tags').on('click', function(ev){CTags.deselectAll()})
-          if(!Options.get('crop image')){
-            Page.observe();
-          }
-
-          // Dans tous les cas, on construit les liTags
-          ULTags.build();
-
-          // Si l'option 'lines of reference' a été activée, il faut
-          // ajouter les deux lignes repères
-          if(Options.get('lines of reference')){
-            Page.build_lines_of_reference();
-            Page.assure_lines_draggable();
-          }
-
-          // Et enfin, si c'est une animation, il faut la jouer
-          if(M.animated){M.run_animation()};
-        });
-
+      // console.log('-> MuScat.start_and_run');
+      return new Promise(function(ok,ko){
+        // On prépare l'interface (notamment au niveau de la langue)
+        UI.set_ui();
+        // On doit construire les éléments d'après les définitions faites dans
+        // le fichier tag.js
+        M.load()
+          .then(M.postLoad)
+          .then(function(){
+            console.log('--- END STARTUP ---');
+            ok();
+          })
+          .catch(function(err){
+            console.error('Une erreur s’est produite');
+            console.error(err);
+          });
+      });
     }
 
     /**
@@ -146,43 +114,77 @@ const MuScaT = {
      * l'analyse sur la table.
      */
   , load: function(){
+      console.log('-> Muscat#load')
       return new Promise(function(ok,ko){
         if ('undefined' == typeof Tags) {return alert(t('tags-undefined'))};
         M.reset_all();
-        M.parse_tags_js() ;
-        M.build_tags() ;
+        M.parse_tags_js();
+        M.build_tags();
         M.traite_images()
-          .then(M.endLoading)
+          .then(M.endLoadingImages)
           .then(ok);
       });
-
     } // Fin du chargement des éléments
 
+  , postLoad: function(){
+      console.log('-> MuScaT#postLoad');
+      return new Promise(function(ok,ko){
+        // On met le titre du dossier d'analyse
+        $('span#analyse_name').text(M.analyse_name);
+
+        // Pour une raison pas encore expliquée, il arrive que les
+        // éléments se bloquent et ne prenent plus leur position
+        // absolute (bug dans le draggable de jQuery).
+        // Donc, ici, on s'assure toujours que les éléments draggable
+        // soit en bonne position
+        // On fera la même chose, un peu plus bas, avec les lignes de
+        // référence
+        CTags.onEachTag(function(tg){tg.jqObj.css('position','absolute')});
+
+        // Quand on clique sur la partition, en dehors d'un élément,
+        // ça déselectionne tout
+        // $('#tags').on('click', function(ev){CTags.deselectAll()})
+        if(!Options.get('crop image')){Page.observe()};
+        // Dans tous les cas, on construit les liTags
+        ULTags.build();
+        // Si l'option 'lines of reference' a été activée, il faut
+        // ajouter les deux lignes repères
+        if(Options.get('lines of reference')){
+          Page.build_lines_of_reference();
+          Page.assure_lines_draggable();
+        }
+        // Si c'est une animation, on est prêt à la jouer
+        if(M.animated){M.run_animation()};
+        ok();
+      });
+    }
   , traite_images: function(){
+      console.log('-> MuScaT#traite_images');
       return new Promise(function(ok,ko){
         if (M.treate_images_spaces) {
           Page.wait_to_treate_images_spaces().then(ok);
         } else {
           Page.wait_for_images().then(ok);
         }
-      })
+      });
     }
     /**
       * Finir le chargement
      */
-  , endLoading: function(){
-      var my = MuScaT ;
-
-      if (Options.get('crop image')){
-        my.loadModule('cropper').then(function(){MuScaT.prepare_crop_image.bind(MuScat)()});
-      } else {
-        // Si des lignes ont été créées au cours ud processus,
-        // on demande à l'utilisateur de sauver le code
-        if (my.motif_lines_added) {
-          my.codeAnalyseInClipboard(t('code-lines-added', {motif: my.motif_lines_added}));
-        }
-      }
-      return true;
+  , endLoadingImages: function(){
+      console.log('-> MuScaT#endLoadingImages');
+      return new Promise(function(ok,ko){
+        if (Options.get('crop image')){
+          M.loadModule('cropper').then(function(){M.prepare_crop_image.bind(M)()});
+        } else {
+          // Si des lignes ont été créées au cours ud processus,
+          // on demande à l'utilisateur de sauver le code
+          if (M.motif_lines_added) {
+            M.codeAnalyseInClipboard(t('code-lines-added', {motif: M.motif_lines_added}));
+          }
+        };
+        ok();
+      });
     } // load
 
 

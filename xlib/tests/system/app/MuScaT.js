@@ -21,8 +21,11 @@ Object.assign(MuScaT,{
   // Tout est initialisé et la méthode 'start_and_run' (appelée normalement
   // par le document.ready) est joué.
   relaunch_for_tests:function(){
-    // MuScaT.reset_for_tests();
-    MuScaT.start_and_run();
+    return new Promise(function(ok,ko){
+      MuScaT.preload()
+        .then(MuScaT.start_and_run.bind(MuScaT))
+        .then(ok);
+    })
   },
 
   // Initialisation de tout, même la fenêtre, avant les tests (mais doit

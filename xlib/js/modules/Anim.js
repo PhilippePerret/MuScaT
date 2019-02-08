@@ -35,7 +35,7 @@ const Anim = {
   , next: function(){
       this.reveal_nexts();
       // console.log(`-> next / this.current:${this.current}, this.last_index:${this.last_index}`);
-      if( this.current < this.last_index ){
+      if( this.current <= this.last_index ){
         this.waitingLoop();
       } else {
         // FIN

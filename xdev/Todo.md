@@ -1,5 +1,7 @@
 # Todo list
 
+* Maintenant qu'on est vraiment asynchrone (promesses), il faut que les tests ne démarrent que lorsque l'application est prête.
+
 ## TEST
 
 Voir sur githut avec `ghi list`
