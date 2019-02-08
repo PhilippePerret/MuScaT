@@ -542,7 +542,10 @@ Tag.prototype.updateH = function(newh){
   if(newh === null){
     my.h = null; my.h_unit = null;
   } else {
-    my.h = newh;
+    [my.h, my.h_unit] = valueAndUnitOf(newh);
+    // var [new_h, new_h_unit] = valueAndUnitOf(newh);
+    // my.h = new_h;
+    // my.h_unit = new_h_unit;
   };
   this._surf = null ;
   // Traitement particulier pour les modulations
@@ -1025,7 +1028,12 @@ Object.defineProperties(Tag.prototype,{
     get:function(){
       if (!this._data_nature){
         this._data_nature = NATURES[this.nature_init] ;
-        if(this._data_nature.aka){this._data_nature = NATURES[this._data_nature.aka]};
+        if(!this._data_nature){
+          error(t('unknown-nature', {nature: this.nature_init}));
+          return null ;
+        } else if (this._data_nature.aka){
+          this._data_nature = NATURES[this._data_nature.aka];
+        };
       };
       return this._data_nature ;
     }
