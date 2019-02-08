@@ -4,20 +4,10 @@
 
 var test = new Test("Essai avec promesse");
 
-test.run = function(){
-  this.un_simple_assert();
-  this.une_redefinition_des_tags_avec_rechargement();
-};
-test.un_simple_assert = function(){
-  assert(
-    true,
-    'Je suis bien passé par là.',
-    "J'aurais dû passer par là."
-  );
-};
-
-test.une_redefinition_des_tags_avec_rechargement = function(){
-  console.log('-> une_redefinition_des_tags_avec_rechargement');
+// Test d'une redéfinition de fichier _tags_.js, donc avec rechargement
+// et tests asynchrone, après ce chargement.
+test.case('Une redéfinition des tags', function(){
+  given("Une redéfinition de Tags redéfinit l'analyse")
   M.reset_for_tests();
   option('code');
   Tags = `
@@ -25,8 +15,19 @@ test.une_redefinition_des_tags_avec_rechargement = function(){
   `;
   M.relaunch_for_tests()
     .then(function(){
-      console.log("Je teste la suite");
       assert_nombre_tags(1);
     });
-  console.log('<- une_redefinition_des_tags_avec_rechargement');
-};
+});
+
+
+// Un test simplissime qui se déroule tout de suite.
+// La seule complication est qu'il peut venir après le précédent (si les cas
+// ne sont pas mélangés)
+test.case('Une simple assertion', function(){
+  given("Une simple assertion true produit un succès");
+  assert(
+    true,
+    'Je suis bien passé par là.',
+    "J'aurais dû passer par là."
+  );
+});

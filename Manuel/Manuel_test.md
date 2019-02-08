@@ -3,6 +3,7 @@
 * [Introduction](#introduction)
 * [Fonctionnement](#fonctionnement)
 * [Composition des tests](#composition_tests)
+  * [Tests pseudo asynchrones](#pseudo_async_tests)
   * [Tests asynchrones](#async_test)
 * [Utilisation des images](#utilisation_images)
 * [Liste des assertions](#assertions)
@@ -60,7 +61,7 @@ Les fiches de test doivent impérativement se trouver dans le dossier `./_table_
 
 ```
 
-On comprend donc que le fichier `test.html` doit être produit chaque fois qu'on change de test. En revanche, lorsqu'un feuille de test est modifiée, il suffit de recharger le fichier `test.html` pour prendre en compte les changements.
+On comprend donc que le fichier `test.html` doit être produit chaque fois qu'on change de test. En revanche, lorsqu'un feuille de test courante est modifiée, il suffit de recharger le fichier `test.html` dans le navigateur pour prendre en compte les changements.
 
 Ensuite, il suffit de charger le fichier `test.html` (créé par `test.rb`) et de lire la console de Firebug pour avoir le résultat du test.
 
@@ -121,6 +122,33 @@ L'assertion ci-dessus produira « Deux + deux est bien égal à quatre ».
 
 Vous trouverez la [liste des assertions](#assertions) ci-dessous.
 
+### Tests pseudo asynchrones {#pseudo_async_tests}
+
+Les tests dits « pseudo asynchrones » sont tous les tests qui simulent le chargement d'un nouveau code. Tout le processus de démarre de l'application doit alors être invoqué, et ce chargement est asynchrone.
+
+On utilise alors cette forme dans les tests :
+
+```javascript
+var test = new Test("Avec rechargement");
+test.run = function(){
+
+  // Réinitialisation de tout ce qui doit l'être, les listes, les
+  // historiques, les erreurs, etc.
+  M.reset_for_tests();
+  // Nouvelle définition du fichier _tags_.js, simulée.
+  option(/*... mes options ...*/);
+  Tags = `
+  // Définition des nouveau tags
+  `;
+  // Rechargement de l'application (simulé) et lancement des tests
+  M.relaunch_for_tests()
+    .then(function(){
+
+      // Ici les tests à conduire
+
+    });
+}
+```
 
 ### Tests asynchrones {#async_test}
 
@@ -155,7 +183,7 @@ test..wait_for_image_loading = function(){
 
 ## Utilisation des images {#utilisation_images}
 
-Les images des tests doivent se mettre dans le dossier `./_table_analyse_/tests/tests/images/`.
+Les images des tests doivent se mettre dans le dossier `./tests/tests/images/`.
 
 Pour charger une image de ce dossier, il suffit d'utiliser la méthode `image_path` avec l'image en argument. Par exemple :
 

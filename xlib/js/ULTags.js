@@ -2,7 +2,7 @@
 const ULTags = {
     'pour': 'virgule'
 
-  , items:    new Array() // les LITags
+  , length: 0             // Le nombre de LITags
   , selected: null        // LITag sélectionné ou Null
   , activated: false      // Pour les gestionnaires de touche
 
@@ -26,10 +26,12 @@ const ULTags = {
     /**
       * Méthodes pour que ULTags réagisse comme une liste
       * Pour ajouter le litag +litag+ à sa liste de LITags
+      * Tient aussi à jour la propriété `length`, comme pour une liste.
       */
   , push: function(litag){
       // Pour permettre d'obtenir les items par ULTags[<id>]
       this[litag.id] = litag ;
+      this.length ++ ;
     }
     /**
      * Pour construire la liste des tags
@@ -59,7 +61,10 @@ const ULTags = {
      * Méthode appelée par le bouton - pour supprimer le tag courant
      */
   , removeTag: function(){
-      if(this.selected){this.selected.remove();}
+      if(this.selected){
+        this.selected.remove();
+        this.length--;
+      }
       else {F.notify(t('choose-litag', {operation: t('detruire')}))}
     }
 
