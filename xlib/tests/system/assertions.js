@@ -79,20 +79,28 @@ window.matchError = function(err_msg, err_type){
 
 // Pour vérifier que des éléments DOM ont la bonne classe CSS
 window.assert_classes = function(nodes, classes) {
- var i=0, icl=0, errs = new Array(), node, classe ;
- if(undefined == nodes[0]){nodes = [nodes]}
- for(i,len=nodes.length;i<len;++i){
-   node = nodes[i];
-   for(icl, lencl=classes.length;icl<lencl;++icl){
-     classe = classes[icl];
-     if($(node).hasClass(classe)){return};
-     errs.push(`le nœud ${node.id} devrait posséder la classe "${classe}" (sa class: "${node.className}")`);
-   };
-   assert(
-     errs.length == 0,
-     `le nœud ${node.id} possède les classes attendues`,
-     errs.join(', ')
-   );
+  var i=0
+    , icl=0
+    , len
+    , lencl
+    , errs
+    , node
+    , classe
+    , classes_str = classes.join(', ');
+  if(undefined == nodes[0]){nodes = [nodes]};
+  for(i,len=nodes.length;i<len;++i){
+    node = nodes[i];
+    errs = new Array();
+    for(icl, lencl=classes.length;icl<lencl;++icl){
+      classe = classes[icl];
+      if($(node).hasClass(classe)){continue};
+      errs.push(`le nœud ${node.id} devrait posséder la classe "${classe}" (sa class: "${node.className}")`);
+    };
+    assert(
+      errs.length == 0,
+      `le nœud ${node.id} possède les classes ${classes_str}`,
+      errs.join(', ')
+    );
  };
 };
 // Inverse de la précédente
@@ -116,6 +124,27 @@ window.assert_not_classes = function(nodes, classes) {
  };
 };
 
+window.assert_text = function(nodes, expected, strict){
+  if(undefined == nodes[0]){nodes = [nodes]}
+  var nod, len, i = 0, txt, rg_expect ;
+  if(!strict){
+    rg_expect = new RegExp(RegExp.escape(expected),'i');
+  }
+  for(i,len=nodes.length;i<len;++i){
+    nod     = nodes[i];
+    actual  = nod.innerHTML;
+    if(strict){
+      condition = expected == actual;
+    } else {
+      condition = !!actual.match(rg_expect);
+    }
+    assert(
+      condition,
+      `Le nœud #${nod.id} contient bien « ${expected} »`,
+      `Le nœud #${nod.id} devrait contenir « ${expected} » (il contient « ${actual} »)`
+    );
+  }
+};
 // Pour vérifier que des éléments DOM sont bien positionnés
 //
 // +hposition+ doit contenir {x:, y: h:, w:} au choix
@@ -124,31 +153,31 @@ TEST_XPROP_TO_REAL_PROP = {
 'x': 'left', 'y': 'top', 'h': 'height', 'w': 'width'
 }
 window.assert_position = function(nodes, hposition, tolerance){
-if(undefined == tolerance){ tolerance = 0};
-if(undefined == nodes[0]){nodes = [nodes]}
-var i = 0, errs, valNode ;
-var asserted = false ; // mis à true si effectivement on teste
-for(i,len=nodes.length;i<len;++i){
-  node = nodes[i];
-  errs = new Array();
-  for(var prop in hposition){
-    expect  = hposition[prop];
-    prop    = TEST_XPROP_TO_REAL_PROP[prop] || prop ;
-    valNode = parseInt(node.style[prop].replace(/[a-z]/g,''));
-    if(valNode >= (expect - tolerance) && valNode <= (expect + tolerance)){continue};
-    errs.push(`le ${prop} de #${node.id} devrait être "${expect}", il vaut "${node.style[prop]}"`);
+  if(undefined == tolerance){ tolerance = 0};
+  if(undefined == nodes[0]){nodes = [nodes]}
+  var node, i = 0, errs, valNode ;
+  var asserted = false ; // mis à true si effectivement on teste
+  for(i,len=nodes.length;i<len;++i){
+    node = nodes[i];
+    errs = new Array();
+    for(var prop in hposition){
+      expect  = hposition[prop];
+      prop    = TEST_XPROP_TO_REAL_PROP[prop] || prop ;
+      [valNode, unit] = valueAndUnitOf(node.style[prop]);
+      if(valNode >= (expect - tolerance) && valNode <= (expect + tolerance)){continue};
+      errs.push(`le ${prop} de #${node.id} devrait être "${expect}", il vaut "${node.style[prop]}"`);
+    }
+    assert(
+      errs.length == 0,
+      `le node #${node.id} est bien positionné`,
+      errs.join(', ')
+    );
+    asserted = true ;
+  }//fin de boucle sur les nodes
+  if (!asserted){
+    console.error('LE TEST NE S’EST PAS FAIT : aucun node trouvé sans doute.');
+    Tests.nombre_failures ++ ;
   }
-  assert(
-    errs.length == 0,
-    `le node #${node.id} est bien positionné`,
-    errs.join(', ')
-  );
-  asserted = true ;
-}//fin de boucle sur les nodes
-if (!asserted){
-  console.error('LE TEST NE S’EST PAS FAIT : aucun node trouvé sans doute.');
-  Tests.nombre_failures ++ ;
-}
 };
 // Inverse de la précédente
 window.assert_not_position = function(nodes, hposition, tolerance){

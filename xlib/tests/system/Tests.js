@@ -1,76 +1,91 @@
 /**
  * La class Tests principale pour jouer les tests
  */
- const INDENT = '  ';
+const INDENT = '  ';
 
- const Tests = {
-   sheets: new Array(),
-   nombre_success: 0,
-   nombre_failures: 0,
-   nombre_pendings: 0,
+const STYLE1 = 'font-weight:bold;font-size:1.2em;'; // Titre principal/fin
+const STYLE2 = 'border:1px solid black;padding:2px 4px;' // Tests
+const STYLE3 = 'font-size:1.1em;font-weight:bold;' // Case
 
-   stop: false,   // mis à true en cas d'erreur fatale, pour interrompre
-   run: function(files){
-     // console.clear();
-     console.log(RC+RC+RC+'============ DÉBUT DES TESTS ==============');
-     this.nombre_success  = 0 ;
-     this.nombre_failures = 0 ;
-     this.nombre_pendings = 0 ;
-     this.current_isheet  = 0 ; // pour commencer à
-     this.next() ;
-   },
+const Tests = {
+    sheets: new Array()
+  , nombre_success: 0
+  , nombre_failures: 0
+  , nombre_pendings: 0
 
-   /**
-    * Pour les tests asynchrone, on appelle cette méthode
-    */
-   next: function(){
-     var current_sheet = this.sheets[this.current_isheet++] ;
-     if(!current_sheet){
-       this.sumarize() ;
-       return ;
-     }
-     console.log(`\n\n------- Test : ${current_sheet.name} (${current_sheet.relative_path}) ---`);
-     if('function' == typeof(current_sheet.run_async)){
-       current_sheet.run_async();
-     } else {
-       current_sheet.run();
-       if(this.stop){
-         console.error('Interruption des tests suite à une erreur fatale.');
-         return;
-       };
-       this.next(); // pour passer à la suivante, pas en asynchrone
-     }
-   },
+  , stop: false   // mis à true en cas d'erreur fatale, pour interrompre
+  , log: function(msg, style){
+      console.log('%c'+msg,style);
+    }
+  , run: function(files){
+    // console.clear();
+    this.log(RC+RC+RC+'============ DÉBUT DES TESTS ==============', STYLE1)
+    this.nombre_success   = 0 ;
+    this.nombre_failures  = 0 ;
+    this.nombre_pendings  = 0 ;
+    this.current_isheet   = 0 ; // pour commencer à 0
+    this.sys_errors       = new Array(); // les erreurs systèmes
+    this.redefined_images_folder();
+    this.next() ;
+  }
 
-   // Affiche le résultat des courses
-   sumarize: function(){
-    var color = this.nombre_failures > 0 ? 'red' : (this.nombre_pendings > 0 ? 'orange' : '#00BB00') ;
-    var str = `${this.nombre_success} success ${this.nombre_failures} failures ${this.nombre_pendings} pendings`
-    $('#tags').html(`<div>${str}</div><div>Open the console to see the details.</div>`);
-    console.log(RC+RC+RC+'%c' + str, `color:${color};font-weight:bold;`);
-   },
+  /**
+  * Pour les tests asynchrone, on appelle cette méthode
+  */
+  , next: function(){
+      var current_sheet = this.sheets[this.current_isheet++] ;
+      // console.log('current_sheet:', current_sheet);
+      if(!current_sheet){
+        this.sumarize() ;
+        return ;
+      }
+      current_sheet.run();
+    }
 
-   // Ajoute un test à la liste des tests à exécuter
-   add_test: function(itest){
-     this.sheets.push(itest);
-   },
+  // Affiche le résultat des courses
+  , sumarize: function(){
+      var color = this.nombre_failures > 0 ? 'red' : (this.nombre_pendings > 0 ? 'orange' : '#00BB00') ;
+      var str = `${this.nombre_success} success ${this.nombre_failures} failures ${this.nombre_pendings} pendings`
+      $('#tags').html(`<div>${str}</div><div>Open the console to see the details.</div>`);
+      console.log(RC+RC+RC+'%c' + str, `color:${color};font-weight:bold;font-size:1.2em;`);
+      if(this.sys_errors.length){
+        console.log(RC+RC+'Des erreurs systèmes se sont produites aussi :');
+        console.log(this.sys_errors);
+      };
+      this.log(RC+RC+RC+'============ FIN DES TESTS ==============', STYLE1)
+    }
 
-   assert:function(value, msg_success, msg_failure){
-     if (value == true){
-       this.nombre_success ++ ;
-       console.log(INDENT + '%c… ' + msg_success, 'color:#00AA00;') ;
-     } else {
-       this.nombre_failures ++ ;
-       console.log(INDENT + '%c… ' + msg_failure, 'color:red;') ;
-     }
-   },
-   given:function(str){
-     console.log(RC+'%c'+str+'…', 'font-size:1.1em;font-weight:bold;');
-   },
-   pending: function(str){
-     this.nombre_pendings ++ ;
-     console.log(RC+'%c'+(str||'TODO')+'…', 'color:orange;font-weight:bold;');
-   }
+  // Ajoute un test à la liste des tests à exécuter
+  , add_test: function(itest){
+      this.sheets.push(itest);
+    }
+
+  , assert:function(value, msg_success, msg_failure){
+      if (value == true){
+        this.nombre_success ++ ;
+        console.log(INDENT + '%c… ' + msg_success, 'color:#00AA00;') ;
+      } else {
+        this.nombre_failures ++ ;
+        console.log(INDENT + '%c… ' + msg_failure, 'color:red;') ;
+      }
+    }
+
+  , given:function(str){
+      console.log(RC+'%c'+str+'…', 'color:blue;font-weight:bold;');
+    }
+
+  , pending: function(str){
+      this.nombre_pendings ++ ;
+      console.log(RC+'%c'+(str||'TODO')+'…', 'color:orange;font-weight:bold;');
+    }
+
+  , add_sys_error: function(tcase, err) {
+      this.sys_errors.push([tcase, err]);
+    }
+
+  , redefined_images_folder: function(){
+      M.images_folder = 'xlib/tests/tests/images';
+    }
  };
 
 // Raccourci

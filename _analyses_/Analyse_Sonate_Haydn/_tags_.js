@@ -686,6 +686,13 @@ score sonate_haydn-26.png x=5 y=5658 w=170mm
 options('code', 'lang', 'fr', 'space between scores', 80) ;
 
 Tags = `
+titre Sonate_n°34_en_Mi_mineur
+compositeur Joseph_Haydn
+date 1784
+opus Hob_XVI_34
+analyst Philippe_Perret
+date_analyse 27_janvier_2019 x=468 y=200
+
 // === SYSTÈME 1 ===
 
 score sonate_haydn-0.png x=5 y=435 w=170mm
@@ -800,25 +807,24 @@ score sonate_haydn-26.png x=5 y=5658 w=170mm
 `;
 
 
-// Pour l'image du manuel
-options('code', 'lang', 'fr', 'space between scores', 80) ;
-
-Tags = `
-
-// === SYSTÈME 3 ===
-
-mod G_Maj x=37 y=789 h=50
-acc D7 x=193 y=859
-acc G x=269 y=859
-acc G x=686 y=859
-acc D7 x=477 y=859
-🔒 score sonate_haydn-2.png x=2 y=880 w=235mm
-line type=U x=264 y=1045 h=19px w=110
-text Jeu_en_octaves x=267 y=1070
-text Jeu_en_octaves x=477 y=1071
-line type=U x=474 y=1045 h=19 w=110px
-har V x=87 y=1107
-cad I type=parfaite x=75 y=1107 w=205
-har V** x=475 y=1107
-har I x=684 y=1107
-`;
+// // Pour l'image du manuel
+//
+// Tags = `
+//
+// // === SYSTÈME 3 ===
+//
+// mod G_Maj x=37 y=789 h=50
+// acc D7 x=193 y=859
+// acc G x=269 y=859
+// acc G x=686 y=859
+// acc D7 x=477 y=859
+// 🔒 score sonate_haydn-2.png x=2 y=880 w=235mm
+// line type=U x=264 y=1045 h=19px w=110
+// text Jeu_en_octaves x=267 y=1070
+// text Jeu_en_octaves x=477 y=1071
+// line type=U x=474 y=1045 h=19 w=110px
+// har V x=87 y=1107
+// cad I type=parfaite x=75 y=1107 w=205
+// har V** x=475 y=1107
+// har I x=684 y=1107
+// `;

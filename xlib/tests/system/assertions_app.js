@@ -20,7 +20,7 @@ window.assert_nombre_tags = function(nombre, nombre_sur_table){
  assert(
    tags.length == nombre_sur_table,
    `Il y a bien ${nombre_sur_table} tags construits sur la table`,
-   `Il devrait y avoir ${nombre_sur_table} tags constrits sur la table, il y en a ${tags.length}.`
+   `Il devrait y avoir ${nombre_sur_table} tags construits sur la table, il y en a ${tags.length}.`
  );
  return tags ;
 };

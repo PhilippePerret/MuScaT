@@ -13,6 +13,10 @@ const MuScaT = {
     // Liste des erreurs rencontrées (sert surtout aux textes)
   , motif_lines_added: null
 
+    // Pour les tests, pour savoir que le premier fichier tags.js a été
+    // chargé et ne pas le charger à chaque fois
+  , tags_file_loaded: false
+
     // Exécute la fonction +method+ sur toutes les lignes de la
     // constante Tags.
   , onEachTagsLine: function(method){
@@ -53,38 +57,55 @@ const MuScaT = {
      * se trouve toujours dans la distribution.
      */
   , load_analyse_data: function(){
-      console.log('-> load_analyse_data');
+      D.dfn('MuScaT#load_analyse_data');
       var my = this ;
+      if (my.tags_file_loaded){
+        // Pour le cas des tests par exemple
+        return new Promise(function(ok,ko){ok()});
+      };
       return new Promise(function(ok, ko){
         // On charge les éléments de l'analyse courante
         my.load_analyse_of(my.analyse_name)
-          .then(ok)
+          .then(function(){
+            M.tags_file_loaded = true ;
+            ok();
+          })
           .catch(function(e){
             if (my.analyse_name == 'Analyse_Sonate_Haydn'){
               MuScaT.loading_error('analyse');
               console.error(e);
             } else {
-              my.analyse_name = 'Analyse_Sonate_Haydn'
+              my.analyse_name = 'Analyse_Sonate_Haydn';
+              ok();
               return my.load_analyse_data();
             }
           });
       })
     }
   , load_analyse_of: function(analyse_folder_name){
+      var nodetags;
       return new Promise(function(ok, ko){
-        var nodetags = document.body.appendChild(document.createElement('script'));
-        nodetags.src = `_analyses_/${analyse_folder_name}/_tags_.js`;
+        nodetags = document.body.appendChild(document.createElement('script'));
+        nodetags.id = 'script_tags_js';
+        try {
+          nodetags.src = `_analyses_/${analyse_folder_name}/_tags_.js`;
+          D.dv('tags.js src', nodetags.src, 4);
+        } catch (e) {
+          $(nodetags).remove();
+          return ko();
+        };
         $(nodetags)
           .on('load', ok)
           .on('error',function(e){
-            MuScaT.loading_error('analyse');
-            console.error(e);
+            // console.error(e);
+            $(nodetags).remove();
+            ko();
           });
       })
     }
 
   , start_and_run: function(){
-      // console.log('-> MuScat.start_and_run');
+      D.dfn('MuScat#start_and_run');
       return new Promise(function(ok,ko){
         // On prépare l'interface (notamment au niveau de la langue)
         UI.set_ui();
@@ -93,7 +114,7 @@ const MuScaT = {
         M.load()
           .then(M.postLoad)
           .then(function(){
-            console.log('--- END STARTUP ---');
+            D.d('--- END STARTUP ---');
             ok();
           })
           .catch(function(err){
@@ -114,7 +135,7 @@ const MuScaT = {
      * l'analyse sur la table.
      */
   , load: function(){
-      console.log('-> Muscat#load')
+      D.dfn('Muscat#load')
       return new Promise(function(ok,ko){
         if ('undefined' == typeof Tags) {return alert(t('tags-undefined'))};
         M.reset_all();
@@ -127,7 +148,7 @@ const MuScaT = {
     } // Fin du chargement des éléments
 
   , postLoad: function(){
-      console.log('-> MuScaT#postLoad');
+      D.dfn('MuScaT#postLoad');
       return new Promise(function(ok,ko){
         // On met le titre du dossier d'analyse
         $('span#analyse_name').text(M.analyse_name);
@@ -159,7 +180,7 @@ const MuScaT = {
       });
     }
   , traite_images: function(){
-      console.log('-> MuScaT#traite_images');
+      D.dfn('MuScaT#traite_images');
       return new Promise(function(ok,ko){
         if (M.treate_images_spaces) {
           Page.wait_to_treate_images_spaces().then(ok);
@@ -172,7 +193,7 @@ const MuScaT = {
       * Finir le chargement
      */
   , endLoadingImages: function(){
-      console.log('-> MuScaT#endLoadingImages');
+      D.dfn('MuScaT#endLoadingImages');
       return new Promise(function(ok,ko){
         if (Options.get('crop image')){
           M.loadModule('cropper').then(function(){M.prepare_crop_image.bind(M)()});
@@ -235,7 +256,6 @@ const MuScaT = {
   , full_code: function(){
       var arr = new Array() ;
       ULTags.onEachLITag(function(litag){
-        // console.log('Mise dans le code du tag #', litag.id);
         arr.push(CTags[litag.id].to_line());
       })
       return arr.join(RC) ;
@@ -364,8 +384,15 @@ Object.defineProperties(MuScaT,{
      */
   , images_folder: {
       get:function(){
-        return `_analyses_/${this.analyse_name}/images`;
+        if(!this._images_folder){
+          this._images_folder = `_analyses_/${this.analyse_name}/images`;
+        };
+        return this._images_folder;
       }
+      , set: function(value){
+          // Pour les tests, on a besoin de redéfinir le path des images
+          this._images_folder = value;
+        }
     }
 
 })

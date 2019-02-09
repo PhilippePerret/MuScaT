@@ -4,6 +4,13 @@
  *  Note : la const M permet de ne pas avoir à taper MuScaT à chaque fois
  */
 
+ /**
+  * Raccourci pratique. Cf. le mode d'emploi
+  */
+ function relaunch_and_test(fn){
+   return M.relaunch_for_tests().then(fn);
+ }
+
 
 if('undefined'==typeof(MuScaT)) { MuScat = {} }
 Object.assign(MuScaT,{

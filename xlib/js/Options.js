@@ -53,6 +53,7 @@
    , 'modulation size':             {boolean: false, value: null}
    , 'part size':                   {boolean: false, value: null}
    , 'text size':                   {boolean: false, value: null}
+   , 'shuffle tests':               {boolean: true, value: null, default: true}
  }
 
  // pour ajouter une option

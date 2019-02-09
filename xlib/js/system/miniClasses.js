@@ -1,5 +1,8 @@
 /**
  * Fichier contenant diverses petites classes utiles pour simplifier l'application
+ *
+ * Surf   Pour gérer les surfaces
+ *
  */
 
 /**
