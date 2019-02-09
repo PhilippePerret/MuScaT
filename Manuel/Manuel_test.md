@@ -3,8 +3,7 @@
 * [Introduction](#introduction)
 * [Fonctionnement](#fonctionnement)
 * [Composition des tests](#composition_tests)
-  * [Tests pseudo asynchrones](#pseudo_async_tests)
-  * [Tests asynchrones](#async_test)
+  * [Tests asynchrones](#pseudo_async_tests)
 * [Utilisation des images](#utilisation_images)
 * [Liste des assertions](#assertions)
 
@@ -18,7 +17,7 @@ Les tests sont chargés directement avec l'application. Mais c'est un nouveau fi
 
 Parmi ces scripts, il y a les scripts `tests/system` qui chargent l'objet `Tests` qui va gérer les tests. Au chargement de la page (à la fin), la méthode `Tests.run` est appelée, qui va lancer tous les tests instanciés.
 
-Chaque fichier est une instance de `Test`, mais on peut très bien imaginer d'avoir plusieurs instances de tets dans le même fichier. Instancier un test consiste à utiliser la méthode `new` et à définir la méthode `run` :
+Chaque fichier est une instance de `Test`, mais on peut très bien imaginer d'avoir plusieurs instances de tets dans le même fichier. Instancier un test consiste à utiliser la méthode `new` et à définir des cas :
 
 ```javascript
 
@@ -26,21 +25,10 @@ Chaque fichier est une instance de `Test`, mais on peut très bien imaginer d'av
 // dans la liste des tests à jouer.
 var test = new Test('Nom de mon test');
 
-// Méthode appelée par Tests.run lorsqu'elle boucle sur tous les tests
-// instancié.
-test.run = function(){
-
-  // Je suis la méthode qui sera appelée par le moteur de test
-
-  // Une méthode définie plus bas (pour la clarté)
-  this.un_test_particulier();
-}
-
-test.un_test_particulier = function(){
-  given('Une situation de départ');
-  // Le travail
-  // Les assertions pour vérifier
-}
+// Définition des cas
+test.case('<intitulé cas>', <fonction de test>);
+test.case('<intitulé cas>', <fonction de test>);
+test.case('<intitulé cas>', <fonction de test>);
 
 ```
 
@@ -75,15 +63,15 @@ Comme nous l'avons vu, la base du fichier test est simplement :
 // Création de l'instance de test. En l'instanciant, il est enregistré
 // dans la liste des tests à jouer.
 var test = new Test('Nom de mon test');
-
 // Méthode appelée par Tests.run lorsqu'elle boucle sur tous les tests
 // instancié.
-test.run = function(){
+test.case('intitulé du cas', function(){
 
-  // Je suis la méthode qui sera appelée par le moteur de test
+    // Je suis la méthode qui sera appelée par le moteur de test
 
-  // Une méthode définie plus bas (pour la clarté)
-  this.un_test_particulier();
+    // Une méthode définie plus bas (pour la clarté)
+    this.un_test_particulier();
+});
 }
 
 test.un_test_particulier = function(){
@@ -122,7 +110,7 @@ L'assertion ci-dessus produira « Deux + deux est bien égal à quatre ».
 
 Vous trouverez la [liste des assertions](#assertions) ci-dessous.
 
-### Tests pseudo asynchrones {#pseudo_async_tests}
+### Tests asynchrones {#pseudo_async_tests}
 
 Les tests dits « pseudo asynchrones » sont tous les tests qui simulent le chargement d'un nouveau code. Tout le processus de démarre de l'application doit alors être invoqué, et ce chargement est asynchrone.
 
@@ -130,7 +118,7 @@ On utilise alors cette forme dans les tests :
 
 ```javascript
 var test = new Test("Avec rechargement");
-test.run = function(){
+test.case('Un test asynchrone', function(){
 
   // Réinitialisation de tout ce qui doit l'être, les listes, les
   // historiques, les erreurs, etc.
@@ -141,45 +129,15 @@ test.run = function(){
   // Définition des nouveau tags
   `;
   // Rechargement de l'application (simulé) et lancement des tests
-  M.relaunch_for_tests()
-    .then(function(){
+  return relaunch_and_test(function(){
 
-      // Ici les tests à conduire
+    // Ici les tests à conduire
 
-    });
-}
-```
-
-### Tests asynchrones {#async_test}
-
-Pour les tests asynchrones, on ne définit pas la méthode `run` mais `run_async`.
-
-Et l'on doit impérativement appeler la méthode `Tests.next()` à la fin du traitement.
-
-Exemple avec l'attente du chargement d'images :
-
-```javascript
-
-var test = new Test("Mon test asynchrone");
-
-test.run_async = function() {
-  this.wait_for_image_loading();
-}
-test..wait_for_image_loading = function(){
-  var unloaded = $('body img').length;
-  $('body img').on('load', function(){
-    -- unloaded ; // encore une chargée
-    if(!unloaded){
-      // S'il n'y a plus de chargement, on peut lancer les tests
-      test.execute_le_test();
-      // Et pour terminer on passe à la suite
-      Tests.next();
-      // Noter que la méthode pourrait être aussi appelée par `execute_le_test`
-      // si cette fonction est asynchrone aussi.
-    }
   })
-}
+});
 ```
+
+Ci-dessus, ne surtout pas oublier le `return`, sinon il n'y aurait pas d'asynchronicité et rien ne pourrait le dire.
 
 ## Utilisation des images {#utilisation_images}
 

@@ -3,6 +3,10 @@
  */
 const INDENT = '  ';
 
+const STYLE1 = 'font-weight:bold;font-size:1.2em;'; // Titre principal/fin
+const STYLE2 = 'border:1px solid black;padding:2px 4px;' // Tests
+const STYLE3 = 'font-size:1.1em;font-weight:bold;' // Case
+
 const Tests = {
     sheets: new Array()
   , nombre_success: 0
@@ -10,14 +14,18 @@ const Tests = {
   , nombre_pendings: 0
 
   , stop: false   // mis à true en cas d'erreur fatale, pour interrompre
+  , log: function(msg, style){
+      console.log('%c'+msg,style);
+    }
   , run: function(files){
     // console.clear();
-    console.log(RC+RC+RC+'============ DÉBUT DES TESTS ==============');
+    this.log(RC+RC+RC+'============ DÉBUT DES TESTS ==============', STYLE1)
     this.nombre_success   = 0 ;
     this.nombre_failures  = 0 ;
     this.nombre_pendings  = 0 ;
     this.current_isheet   = 0 ; // pour commencer à 0
     this.sys_errors       = new Array(); // les erreurs systèmes
+    this.redefined_images_folder();
     this.next() ;
   }
 
@@ -44,7 +52,7 @@ const Tests = {
         console.log(RC+RC+'Des erreurs systèmes se sont produites aussi :');
         console.log(this.sys_errors);
       };
-      console.log(RC+RC+RC+'=========== FIN DES TESTS =================');
+      this.log(RC+RC+RC+'============ FIN DES TESTS ==============', STYLE1)
     }
 
   // Ajoute un test à la liste des tests à exécuter
@@ -63,7 +71,7 @@ const Tests = {
     }
 
   , given:function(str){
-      console.log(RC+'%c'+str+'…', 'font-size:1.1em;font-weight:bold;');
+      console.log(RC+'%c'+str+'…', 'color:blue;font-weight:bold;');
     }
 
   , pending: function(str){
@@ -73,6 +81,10 @@ const Tests = {
 
   , add_sys_error: function(tcase, err) {
       this.sys_errors.push([tcase, err]);
+    }
+
+  , redefined_images_folder: function(){
+      M.images_folder = 'xlib/tests/tests/images';
     }
  };
 

@@ -13,6 +13,10 @@ const MuScaT = {
     // Liste des erreurs rencontrées (sert surtout aux textes)
   , motif_lines_added: null
 
+    // Pour les tests, pour savoir que le premier fichier tags.js a été
+    // chargé et ne pas le charger à chaque fois
+  , tags_file_loaded: false
+
     // Exécute la fonction +method+ sur toutes les lignes de la
     // constante Tags.
   , onEachTagsLine: function(method){
@@ -55,10 +59,17 @@ const MuScaT = {
   , load_analyse_data: function(){
       console.log('-> load_analyse_data');
       var my = this ;
+      if (my.tags_file_loaded){
+        // Pour le cas des tests par exemple
+        return new Promise(function(ok,ko){ok()});
+      };
       return new Promise(function(ok, ko){
         // On charge les éléments de l'analyse courante
         my.load_analyse_of(my.analyse_name)
-          .then(ok)
+          .then(function(){
+            M.tags_file_loaded = true ;
+            ok();
+          })
           .catch(function(e){
             if (my.analyse_name == 'Analyse_Sonate_Haydn'){
               MuScaT.loading_error('analyse');
@@ -364,8 +375,15 @@ Object.defineProperties(MuScaT,{
      */
   , images_folder: {
       get:function(){
-        return `_analyses_/${this.analyse_name}/images`;
+        if(!this._images_folder){
+          this._images_folder = `_analyses_/${this.analyse_name}/images`;
+        };
+        return this._images_folder;
       }
+      , set: function(value){
+          // Pour les tests, on a besoin de redéfinir le path des images
+          this._images_folder = value;
+        }
     }
 
 })

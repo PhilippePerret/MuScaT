@@ -13,10 +13,10 @@ test.case('Une redéfinition des tags', function(){
   Tags = `
   acc C_maj x=100 y=100
   `;
-  M.relaunch_for_tests()
-    .then(function(){
-      assert_nombre_tags(1);
-    });
+  return relaunch_and_test(function(){
+    assert_nombre_tags(1);
+    console.log('-> Je finis le cas "Redéfinition des tags"')
+  });
 });
 
 
