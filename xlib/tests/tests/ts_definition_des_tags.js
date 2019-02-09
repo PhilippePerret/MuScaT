@@ -205,30 +205,39 @@ testtag.case('Les degrés', function(){
     );
   })
 });
-//
-// tag.check_parties = function(){
-//   given('Des parties définies avec `part`, `partie` et `par`');
-//
-//   Tags = `
-//    partie Une_partie_partie x=100 y=200
-//    *part    Une_partie_part  x=150 y=200
-//    *par     Une_partie_par   x=200 y=200
-//   `;
-//   MuScaT.load();
-//
-//   // On prend les tags
-//   var tags = document.getElementsByClassName('tag');
-//
-//
-//   diffs = [];
-//   assert(
-//     tags.length == 3,
-//     'les 3 parties sont inscrites',
-//     msg_failure('nombre de tags de partie', 3, tags.length)
-//   );
-//   // La classe css est bonne
-//   assert_classes(tags, ['tag', 'part']);
-//
+
+testtag.case('Les Parties', function(){
+  given('Des parties définies avec "part", "partie" et "par"');
+  M.reset_for_tests();
+  Tags=`
+  partie Une_partie_partie  x=10 y=20
+  part   Une_partie_part    x=30 y=40 w=220
+  par    Une_partie_par     x=50 y=60 h=800 fs=54px
+  `;
+  return relaunch_and_test(function(){
+    var tags = document.getElementsByClassName('tag');
+    assert_nombre_tags(3);
+    assert_classes(tags, ['tag', 'part']);
+    var l = [
+        ['Une partie partie', {x:10, y:20}]
+      , ['Une partie part', {x:30, y:40, w: 220}]
+      , ['Une partie par', {x:50, y:60, h:800}]
+    ];
+    for(var i=0;i<3;++i){
+      var d = l[i];
+      assert_text(tags[i], d[0]);
+      assert_position(tags[i], d[1]);
+    };
+    var expect = '54px';
+    var actual = $(tags[2]).css('font-size');
+    assert(
+      expect == actual,
+      'La 3e partie a la bonne taille de police',
+      `La 3e partie devrait avoir une taille de police de ${expect} (elle vaut ${actual})`
+    );
+  });
+});
+
 //   diffs = new Array();
 //   var titles = ['Une partie partie', 'Une partie part', 'Une partie par'];
 //   for(i=0;i<3;++i){

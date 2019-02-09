@@ -75,27 +75,37 @@ const MuScaT = {
               MuScaT.loading_error('analyse');
               console.error(e);
             } else {
-              my.analyse_name = 'Analyse_Sonate_Haydn'
+              my.analyse_name = 'Analyse_Sonate_Haydn';
+              ok();
               return my.load_analyse_data();
             }
           });
       })
     }
   , load_analyse_of: function(analyse_folder_name){
+      var nodetags;
       return new Promise(function(ok, ko){
-        var nodetags = document.body.appendChild(document.createElement('script'));
-        nodetags.src = `_analyses_/${analyse_folder_name}/_tags_.js`;
+        nodetags = document.body.appendChild(document.createElement('script'));
+        nodetags.id = 'script_tags_js';
+        try {
+          nodetags.src = `_analyses_/${analyse_folder_name}/_tags_.js`;
+          D.dv('tags.js src', nodetags.src, 4);
+        } catch (e) {
+          $(nodetags).remove();
+          return ko();
+        };
         $(nodetags)
           .on('load', ok)
           .on('error',function(e){
-            MuScaT.loading_error('analyse');
-            console.error(e);
+            // console.error(e);
+            $(nodetags).remove();
+            ko();
           });
       })
     }
 
   , start_and_run: function(){
-      // D.dfn('MuScat#start_and_run');
+      D.dfn('MuScat#start_and_run');
       return new Promise(function(ok,ko){
         // On prépare l'interface (notamment au niveau de la langue)
         UI.set_ui();
