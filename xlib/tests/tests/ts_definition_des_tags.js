@@ -74,8 +74,137 @@ testtag.case('Les chiffrages', function(){
     assert_text(har3, 'V7');
     assert_text(har4, 'VIIØ');
   });
-})
+});
+testtag.case('Les modulations', function(){
+  given('Des modulations définies avec "modulation" et "mod"');
+  M.reset_for_tests();
+  Tags = `
+  modulation G x=10 y=20
+  mod D x=30 y=40
+  mod D/sous-dominante x=50 y=60
+  modulation E_Maj. x=70 y=80 h=200
+  `;
+  return relaunch_and_test(function(){
+    var tags = document.getElementsByClassName('tag');
+    assert_nombre_tags(4);
+    mod1 = tags[0] ; mod2 = tags[1] ; mod3 = tags[2] ; mod4 = tags[3] ;
+    assert_classes(tags, ['tag', 'modulation']);
+    assert_position(mod1, {x: 10, y: 20});
+    assert_position(mod2, {x: 30, y: 40});
+    assert_position(mod3, {x: 50, y: 60});
+    assert_position(mod4, {x: 70, y: 80});
+    assert_text(mod1, 'G');
+    assert_text(mod2, 'D');
+    assert_text(mod3, 'D');
+    assert_text(mod3, 'sous-dominante');
+    assert_text(mod4, 'E Maj.');
+    // La hauteur de mod4
+    // console.log(mod4);
+    var line = mod4.querySelector('svg line.vertline');
+    var h = asNum(line.getAttribute('y2')) - asNum(line.getAttribute('y1'));
+    assert(
+      200 == h,
+      'La quatrième modulation a bien une hauteur de 200 pixels',
+      `La 4e modulation devrait avoir une hauteur de 200 pixels (elle fait ${h}px).`
+    );
+  });
+});
 
+testtag.case('Les cadences', function(){
+  given("Des cadences définies avec 'cadence' et 'cad'");
+  M.reset_for_tests();
+  Tags=`
+  cadence I type=parfaite x=10 y=20 w=200
+  cad V type=demi x=30 y=40
+  `;
+  return relaunch_and_test(function(){
+    var tags = document.getElementsByClassName('tag');
+    assert_nombre_tags(2);
+    cad1 = tags[0] ; cad2 = tags[1] ;
+    assert_classes(tags, ['tag', 'cadence']);
+    assert_position(cad1, {x: 10, y: 20, w: 200});
+    assert_position(cad2, {x: 30, y: 40});
+    assert_text(cad1, 'I');
+    assert_classes(cad1, ['parfaite']);
+    assert_text(cad2, 'V');
+    assert_classes(cad2, ['demi']);
+  });
+});
+
+testtag.case('Les numéros de mesure', function(){
+  given('Des numéros de mesures définis avec "measure", "mesure", "mes"');
+  M.reset_for_tests();
+  Tags=`
+  measure 12 x=10 y=20
+  mesure 13 x=30 y=40
+  mes 14 x=50 y=60 w=100 fs=23px
+  `;
+  return relaunch_and_test(function(){
+    var tags = document.getElementsByClassName('tag');
+    assert_nombre_tags(3);
+    mes1 = tags[0] ; mes2 = tags[1] ; mes3 = tags[2] ;
+    assert_classes(tags, ['tag', 'measure']);
+    assert_position(mes1, {x: 10, y: 20});
+    assert_position(mes2, {x: 30, y: 40});
+    assert_position(mes3, {x: 50, y: 60, w: 100});
+    assert_text(mes1, '12');
+    assert_text(mes2, '13');
+    assert_text(mes3, '14');
+    assert(
+      '23px' == $(mes3).css('font-size'),
+      'La 3e mesure a la bonne taille de police (23px)',
+      `La 3e mesure devrait avoir une taille de police de 23px (elle vaut ${$(mes3).css('font-size')})`
+    );
+    var ok = true ;
+    for(var i=0;i<3;++i){
+      if('1px solid rgb(51, 51, 51)' != $(tags[i]).css('border')){
+        ok = false ;
+        break;
+      }
+    }
+    assert(ok,
+      'Toutes les mesures ont une bordure visible',
+      'Les mesures devraient avoir une bordure visible'
+    );
+  })
+});
+testtag.case('Les degrés', function(){
+  given('des degrés définis avec "degre", "degree", ou "deg"');
+  M.reset_for_tests();
+  Tags=`
+  degre 3 x=10 y=20
+  degree 4# x=30 y=40
+  deg 6 x=50 y=60 fs=23px
+  `;
+  return relaunch_and_test(function(){
+    var tags = document.getElementsByClassName('tag');
+    assert_nombre_tags(3);
+    deg1 = tags[0] ; deg2 = tags[1] ; deg3 = tags[2] ;
+    assert_classes(tags, ['tag', 'degree']);
+    assert_position(deg1, {x: 10, y: 20});
+    assert_position(deg2, {x: 30, y: 40});
+    assert_position(deg3, {x: 50, y: 60});
+    assert_text(deg1, '3');
+    assert_text(deg2, '4#');
+    assert_text(deg3, '6');
+    assert(
+      '23px' == $(deg3).css('font-size'),
+      'Le 3e degré a la bonne taille de police (23px)',
+      `Le 3e degré devrait avoir une taille de police de 23px (elle vaut ${$(deg3).css('font-size')})`
+    );
+    var ok = true ;
+    for(var i=0;i<3;++i){
+      if('1px solid rgb(51, 51, 51)' != $(tags[i]).css('border')){
+        ok = false ;
+        break;
+      }
+    }
+    assert(ok,
+      'Tous les degrés ont une bordure visible',
+      'Les degrés devraient avoir une bordure visible'
+    );
+  })
+});
 //
 // tag.check_parties = function(){
 //   given('Des parties définies avec `part`, `partie` et `par`');

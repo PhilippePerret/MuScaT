@@ -3,12 +3,12 @@
 Poursuivre la nouvelle implémentation pour que ça fonctionne bien. Il y a encore des problèmes d'asynchronicité (les tests se terminent alors que le travail est encore en train de se faire).
 
 * S'assurer que tous les éléments définis dans _tags_.js sont bien affichés et correctement sur la table d'analyse.
-  * Les partitions (avec 'score', 'partition', 'sco', 'image')
-  * Les accords (avec 'chord', 'acc', 'accord')
-  * Les chiffrages (avec 'chi', 'har', 'harmonie', 'harmony')
-  * Les modulations (avec 'modulation', 'mod')
-  * Les cadences (avec 'cadence', 'cad')
-  * Les numéros de mesure (avec 'mesure', 'measure', 'mes')
+  * [OK] Les partitions (avec 'score', 'partition', 'sco', 'image')
+  * [OK] Les accords (avec 'chord', 'acc', 'accord')
+  * [OK] Les chiffrages (avec 'chi', 'har', 'harmonie', 'harmony')
+  * [OK] Les modulations (avec 'modulation', 'mod')
+  * [OK] Les cadences (avec 'cadence', 'cad')
+  * [OK] Les numéros de mesure (avec 'mesure', 'measure', 'mes')
   * Les degrés (avec 'degree', 'degre', 'deg')
   * Les Parties (avec 'partie', 'part', 'par')
   * Les textes quelconques (avec 'text')
