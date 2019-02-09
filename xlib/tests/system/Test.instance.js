@@ -49,7 +49,7 @@ const TCase = function(intitule, fn_test){
 };
 TCase.prototype.run = function(){
   var my = this ;
-  Tests.log(`---> Cas : ${my.intitule}`, STYLE3);
+  Tests.log(RC+`---> Cas : ${my.intitule}`, STYLE3);
   return new Promise(function(ok,ko){
     try{
       var res = my.fn();

@@ -20,7 +20,7 @@ const Theme = {
   ,  style_commun: {}
 
   , PLoad: function(){
-      console.log('-> Theme.PLoad');
+      D.dfn('Theme#PLoad');
       return new Promise(function(ok,ko){
         var my = Theme ;
         my.current = Options.get('theme') || 'muscat';

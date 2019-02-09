@@ -41,7 +41,7 @@ const Locales = {
   }
 
   , PLoad: function(){
-      console.log('-> Locales.PLoad');
+      D.dfn('Locales#PLoad');
       return new Promise(function(ok,ko){
         Locales.PLoadLocale('messages')
           .then(Locales.PLoadLocale('ui'))

@@ -15,7 +15,7 @@ test.case('Une redéfinition des tags', function(){
   `;
   return relaunch_and_test(function(){
     assert_nombre_tags(1);
-    console.log('-> Je finis le cas "Redéfinition des tags"')
+    D.d('* Je finis le cas "Redéfinition des tags"', 5);
   });
 });
 
