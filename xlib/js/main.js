@@ -1,6 +1,7 @@
 /*
   Script principal
 */
+// Debug.level = 7;
 $(document).ready(function(){
   if('undefined'==typeof(TESTING)){TESTING = false};
   // console.log(TESTING?'Oui, du test':'NON, pas de test');
