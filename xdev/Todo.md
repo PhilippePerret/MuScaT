@@ -1,6 +1,8 @@
 # Todo list
 
-* Maintenant qu'on est vraiment asynchrone (promesses), il faut que les tests ne démarrent que lorsque l'application est prête.
+* Alléger l'application pour qu'elle ne fasse plus 14Mo.
+  * Retirer les images de Haydn (mais les garder dans le dossier développement)
+  * Retirer le dossier Développement (xdev).
 
 ## TEST
 
