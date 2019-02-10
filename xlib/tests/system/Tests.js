@@ -46,7 +46,7 @@ const Tests = {
   , sumarize: function(){
       var color = this.nombre_failures > 0 ? 'red' : (this.nombre_pendings > 0 ? 'orange' : '#00BB00') ;
       var str = `${this.nombre_success} success ${this.nombre_failures} failures ${this.nombre_pendings} pendings`
-      $('#tags').html(`<div>${str}</div><div>Open the console to see the details.</div>`);
+      $('#tags').html(`<div style="color:${color};font-weight:bold;padding:1em;">${str}</div><div style="padding:1em;font-style:italic;">Open the console to see the details.</div>`);
       console.log(RC+RC+RC+'%c' + str, `color:${color};font-weight:bold;font-size:1.2em;`);
       if(this.sys_errors.length){
         console.log(RC+RC+'Des erreurs systèmes se sont produites aussi :');

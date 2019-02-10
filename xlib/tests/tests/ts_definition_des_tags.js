@@ -328,4 +328,105 @@ testtag.case('Les Boites', function(){
   });
 });
 
-// TODO Ici un texte total qui reprend un peu de tout
+testtag.case('La totale…', function(){
+  given("Tous les tags dans une seule analyse");
+  M.reset_for_tests();
+  Tags=`
+  titre Le_Titre_de_l'analyse
+  compositeur Un_anonyme
+  sco image-1.png x=122 y=100
+  acc D_Maj x=140 y=90
+  har VII*** x=124 y=133
+  cadence I type=parfaite x=126 y=133 w=213
+  mes 12 x=111 y=99 fs=11px w=11px h=11px
+  deg 5# x=222 y=333
+  partie L'Exposition x=10 y=11
+  text Un_Texte_Quelconque x=300 y=301 bgc=black c=white
+  ligne U x=222 y=444 w=555
+  boite x=444 y=555 h=666 bgc=black c=#FF0000
+  `;
+  return relaunch_and_test(function(){
+    assert_nombre_tags(12);
+    var tags = document.getElementsByClassName('tag');
+    assert_text(tags[0], 'Le Titre de l\'analyse');
+    assert_text(tags[1], 'Un anonyme');
+    var sco = tags[2];
+    assert_classes(sco, ['tag', 'score']);
+    assert_position(sco, {x: 122, y:100});
+    assert(
+      'image-1.png' == sco.src.split('/').pop(),
+      'La source de la partition est bien réglée à "image-1.png"',
+      `La source de la partition devrait être 'image-1.png', c'est ${sco.src.split('/').pop()}`
+    );
+    var acc = tags[3];
+    assert_classes(acc, ['tag', 'chord']);
+    assert_position(acc, {x: 140, y:90});
+    assert_text(acc, 'D Maj');
+    var har = tags[4];
+    assert_classes(har, ['tag', 'harmony']);
+    assert_position(har, {x: 124, y:133});
+    assert_text(har, 'VII***');
+    var cad = tags[5];
+    assert_classes(cad, ['tag', 'cadence', 'parfaite']);
+    assert_position(cad, {x: 126, y:133, w:213});
+    assert_text(cad, 'I');
+    var mes = tags[6];
+    assert_classes(mes, ['tag', 'measure']);
+    assert_position(mes, {x: 111, y:99, w:'11px', h:'11px'});
+    assert_text(mes, '12');
+    var expect = '11px';
+    var actual = $(mes).css('font-size');
+    assert(
+      expect == actual,
+      'La taille de police est bien réglée',
+      `La taille de police devrait être ${expect}, elle vaut ${actual}`
+    );
+    var tag = tags[7];// degré
+    assert_classes(tag, ['tag', 'degree']);
+    assert_position(tag, {x: 222, y:333});
+    assert_text(tag, '5#');
+    var tag = tags[8];// Partie
+    assert_classes(tag, ['tag', 'part']);
+    assert_position(tag, {x: 10, y:11});
+    assert_text(tag, "L'Exposition");
+    var tag = tags[9];// Texte quelconque
+    assert_classes(tag, ['tag', 'text']);
+    assert_position(tag, {x: 300, y:301});
+    assert_text(tag, "Un Texte Quelconque");
+    expect = 'rgb(0, 0, 0)';
+    actual = $(tag).css('background-color');
+    assert(expect == actual,
+      'La couleur de fond est bien noire',
+      `La couleur de fond devrait être "black", elle vaut ${actual}`
+    );
+    expect = 'rgb(255, 255, 255)';
+    actual = $(tag).css('color');
+    assert(expect == actual,
+      'La couleur de police est bien white',
+      `La couleur de police devrait être "white", elle vaut ${actual}`
+    );
+    // text Un_Texte_Quelconque x=300 y=301 bgc=black c=white
+    var tag = tags[10];// Ligne
+    // ligne U x=222 y=444 w=555
+    assert_classes(tag, ['tag', 'line', 'line1B1']);
+    assert_position(tag, {x: 222, y:444, w: 555});
+    var tag = tags[11];// Une boite
+    // boite x=444 y=555 h=666 bgc=black c=white
+    assert_classes(tag, ['tag', 'box']);
+    assert_position(tag, {x: 444, y:555, w:50, h:666});
+    expect = 'rgb(0, 0, 0)';
+    actual = $(tag).css('background-color');
+    assert(expect == actual,
+      'La couleur de fond est bien noire',
+      `La couleur de fond devrait être "black", elle vaut ${actual}`
+    );
+    expect = 'rgb(255, 0, 0)';
+    actual = $(tag).css('color');
+    assert(expect == actual,
+      'La couleur de police est bien rouge',
+      `La couleur de police devrait être rouge, elle vaut ${actual}`
+    );
+
+
+  });
+});

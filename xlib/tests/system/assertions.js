@@ -169,7 +169,13 @@ window.assert_position = function(nodes, hposition, tolerance){
       if(['left','top'].includes(prop)){bittest = bittest | 1};
       if(['width','height'].includes(prop)){bittest = bittest | 2};
       [valNode, unit] = valueAndUnitOf(node.style[prop]);
-      if(valNode >= (expect - tolerance) && valNode <= (expect + tolerance)){continue};
+      if(tolerance > 0){
+        if(valNode >= (expect - tolerance) && valNode <= (expect + tolerance)){continue};
+      } else if (node.style[prop] == expect){
+        continue;
+      } else if(valNode >= expect && valNode <= expect){
+        continue;
+      };
       errs.push(`le ${prop} de #${node.id} devrait être "${expect}", il vaut "${node.style[prop]}"`);
     }
     if(bittest == 3){msg = 'positionné et dimensionné'}
