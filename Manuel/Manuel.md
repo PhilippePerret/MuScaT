@@ -1286,6 +1286,21 @@ Les boites permettent aussi bien d'entourer un élément que de le masquer. Elle
 
 Noter qu'une boite sans couleur, sur la table d'analyse, apparaitra toujours grisée — pour être visible et manipulable —, mais qu'elle sera invisible à l'impression ou dans le PDF.
 
+Noter également qu'on peut utiliser de la transparence pour les boites. Il suffit pour cela de leur donner une valeur de `bgc` (background-color) à l'aide de `rgba` (où « a » final signifie « alpha », la transparence). Par exemple :
+
+```javascript
+  Tags=`
+  // ...
+  box x=100 y=233 w=50 h=400 bgc=rgba(0,255,0,0.3)
+  // ...
+  `;
+```
+
+![Boite transparente](img/boite-transparente.png)
+
+> Rappelez-vous bien qu'il ne doit y avoir aucune espace dans la définition de `bgc` (comme dans la définition de toute valeur).
+
+
 ---
 
 ## Opérations sur les *TAGs* {#operation_on_tags}
