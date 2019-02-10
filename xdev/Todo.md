@@ -1,8 +1,5 @@
 # Todo list
 
-* Rectangle de sélection en option
-* Attendre une seconde avant de le déclencher
-
 ## TEST
 
 Voir sur githut avec `ghi list`

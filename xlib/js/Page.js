@@ -234,7 +234,9 @@ const Page = {
 
   , observe: function(){
       // Pour le rectangle de sélection
-      if(Options.get('rectangle selection')){Mover.init()};
+      // Pour initier tous les déplacements (dont le rectangle de sélection
+      // mais tous les autres aussi)
+      Mover.init();
     }
 };
 Object.defineProperties(Page,{
