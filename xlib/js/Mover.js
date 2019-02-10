@@ -65,7 +65,7 @@ const Mover = {
   , onMouseDown: function(ev){
       // console.log('click sur la table d’analyse en dehors de tout tag');
       // La sélection ne se déclenche pas tout de suite
-      this.timerSelection = setTimeout($.proxy(Mover,'startSelection',ev), 400);
+      this.timerSelection = setTimeout($.proxy(Mover,'startSelection',ev), 1000);
       // this.startSelection(ev);
     }
   , onMouseUp: function(ev){

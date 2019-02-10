@@ -1,8 +1,7 @@
 # Todo list
 
-* Alléger l'application pour qu'elle ne fasse plus 14Mo.
-  * Retirer les images de Haydn (mais les garder dans le dossier développement)
-  * Retirer le dossier Développement (xdev).
+* Rectangle de sélection en option
+* Attendre une seconde avant de le déclencher
 
 ## TEST
 

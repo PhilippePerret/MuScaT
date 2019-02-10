@@ -233,55 +233,9 @@ const Page = {
     }
 
   , observe: function(){
-      // On se sert du Mover, maintenant
-      Mover.init();
-      // // console.log('-> Page.observe');
-      // var my = this ;
-      // my.table_analyse
-      //   .on('mousedown',  $.proxy(Page,'onMouseDown'))
-      //   .on('mouseup',    $.proxy(Page, 'onMouseUp'))
-      //   .on('mousemove',  $.proxy(Page, 'onMouseMove'))
-      //   ;
-      //
-      // // On crée le rectangle de sélection
-      // my.rectSelection = new DragSelect({
-      //     selectables: document.getElementsByClassName('tag')
-      //   , multiSelectMode: false
-      //   // , selectedClass: 'preselected'
-      //   // , area: document.getElementById('tags')
-      //   , callback: Page.finSelectionRectangle.bind(Page)
-      // });
-
-
+      // Pour le rectangle de sélection
+      if(Options.get('rectangle selection')){Mover.init()};
     }
-
-  //   /**
-  //    * La méthode qui reçoit tous les mousemoves, quels qu'ils soient.
-  //    * On essaie de tout gérer par elle, pour s'en sortir, sinon, les
-  //    * évènements fusent de partout.
-  //    * Avec cette méthode, on définit un "sujet" (qui peut être un tag) et
-  //    * c'est toujours ce sujet qu'on déplace en fonction de ses positions
-  //    * de départ et de fin
-  //    */
-  // , onMouseMove: function(){
-  //     var my = this ;
-  //     if(my.subject){
-  //       console.log('Je bouge le sujet #', my.subject.id);
-  //     } else {
-  //       console.log('on bouge sur la table sans sujet…');
-  //     }
-  //   }
-  //   /**
-  //    * Méthode appelée à la fin du DragSelect
-  //    */
-  // , finSelectionRectangle: function(selecteds){
-  //     // console.log('-> finSelectionRectangle');
-  //     CTags.deselectAll();
-  //     for(var t of selecteds){
-  //       itag = this.tagFromNode(t);
-  //       CTags.onSelect(itag, true);
-  //     }
-  //   }
 };
 Object.defineProperties(Page,{
     pour_virgule: {}

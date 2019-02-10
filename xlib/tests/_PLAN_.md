@@ -1,5 +1,6 @@
 # PLAN DE BATAILLE DES TESTS
 
+
 Poursuivre la nouvelle implémentation pour que ça fonctionne bien. Il y a encore des problèmes d'asynchronicité (les tests se terminent alors que le travail est encore en train de se faire).
 
 * S'assurer que tous les éléments définis dans _tags_.js sont bien affichés et correctement sur la table d'analyse.
