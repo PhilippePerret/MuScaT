@@ -1,9 +1,5 @@
 # Todo list
 
-* Alléger l'application pour qu'elle ne fasse plus 14Mo.
-  * Retirer les images de Haydn (mais les garder dans le dossier développement)
-  * Retirer le dossier Développement (xdev).
-
 ## TEST
 
 Voir sur githut avec `ghi list`

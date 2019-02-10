@@ -51,9 +51,10 @@
    , 'measure size':                {boolean: false, value: null}
    , 'mesure size':                 {aka:'measure size'}
    , 'modulation size':             {boolean: false, value: null}
+   , 'rectangle selection':         {boolean: true, value: null, default: false}
    , 'part size':                   {boolean: false, value: null}
-   , 'text size':                   {boolean: false, value: null}
    , 'shuffle tests':               {boolean: true, value: null, default: true}
+   , 'text size':                   {boolean: false, value: null}
  }
 
  // pour ajouter une option

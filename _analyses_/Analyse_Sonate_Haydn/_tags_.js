@@ -1,4 +1,4 @@
-options() ;
+options('code', 'code sans option', 'rectangle selection') ;
 
 Tags = `
 // Infos
@@ -26,6 +26,7 @@ cad I type=demi x=231 y=611 w=60px
 har V x=235 y=611
 
 score sonate_haydn-2.png x=3 y=705 w=175mm
+
 score sonate_haydn-3.png x=6 y=922 w=175mm
 score sonate_haydn-4.png x=12 y=1263 w=175mm
 score sonate_haydn-5.png x=2 y=1482 w=175mm
@@ -410,14 +411,12 @@ score sonate_haydn-26.png x=9 y=5843 w=175mm
 `;
 
 // ÉTAPE 1
-options('code', 'lang', 'fr') ;
 
 Tags = `
 score sonate_haydn-0.png x=5 y=355 w=170mm
 `;
 
 // ÉTAPE 2 (tous les systèmes)
-options('code', 'lang', 'fr', 'espacement images', 80) ;
 
 Tags = `
 score sonate_haydn-[0-26].png x=5 y=355 w=170mm
@@ -683,7 +682,6 @@ score sonate_haydn-25.png x=5 y=5467 w=170mm
 score sonate_haydn-26.png x=5 y=5658 w=170mm
 `;
 
-options('code', 'lang', 'fr', 'space between scores', 80) ;
 
 Tags = `
 titre Sonate_n°34_en_Mi_mineur
@@ -709,101 +707,6 @@ score sonate_haydn-1.png x=5 y=694 w=170mm
 
 score sonate_haydn-2.png x=5 y=880 w=170mm
 
-// === SYSTÈME 4 ===
-
-score sonate_haydn-3.png x=5 y=1090 w=170mm
-
-// === SYSTÈME 5 ===
-
-score sonate_haydn-4.png x=5 y=1307 w=170mm
-
-// === SYSTÈME 6 ===
-
-score sonate_haydn-5.png x=5 y=1517 w=170mm
-
-// === SYSTÈME 7 ===
-
-score sonate_haydn-6.png x=5 y=1719 w=170mm
-
-// === SYSTÈME 8 ===
-
-score sonate_haydn-7.png x=5 y=1937 w=170mm
-
-// === SYSTÈME 9 ===
-
-score sonate_haydn-8.png x=5 y=2149 w=170mm
-
-// === SYSTÈME 10 ===
-
-score sonate_haydn-9.png x=5 y=2339 w=170mm
-
-// === SYSTÈME 11 ===
-
-score sonate_haydn-10.png x=5 y=2531 w=170mm
-
-// === SYSTÈME 12 ===
-
-score sonate_haydn-11.png x=5 y=2720 w=170mm
-
-// === SYSTÈME 13 ===
-
-score sonate_haydn-12.png x=5 y=2906 w=170mm
-
-// === SYSTÈME 14 ===
-
-score sonate_haydn-13.png x=5 y=3102 w=170mm
-
-// === SYSTÈME 15 ===
-
-score sonate_haydn-14.png x=5 y=3301 w=170mm
-
-// === SYSTÈME 16 ===
-
-score sonate_haydn-15.png x=5 y=3493 w=170mm
-
-// === SYSTÈME 17 ===
-
-score sonate_haydn-16.png x=5 y=3688 w=170mm
-
-// === SYSTÈME 18 ===
-
-score sonate_haydn-17.png x=5 y=3883 w=170mm
-
-// === SYSTÈME 19 ===
-
-score sonate_haydn-18.png x=5 y=4081 w=170mm
-
-// === SYSTÈME 20 ===
-
-score sonate_haydn-19.png x=5 y=4275 w=170mm
-
-// === SYSTÈME 21 ===
-
-score sonate_haydn-20.png x=5 y=4467 w=170mm
-
-// === SYSTÈME 22 ===
-
-score sonate_haydn-21.png x=5 y=4676 w=170mm
-
-// === SYSTÈME 23 ===
-
-score sonate_haydn-22.png x=5 y=4879 w=170mm
-
-// === SYSTÈME 24 ===
-
-score sonate_haydn-23.png x=5 y=5085 w=170mm
-
-// === SYSTÈME 25 ===
-
-score sonate_haydn-24.png x=5 y=5271 w=170mm
-
-// === SYSTÈME 26 ===
-
-score sonate_haydn-25.png x=5 y=5467 w=170mm
-
-// === SYSTÈME 27 ===
-
-score sonate_haydn-26.png x=5 y=5658 w=170mm
 `;
 
 
@@ -828,3 +731,30 @@ score sonate_haydn-26.png x=5 y=5658 w=170mm
 // har V** x=475 y=1107
 // har I x=684 y=1107
 // `;
+
+
+
+Tags = `
+titre Sonate_n°34_en_Mi_mineur
+compositeur Joseph_Haydn
+date 1784
+opus Hob_XVI_34
+analyst Philippe_Perret
+date_analyse 27_janvier_2019 x=468 y=200
+
+// === SYSTÈME 1 ===
+
+score sonate_haydn-0.png x=5 y=345 w=170mm
+
+acc E_min x=98 y=314
+
+acc E_min x=298 y=314
+
+// === SYSTÈME 2 ===
+
+score sonate_haydn-1.png x=5 y=589 w=170mm
+
+// === SYSTÈME 3 ===
+
+score sonate_haydn-2.png x=5 y=820 w=170mm
+`;

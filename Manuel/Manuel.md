@@ -1531,6 +1531,7 @@ On peut régler la vitesse de l'animation à l'aide de l'option `vitesse animati
 * [Option « code sans options »](#option_code_sans_options)
 * [Option « lignes de repère »](#option_line_of_reference)
   * [Position des lignes repères](#position_lignes_reperes)
+* [Option « Rectangle de sélection »](#option_rectangle_selection)
 * [Options de taille pour les textes](#options_size_for_texts)
 * [Option « espacement images »](#option_space_between_scores)
 * [Option « marge haut »](#option_top_first_score)
@@ -1725,6 +1726,26 @@ Exemple :
 
 ```
 
+### Option « Rectangle de sélection » {#option_rectangle_selection}
+
+
++---------------------+---------------------------------------------+
+|                     |                                             |
++---------------------+---------------------------------------------+
+| Option              | `rectangle selection`{.code},               |
++---------------------+---------------------------------------------+
+| Type                | booléenne                                   |
++---------------------+---------------------------------------------+
+
+Le « rectangle de sélection » permet de sélectionner plusieurs éléments à la fois en les incluant dans un rectangle dessiné à la souris.
+
+Mais si cette fonctionnalité est tout à fait opérante dans la plupart des applications que nous connaissons, elle est très loin d'être pleinement satisfaisante dans les navigateurs (pour ceux qui connaissent : même avec `DragSelect`).
+
+Aussi a-t-elle été mise en option dans **MuScaT**.
+
+Si vous l'utilisez, pensez également que vous devez attendre une seconde avec la souris pressée avant qu'elle se mette en route.
+
+> Astuce : si le rectangle vert de sélection reste actif après avoir relâché la souris, il vous suffit de cliquer n'importe où sauf sur lui pour le faire disparaitre.
 
 ### Options de taille pour les textes {#options_size_for_texts}
 

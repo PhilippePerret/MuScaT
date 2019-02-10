@@ -255,6 +255,13 @@ Tag.prototype.height_to_str = function(){
 // Plutôt que d'utiliser les méthodes top et left de jQuery (qui retournent
 // des valeurs fantaisistes pour les objets transformés (rotate), on va
 // voir directement dans le style de l'objet)
+/**
+  * Pour obtenir les valeurs x et y des éléments
+  * Car les méthodes `top` et `left` de jQuery retournent des valeurs
+  * fantaisistes pour les objets transformés (rotate). Donc on va voir dans
+  * l'attribut `style` directement, et on ne fait appel à jQuery que si on
+  * ne trouve pas l'information dans l'attribut `style`.
+ */
 Tag.prototype.getX = function() {
   return valueAndUnitOf(this.hStyles()['left'])[0] ;
 };
@@ -285,9 +292,23 @@ Tag.prototype.getH = function(){
 Tag.prototype.hStyles = function(){
   var my = CTags[this.id];
   var domstl  = my.domObj.style ;
+  var jqPos   = my.jqObj.position();
   var hstyles = {};
   ['left','top','width','height'].forEach(function(prop){
-    if (domstl[prop]) { hstyles[prop] = domstl[prop] } ;
+    if (domstl[prop]) { hstyles[prop] = domstl[prop] }
+    else {
+      // Si on ne trouve pas les valeurs dans l'attribut style, par
+      // désespoir de cause on le récupère par jQuery
+      switch (prop) {
+        case 'left':
+        case 'top':
+          hstyles[prop] = Number.parseInt(jqPos[prop],10);
+          break;
+        case 'width':
+        case 'height':
+          hstyles[prop] = my.jqObj[prop]();
+      }
+    }
   })
   return hstyles;
 };
