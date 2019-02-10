@@ -371,8 +371,17 @@ Tag.prototype.to_html = function() {
     my.checkPositionned();
   }
   // Largeur et hauteur
-  css.push(my.w ? my.width_to_str() : 'auto');
-  if (my.h){ css.push(my.height_to_str()) };
+  // Largeur et hauteur par défaut pour les boites
+  var w, h ;
+  if(my.nature == 'box'){
+    w = my.w ? my.width_to_str() : 'width:50px';
+    h = my.h ? my.height_to_str() : 'height:50px';
+  } else {
+    w = my.w ? my.width_to_str() : 'width:auto';
+    if (my.h){ h = my.height_to_str() };
+  }
+  w && css.push(w);
+  h && css.push(h);
 
   // Couleurs
   my.c    && css.push(`color:${my.c}`);
@@ -1038,9 +1047,9 @@ Tag.prototype.is_nature_shortcut = function(){
 Tag.prototype.code_line_by_type = function() {
   var my = this ;
   var c = '' ;
-  c += ['U', 'L'].includes(my.type) ? '1' : '0' ;
+  c += ['U', 'L', 'K', 'N'].includes(my.type) ? '1' : '0' ;
   c += ['U', 'L', 'V'].includes(my.type) ? 'B' : 'T' ; // ligne bottom/top
-  c += ['U', 'V', '^'].includes(my.type) ? '1' : '0' ;
+  c += ['U', 'V', '^', 'N'].includes(my.type) ? '1' : '0' ;
   return c;
 };
 

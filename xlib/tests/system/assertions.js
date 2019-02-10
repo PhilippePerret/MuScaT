@@ -159,17 +159,24 @@ window.assert_position = function(nodes, hposition, tolerance){
   var asserted = false ; // mis à true si effectivement on teste
   for(i,len=nodes.length;i<len;++i){
     node = nodes[i];
+    // Pour savoir si on va devoir dire juste "positionné" (1) ou "dimensionné" (2) ou
+    // les deux (3)
+    var bittest = 0 ;
     errs = new Array();
     for(var prop in hposition){
       expect  = hposition[prop];
       prop    = TEST_XPROP_TO_REAL_PROP[prop] || prop ;
+      if(['left','top'].includes(prop)){bittest = bittest | 1};
+      if(['width','height'].includes(prop)){bittest = bittest | 2};
       [valNode, unit] = valueAndUnitOf(node.style[prop]);
       if(valNode >= (expect - tolerance) && valNode <= (expect + tolerance)){continue};
       errs.push(`le ${prop} de #${node.id} devrait être "${expect}", il vaut "${node.style[prop]}"`);
     }
+    if(bittest == 3){msg = 'positionné et dimensionné'}
+    else{msg = bittest & 1 ? 'positionné' : 'dimensionné' }
     assert(
       errs.length == 0,
-      `le node #${node.id} est bien positionné`,
+      `le node #${node.id} est bien ${msg}`,
       errs.join(', ')
     );
     asserted = true ;

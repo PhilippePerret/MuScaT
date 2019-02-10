@@ -12,8 +12,8 @@ Poursuivre la nouvelle implémentation pour que ça fonctionne bien. Il y a enco
   * [OK] Les numéros de mesure (avec 'mesure', 'measure', 'mes')
   * [OK] Les degrés (avec 'degree', 'degre', 'deg')
   * [OK] Les Parties (avec 'partie', 'part', 'par')
-  * Les textes quelconques (avec 'text')
-  * Tous les sortes de lignes (avec 'ligne', 'line', 'lin')
+  * [OK] Les textes quelconques (avec 'text')
+  * [OK] Tous les sortes de lignes (avec 'ligne', 'line', 'lin')
   * Les boites (avec 'boite', 'box')
 * S'assurer (comment ?) que les déplacements à la souris sont reportés correctement dans le code.
 * Modification du tag sélectionné avec les touches (x, y, w, h). S'assurer qu'elles sont reportées dans le code de l'intance et dans le code général.
