@@ -237,76 +237,95 @@ testtag.case('Les Parties', function(){
     );
   });
 });
+testtag.case('Les textes quelconques', function(){
+  given('Des textes quelconques définis par "texte","text" et "tex"');
+  M.reset_for_tests();
+  Tags=`
+  texte Un_texte_pour_voir x=10 y=20
+  text Un_autre_text_to_see x=30 y=40 fs=32px
+  tex     Le_troisième_texte_? x=50 y=60
+  `;
+  return relaunch_and_test(function(){
+    assert_nombre_tags(3);
+    var tags = document.getElementsByClassName('tag');
+    assert_classes(tags, ['tag', 'text']);
+    var l = [
+        ['Un texte pour voir', {x:10, y:20}]
+      , ['Un autre text to see', {x:30, y:40}]
+      , ['Le troisième texte ?', {x:50, y:60}]
+    ];
+    for(var i=0;i<3;++i){
+      var d = l[i];
+      assert_text(tags[i], d[0]);
+      assert_position(tags[i], d[1]);
+    };
+    var expect = '32px';
+    var actual = $(tags[1]).css('font-size');
+    assert(
+      expect == actual,
+      'Le 2e texte a la bonne taille de police',
+      `La 2e texte devrait avoir une taille de police de ${expect} (elle vaut ${actual})`
+    );
 
-//   diffs = new Array();
-//   var titles = ['Une partie partie', 'Une partie part', 'Une partie par'];
-//   for(i=0;i<3;++i){
-//     var actual = tags[i].innerHTML ;
-//     var expect = titles[i] ;
-//     if(actual != expect){push_failure(diffs,`le titre du tag ${i}`,expect, actual)}
-//   }
-//   assert(
-//     diffs.length == 0,
-//     'les 3 parties possèdent un nom correct',
-//     `les 3 parties devraient posséder leur titre correct (${diffs})`
-//   );
-//
-//   // En plus les deux dernières parties devraient être lockées, pas la première
-//   diffs = new Array();
-//   if($(tags[0]).hasClass('locked')){push_failure(diffs, 'verrou du 1er titre','false','true')}
-//   if(!$(tags[1]).hasClass('locked')){push_failure(diffs, 'verrou du 2e titre','true','false')}
-//   if(!$(tags[2]).hasClass('locked')){push_failure(diffs, 'verrou du 3e titre','true','false')}
-//   assert(
-//     diffs.length == 0,
-//     'les 2 derniers titres de parties sont bien verrouillés',
-//     `les 2 derniers titres de parties devraient être verrouillés (${diffs})`
-//   );
-//
-//   // Dans l'instance
-//   diffs = new Array();
-//   if(CTags[1].locked){push_failure(diffs, 'locked de la 1ère instance', false, true)}
-//   if(!CTags[2].locked){push_failure(diffs, 'locked de la 2e instance', true, false)}
-//   if(!CTags[3].locked){push_failure(diffs, 'locked de la 3e instance', true, false)}
-//   assert(
-//     diffs.length == 0,
-//     'les instances ont leur bonne marque de verrou (locked)',
-//     `la propriété locked des instances est mal réglée (${diffs})`
-//   );
-// };
-//
-// tag.check_accords = function(){
-//   var tags, dfs, i ;
-//   given('Des accords définis avec `accord`, `chord` ou `acc`');
-//
-//   var Tags = `
-//   // Un commentaire
-//   accord D x=100 y=120
-//   chord  SOL_min x=120 y=120
-//   // Un autre commentaire
-//   acc    DØ x=140 y=120
-//   `;
-//   MuScaT.load();
-//   var tags = document.getElementsByClassName('tag');
-//
-//   assert(
-//     tags.length == 3,
-//     '3 tags ont été créés',
-//     msg_failure('le nombre de tags', 3, tags.length)
-//   );
-//
-//   assert_classes(tags, ['tag', 'chord']);
-//   assert_position(tags, {y:120});
-//   assert_position(tags[0], {x: 100});
-//   assert_position(tags[1], {x: 120});
-//   assert_position(tags[2], {x: 140});
-//
-// }
-//
-// tag.check_harmony = function(){
-//   var tags, i ;
-//   given('Des chiffrages définis avec `harmony`, `harmonie` et `chiffrage`');
-//
-//   Tags = `
-//
-//   `;
-// }
+  });
+});
+
+testtag.case('Les Lignes', function(){
+  given('Des lignes définies par "ligne", "line", "lig", "lin"');
+  M.reset_for_tests();
+  Tags=`
+  ligne    ---    x=10  y=20  w=50
+  line    |---|   x=30  y=40  w=60
+  lig     |___|   x=50  y=60  w=70  h=100
+  lin     |___    x=70  y=80  w=90  h=110
+  ligne   ___|    x=90  y=100 w=110 h=120
+  line    |---    x=110 y=120 w=130 h=140
+  lin     ---|    x=130 y=140 w=150 h=160
+  `;
+  return relaunch_and_test(function(){
+    assert_nombre_tags(7);
+    var tags = document.getElementsByClassName('tag');
+    var ldata = [
+        [{x: 10, y:20, w:50}, '0T0']
+      , [{x: 30, y:40, w:60}, '1T1']
+      , [{x: 50, y:60, w:70, h:100}, '1B1']
+      , [{x: 70, y:80, w:90, h:110}, '1B0']
+      , [{x: 90, y:100, w:110, h:120}, '0B1']
+      , [{x: 110, y:120, w:130, h:140}, '1T0']
+      , [{x: 130, y:140, w:150, h:160}, '0T1']
+    ];
+    for(var i = 0; i<7; ++i){
+      var tdata = ldata[i];
+      assert_position(tags[i], tdata[0]);
+      assert_classes(tags[i], ['tag', 'line', `line${tdata[1]}`]);
+    };
+  });
+});
+
+testtag.case('Les Boites', function(){
+  given('Des boites définies avec "boite" et "box"');
+  M.reset_for_tests();
+  Tags=`
+  boite x=10 y=20
+  box   x=30 y=40 w=55
+  boite x=50 y=60 h=70
+  box   x=70 y=80 w=90 h=100 bgc=red
+  `;
+  return relaunch_and_test(function(){
+    assert_nombre_tags(4);
+    var tags = document.getElementsByClassName('tag');
+    assert_classes(tags, ['tag', 'box']);
+    var ldata = [
+        [{x:10, y:20, w:50, h:50}]
+      , [{x:30, y:40, w:55, h:50}]
+      , [{x:50, y:60, w:50, h:70}]
+      , [{x:70, y:80, w:90, h:100}]
+    ];
+    for(var i = 0; i<4; ++i){
+      var tdata = ldata[i];
+      assert_position(tags[i], tdata[0]);
+    };
+  });
+});
+
+// TODO Ici un texte total qui reprend un peu de tout
