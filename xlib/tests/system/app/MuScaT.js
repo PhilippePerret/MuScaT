@@ -48,7 +48,6 @@ Object.assign(MuScaT,{
     ULTags.reset.bind(ULTags)();
     Flash.reset.bind(Flash)();
     if(!!options.init_tags){Tags = "// Juste un commentaire de reset_for_tests"};
-    $('#rcolumn').hide();
     $('.refline').hide(); // les lignes repère
   },
 
