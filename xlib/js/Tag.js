@@ -871,6 +871,7 @@ Tag.prototype.compare_and_update_against = function(tagComp) {
 // créé après la première fabrication (copies)
 Tag.prototype.observe = function(){
   var my = this ;
+  if(my.locked){return};// suffit pour bloquer l'élément
   my.jqObj
     .on('mousedown',  $.proxy(my,'onMouseDown'))
     .on('mouseup',    $.proxy(my,'onMouseUp'))
