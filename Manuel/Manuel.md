@@ -521,6 +521,23 @@ Pour se faire, on clique sur le bouton « code source -> presse papier » qui 
 
 On colle ce code dans le fichier `_tags_.js`{.path}, en remplaçant l'intégralité de son contenu.
 
+Par défaut, dans ce code sont ajoutées toujours les options. Si on garde plusieurs versions de l'analyse, ces divers appels aux options risquent de se parasiter. Pour palier ce problème, on peut ajouter [l'option `code sans options`](#option_code_sans_options) pour que seul le code des tags soient placés dans le presse-papier :
+
+```javascript
+
+  options(... 'code sans options');
+  Tags = `
+  ...
+  `;
+```
+
+#### Mesure d'urgence (ou de secours) {#recup_code_secours}
+
+Parfois, le code de l'analyse (des *TAGs*) refuse de se copier dans le presse-papier. À la place, on trouve par exemple les coordonnées du dernier point cliqué sur l'analyse.
+
+Il existe une solution de secours qui permet de ne pas perdre tout son code : utiliser le bouton « Code complet (secours) » de la boite à outils, près du bouton d'aide. En cliquant, on ouvre un champ de texte dans lequel se trouve tout le code, sélectionné. Il suffit de le copier (avec `X`{.shortcut} pour s'assurer de bien l'avoir copié) et de le coller dans le fichier `_tags_.js`{.path}.
+
+
 #### Plusieurs versions de l'analyse {#versions_de_analyse}
 
 Noter que si vous préférez garder plusieurs versions de votre analyse (ce qui peut être prudent), il suffit de copier le code *à la suite du précédent* (c'est-à-dire à la fin du fichier `_tags_.js`{.path}) plutôt qu'en *remplacement* de l'ancien code. Votre fichier contiendra alors :
@@ -1655,7 +1672,7 @@ L'option « code à côté » permet d'avoir le fichier contenant le code juste
 
 Cette option fait passer dans un mode d'utilisation qui va permettre de découper l'image de façon aisée (par simple copié-collé).
 
-### Option « code sans options » #option_code_sans_options}
+### Option « code sans options » {#option_code_sans_options}
 
 +---------------------+---------------------------------------------+
 |                     |                                             |
