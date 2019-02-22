@@ -235,6 +235,17 @@ const MuScaT = {
       navigator.clipboard.writeText(my.build_very_full_code());
     }
   /**
+   * Méthode secours pour obtenir le code complet de l'analyse,
+   * quand la copie dans le presse-papier ne fonctionne pas.
+   */
+  , codeCompletSecours: function(){
+      var my = this;
+      var o = $('textarea#code-complet-secours');
+      o.val(my.build_very_full_code());
+      o.show().focus().select();
+      UI.toggle_tools();
+    }
+  /**
    * Construit (de façon asychrone) le code complet du fichier _tags_.js
    */
   , build_very_full_code: function(options_to_tags_js){

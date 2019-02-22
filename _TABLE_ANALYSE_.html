@@ -38,6 +38,7 @@
     <link rel="stylesheet" href="xlib/css/tags.css" media="screen,print" />
   </head>
   <body>
+    <textarea id="code-complet-secours" rows="20" cols="80" style="margin-left:8em;display:none;" onblur="$(this).hide()"></textarea>
     <section id="tags">
       <!-- Tous les tags seront déposés ici -->
     </section>
@@ -108,7 +109,12 @@
         </fieldset>
 
         <fieldset id="fs_aide">
-          <a href="Manuel/Manuel.pdf" target="_new"><span class="t-Open"></span> <span class="t-the-help"></span></a>
+          <div id="div-code-complet-secours">
+            <button type="button" onclick="MuScaT.codeCompletSecours.bind(MuScaT)()">Code complet (secours)</button>
+          </div>
+          <div>
+            <a href="Manuel/Manuel.pdf" target="_new"><span class="t-Open"></span> <span class="t-the-help"></span></a>
+          </div>
         </fieldset>
 
       </div>
