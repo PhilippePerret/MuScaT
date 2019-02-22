@@ -232,7 +232,7 @@ La première opération consiste donc à transformer le fichier PDF en images-sy
 
 Mais vous avez plus simple, beaucoup plus pratique et extrêmement plus rapide : les fonctions de capture d'écran. Si vous êtes sur Mac, vous pouvez utiliser l'application [Aperçu](https://support.apple.com/fr-fr/guide/preview/welcome/mac). Si vous êtes sur PC/Windows, ce sera plutôt [LightShot](https://app.prntscr.com/en/index.html) par exemple.
 
-Pour une version détaillée et illustrée de la procédure, je vous renvoie à [ma chaine YouTube](https://www.youtube.com/channel/UCX3XhJw9x1RsVx1s3GNYceA) [[TODO: Mettre adresse de la vidéo]]. Je l'explique rapidement seulement ici.
+Pour une version détaillée et illustrée de la procédure, je vous renvoie à [ma chaine YouTube](https://www.youtube.com/channel/UCX3XhJw9x1RsVx1s3GNYceA) et plus précisément le [Découpage de la partition](https://www.youtube.com/watch?v=kVebmZgl4o8). Je l'explique rapidement seulement ici.
 
 * Sur Mac, vous pouvez modifier le dossier de capture (le dossier où seront automatiquement enregistrées les captures d'écran) en utilisant l'utilitaire `change_folder_captures.rb` de **MuScaT**. Dans le [Terminal](#application_terminal), taper :
 
@@ -1260,7 +1260,7 @@ Cf. [Options de taille pour les textes](#options_size_for_texts), pour des rense
 
 #### Les marques musicales diverses {#marques_musicales}
 
-TODO: Version suivante.
+Plusieurs marques musicales seront introduites dans les versions suivantes.
 
 ---
 
