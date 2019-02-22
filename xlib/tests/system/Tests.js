@@ -38,8 +38,14 @@ const Tests = {
       if(!current_sheet){
         this.sumarize() ;
         return ;
-      }
-      current_sheet.run();
+      };
+      try {
+        current_sheet.run();
+      } catch (err) {
+        console.log('-> catch');
+        console.error(err);
+        this.next();//et on passe au suivant
+      };
     }
 
   // Affiche le résultat des courses
@@ -60,16 +66,17 @@ const Tests = {
       this.sheets.push(itest);
     }
 
-  , assert:function(value, msg_success, msg_failure){
-      if (value == true){
-        this.nombre_success ++ ;
-        console.log(INDENT + '%c… ' + msg_success, 'color:#00AA00;') ;
-      } else {
-        this.nombre_failures ++ ;
-        console.log(INDENT + '%c… ' + msg_failure, 'color:red;') ;
-      }
+  , assert:function(trueValue, msg_success, msg_failure){
+      trueValue ? this.onSuccess(msg_success) : this.onFailure(msg_failure);
     }
-
+  , onSuccess: function(msg){
+      this.nombre_success ++ ;
+      console.log(INDENT + '%c… ' + msg, 'color:#00AA00;') ;
+    }
+  , onFailure: function(msg){
+      this.nombre_failures ++ ;
+      console.log(INDENT + '%c… ' + msg, 'color:red;') ;
+    }
   , given:function(str){
       console.log(RC+'%c'+str+'…', 'color:blue;font-weight:bold;');
     }

@@ -36,6 +36,18 @@ window.assert_function = function(fn_name, objet){
     `${ref} devrait être une function (c'est ${typeof(objet[fn_name])})`
   );
 };
+// Produit un succès si l'appel à la fonction +fn+ ne produit pas d'erreur
+// Un échec otherwise.
+// Par exemple, si on veut tester que 'true = window' va générer une erreur,
+// on peut faire : assert_no_erreur(function(){true=window})
+window.assert_no_erreur = function(fn){
+  try {
+    fn();
+    Tests.onSuccess("Aucune erreur générée.");
+  } catch (err) {
+    Tests.onFailure(`Une erreur a été générée : ${err}`);
+  }
+};
 window.assert_error = function(err_msg, err_type){
   if (Array.isArray(err_msg)){
     // Plusieurs portions
@@ -67,9 +79,12 @@ window.matchErrors = function(err_msgs, err_type){
   return ret
 }
 window.matchError = function(err_msg, err_type){
-  var rg = new RegExp(err_msg, 'i')
+  // console.log('-> matchError', err_msg);
+  // console.log('Errors.messages.length:', Errors.messages.length);
+  var rg = new RegExp(err_msg, 'i');
   for(var imsg = 0, len = Errors.messages.length; imsg < len ; ++ imsg){
     dmsg = Errors.messages[imsg] ;
+    // console.log(dmsg);
     if (dmsg.msg.match(rg)) {
       if(undefined == err_type || dmsg.type == err_type){return true};
     }
