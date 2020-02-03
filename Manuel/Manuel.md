@@ -15,6 +15,26 @@ pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel" --from=mark
 
 [Github de MuScaT]: https://github.com/PhilippePerret/MuScaT
 
+
+
+## Nota Bene commande
+
+Si vous avez installé la commande `mus` pour la console ou le Terminal, toutes les opérations sont simplifiées :
+
+**Création de l'analyse**
+
+~~~sh
+> mus create "Nom de l'analyse" # les espaces ne gênes pas
+~~~
+
+**Activation de l’analyse** (mise en courante)
+
+~~~sh
+> mus analyse "Nom de l'analyse"
+~~~
+
+
+
 ## Introduction (histoire)
 
 Suite à la diffusion de mon [Initiation à l'analyse musicale](https://www.youtube.com/channel/UCX3XhJw9x1RsVx1s3GNYceA) — et son « succès » que je n'aurais jamais imaginé aussi grand — nombreux ont été les professeurs et autres pédagogues ou musicologues à me solliciter pour me demander le logiciel utilisé pour créer l'animation de cette initiation.
@@ -91,7 +111,7 @@ Elle est semi-graphique, et permet d'ajuster très finement les *TAGs* — au p
 
 Mes remerciements vont :
 
-* à Marion MICHEL pour la relecture attentive et patiente de ce manuel, et ces nombreuses corrections.
+* à Marion MICHEL pour la relecture attentive et patiente de ce manuel, et ses nombreuses corrections.
 
 
 ## Synopsis général de création d'une analyse {#synopsis_fabrication}
@@ -568,7 +588,7 @@ Noter que si vous préférez garder plusieurs versions de votre analyse (ce qui 
 
 Bien entendu, pensez à supprimer de vieilles versions pour alléger un peu le fichier, s'il devient conséquent.
 
-### Imprimer l'analyse en PDF {#syn_print_pdf}
+### Imprimer l'analyse en PDF
 
 Enfin, on imprime la page HTML du navigateur en choisissant le format PDF :
 
@@ -1110,7 +1130,7 @@ La taille du texte peut se régler de façon générale avec l'option `chord siz
 
 Cf. [Options de taille pour les textes](#options_size_for_texts), pour des renseignements complets sur les options de tailles.
 
-### Les Chiffrages (Harmonie) {#les_harmonies}
+### Les Chiffrages (Harmonie)
 
 On indique un chiffrage d'accord, sous la partition, à l'aide de la *nature* `harmonie`{.str}, `harmony`{.str}, `chiffrage`{.str} ou `har`{.str}.
 
@@ -1264,7 +1284,7 @@ Plusieurs marques musicales seront introduites dans les versions suivantes.
 
 ---
 
-### Autres éléments graphiques {#autres_elements_graphiques}
+### Autres éléments graphiques
 
 #### Les Lignes {#les_lignes}
 
@@ -1321,7 +1341,6 @@ Noter également qu'on peut utiliser de la transparence pour les boites. Il suff
 
 > Rappelez-vous bien qu'il ne doit y avoir aucune espace dans la définition de `bgc` (comme dans la définition de toute valeur).
 
-
 ---
 
 ## Opérations sur les *TAGs* {#operation_on_tags}
@@ -1360,7 +1379,7 @@ Pour dégrouper :
 
 ---
 
-## Procédure de découpage de la partition {#procedure_crop_partition}
+## Procédure de découpage de la partition
 
 Voyons quelques méthodes de découpage de la partition en « images-systèmes ». Je les présente ici de la meilleure à la moins bonne. Cette qualité a été définie en fonction des deux critères suivants :
 

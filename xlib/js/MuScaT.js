@@ -57,6 +57,7 @@ const MuScaT = {
      * se trouve toujours dans la distribution.
      */
   , load_analyse_data: function(){
+      console.log("-> load_analyse_data")
       D.dfn('MuScaT#load_analyse_data');
       var my = this ;
       if (my.tags_file_loaded){
@@ -65,8 +66,10 @@ const MuScaT = {
       };
       return new Promise(function(ok, ko){
         // On charge les éléments de l'analyse courante
+        console.log("my.analyse_name = ", my.analyse_name)
         my.load_analyse_of(my.analyse_name)
           .then(function(){
+            console.log("load_analyse_of ok", )
             M.tags_file_loaded = true ;
             ok();
           })
@@ -88,9 +91,12 @@ const MuScaT = {
         nodetags = document.body.appendChild(document.createElement('script'));
         nodetags.id = 'script_tags_js';
         try {
+          console.log("analyse_folder_name = ", analyse_folder_name)
           nodetags.src = `_analyses_/${analyse_folder_name}/_tags_.js`;
           D.dv('tags.js src', nodetags.src, 4);
+          console.log("Fichier tags.js chargé avec succès (%s)", nodetags.src)
         } catch (e) {
+          console.error("ERREUR EN CHARGEANT ", nodetags.src)
           $(nodetags).remove();
           return ko();
         };
@@ -106,6 +112,7 @@ const MuScaT = {
 
   , start_and_run: function(){
       D.dfn('MuScat#start_and_run');
+      console.log("-> start_and_run")
       return new Promise(function(ok,ko){
         // On prépare l'interface (notamment au niveau de la langue)
         UI.set_ui();
@@ -278,6 +285,7 @@ const MuScaT = {
    */
   , parse_tags_js: function(){
       var my = this, itag ;
+      console.log('-> parse_tags_js')
       my.check_sequence_image_in_tags();
       my.onEachTagsLine(function(line){
         CTags.push(new Tag(line)) ;
@@ -294,11 +302,13 @@ const MuScaT = {
    * défaut
    */
   , check_sequence_image_in_tags: function(){
+      console.log('-> check_sequence_image_in_tags')
       var my = this
         , lines_finales = new Array()
         , rg
         ;
       my.onEachTagsLine(function(line){
+        // console.log("LINE: '%s'", line)
         if(rg = line.match(/^([^\/].*)\[([0-9]+)\-([0-9]+)\]([^ ]+)( (.*))?$/)){
           my.treate_as_sequence_images(rg, lines_finales);
         } else {
@@ -308,6 +318,7 @@ const MuScaT = {
       Tags = lines_finales.join(RC);
     }
   , treate_as_sequence_images: function(dreg, lines_finales) {
+      console.log('-> treate_as_sequence_images')
       var my          = this
         , bef_name    = dreg[1]
         , from_indice = Number.parseInt(dreg[2], 10)

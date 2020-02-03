@@ -1,5 +1,3 @@
-options('code', 'code sans option', 'rectangle selection') ;
-
 Tags = `
 // Infos
 titre Sonate_n°34_en_Mi_mineur
