@@ -8,7 +8,6 @@ compositeur Beethoven x=475 y=8
 score bee-son8-mvt2-0.png x=15 y=300 w=640px
 acc Ab x=108 y=271
 har I x=110 y=461
-
 har V x=155 y=461
 har V x=344 y=461
 har IV x=370 y=461

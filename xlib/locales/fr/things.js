@@ -8,6 +8,7 @@ Object.assign(MSG,{
   , 'all-selected': 'tous les éléments sélectionnés (%{nombre})'
   , 'analyzed-by':  'Analysé par'
   , 'detruire':     'détruire'
+  , 'lock':         'verrouiller'
   , 'le-of-date':   'le '
   , 'operations':    'Opérations'
   , 'sur':          'sur'

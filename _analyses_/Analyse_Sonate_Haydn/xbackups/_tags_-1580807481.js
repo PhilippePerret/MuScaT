@@ -18,7 +18,7 @@ acc E_min x=98 y=314
 
 // === SYSTÈME 2 ===
 
-🔒 score sonate_haydn-1.png x=5 y=589 w=170mm
+score sonate_haydn-1.png x=5 y=589 w=170mm
 
 // === SYSTÈME 3 ===
 

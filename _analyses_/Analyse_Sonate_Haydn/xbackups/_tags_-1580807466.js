@@ -12,13 +12,13 @@ date_analyse 27_janvier_2019 x=468 y=200
 
 🔒 score sonate_haydn-0.png x=5 y=345 w=170mm
 
-acc E_min x=98 y=314
+🔒 acc E_min x=98 y=314
 
 🔒 acc E_min x=298 y=314
 
 // === SYSTÈME 2 ===
 
-🔒 score sonate_haydn-1.png x=5 y=589 w=170mm
+score sonate_haydn-1.png x=5 y=589 w=170mm
 
 // === SYSTÈME 3 ===
 

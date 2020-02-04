@@ -81,7 +81,7 @@ class UI {
     };
 
     // Réglage du listing de code (ULTags/LITag)
-    var with_code = Options.get('code');
+    var with_code = true // toujours, maintenant Options.get('code');
     $('div#div-ultags')[with_code?'show':'hide']();
     // $('#fs_code')[with_code?'hide':'show']();
     if(Options.get('code')){
@@ -94,6 +94,8 @@ class UI {
     console.log("-> observe")
     this.btnStopSave.addEventListener('click', IO.toggleSaveLoop.bind(IO))
     this.btnForceSave.addEventListener('click', IO.saveTags.bind(IO))
+    const btnLock = document.querySelector('button#ultags-btn-lock')
+    btnLock.addEventListener('click', ULTags.lockTag.bind(ULTags))
   }
 
   static get btnStopSave(){

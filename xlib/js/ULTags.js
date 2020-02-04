@@ -39,7 +39,10 @@ const ULTags = {
   , build: function(){
       var my = this;
       my.setULHeight();
-      CTags.onEachTag(function(itag){$.proxy(new LITag(itag), 'build')()});
+      CTags.onEachTag(function(itag){
+        const tag = new LITag(itag)
+        tag.build.call(tag)
+      });
     }
   /**
   * Régler la hauteur du UL pour qu'il tienne bien sur la page
@@ -69,6 +72,18 @@ const ULTags = {
       else {F.notify(t('choose-litag', {operation: t('detruire')}))}
     }
 
+    /**
+      Verrouille le ou les tags courants
+    **/
+  , lockTag: function(){
+      if( this.selected ) {
+        this.selected.itag.update('locked', !this.selected.itag.locked)
+        Muscat.modified = true
+        this.selected.jqObj.focus();
+      } else {
+        F.notify(t('choose-litag', {operation: t('lock')}))
+      }
+    }
     /**
      * Méthode appelée par la touche Entrée quand il y a une sélection
      * sur la table d'analyse. Peut-être qu'il faudrait que ce soit
@@ -137,7 +152,8 @@ const ULTags = {
       line = line.replace(/ +/g, ' ') ;
       // Marque de ligne verrouillée
       var premier_car = line.substring(0,1);
-      var locked_line = premier_car == '*' || premier_car == '•' || line.substring(0,2) == '🔒' ;
+      var deux_premiers = line.substring(0,2)
+      var locked_line = premier_car == '#' || deux_premiers == '🔒' ;
       if (locked_line){
         // <= C'est une ligne verrouillée
         firstoff = line.substring(0,2) == '🔒' ? 2 : 1
