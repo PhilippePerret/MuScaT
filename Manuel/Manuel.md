@@ -528,30 +528,7 @@ Pour **modifier les dimensions d'un tag** (comme une ligne, une cadence, une boi
 * soit on sélectionne l'élément et on presse la touche `w`{.prop} pour augmenter la largeur, `ALT w`{.shortcut} pour diminuer la largeur, `h`{.prop} (comme "hauteur") pour augmenter la hauteur, `ALT h`{.shortcut} pour diminuer la hauteur.
     Tout comme pour les `x`{.prop} et `y`{.prop}, avec la touche `ALT`{.shortcut} (`ALT x`{.shortcut}, `ALT y`{.shortcut}), on inverse le déplacement. Avec la touche `MAJ`{.shortcut} (`MAJ x`{.shortcut}, `MAJ y`{.shortcut}, `ALT MAJ x`{.shortcut}, `ALT MAJ y`{.shortcut}), on augmente le pas de déplacement, avec la touche `CTRL`{.shortcut}, on peut régler la position pixel par pixel.
 
-
-### Récupérer le code final {#syn_recuperation_code_final}
-
-Si l'on a travaillé dans le champ de texte à côté de la table d'analyse (avec l'option `code`{.code} activée), on doit copier le code final dans le fichier `_tags_.js`{.path}, au risque de perdre tous les changements.
-
-> Noter que si vous avez préféré faire les changements directement dans le fichier `_tags_.js`{.path}, il vous faut recharger la table d'analyse à chaque fois dans le navigateur pour voir les modifications.
-
-Pour se faire, on clique sur le bouton « code source -> presse papier » qui se trouve sous le champ de code si l'option `code`{.code} est activée, sinon, dans les outils — en haut à gauche.
-
-![Bouton « code source -> presse-papier »](img/bouton-code-source-clipboard.png)
-
-On colle ce code dans le fichier `_tags_.js`{.path}, en remplaçant l'intégralité de son contenu.
-
-Par défaut, dans ce code sont ajoutées toujours les options. Si on garde plusieurs versions de l'analyse, ces divers appels aux options risquent de se parasiter. Pour palier ce problème, on peut ajouter [l'option `code sans options`](#option_code_sans_options) pour que seul le code des tags soient placés dans le presse-papier :
-
-```javascript
-
-  options(... 'code sans options');
-  Tags = `
-  ...
-  `;
-```
-
-#### Mesure d'urgence (ou de secours) {#recup_code_secours}
+#### Mesure d'urgence (ou de secours)
 
 Parfois, le code de l'analyse (des *TAGs*) refuse de se copier dans le presse-papier. À la place, on trouve par exemple les coordonnées du dernier point cliqué sur l'analyse.
 

@@ -10,7 +10,7 @@ class Ajax
 
 
       # Le script doit exister
-      script_fullpath = File.expand_path(File.join('.','ajax','scripts',script))
+      script_fullpath = File.expand_path(File.join('.','ajax','_scripts',script))
       self << {
         script_fullpath: script_fullpath
       }
@@ -21,13 +21,13 @@ class Ajax
           OK: "Le script '#{script_fullpath}' existe."
         }
         begin
-          require_relative "./scripts/#{script}"
+          require_relative "./_scripts/#{script}"
         rescue Exception => e
           raise e # pour le moment
         end
       else
         self << {
-          error: "Le script '#{script_fullpath}' est introuvable"
+          error: "Le script '#{script_fullpath}' est introuvable. Je ne peux pas le jouer."
         }
       end
 
@@ -35,7 +35,8 @@ class Ajax
       # paramètres CGI
       self << {
         'ran_script': script,
-        'transmited_keys': cgi.params.keys.join(', ')
+        'transmited_keys': cgi.params.keys.join(', '),
+        'APP_FOLDER': APP_FOLDER
       }
       # Débug : pour voir ce que reçoit
       # self << {

@@ -11,7 +11,7 @@
   ------
     - Le fichier .htaccess (pour utilisation du ruby)
     - le dossier ./ajax contenant les éléments
-    - le dossier ./ajax/scripts contenant tous les scripts propres à
+    - le dossier ./ajax/_scripts contenant tous les scripts propres à
       l'application, qui seront utilisés par Ajax.script (le 'script' passé
       en paramètre par Ajax)
       Cf. ci-dessous "LES SCRIPTS"
@@ -49,7 +49,7 @@
   ===========
     Ce sont les scripts qui, en local, exécutent les opérations voulues et
     retourne les valeurs attendues.
-    Ces scripts se trouvent dans le dossier ./ajax/scripts et sont propres à
+    Ces scripts se trouvent dans le dossier ./ajax/_scripts et sont propres à
     chaque application (si on duplique ce fichier/dossier ajax, on peut donc
     les supprimer aveuglément).
 
@@ -62,5 +62,5 @@
 =end
 
 
-require_relative './ajax/ajax_class.rb'
+require_relative './ajax/required.rb'
 Ajax.treate_request()

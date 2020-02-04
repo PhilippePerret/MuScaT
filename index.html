@@ -12,9 +12,11 @@
     <script type="text/javascript" src="xlib/js/system/utils.js"></script>
     <script type="text/javascript" src="xlib/js/system/Flash.js"></script>
     <script type="text/javascript" src="xlib/js/system/Cook.js"></script>
+    <script type="text/javascript" src="xlib/js/system/Ajax.js"></script>
     <script type="text/javascript" src="xlib/js/system/miniClasses.js"></script>
     <script type="text/javascript" src="xlib/js/system/Debug.js"></script>
     <script type="text/javascript" src="xlib/js/constants.js"></script>
+    <script type="text/javascript" src="xlib/js/IO.js"></script>
     <script type="text/javascript" src="xlib/js/Locales.js"></script>
     <script type="text/javascript" src="xlib/js/Errors.js"></script>
     <script type="text/javascript" src="xlib/js/Historique.js"></script>
@@ -58,6 +60,9 @@
           <div class="buttons-block">
             <button type="button" id="ultags-btn-plus" class="plus-moins" onclick="$.proxy(ULTags,'addTag')()">➕</button>
             <button type="button" id="ultags-btn-moins" class="plus-moins" onclick="$.proxy(ULTags,'removeTag')()">➖</button>
+            <span>    </span>
+            <button type="button" id="btn-stop-restart-saving">Stop auto save</button>
+            <button type="button" id="btn-force-save">Force save</button>
           </div>
 
           <!-- Les boutons pour l'animation -->
@@ -105,7 +110,6 @@
         </fieldset>
 
         <fieldset id="fs_code">
-          <button id="btn-code-in-clipboard" class="normal" type="button" onclick="$.proxy(MuScaT,'codeAnalyseInClipboard')()"><span class="t-source-code"></span> -> <span class="t-clipboard"><span></button>
         </fieldset>
 
         <fieldset id="fs_aide">
