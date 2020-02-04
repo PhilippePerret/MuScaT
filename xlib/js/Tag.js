@@ -317,7 +317,7 @@ Tag.prototype.hStyles = function(){
 Tag.prototype.scrollIfNotVisible = function(){
   var my = CTags[this.id] ;
   if(!my.built){return};
-  my.domObj.scrollIntoView({behavior: 'smooth'});
+  // my.domObj.scrollIntoView({behavior: 'smooth'});
 };
 
 Tag.prototype.resize = function(prop, dim, mult, fin){
@@ -470,7 +470,7 @@ Tag.prototype.reveal = function(options){
       my.jqObj.css('border-color',old_bgc);
     };
   });
-  my.domObj.scrollIntoView({behavior: 'smooth'});
+  // my.domObj.scrollIntoView({behavior: 'smooth'});
 };
 Tag.prototype.remove = function(){
   var my = this ;

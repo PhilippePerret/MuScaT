@@ -150,7 +150,7 @@ LITag.prototype.update = function(newLine){
 LITag.prototype.scrollIfNotVisible = function(){
   var my = ULTags[this.id] ;
   if(!my.built){return};
-  my.domObj.scrollIntoView({behavior: 'smooth'});
+  // my.domObj.scrollIntoView({behavior: 'smooth'});
 };
 
 // ---------------------------------------------------------------------
