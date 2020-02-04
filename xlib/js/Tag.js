@@ -317,6 +317,21 @@ Tag.prototype.hStyles = function(){
 Tag.prototype.scrollIfNotVisible = function(){
   var my = CTags[this.id] ;
   if(!my.built){return};
+  const topWindow = window.scrollY
+  const botWindow = topWindow + window.outerHeight
+  const milieu = Math.floor(window.innerHeight / 2) - 100
+  const top = this.jqObj.position().top
+  const hei = this.jqObj.height()
+  const bot = top + hei
+  console.log({topWindow:topWindow, botWindow:botWindow, milieu:milieu, top:top, height:hei, bot:bot })
+  if ( bot > botWindow || top < topWindow ) {
+    console.log("L'objet n'est pas visible")
+    console.log("Je dois scroller vers l'élément ", this)
+    window.scroll(0, top - milieu)
+  } else {
+    console.log("L'élément est visible")
+  }
+  console.log("Offset domObj", this.jqObj.offset(), this.jqObj.position(), this.jqObj.height())
   // my.domObj.scrollIntoView({behavior: 'smooth'});
 };
 
@@ -470,7 +485,7 @@ Tag.prototype.reveal = function(options){
       my.jqObj.css('border-color',old_bgc);
     };
   });
-  // my.domObj.scrollIntoView({behavior: 'smooth'});
+  my.domObj.scrollIntoView({behavior: 'smooth'});
 };
 Tag.prototype.remove = function(){
   var my = this ;
