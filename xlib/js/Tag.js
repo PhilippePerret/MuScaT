@@ -199,6 +199,7 @@ Tag.prototype.update = function(prop, new_value, options) {
     }
   };
   my.litag.update(my.to_line());
+  Muscat.modified = true
 };
 
 /**

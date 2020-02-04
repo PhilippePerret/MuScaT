@@ -64,6 +64,7 @@ const ULTags = {
       if(this.selected){
         this.selected.remove();
         this.length--;
+        Muscat.modified = true
       }
       else {F.notify(t('choose-litag', {operation: t('detruire')}))}
     }
@@ -98,6 +99,7 @@ const ULTags = {
       }
       litag.jqObj.focus();
       itag.build_and_watch();
+      Muscat.modified = true
     }
 
     /**

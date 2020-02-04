@@ -3,8 +3,8 @@ options('code', 'lang', 'fr') ;
 Tags = `
 titre Sonate_8_Mouvement_2 x=48 y=3
 compositeur Beethoven x=475 y=8
-
 // Mesure 1-5
+
 score bee-son8-mvt2-0.png x=15 y=300 w=640px
 acc Ab x=108 y=271
 har I x=110 y=461

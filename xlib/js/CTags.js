@@ -150,6 +150,7 @@ const CTags = {
           default:
         }
         my.onEachSelected(function(itag){itag.update(prop, value)})
+        Muscat.modified = true
         UI.hide_tools();
       }
     }
@@ -198,7 +199,7 @@ const CTags = {
     sorteds.forEach(function(itag){
       itag.update('y', upper.y + (i++ * esp)) ;
     });
-
+    Muscat.modified = true
   }
 
   /**
