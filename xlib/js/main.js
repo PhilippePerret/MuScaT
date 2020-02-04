@@ -20,7 +20,7 @@ $(document).ready(function(){
         // , dataType: 'JSON'
         , data: {
               // REQUIS : le nom du script à jouer (chemin relatif)
-              script: "script/a/jouer.rb"
+              script: "essai.rb"
               // REQUIS : arguments à transmettre au script
             , args: JSON.stringify({code: "Le code qui devra être utilisé par le script transmis.", reponse_attendue:'OK'})
             , message: "Marion aime le chocolat"

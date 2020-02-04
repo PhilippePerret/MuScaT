@@ -81,12 +81,8 @@ unless ARGV.include?('-h') || ARGV.include?('--help')
       end
     end
     # On ouvre l'analyse
-    `open -a "Google Chrome" "#{PARTITION_PATH}"`
-    # On ouvre le fichier _tags_.js s'il ne faut
-    if ARGV.include?('-t') || ARGV.include?('--tags')
-      `open -a #{INFOS[:editor]} #{ANALYSE_TAGS_FILE}`
-    end
-
+    # ------------------
+    `open -a "Google Chrome" http://localhost/Muscat/index.html`
 
 
   rescue Exception => e

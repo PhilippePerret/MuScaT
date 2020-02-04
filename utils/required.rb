@@ -3,7 +3,7 @@
 
 APPFOLDER         = File.expand_path(File.dirname(__dir__))
 ANALYSES_FOLDER   = File.join(APPFOLDER,'_analyses_')
-PARTITION_PATH    = File.join(APPFOLDER,'_TABLE_ANALYSE_.html')
+PARTITION_PATH    = File.join(APPFOLDER,'index.html')
 CUR_ANALYSE_FILE  = File.join(APPFOLDER,'analyse.js')
 
 INFOS_FILE        = File.join(APPFOLDER,'xlib','infos.rb')

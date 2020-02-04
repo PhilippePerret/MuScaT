@@ -9,7 +9,27 @@ class Ajax
       STDOUT.write "Content-type: application/json; charset:utf-8;\n\n"
 
 
-      # TODO Jouer le script avec les paramètres
+      # Le script doit exister
+      script_fullpath = File.expand_path(File.join('.','ajax','scripts',script))
+      self << {
+        script_fullpath: script_fullpath
+      }
+
+      if File.exists?(script_fullpath)
+        # Jouer le script
+        self << {
+          OK: "Le script '#{script_fullpath}' existe."
+        }
+        begin
+          require_relative "./scripts/#{script}"
+        rescue Exception => e
+          raise e # pour le moment
+        end
+      else
+        self << {
+          error: "Le script '#{script_fullpath}' est introuvable"
+        }
+      end
 
       # On ajoute au retour, le script joué et les clés envoyés en
       # paramètres CGI
@@ -26,22 +46,35 @@ class Ajax
       # }
       STDOUT.write data.to_json+"\n"
     rescue Exception => e
-      STDOUT.write "Erreur survenue : #{e.message}"+"\n"
+      error = Hash.new
+      error.merge!(error: Hash.new)
+      error[:error].merge!(message: e.message)
+      error[:error].merge!(backtrace: e.backtrace)
+      STDOUT.write error.to_json
     end
 
     # Pour ajouter des données à renvoyer
+    # Utiliser : Ajax << {ma: "data"}
     def << hashdata
       @data ||= {}
       @data.merge!(hashdata)
     end
 
+    # Retourne l'argument de clé +key+
+    def arg key
+      args[key.to_s]
+    end
 
     # ---------------------------------------------------------------------
     def data
       @data ||= {}
     end
     def script
-      @script ||= cgi.params['script'][0]
+      @script ||= begin
+        s = cgi.params['script'][0]
+        s.end_with?('.rb') || s.concat('.rb')
+        s
+      end
     end
 
     def args
