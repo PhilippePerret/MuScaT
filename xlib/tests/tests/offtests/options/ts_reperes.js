@@ -2,7 +2,7 @@ var tes = new Test('Option Repères');
 
 tes.run = function(){
 
-  for(var opt of ['repères', 'reperes', 'guides', 'lines of reference']){
+  for(var opt of ['repères', 'reperes', 'guides', 'lines-of-reference']){
     this.les_lignes_reperes_existent(opt);
   }
 

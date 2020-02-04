@@ -19,7 +19,7 @@ const Anim = {
   , start: function(){
       this.init();
       this.current    = 0;
-      this.laps       = (100 - Options.get('animation speed')) * 40 ;
+      this.laps       = (100 - Options.get('animation-speed')) * 40 ;
       this.last_index = ULTags.jqObj.find('> li').length - 1 ;
       this.search_start();
       this.next();
@@ -113,6 +113,7 @@ const Anim = {
       UI.divULTags.css({opacity:0})
       this.rerunSaveLoopAfter = Boolean(!!IO.saveLooping)
       IO.stopSavingLoop()
+      this.reset()
     }
   , onStop: function(){
       this.playing = !this.playing;

@@ -1,17 +1,4 @@
-# MuScaT<br>Manuel d'utilisation
-
-<!--
-Pour actualiser le PDF, jouer simplement :
-
-  > mus update manuel
-
-OU, plus compliqué
-1. Jouer cette commande dans le Terminal
-
-pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel" --from=markdown --output=Manuel.html;open Manuel.html;
-
-2. Exporter le fichier en PDF (Safari offre un menu directement dans « Fichier »)
--->
+# MuScaT<br>Manuel d'utilisatio
 
 [Github de MuScaT]: https://github.com/PhilippePerret/MuScaT
 
@@ -105,11 +92,13 @@ Elle est semi-graphique, et permet d'ajuster très finement les *TAGs* — au p
   * [Raccourcis clavier](#keyboard_shortcuts)
 
 
+
 ## Remerciements
 
 Mes remerciements vont :
 
 * à Marion MICHEL pour la relecture attentive et patiente de ce manuel, et ses nombreuses corrections.
+
 
 
 ## Synopsis général de création d'une analyse
@@ -465,19 +454,19 @@ Sans l'option `option('code');` activée, il faut modifier le code directement d
 
 #### Lignes repères
 
-Pour faciliter l'alignement des *TAGs* — par exemple l'alignement des dernières mesures de fin des systèmes — on peut utiliser des lignes repères. Pour cela, il suffit d'activer l'option `repères` (ou `reperes` ou `lines of reference`).
+Pour faciliter l'alignement des *TAGs* — par exemple l'alignement des dernières mesures de fin des systèmes — on peut utiliser des lignes repères. Pour cela, il suffit d'activer l'option `repères` (ou `reperes` ou `lines-of-reference`).
 
 Cela ajoute deux lignes à l'écran, une verticale et une horizontale, qu'on peut déplacer à loisir à la souris.
 
 ![Lignes repères pour aligner les éléments](img/Ligne_repere.png)
 
-Vous pouvez également définir leur emplacement exact avec les options `position repère vertical` (ou `vertical line offset`) et `position repère horizontal` (ou `horizontal line offset`) :
+Vous pouvez également définir leur emplacement exact avec les options `position-repère-vertical` (ou `vertical-line-offset`) et `position-repère-horizontal` (ou `horizontal-line-offset`) :
 
 ```javascript
   // Dans le fichier _tags_.js de l'analyse
   option('code');
    // à 120 pixels du haut et 200 de la gauche
-  option('vertical line offset', 120, 'horizontal line offset', 200);
+  option('vertical-line-offset', 120, 'horizontal-line-offset', 200);
 ```
 
 ### Positionnement et dimensionnement des *TAGs*
@@ -637,7 +626,7 @@ Tags = `
   score ma_partition.jpg y=100 x=10
 
   // => L'image 'images/ma_partition.jpg' placée à 10 pixels de
-  //    la marge gauche et 100 pixels du haut.
+  //    la marge-gauche et 100 pixels du haut.
 
   cadence I type=parfaite y=200 x=100 w=100
 
@@ -1024,12 +1013,12 @@ Si vous indiquez une taille — ce qui est mieux pour être sûr de tenir dans 
 
 Nous vous invitons vivement à commencer par cette opération — l'inscription des systèmes par séquence — avant l'insertion de toute autre marque sur la partition. Comme [nous l'expliquons plus haut déjà](#dim_et_pos_against_overview), il est recommandé, pour s'éviter ensuite un travail fastidieux de repositionnement, de placer en tout premier lieu les systèmes correctement sur chaque feuille, de façon définitive, en se servant de l'aperçu d'impression.
 
-Noter que lorsque **MuScaT** place les images sur la table d'analyse, il les répartit pour obtenir l'aspect original de la partition. On peut modifier ce comportement en définissant explicitement un espace (vertical) entre chaque système ou chaque image, grâce à l'option `espacement images` :
+Noter que lorsque **MuScaT** place les images sur la table d'analyse, il les répartit pour obtenir l'aspect original de la partition. On peut modifier ce comportement en définissant explicitement un espace (vertical) entre chaque système ou chaque image, grâce à l'option `espacement-images` :
 
 ```javascript
 
   // Code intégrale du fichier _tags_.js
-  option('code');option('espacement images', 50);
+  option('code');option('espacement-images', 50);
 
   Tags=`
   sco haydn/mouvement_1-[1-35].png
@@ -1041,7 +1030,7 @@ Noter que lorsque **MuScaT** place les images sur la table d'analyse, il les ré
 
 > Noter également l'usage de l'option `code` qui permet d'afficher le code à côté de la table de l'analyse, pour pouvoir le modifier dans le navigateur lui-même.
 
-Grâce à l'option `espacement images` définie ci-dessus, chaque image (chaque système) sera séparée de 50 pixels.
+Grâce à l'option `espacement-images` définie ci-dessus, chaque image (chaque système) sera séparée de 50 pixels.
 
 Une fois ce code établi, vous pouvez déplacer les images dans la page pour les ajuster à vos besoins. Cela créera automatiquement les `x` et les `y` des coordonnées spatiales de chaque système au bout des lignes de score.
 
@@ -1065,7 +1054,7 @@ Le code ci-dessus produira :
 
 ![Marque accords, traits plats](img/Mark_accords.png)
 
-La taille du texte peut se régler de façon générale avec l'option `chord size` ou, pour un accord particulier, avec la propriété `fs`.
+La taille du texte peut se régler de façon générale avec l'option `chord-size` ou, pour un accord particulier, avec la propriété `fs`.
 
 Cf. [Options de taille pour les textes](#options_size_for_texts), pour des renseignements complets sur les options de tailles.
 
@@ -1075,12 +1064,13 @@ On indique un chiffrage d'accord, sous la partition, à l'aide de la *nature* `h
 
 Les recommandations sont les mêmes que pour les accords : aucune espace.
 
-La taille du texte peut se régler de façon générale avec l'option `harmony size` ou, pour un chiffrage particulier, avec la propriété `fs`.
+La taille du texte peut se régler de façon générale avec l'option `harmony-size` ou, pour un chiffrage particulier, avec la propriété `fs`.
 
 Cf. [Options de taille pour les textes](#options_size_for_texts), pour des renseignements complets sur les options de tailles.
 
 
-#### Les Cadences {#les_cadences}
+
+#### Les Cadences
 
 On indique une cadence, sous la partition, à l'aide de la *nature* `cadence` ou `cad`.
 
@@ -1094,7 +1084,7 @@ Tags=`
 
 On peut faire varier la longueur du trait en jouant sur la touche `w` (pour augmenter la longueur du trait) et `ALT w` (pour la diminuer). Les touches `MAJ` et `CTRL` servent respectivement à augmenter le pas ou à le diminuer (action plus précise).
 
-La taille du texte peut se régler de façon générale avec l'option `cadence size` ou, pour une cadence particulière, avec la propriété `fs`.
+La taille du texte peut se régler de façon générale avec l'option `cadence-size` ou, pour une cadence particulière, avec la propriété `fs`.
 
 Cf. [Options de taille pour les textes](#options_size_for_texts), pour des renseignements complets sur les options de tailles.
 
@@ -1147,11 +1137,11 @@ mod Sol_min/(sous-dom.) 200 300
 
 On peut modifier la hauteur du trait vertical qui rejoint la partition en modifiant la propriété `h`. On peut donc la modifier en pressant la touche `h` (augmente la longueur du trait) ou les touches `ALT h` (diminue la longueur du trait).
 
-La taille du texte peut se régler de façon générale avec l'option `modulation size` ou, pour une modulation particulière, avec la propriété `fs`.
+La taille du texte peut se régler de façon générale avec l'option `modulation-size` ou, pour une modulation particulière, avec la propriété `fs`.
 
 Cf. [Options de taille pour les textes](#options_size_for_texts), pour des renseignements complets sur les options de tailles.
 
-### Les autres types de textes {#les_textes}
+### Les autres types de textes
 
 Ce que l'on appelle spécifiquement les « textes », ici, ce sont tous les textes hors des accords, modulations, chiffrages, etc. Ce sont vraiment des textes qu'on peut placer n'importe où. À commencer par la définition des grandes parties de la pièce (« Introduction », « Coda », etc.).
 
@@ -1185,7 +1175,7 @@ Les marques de partie s'indiquent avec le *TAG* `partie` (ou `par` ou `part`). C
 
 ![Marque de partie](img/marque_partie.png)
 
-La taille du texte peut se régler de façon générale avec l'option `part size` ou, pour une partie en particulier, avec la propriété `fs`.
+La taille du texte peut se régler de façon générale avec l'option `part-size` ou, pour une partie en particulier, avec la propriété `fs`.
 
 Cf. [Options de taille pour les textes](#options_size_for_texts), pour des renseignements complets sur les options de tailles.
 
@@ -1195,7 +1185,7 @@ Les numéros de mesure, s'ils ne sont pas indiqués sur la partition elle-même,
 
 ![Marque mesure](img/mark_mesure.png)
 
-La taille du texte peut se régler de façon générale avec l'option `mesure size` ou, pour un numéro de mesure en particulier, avec la propriété `fs`.
+La taille du texte peut se régler de façon générale avec l'option `mesure-size` ou, pour un numéro de mesure en particulier, avec la propriété `fs`.
 
 Cf. [Options de taille pour les textes](#options_size_for_texts), pour des renseignements complets sur les options de tailles.
 
@@ -1213,11 +1203,13 @@ degree 4# x=123 y=678
 
 ![Marque des degrés](img/mark_degree.png)
 
-La taille du texte peut se régler de façon générale avec l'option `degre size` ou, pour un degré en particulier, avec la propriété `fs`.
+La taille du texte peut se régler de façon générale avec l'option `degre-size` ou, pour un degré en particulier, avec la propriété `fs`.
 
 Cf. [Options de taille pour les textes](#options_size_for_texts), pour des renseignements complets sur les options de tailles.
 
-#### Les marques musicales diverses {#marques_musicales}
+
+
+#### Les marques musicales diverses
 
 Plusieurs marques musicales seront introduites dans les versions suivantes.
 
@@ -1388,12 +1380,12 @@ On tire déjà les images du PDF à l'aide de la commande à jouer dans le Termi
 
 Autant d'images que de pages sont produites.
 
-On insert la première dans le code du fichier `_tags_.js`, avec l'option `crop image` :
+On insert la première dans le code du fichier `_tags_.js`, avec l'option `crop-image` :
 
 ```
 
     # Dans _tags_.js
-    option('crop image')
+    option('crop-image')
     Tags=`
     partition partition-0.jpg
     `;
@@ -1505,19 +1497,34 @@ Des boutons permettent d'interagir sur l'animation pour la mettre en pause, remo
 
 Comme vous pouvez le voir sur l'image ci-dessus, si le code de l'animation est activé, les boutons se trouve en dessous du code.
 
-### Réglage de l'animation {#set_animation}
+
+
+### Réglage de l'animation
 
 Plusieurs options permettent de régler les paramètres de l'animation.
 
 * [Réglage de la vitesse](#set_animation_speed)
 
-#### Réglage de la vitesse de l'animation {#set_animation_speed}
 
-On peut régler la vitesse de l'animation à l'aide de l'option `vitesse animation` ou `animation speed`. C'est un nombre de 1 à 100. Plus il est élevé et plus l'animation est rapide (i.e. plus les pauses sont courtes). Par exemple :
+
+#### Réglage de la vitesse de l'animation
+
+On peut régler la vitesse de l'animation à l'aide de l'option `animation-speed` ou `animation-speed`. C'est un nombre de 1 à 100. Plus il est élevé et plus l'animation est rapide (i.e. plus les pauses sont courtes). Par exemple :
+
+~~~sh
+> muscat option vitesse_animation=80
+
+ou
+
+> muscat option animation_speed=68
+~~~
+
+
+
+Cela produit dans le fichier `_tags_.js` :
 
 ```javascript
-  // Dans le fichier _tags_.js
-  option('vitesse animation', 80);
+  option('animation-speed', 80);
   Tags = `
   // Premiers tags à afficher d'un coup
 
@@ -1532,17 +1539,16 @@ On peut régler la vitesse de l'animation à l'aide de l'option `vitesse animati
 ## Options {#all_options}
 
 * [Options de la langue](#choix_langue)
-* [Option « code à côté »](#option_code_beside)
-* [Option « code sans options »](#option_code_sans_options)
+* [Option « code-sans-options »](#option_code_sans_options)
 * [Option « lignes de repère »](#option_line_of_reference)
   * [Position des lignes repères](#position_lignes_reperes)
 * [Option « Rectangle de sélection »](#option_rectangle_selection)
 * [Options de taille pour les textes](#options_size_for_texts)
-* [Option « espacement images »](#option_space_between_scores)
-* [Option « marge haut »](#option_top_first_score)
-* [Option « marge gauche »](#option_left_margin)
+* [Option « espacement-images »](#option_space_between_scores)
+* [Option « marge-haut »](#option_top_first_score)
+* [Option « marge-gauche »](#option_left_margin)
 * [Thème](#option_theme)
-* [Option « découpe image »](#option_crop_image)
+* [Option « découpe-image »](#option_crop_image)
 * [Vitesse de l'animation](#vitesse_animation)
 * [Option « Viseur de position »](#position_visor)
 
@@ -1565,7 +1571,7 @@ Dans la méthode `option`, on peut passer toutes les options les unes à la suit
 ```javascript
 
   // Dans _tags_.js
-  option('guide', 'code', 'marge haut', 100);
+  option('guide', 'code', 'marge-haut', 100);
 
 ```
 
@@ -1574,7 +1580,7 @@ Dans la méthode `option`, on peut passer toutes les options les unes à la suit
 ```javascript
 
   // Dans _tags_.js
-  option('guide');option('code');option('marge haut', 100);
+  option('guide');option('code');option('marge-haut', 100);
 
 ```
 
@@ -1585,24 +1591,24 @@ Dans la méthode `option`, on peut passer toutes les options les unes à la suit
   // Dans _tags_.js
   option('guide');
   option('code');
-  option('marge haut', 100);
+  option('marge-haut', 100);
 
 ```
 
 > Note : les points-virgules sont optionnels.
 
-Vous noterez qu'il existe deux types d'options. Les options dites « booléenne » qu'on active simplement en indiquant leur nom en argument (par exemple `guide` ou `code`) et il y a les options non booléennes qui attendent une valeur précise (par exemple `marge haut` attend la valeur de cette marge haut).
+Vous noterez qu'il existe deux types d'options. Les options dites « booléenne » qu'on active simplement en indiquant leur nom en argument (par exemple `guide` ou `code`) et il y a les options non booléennes qui attendent une valeur précise (par exemple `marge-haut` attend la valeur de cette marge-haut).
 
 Dans les arguments de la méthode `option`, la valeur des options non booléennes doit suivre immédiatement le nombre de l'option :
 
 ```javascript
 
   // Dans _tags_.js
-  option('marge haut', 100);
+  option('marge-haut', 100);
 
 ```
 
-Ci-dessus, la valeur `100`{.num} sera appliquée à l'option `marge haut`.
+Ci-dessus, la valeur `100`{.num} sera appliquée à l'option `marge-haut`.
 
 ### Option « langue » {#choix_langue}
 
@@ -1619,39 +1625,29 @@ Ci-dessus, la valeur `100`{.num} sera appliquée à l'option `marge haut`.
 
 Pour définir la langue parlée par l'application. Pour le moment, l'application ne sait que parler français et anglais, mais nous espérons rapidement voir d'autres langues se développer. Avis aux amateurs traducteurs même inexpérimentés !
 
-### Option « code à côté » {#option_code_beside}
+
+
+### Option « découpe-image »
 
 +---------------------+---------------------------------------------+
 |                     |                                             |
 +---------------------+---------------------------------------------+
-| Option              | `code beside`, `code à côté`  |
-+---------------------+---------------------------------------------+
-| Type                | booléen                                     |
-+---------------------+---------------------------------------------+
-
-L'option « code à côté » permet d'avoir le fichier contenant le code juste à côté de la partition, ce qui est très pratique pour le modifier sans avoir à changer d'application. On le voit ci-dessous dans la boite noire.
-
-![Code à côté de la partition](img/option_code_beside.png)
-
-### Option « découpe image » {#option_crop_image}
-
-+---------------------+---------------------------------------------+
-|                     |                                             |
-+---------------------+---------------------------------------------+
-| Option              | `crop image`, `découpe image` |
+| Option              | `crop-image`, `découpe-image` |
 +---------------------+---------------------------------------------+
 | Type                | booléen                                     |
 +---------------------+---------------------------------------------+
 
 Cette option fait passer dans un mode d'utilisation qui va permettre de découper l'image de façon aisée (par simple copié-collé).
 
-### Option « code sans options » {#option_code_sans_options}
+
+
+### Option « code-sans-options »
 
 +---------------------+---------------------------------------------+
 |                     |                                             |
 +---------------------+---------------------------------------------+
-| Option              | `code sans option`, `code sans options`, |
-|                     | `code no option`                     |
+| Option              | `code-sans-option`, `code-sans-options`, |
+|                     | `code-no-option`                     |
 +---------------------+---------------------------------------------+
 | Type                | booléen                                     |
 +---------------------+---------------------------------------------+
@@ -1660,11 +1656,11 @@ Par défaut, le code de l'analyse copiée dans le presse-papier contient l'inté
 
 Mais lorsque l'on veut garder plusieurs versions de son code, en les mettant au bout les unes des autres plutôt qu'en les remplaçant, des définitions d'options peuvent se contredire.
 
-Avec l'option `code sans option` activée, seule la définition de la variable `Tags` est copiée dans le presse-papier, ce qui permet de ne garder que la ligne en haut du fichier pour définir les options. Impossible dans ce cas de s'y perdre :
+Avec l'option `code-sans-option` activée, seule la définition de la variable `Tags` est copiée dans le presse-papier, ce qui permet de ne garder que la ligne en haut du fichier pour définir les options. Impossible dans ce cas de s'y perdre :
 
 ```javascript
   // Dans _tags_.js
-  option('code', 'code sans options', 'reperes');
+  option('code', 'code-sans-options', 'reperes');
 
   // Version 1
   Tags = `
@@ -1684,16 +1680,36 @@ Avec l'option `code sans option` activée, seule la définition de la variable `
   // etc.
 ```
 
-### Option « lignes de repère » {#option_line_of_reference}
+
+
+### Option « lignes de repère »
 
 +---------------------+---------------------------------------------+
-|                     |                                             |
+
+|      |      |
+| ---- | ---- |
+|      |      |
 +---------------------+---------------------------------------------+
-| Option              | `repères`, `reperes`,         |
-|                     | `lines of reference`, `guides`|
+| Option | `repères`, `reperes`, |
+| ------ | --------------------- |
+|        |                       |
+|      | `lines-of-reference`, `guides` |
+| ---- | ------------------------------ |
+|      |                                |
 +---------------------+---------------------------------------------+
-| Type                | booléen                                     |
+| Type | booléen |
+| ---- | ------- |
+|      |         |
 +---------------------+---------------------------------------------+
+
+
+
+| Options | `repères`, `reperes`           |      |
+| ------- | ------------------------------ | ---- |
+|         | `lines-of-reference`, `guides` |      |
+| Type    | Booléen                        |      |
+|         |                                |      |
+
 
 Ajoute une ligne horizontale et une ligne verticale qu'on peut déplacer et qui peuvent servir de guide, de repère, pour placer les *TAGs*.
 
@@ -1704,19 +1720,24 @@ Pour la position de la ligne verticale :
 +---------------------+---------------------------------------------+
 |                     |                                             |
 +---------------------+---------------------------------------------+
-| Option              | `position repère vertical`,          |
-|                     | `vertical line offset`               |
+| Option              | `position-repère-vertical`,          |
+|                     | `vertical-line-offset`               |
 +---------------------+---------------------------------------------+
 | Type                | nombre de pixels                            |
 +---------------------+---------------------------------------------+
+
+|        | Description                                            |
+| ------ | ------------------------------------------------------ |
+| Option | `position-repère-vertical`<br />`vertical-line-offset` |
+| Type   | Nombre de pixels                                       |
 
 Pour la position de la ligne horizontale :
 
 +---------------------+---------------------------------------------+
 |                     |                                             |
 +---------------------+---------------------------------------------+
-| Option              | `position repère horizontal`,        |
-|                     | `horizontal line offset`             |
+| Option              | `position-repère-horizontal`,        |
+|                     | `horizontal-line-offset`             |
 +---------------------+---------------------------------------------+
 | Type                | nombre de pixels                            |
 +---------------------+---------------------------------------------+
@@ -1727,7 +1748,7 @@ Exemple :
 
   // Dans le fichier _tags_.js de l'analyse
    // à 120 pixels du haut et 200 de la gauche
-  option('vertical line offset', 120, 'horizontal line offset', 200);
+  option('vertical-line-offset', 120, 'horizontal-line-offset', 200);
 
 ```
 
@@ -1737,7 +1758,7 @@ Exemple :
 +---------------------+---------------------------------------------+
 |                     |                                             |
 +---------------------+---------------------------------------------+
-| Option              | `rectangle selection`,               |
+| Option              | `rectangle-selection`,               |
 +---------------------+---------------------------------------------+
 | Type                | booléenne                                   |
 +---------------------+---------------------------------------------+
@@ -1752,7 +1773,9 @@ Si vous l'utilisez, pensez également que vous devez attendre une seconde avec l
 
 > Astuce : si le rectangle vert de sélection reste actif après avoir relâché la souris, il vous suffit de cliquer n'importe où sauf sur lui pour le faire disparaitre.
 
-### Options de taille pour les textes {#options_size_for_texts}
+
+
+### Options de taille pour les textes
 
 Grâce aux options, on peut définir la taille par défaut de tous les types de texte de l'analyse (accords, cadences, etc.).
 
@@ -1765,7 +1788,7 @@ Par exemple :
 
 ```javascript
 // Dans _tags_.js
-option('harmony size', '11pt');
+option('harmony-size', '11pt');
 ```
 
 Voici la table de toutes les options et ce qu'elles affectent.
@@ -1773,49 +1796,50 @@ Voici la table de toutes les options et ce qu'elles affectent.
 +---------------------------+-----------------------+
 | L'option…                 | affecte…              |
 +---------------------------+-----------------------+
-| `chord size`       | Les accords           |
+| `chord-size`       | Les accords           |
 +---------------------------+-----------------------+
-| `harmony size`     | Les chiffrages        |
+| `harmony-size`     | Les chiffrages        |
 +---------------------------+-----------------------+
-| `harmonie size`    | idem                  |
+| `harmonie-size`    | idem                  |
 +---------------------------+-----------------------+
-| `cadence size`     | Les cadences          |
+| `cadence-size`     | Les cadences          |
 +---------------------------+-----------------------+
-| `modulation size`  | Les modulations       |
+| `modulation-size`  | Les modulations       |
 +---------------------------+-----------------------+
-| `measure size`     | Les numéros de mesures|
+| `measure-size`     | Les numéros de mesures|
 +---------------------------+-----------------------+
-| `mesure size`      | idem                  |
+| `mesure-size`      | idem                  |
 +---------------------------+-----------------------+
-| `degre size`       | Les degrés de gamme   |
+| `degre-size`       | Les degrés de gamme   |
 +---------------------------+-----------------------+
-| `degree size`      | idem                  |
+| `degree-size`      | idem                  |
 +---------------------------+-----------------------+
-| `part size`        | Les noms de parties   |
+| `part-size`        | Les noms de parties   |
 +---------------------------+-----------------------+
-| `text size`        | Tous les autres       |
+| `text-size`        | Tous les autres       |
 |                           | textes                |
 +---------------------------+-----------------------+
 
 Noter que même si une taille est définie par les options, on peut fixer individuellement la taille des *TAGs* à l'aide de la propriété `fs` (ou `font-size`) dans la ligne de code du *TAG*.
 
-### Option « Espacement entre images » {#option_space_between_scores}
 
-+---------------------+---------------------------------------------+
-|                     |                                             |
-+---------------------+---------------------------------------------+
-| Option              | `espacement images`,                 |
-|                     | `space between scores`               |
-+---------------------+---------------------------------------------+
-| Type                | nombre de pixels                            |
-+---------------------+---------------------------------------------+
+
+### Option « Espacement entre images » 
+
+
+
+|             | Description                                 |
+| ----------- | ------------------------------------------- |
+| Option      | `espacement-images`                         |
+| Valeur      | Nombre de pixels                            |
+| Description | Espacement entre deux images séquentielles. |
 
 Permet de régler l'espacement en pixels entre deux images lorsque l'[écriture séquentielle des images](#sequence_images) a été adoptée.
 
 ```javascript
 
   // Dans _tags_.js
-  option('espacement images', 100);
+  option('espacement-images', 100);
   Tags=`
     ...
   `;  
@@ -1824,22 +1848,23 @@ Permet de régler l'espacement en pixels entre deux images lorsque l'[écriture 
 
 Avec le code ci-dessus, l'espace entre les différents systèmes sera de 100 pixels.
 
-### Option « marge haut » {#option_top_first_score}
 
-+---------------------+---------------------------------------------------+
-|                     |                                                   |
-+---------------------+---------------------------------------------------+
-| Option              | `marge haut`, `top first score`     |
-+---------------------+---------------------------------------------------+
-| Type                | nombre de pixels                                  |
-+---------------------+---------------------------------------------------+
+
+### Option « marge-haut »
+
+|             |                                                              |
+| ----------- | ------------------------------------------------------------ |
+| Option      | `marge-haut`<br />`top-first-score`                          |
+| Type        | Nombre de pixels                                             |
+| Description | Marge entre le haut de la page et la première image d’une image séquentielle |
+|             |                                                              |
 
 Lors de l'[écriture séquentielle des images](#sequence_images), cette valeur permet de déterminer à quelle hauteur doit être placée la première image (le premier système ou la partition).
 
 ```javascript
 
   // Dans _tags_.js
-  option('marge haut', 200);
+  option('marge-haut', 200);
   Tags=`
     ...
   `;  
@@ -1850,22 +1875,24 @@ Avec le code ci-dessus, la première image de partition sera placée à 200 pixe
 
 > Penser à laisser de la place pour le titre.
 
-### Option « marge gauche » {#option_left_margin}
+
+
+### Option « marge-gauche »
 
 +---------------------+---------------------------------------------------+
 |                     |                                                   |
 +---------------------+---------------------------------------------------+
-| Option              | `marge gauche`, `left margin`       |
+| Option              | `marge-gauche`, `left-margin`       |
 +---------------------+---------------------------------------------------+
 | Type                | nombre de pixels                                  |
 +---------------------+---------------------------------------------------+
 
-Lors de l'[écriture séquentielle des images](#sequence_images), cette valeur détermine la marge gauche où placer l'image (son `x`).
+Lors de l'[écriture séquentielle des images](#sequence_images), cette valeur détermine la marge-gauche où placer l'image (son `x`).
 
 ```javascript
 
   // Dans _tags_.js
-  option('marge gauche', 50);
+  option('marge-gauche', 50);
   Tags=`
     ...
   `;  
@@ -1902,7 +1929,7 @@ Voici une liste complète des thèmes, mais ceux-ci devraient rapidement s'étof
 +---------------------+---------------------------------------------------+
 |                     |                                                   |
 +---------------------+---------------------------------------------------+
-| Option              | `vitesse animation`, `animation speed` |
+| Option              | `animation-speed`, `animation-speed` |
 +---------------------+---------------------------------------------------+
 | Type                | nombre de `1` (très lent) à `100` (très rapide)       |
 +---------------------+---------------------------------------------------+

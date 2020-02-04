@@ -1,8 +1,7 @@
 options('code', 'lang', 'fr') ;
 
 Tags = `
-// START
-
+// S TART
 titre Sonate_8_Mouvement_2 x=48 y=3
 compositeur Beethoven x=475 y=8
 
@@ -19,14 +18,28 @@ har I x=218 y=461
 acc Ab x=218 y=271
 
 har V7 x=263 y=461
-acc Eb x=260 y=271
+acc Eb7 x=260 y=271
 
 har I x=320 y=461
-
+acc Ab x=314 y=272
 
 har V x=344 y=461
+acc Eb x=340 y=273
 
 har IV x=370 y=461
+acc Fm x=367 y=273
+
+mod Eb_(V) x=375 y=206
+
+har II x=370 y=490
+
+har V x=399 y=491
+
+cad I type=imparfaite x=374 y=492
+
+acc Eb9 x=544 y=290
+har V9 x=544 y=465
+tex +4 x=547 y=492
 
 score bee-son8-mvt2-1.png x=14 y=600 w=640px
 score bee-son8-mvt2-2.png x=14 y=900 w=640px

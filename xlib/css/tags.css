@@ -34,7 +34,8 @@ img.tag {
   z-index:  10;
   border-width: 2px;
   border-style: solid;
-  border-color: #EFEFEF;
+  /* border-color: #EFEFEF; */
+  border-color: transparent;
 }
 .tag.selected, .tag.selectedtag {
   border-color: blue !important;

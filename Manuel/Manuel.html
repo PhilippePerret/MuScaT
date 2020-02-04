@@ -453,16 +453,16 @@ pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel" --from=mark
 <p>À tout moment on peut annuler une opération pour revenir en arrière en jouant <code class="shortcut">CMD Z</code> (sur Mac) ou <code class="shortcut">Ctrl Z</code> (sur Windows).</p>
 <p>Sans l’option <code class="code">option('code');</code> activée, il faut modifier le code directement dans le fichier <code class="path">_tags_.js</code> puis recharger la page dans Chrome pour voir les changements.</p>
 <h4 id="ligne_reperes">Lignes repères</h4>
-<p>Pour faciliter l’alignement des <em>TAGs</em> — par exemple l’alignement des dernières mesures de fin des systèmes — on peut utiliser des lignes repères. Pour cela, il suffit d’activer l’option <code class="str">repères</code> (ou <code class="str">reperes</code> ou <code class="str">lines of reference</code>).</p>
+<p>Pour faciliter l’alignement des <em>TAGs</em> — par exemple l’alignement des dernières mesures de fin des systèmes — on peut utiliser des lignes repères. Pour cela, il suffit d’activer l’option <code class="str">repères</code> (ou <code class="str">reperes</code> ou <code class="str">lines-of-reference</code>).</p>
 <p>Cela ajoute deux lignes à l’écran, une verticale et une horizontale, qu’on peut déplacer à loisir à la souris.</p>
 <figure>
 <img src="img/Ligne_repere.png" alt="Lignes repères pour aligner les éléments" /><figcaption>Lignes repères pour aligner les éléments</figcaption>
 </figure>
-<p>Vous pouvez également définir leur emplacement exact avec les options <code class="code">position repère vertical</code> (ou <code class="code">vertical line offset</code>) et <code class="code">position repère horizontal</code> (ou <code class="code">horizontal line offset</code>) :</p>
+<p>Vous pouvez également définir leur emplacement exact avec les options <code class="code">position-repère-vertical</code> (ou <code class="code">vertical-line-offset</code>) et <code class="code">position-repère-horizontal</code> (ou <code class="code">horizontal-line-offset</code>) :</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb12-1" title="1">  <span class="co">// Dans le fichier _tags_.js de l&#39;analyse</span></a>
 <a class="sourceLine" id="cb12-2" title="2">  <span class="at">option</span>(<span class="st">&#39;code&#39;</span>)<span class="op">;</span></a>
 <a class="sourceLine" id="cb12-3" title="3">   <span class="co">// à 120 pixels du haut et 200 de la gauche</span></a>
-<a class="sourceLine" id="cb12-4" title="4">  <span class="at">option</span>(<span class="st">&#39;vertical line offset&#39;</span><span class="op">,</span> <span class="dv">120</span><span class="op">,</span> <span class="st">&#39;horizontal line offset&#39;</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></a></code></pre></div>
+<a class="sourceLine" id="cb12-4" title="4">  <span class="at">option</span>(<span class="st">&#39;vertical-line-offset&#39;</span><span class="op">,</span> <span class="dv">120</span><span class="op">,</span> <span class="st">&#39;horizontal-line-offset&#39;</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></a></code></pre></div>
 <h3 id="note_coors_dims">Positionnement et dimensionnement des <em>TAGs</em></h3>
 <p>Les positions <code class="prop">x</code> (horizontale) et <code class="prop">y</code> (verticale) s’indiquent toujours sans unité, en pixels :</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb13-1" title="1"></a>
@@ -499,9 +499,9 @@ pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel" --from=mark
 <img src="img/bouton-code-source-clipboard.png" alt="Bouton « code source -&gt; presse-papier »" /><figcaption>Bouton « code source -&gt; presse-papier »</figcaption>
 </figure>
 <p>On colle ce code dans le fichier <code class="path">_tags_.js</code>, en remplaçant l’intégralité de son contenu.</p>
-<p>Par défaut, dans ce code sont ajoutées toujours les options. Si on garde plusieurs versions de l’analyse, ces divers appels aux options risquent de se parasiter. Pour palier ce problème, on peut ajouter <a href="#option_code_sans_options">l’option <code>code sans options</code></a> pour que seul le code des tags soient placés dans le presse-papier :</p>
+<p>Par défaut, dans ce code sont ajoutées toujours les options. Si on garde plusieurs versions de l’analyse, ces divers appels aux options risquent de se parasiter. Pour palier ce problème, on peut ajouter <a href="#option_code_sans_options">l’option <code>code-sans-options</code></a> pour que seul le code des tags soient placés dans le presse-papier :</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb15-1" title="1"></a>
-<a class="sourceLine" id="cb15-2" title="2">  <span class="at">options</span>(... <span class="st">&#39;code sans options&#39;</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb15-2" title="2">  <span class="at">options</span>(... <span class="st">&#39;code-sans-options&#39;</span>)<span class="op">;</span></a>
 <a class="sourceLine" id="cb15-3" title="3">  Tags <span class="op">=</span> <span class="vs">`</span></a>
 <a class="sourceLine" id="cb15-4" title="4"><span class="vs">  ...</span></a>
 <a class="sourceLine" id="cb15-5" title="5"><span class="vs">  `</span><span class="op">;</span></a></code></pre></div>
@@ -641,7 +641,7 @@ pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel" --from=mark
 <a class="sourceLine" id="cb18-3" title="3"><span class="vs">  score ma_partition.jpg y=100 x=10</span></a>
 <a class="sourceLine" id="cb18-4" title="4"></a>
 <a class="sourceLine" id="cb18-5" title="5"><span class="vs">  // =&gt; L&#39;image &#39;images/ma_partition.jpg&#39; placée à 10 pixels de</span></a>
-<a class="sourceLine" id="cb18-6" title="6"><span class="vs">  //    la marge gauche et 100 pixels du haut.</span></a>
+<a class="sourceLine" id="cb18-6" title="6"><span class="vs">  //    la marge-gauche et 100 pixels du haut.</span></a>
 <a class="sourceLine" id="cb18-7" title="7"></a>
 <a class="sourceLine" id="cb18-8" title="8"><span class="vs">  cadence I type=parfaite y=200 x=100 w=100</span></a>
 <a class="sourceLine" id="cb18-9" title="9"></a>
@@ -1017,10 +1017,10 @@ pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel" --from=mark
 <a class="sourceLine" id="cb49-2" title="2"><span class="vs">  score mouvement_1/image-[1-35].png w=17.5cm</span></a>
 <a class="sourceLine" id="cb49-3" title="3"><span class="vs">  `</span><span class="op">;</span></a></code></pre></div>
 <p>Nous vous invitons vivement à commencer par cette opération — l’inscription des systèmes par séquence — avant l’insertion de toute autre marque sur la partition. Comme <a href="#dim_et_pos_against_overview">nous l’expliquons plus haut déjà</a>, il est recommandé, pour s’éviter ensuite un travail fastidieux de repositionnement, de placer en tout premier lieu les systèmes correctement sur chaque feuille, de façon définitive, en se servant de l’aperçu d’impression.</p>
-<p>Noter que lorsque <strong>MuScaT</strong> place les images sur la table d’analyse, il les répartit pour obtenir l’aspect original de la partition. On peut modifier ce comportement en définissant explicitement un espace (vertical) entre chaque système ou chaque image, grâce à l’option <code class="code">espacement images</code> :</p>
+<p>Noter que lorsque <strong>MuScaT</strong> place les images sur la table d’analyse, il les répartit pour obtenir l’aspect original de la partition. On peut modifier ce comportement en définissant explicitement un espace (vertical) entre chaque système ou chaque image, grâce à l’option <code class="code">espacement-images</code> :</p>
 <div class="sourceCode" id="cb50"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb50-1" title="1"></a>
 <a class="sourceLine" id="cb50-2" title="2">  <span class="co">// Code intégrale du fichier _tags_.js</span></a>
-<a class="sourceLine" id="cb50-3" title="3">  <span class="at">option</span>(<span class="st">&#39;code&#39;</span>)<span class="op">;</span><span class="at">option</span>(<span class="st">&#39;espacement images&#39;</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb50-3" title="3">  <span class="at">option</span>(<span class="st">&#39;code&#39;</span>)<span class="op">;</span><span class="at">option</span>(<span class="st">&#39;espacement-images&#39;</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span></a>
 <a class="sourceLine" id="cb50-4" title="4"></a>
 <a class="sourceLine" id="cb50-5" title="5">  Tags<span class="op">=</span><span class="vs">`</span></a>
 <a class="sourceLine" id="cb50-6" title="6"><span class="vs">  sco haydn/mouvement_1-[1-35].png</span></a>
@@ -1031,7 +1031,7 @@ pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel" --from=mark
 <blockquote>
 <p>Noter également l’usage de l’option <code class="code">code</code> qui permet d’afficher le code à côté de la table de l’analyse, pour pouvoir le modifier dans le navigateur lui-même.</p>
 </blockquote>
-<p>Grâce à l’option <code class="code">espacement images</code> définie ci-dessus, chaque image (chaque système) sera séparée de 50 pixels.</p>
+<p>Grâce à l’option <code class="code">espacement-images</code> définie ci-dessus, chaque image (chaque système) sera séparée de 50 pixels.</p>
 <p>Une fois ce code établi, vous pouvez déplacer les images dans la page pour les ajuster à vos besoins. Cela créera automatiquement les <code class="prop">x</code> et les <code class="prop">y</code> des coordonnées spatiales de chaque système au bout des lignes de score.</p>
 <p>Astuce : si votre écran et assez grand et que vous adoptez <a href="#option_code_beside">l’option <code class="str">code beside</code> (ou <code class="str">code à côté</code>)</a>, vous pourrez voir en direct votre code s’actualiser.</p>
 <h3 id="les_accords">Les Accords</h3>
@@ -1045,12 +1045,12 @@ pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel" --from=mark
 <figure>
 <img src="img/Mark_accords.png" alt="Marque accords, traits plats" /><figcaption>Marque accords, traits plats</figcaption>
 </figure>
-<p>La taille du texte peut se régler de façon générale avec l’option <code class="code">chord size</code> ou, pour un accord particulier, avec la propriété <code class="prop">fs</code>.</p>
+<p>La taille du texte peut se régler de façon générale avec l’option <code class="code">chord-size</code> ou, pour un accord particulier, avec la propriété <code class="prop">fs</code>.</p>
 <p>Cf. <a href="#options_size_for_texts">Options de taille pour les textes</a>, pour des renseignements complets sur les options de tailles.</p>
 <h3 id="les_harmonies">Les Chiffrages (Harmonie)</h3>
 <p>On indique un chiffrage d’accord, sous la partition, à l’aide de la <em>nature</em> <code class="str">harmonie</code>, <code class="str">harmony</code>, <code class="str">chiffrage</code> ou <code class="str">har</code>.</p>
 <p>Les recommandations sont les mêmes que pour les accords : aucune espace.</p>
-<p>La taille du texte peut se régler de façon générale avec l’option <code class="code">harmony size</code> ou, pour un chiffrage particulier, avec la propriété <code class="prop">fs</code>.</p>
+<p>La taille du texte peut se régler de façon générale avec l’option <code class="code">harmony-size</code> ou, pour un chiffrage particulier, avec la propriété <code class="prop">fs</code>.</p>
 <p>Cf. <a href="#options_size_for_texts">Options de taille pour les textes</a>, pour des renseignements complets sur les options de tailles.</p>
 <h4 id="les_cadences">Les Cadences</h4>
 <p>On indique une cadence, sous la partition, à l’aide de la <em>nature</em> <code class="str">cadence</code> ou <code class="str">cad</code>.</p>
@@ -1061,7 +1061,7 @@ pandoc -s Manuel.md --css="manuel.css" --metadata pagetitle="Manuel" --from=mark
 <p>Remarquer que deux nouvelles propriétés apparaissent ici : le <code class="code">type</code>, qui définit comme son nom l’indique le type de cadence (cf. la liste ci-dessous) et <code class="prop">w</code>, la largeur, qui détermine ici la longueur du trait.</p>
 </blockquote>
 <p>On peut faire varier la longueur du trait en jouant sur la touche <code class="prop">w</code> (pour augmenter la longueur du trait) et <code class="shortcut">ALT w</code> (pour la diminuer). Les touches <code class="shortcut">MAJ</code> et <code class="shortcut">CTRL</code> servent respectivement à augmenter le pas ou à le diminuer (action plus précise).</p>
-<p>La taille du texte peut se régler de façon générale avec l’option <code class="code">cadence size</code> ou, pour une cadence particulière, avec la propriété <code class="prop">fs</code>.</p>
+<p>La taille du texte peut se régler de façon générale avec l’option <code class="code">cadence-size</code> ou, pour une cadence particulière, avec la propriété <code class="prop">fs</code>.</p>
 <p>Cf. <a href="#options_size_for_texts">Options de taille pour les textes</a>, pour des renseignements complets sur les options de tailles.</p>
 <h5 id="les_types_de_cadences">Types de cadence</h5>
 <p>Les types de cadence qu’on peut utiliser comme argument de la propriété <code class="prop">type</code> sont :</p>
@@ -1099,7 +1099,7 @@ ou
 mod Sol_min/(sous-dom.) 200 300
 </code></pre>
 <p>On peut modifier la hauteur du trait vertical qui rejoint la partition en modifiant la propriété <code class="prop">h</code>. On peut donc la modifier en pressant la touche <code class="prop">h</code> (augmente la longueur du trait) ou les touches <code class="shortcut">ALT h</code> (diminue la longueur du trait).</p>
-<p>La taille du texte peut se régler de façon générale avec l’option <code class="code">modulation size</code> ou, pour une modulation particulière, avec la propriété <code class="prop">fs</code>.</p>
+<p>La taille du texte peut se régler de façon générale avec l’option <code class="code">modulation-size</code> ou, pour une modulation particulière, avec la propriété <code class="prop">fs</code>.</p>
 <p>Cf. <a href="#options_size_for_texts">Options de taille pour les textes</a>, pour des renseignements complets sur les options de tailles.</p>
 <h3 id="les_textes">Les autres types de textes</h3>
 <p>Ce que l’on appelle spécifiquement les « textes », ici, ce sont tous les textes hors des accords, modulations, chiffrages, etc. Ce sont vraiment des textes qu’on peut placer n’importe où. À commencer par la définition des grandes parties de la pièce (« Introduction », « Coda », etc.).</p>
@@ -1123,14 +1123,14 @@ mod Sol_min/(sous-dom.) 200 300
 <figure>
 <img src="img/marque_partie.png" alt="Marque de partie" /><figcaption>Marque de partie</figcaption>
 </figure>
-<p>La taille du texte peut se régler de façon générale avec l’option <code class="code">part size</code> ou, pour une partie en particulier, avec la propriété <code class="prop">fs</code>.</p>
+<p>La taille du texte peut se régler de façon générale avec l’option <code class="code">part-size</code> ou, pour une partie en particulier, avec la propriété <code class="prop">fs</code>.</p>
 <p>Cf. <a href="#options_size_for_texts">Options de taille pour les textes</a>, pour des renseignements complets sur les options de tailles.</p>
 <h4 id="les_mesures">Les mesures</h4>
 <p>Les numéros de mesure, s’ils ne sont pas indiqués sur la partition elle-même, peuvent être ajoutés à l’aide du <em>TAG</em> <code class="str">mesure</code> (ou <code class="str">measure</code>, ou <code class="str">mes</code>), suivi du numéro de mesure puis des coordonnées.</p>
 <figure>
 <img src="img/mark_mesure.png" alt="Marque mesure" /><figcaption>Marque mesure</figcaption>
 </figure>
-<p>La taille du texte peut se régler de façon générale avec l’option <code class="code">mesure size</code> ou, pour un numéro de mesure en particulier, avec la propriété <code class="prop">fs</code>.</p>
+<p>La taille du texte peut se régler de façon générale avec l’option <code class="code">mesure-size</code> ou, pour un numéro de mesure en particulier, avec la propriété <code class="prop">fs</code>.</p>
 <p>Cf. <a href="#options_size_for_texts">Options de taille pour les textes</a>, pour des renseignements complets sur les options de tailles.</p>
 <h4 id="les_degres">Les degrés</h4>
 <p>Parfois il est intéressant de marquer les degrés des notes dans la gamme. On peut le faire grâce à la <em>nature</em> <code class="str">degre</code>, <code class="str">degree</code> ou le diminutif <code class="str">deg</code>.</p>
@@ -1142,7 +1142,7 @@ mod Sol_min/(sous-dom.) 200 300
 <figure>
 <img src="img/mark_degree.png" alt="Marque des degrés" /><figcaption>Marque des degrés</figcaption>
 </figure>
-<p>La taille du texte peut se régler de façon générale avec l’option <code class="code">degre size</code> ou, pour un degré en particulier, avec la propriété <code class="prop">fs</code>.</p>
+<p>La taille du texte peut se régler de façon générale avec l’option <code class="code">degre-size</code> ou, pour un degré en particulier, avec la propriété <code class="prop">fs</code>.</p>
 <p>Cf. <a href="#options_size_for_texts">Options de taille pour les textes</a>, pour des renseignements complets sur les options de tailles.</p>
 <h4 id="marques_musicales">Les marques musicales diverses</h4>
 <p>Plusieurs marques musicales seront introduites dans les versions suivantes.</p>
@@ -1298,10 +1298,10 @@ mod Sol_min/(sous-dom.) 200 300
 <pre class="normal"><code>  # Se trouver dans le dossier contenant la partition (cd ...)
   convert[ options] partition.pdf partition.jpg # ou .png</code></pre>
 <p>Autant d’images que de pages sont produites.</p>
-<p>On insert la première dans le code du fichier <code class="path">_tags_.js</code>, avec l’option <code class="code">crop image</code> :</p>
+<p>On insert la première dans le code du fichier <code class="path">_tags_.js</code>, avec l’option <code class="code">crop-image</code> :</p>
 <pre><code>
     # Dans _tags_.js
-    option(&#39;crop image&#39;)
+    option(&#39;crop-image&#39;)
     Tags=`
     partition partition-0.jpg
     `;
@@ -1387,9 +1387,9 @@ mod Sol_min/(sous-dom.) 200 300
 <li><a href="#set_animation_speed">Réglage de la vitesse</a></li>
 </ul>
 <h4 id="set_animation_speed">Réglage de la vitesse de l’animation</h4>
-<p>On peut régler la vitesse de l’animation à l’aide de l’option <code class="code">vitesse animation</code> ou <code class="code">animation speed</code>. C’est un nombre de 1 à 100. Plus il est élevé et plus l’animation est rapide (i.e. plus les pauses sont courtes). Par exemple :</p>
+<p>On peut régler la vitesse de l’animation à l’aide de l’option <code class="code">animation-speed</code> ou <code class="code">animation-speed</code>. C’est un nombre de 1 à 100. Plus il est élevé et plus l’animation est rapide (i.e. plus les pauses sont courtes). Par exemple :</p>
 <div class="sourceCode" id="cb64"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb64-1" title="1">  <span class="co">// Dans le fichier _tags_.js</span></a>
-<a class="sourceLine" id="cb64-2" title="2">  <span class="at">option</span>(<span class="st">&#39;vitesse animation&#39;</span><span class="op">,</span> <span class="dv">80</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb64-2" title="2">  <span class="at">option</span>(<span class="st">&#39;animation-speed&#39;</span><span class="op">,</span> <span class="dv">80</span>)<span class="op">;</span></a>
 <a class="sourceLine" id="cb64-3" title="3">  Tags <span class="op">=</span> <span class="vs">`</span></a>
 <a class="sourceLine" id="cb64-4" title="4"><span class="vs">  // Premiers tags à afficher d&#39;un coup</span></a>
 <a class="sourceLine" id="cb64-5" title="5"></a>
@@ -1402,18 +1402,18 @@ mod Sol_min/(sous-dom.) 200 300
 <ul>
 <li><a href="#choix_langue">Options de la langue</a></li>
 <li><a href="#option_code_beside">Option « code à côté »</a></li>
-<li><a href="#option_code_sans_options">Option « code sans options »</a></li>
+<li><a href="#option_code_sans_options">Option « code-sans-options »</a></li>
 <li><a href="#option_line_of_reference">Option « lignes de repère »</a>
 <ul>
 <li><a href="#position_lignes_reperes">Position des lignes repères</a></li>
 </ul></li>
 <li><a href="#option_rectangle_selection">Option « Rectangle de sélection »</a></li>
 <li><a href="#options_size_for_texts">Options de taille pour les textes</a></li>
-<li><a href="#option_space_between_scores">Option « espacement images »</a></li>
-<li><a href="#option_top_first_score">Option « marge haut »</a></li>
-<li><a href="#option_left_margin">Option « marge gauche »</a></li>
+<li><a href="#option_space_between_scores">Option « espacement-images »</a></li>
+<li><a href="#option_top_first_score">Option « marge-haut »</a></li>
+<li><a href="#option_left_margin">Option « marge-gauche »</a></li>
 <li><a href="#option_theme">Thème</a></li>
-<li><a href="#option_crop_image">Option « découpe image »</a></li>
+<li><a href="#option_crop_image">Option « découpe-image »</a></li>
 <li><a href="#vitesse_animation">Vitesse de l’animation</a></li>
 <li><a href="#position_visor">Option « Viseur de position »</a></li>
 </ul>
@@ -1428,26 +1428,26 @@ mod Sol_min/(sous-dom.) 200 300
 <p>Dans la méthode <code class="code">option</code>, on peut passer toutes les options les unes à la suite des autres, ou utiliser plusieurs fois la méthode <code class="code">option</code>. Les trois formulations suivantes sont équivalentes :</p>
 <div class="sourceCode" id="cb66"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb66-1" title="1"></a>
 <a class="sourceLine" id="cb66-2" title="2">  <span class="co">// Dans _tags_.js</span></a>
-<a class="sourceLine" id="cb66-3" title="3">  <span class="at">option</span>(<span class="st">&#39;guide&#39;</span><span class="op">,</span> <span class="st">&#39;code&#39;</span><span class="op">,</span> <span class="st">&#39;marge haut&#39;</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></a></code></pre></div>
+<a class="sourceLine" id="cb66-3" title="3">  <span class="at">option</span>(<span class="st">&#39;guide&#39;</span><span class="op">,</span> <span class="st">&#39;code&#39;</span><span class="op">,</span> <span class="st">&#39;marge-haut&#39;</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></a></code></pre></div>
 <p>… équivaut à :</p>
 <div class="sourceCode" id="cb67"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb67-1" title="1"></a>
 <a class="sourceLine" id="cb67-2" title="2">  <span class="co">// Dans _tags_.js</span></a>
-<a class="sourceLine" id="cb67-3" title="3">  <span class="at">option</span>(<span class="st">&#39;guide&#39;</span>)<span class="op">;</span><span class="at">option</span>(<span class="st">&#39;code&#39;</span>)<span class="op">;</span><span class="at">option</span>(<span class="st">&#39;marge haut&#39;</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></a></code></pre></div>
+<a class="sourceLine" id="cb67-3" title="3">  <span class="at">option</span>(<span class="st">&#39;guide&#39;</span>)<span class="op">;</span><span class="at">option</span>(<span class="st">&#39;code&#39;</span>)<span class="op">;</span><span class="at">option</span>(<span class="st">&#39;marge-haut&#39;</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></a></code></pre></div>
 <p>… qui équivaut à :</p>
 <div class="sourceCode" id="cb68"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb68-1" title="1"></a>
 <a class="sourceLine" id="cb68-2" title="2">  <span class="co">// Dans _tags_.js</span></a>
 <a class="sourceLine" id="cb68-3" title="3">  <span class="at">option</span>(<span class="st">&#39;guide&#39;</span>)<span class="op">;</span></a>
 <a class="sourceLine" id="cb68-4" title="4">  <span class="at">option</span>(<span class="st">&#39;code&#39;</span>)<span class="op">;</span></a>
-<a class="sourceLine" id="cb68-5" title="5">  <span class="at">option</span>(<span class="st">&#39;marge haut&#39;</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></a></code></pre></div>
+<a class="sourceLine" id="cb68-5" title="5">  <span class="at">option</span>(<span class="st">&#39;marge-haut&#39;</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></a></code></pre></div>
 <blockquote>
 <p>Note : les points-virgules sont optionnels.</p>
 </blockquote>
-<p>Vous noterez qu’il existe deux types d’options. Les options dites « booléenne » qu’on active simplement en indiquant leur nom en argument (par exemple <code class="code">guide</code> ou <code class="code">code</code>) et il y a les options non booléennes qui attendent une valeur précise (par exemple <code class="code">marge haut</code> attend la valeur de cette marge haut).</p>
+<p>Vous noterez qu’il existe deux types d’options. Les options dites « booléenne » qu’on active simplement en indiquant leur nom en argument (par exemple <code class="code">guide</code> ou <code class="code">code</code>) et il y a les options non booléennes qui attendent une valeur précise (par exemple <code class="code">marge-haut</code> attend la valeur de cette marge-haut).</p>
 <p>Dans les arguments de la méthode <code class="code">option</code>, la valeur des options non booléennes doit suivre immédiatement le nombre de l’option :</p>
 <div class="sourceCode" id="cb69"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb69-1" title="1"></a>
 <a class="sourceLine" id="cb69-2" title="2">  <span class="co">// Dans _tags_.js</span></a>
-<a class="sourceLine" id="cb69-3" title="3">  <span class="at">option</span>(<span class="st">&#39;marge haut&#39;</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></a></code></pre></div>
-<p>Ci-dessus, la valeur <code class="num">100</code> sera appliquée à l’option <code class="code">marge haut</code>.</p>
+<a class="sourceLine" id="cb69-3" title="3">  <span class="at">option</span>(<span class="st">&#39;marge-haut&#39;</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></a></code></pre></div>
+<p>Ci-dessus, la valeur <code class="num">100</code> sera appliquée à l’option <code class="code">marge-haut</code>.</p>
 <h3 id="choix_langue">Option « langue »</h3>
 <table style="width:94%;">
 <colgroup>
@@ -1495,7 +1495,7 @@ mod Sol_min/(sous-dom.) 200 300
 <figure>
 <img src="img/option_code_beside.png" alt="Code à côté de la partition" /><figcaption>Code à côté de la partition</figcaption>
 </figure>
-<h3 id="option_crop_image">Option « découpe image »</h3>
+<h3 id="option_crop_image">Option « découpe-image »</h3>
 <table style="width:94%;">
 <colgroup>
 <col style="width: 30%" />
@@ -1508,7 +1508,7 @@ mod Sol_min/(sous-dom.) 200 300
 </tr>
 <tr class="even">
 <td>Option</td>
-<td><code class="code">crop image</code>, <code class="code">découpe image</code></td>
+<td><code class="code">crop-image</code>, <code class="code">découpe-image</code></td>
 </tr>
 <tr class="odd">
 <td>Type</td>
@@ -1517,7 +1517,7 @@ mod Sol_min/(sous-dom.) 200 300
 </tbody>
 </table>
 <p>Cette option fait passer dans un mode d’utilisation qui va permettre de découper l’image de façon aisée (par simple copié-collé).</p>
-<h3 id="option_code_sans_options">Option « code sans options »</h3>
+<h3 id="option_code_sans_options">Option « code-sans-options »</h3>
 <table style="width:94%;">
 <colgroup>
 <col style="width: 30%" />
@@ -1530,7 +1530,7 @@ mod Sol_min/(sous-dom.) 200 300
 </tr>
 <tr class="even">
 <td>Option</td>
-<td><code class="code">code sans option</code>, <code class="code">code sans options</code>, <code class="code">code no option</code></td>
+<td><code class="code">code-sans-option</code>, <code class="code">code-sans-options</code>, <code class="code">code-no-option</code></td>
 </tr>
 <tr class="odd">
 <td>Type</td>
@@ -1540,9 +1540,9 @@ mod Sol_min/(sous-dom.) 200 300
 </table>
 <p>Par défaut, le code de l’analyse copiée dans le presse-papier contient l’intégralité de ce que doit contenir le fichier <code class="path">_tags_.js</code>, c’est-à-dire la définition des options et la valeur de la variable <code class="code">Tags</code>.</p>
 <p>Mais lorsque l’on veut garder plusieurs versions de son code, en les mettant au bout les unes des autres plutôt qu’en les remplaçant, des définitions d’options peuvent se contredire.</p>
-<p>Avec l’option <code class="code">code sans option</code> activée, seule la définition de la variable <code class="code">Tags</code> est copiée dans le presse-papier, ce qui permet de ne garder que la ligne en haut du fichier pour définir les options. Impossible dans ce cas de s’y perdre :</p>
+<p>Avec l’option <code class="code">code-sans-option</code> activée, seule la définition de la variable <code class="code">Tags</code> est copiée dans le presse-papier, ce qui permet de ne garder que la ligne en haut du fichier pour définir les options. Impossible dans ce cas de s’y perdre :</p>
 <div class="sourceCode" id="cb70"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb70-1" title="1">  <span class="co">// Dans _tags_.js</span></a>
-<a class="sourceLine" id="cb70-2" title="2">  <span class="at">option</span>(<span class="st">&#39;code&#39;</span><span class="op">,</span> <span class="st">&#39;code sans options&#39;</span><span class="op">,</span> <span class="st">&#39;reperes&#39;</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb70-2" title="2">  <span class="at">option</span>(<span class="st">&#39;code&#39;</span><span class="op">,</span> <span class="st">&#39;code-sans-options&#39;</span><span class="op">,</span> <span class="st">&#39;reperes&#39;</span>)<span class="op">;</span></a>
 <a class="sourceLine" id="cb70-3" title="3"></a>
 <a class="sourceLine" id="cb70-4" title="4">  <span class="co">// Version 1</span></a>
 <a class="sourceLine" id="cb70-5" title="5">  Tags <span class="op">=</span> <span class="vs">`</span></a>
@@ -1573,7 +1573,7 @@ mod Sol_min/(sous-dom.) 200 300
 </tr>
 <tr class="even">
 <td>Option</td>
-<td><code class="code">repères</code>, <code class="code">reperes</code>, <code class="code">lines of reference</code>, <code class="code">guides</code></td>
+<td><code class="code">repères</code>, <code class="code">reperes</code>, <code class="code">lines-of-reference</code>, <code class="code">guides</code></td>
 </tr>
 <tr class="odd">
 <td>Type</td>
@@ -1596,7 +1596,7 @@ mod Sol_min/(sous-dom.) 200 300
 </tr>
 <tr class="even">
 <td>Option</td>
-<td><code class="code">position repère vertical</code>, <code class="code">vertical line offset</code></td>
+<td><code class="code">position-repère-vertical</code>, <code class="code">vertical-line-offset</code></td>
 </tr>
 <tr class="odd">
 <td>Type</td>
@@ -1617,7 +1617,7 @@ mod Sol_min/(sous-dom.) 200 300
 </tr>
 <tr class="even">
 <td>Option</td>
-<td><code class="code">position repère horizontal</code>, <code class="code">horizontal line offset</code></td>
+<td><code class="code">position-repère-horizontal</code>, <code class="code">horizontal-line-offset</code></td>
 </tr>
 <tr class="odd">
 <td>Type</td>
@@ -1629,7 +1629,7 @@ mod Sol_min/(sous-dom.) 200 300
 <div class="sourceCode" id="cb71"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb71-1" title="1"></a>
 <a class="sourceLine" id="cb71-2" title="2">  <span class="co">// Dans le fichier _tags_.js de l&#39;analyse</span></a>
 <a class="sourceLine" id="cb71-3" title="3">   <span class="co">// à 120 pixels du haut et 200 de la gauche</span></a>
-<a class="sourceLine" id="cb71-4" title="4">  <span class="at">option</span>(<span class="st">&#39;vertical line offset&#39;</span><span class="op">,</span> <span class="dv">120</span><span class="op">,</span> <span class="st">&#39;horizontal line offset&#39;</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></a></code></pre></div>
+<a class="sourceLine" id="cb71-4" title="4">  <span class="at">option</span>(<span class="st">&#39;vertical-line-offset&#39;</span><span class="op">,</span> <span class="dv">120</span><span class="op">,</span> <span class="st">&#39;horizontal-line-offset&#39;</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></a></code></pre></div>
 <h3 id="option_rectangle_selection">Option « Rectangle de sélection »</h3>
 <table style="width:94%;">
 <colgroup>
@@ -1643,7 +1643,7 @@ mod Sol_min/(sous-dom.) 200 300
 </tr>
 <tr class="even">
 <td>Option</td>
-<td><code class="code">rectangle selection</code>,</td>
+<td><code class="code">rectangle-selection</code>,</td>
 </tr>
 <tr class="odd">
 <td>Type</td>
@@ -1664,7 +1664,7 @@ mod Sol_min/(sous-dom.) 200 300
 <a class="sourceLine" id="cb72-2" title="2"><span class="at">option</span>(<span class="st">&#39;&lt;type&gt; size&#39;</span><span class="op">,</span> <span class="st">&#39;&lt;valeur&gt;&#39;</span>)<span class="op">;</span></a></code></pre></div>
 <p>Par exemple :</p>
 <div class="sourceCode" id="cb73"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb73-1" title="1"><span class="co">// Dans _tags_.js</span></a>
-<a class="sourceLine" id="cb73-2" title="2"><span class="at">option</span>(<span class="st">&#39;harmony size&#39;</span><span class="op">,</span> <span class="st">&#39;11pt&#39;</span>)<span class="op">;</span></a></code></pre></div>
+<a class="sourceLine" id="cb73-2" title="2"><span class="at">option</span>(<span class="st">&#39;harmony-size&#39;</span><span class="op">,</span> <span class="st">&#39;11pt&#39;</span>)<span class="op">;</span></a></code></pre></div>
 <p>Voici la table de toutes les options et ce qu’elles affectent.</p>
 <table style="width:72%;">
 <colgroup>
@@ -1677,47 +1677,47 @@ mod Sol_min/(sous-dom.) 200 300
 <td>affecte…</td>
 </tr>
 <tr class="even">
-<td><code class="code">chord size</code></td>
+<td><code class="code">chord-size</code></td>
 <td>Les accords</td>
 </tr>
 <tr class="odd">
-<td><code class="code">harmony size</code></td>
+<td><code class="code">harmony-size</code></td>
 <td>Les chiffrages</td>
 </tr>
 <tr class="even">
-<td><code class="code">harmonie size</code></td>
+<td><code class="code">harmonie-size</code></td>
 <td>idem</td>
 </tr>
 <tr class="odd">
-<td><code class="code">cadence size</code></td>
+<td><code class="code">cadence-size</code></td>
 <td>Les cadences</td>
 </tr>
 <tr class="even">
-<td><code class="code">modulation size</code></td>
+<td><code class="code">modulation-size</code></td>
 <td>Les modulations</td>
 </tr>
 <tr class="odd">
-<td><code class="code">measure size</code></td>
+<td><code class="code">measure-size</code></td>
 <td>Les numéros de mesures</td>
 </tr>
 <tr class="even">
-<td><code class="code">mesure size</code></td>
+<td><code class="code">mesure-size</code></td>
 <td>idem</td>
 </tr>
 <tr class="odd">
-<td><code class="code">degre size</code></td>
+<td><code class="code">degre-size</code></td>
 <td>Les degrés de gamme</td>
 </tr>
 <tr class="even">
-<td><code class="code">degree size</code></td>
+<td><code class="code">degree-size</code></td>
 <td>idem</td>
 </tr>
 <tr class="odd">
-<td><code class="code">part size</code></td>
+<td><code class="code">part-size</code></td>
 <td>Les noms de parties</td>
 </tr>
 <tr class="even">
-<td><code class="code">text size</code></td>
+<td><code class="code">text-size</code></td>
 <td>Tous les autres textes</td>
 </tr>
 </tbody>
@@ -1736,7 +1736,7 @@ mod Sol_min/(sous-dom.) 200 300
 </tr>
 <tr class="even">
 <td>Option</td>
-<td><code class="code">espacement images</code>, <code class="code">space between scores</code></td>
+<td><code class="code">espacement-images</code>, <code class="code">space-between-scores</code></td>
 </tr>
 <tr class="odd">
 <td>Type</td>
@@ -1747,12 +1747,12 @@ mod Sol_min/(sous-dom.) 200 300
 <p>Permet de régler l’espacement en pixels entre deux images lorsque l’<a href="#sequence_images">écriture séquentielle des images</a> a été adoptée.</p>
 <div class="sourceCode" id="cb74"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb74-1" title="1"></a>
 <a class="sourceLine" id="cb74-2" title="2">  <span class="co">// Dans _tags_.js</span></a>
-<a class="sourceLine" id="cb74-3" title="3">  <span class="at">option</span>(<span class="st">&#39;espacement images&#39;</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb74-3" title="3">  <span class="at">option</span>(<span class="st">&#39;espacement-images&#39;</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></a>
 <a class="sourceLine" id="cb74-4" title="4">  Tags<span class="op">=</span><span class="vs">`</span></a>
 <a class="sourceLine" id="cb74-5" title="5"><span class="vs">    ...</span></a>
 <a class="sourceLine" id="cb74-6" title="6"><span class="vs">  `</span><span class="op">;</span>  </a></code></pre></div>
 <p>Avec le code ci-dessus, l’espace entre les différents systèmes sera de 100 pixels.</p>
-<h3 id="option_top_first_score">Option « marge haut »</h3>
+<h3 id="option_top_first_score">Option « marge-haut »</h3>
 <table>
 <colgroup>
 <col style="width: 29%" />
@@ -1765,7 +1765,7 @@ mod Sol_min/(sous-dom.) 200 300
 </tr>
 <tr class="even">
 <td>Option</td>
-<td><code class="code">marge haut</code>, <code class="code">top first score</code></td>
+<td><code class="code">marge-haut</code>, <code class="code">top-first-score</code></td>
 </tr>
 <tr class="odd">
 <td>Type</td>
@@ -1776,7 +1776,7 @@ mod Sol_min/(sous-dom.) 200 300
 <p>Lors de l’<a href="#sequence_images">écriture séquentielle des images</a>, cette valeur permet de déterminer à quelle hauteur doit être placée la première image (le premier système ou la partition).</p>
 <div class="sourceCode" id="cb75"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb75-1" title="1"></a>
 <a class="sourceLine" id="cb75-2" title="2">  <span class="co">// Dans _tags_.js</span></a>
-<a class="sourceLine" id="cb75-3" title="3">  <span class="at">option</span>(<span class="st">&#39;marge haut&#39;</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb75-3" title="3">  <span class="at">option</span>(<span class="st">&#39;marge-haut&#39;</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></a>
 <a class="sourceLine" id="cb75-4" title="4">  Tags<span class="op">=</span><span class="vs">`</span></a>
 <a class="sourceLine" id="cb75-5" title="5"><span class="vs">    ...</span></a>
 <a class="sourceLine" id="cb75-6" title="6"><span class="vs">  `</span><span class="op">;</span>  </a></code></pre></div>
@@ -1784,7 +1784,7 @@ mod Sol_min/(sous-dom.) 200 300
 <blockquote>
 <p>Penser à laisser de la place pour le titre.</p>
 </blockquote>
-<h3 id="option_left_margin">Option « marge gauche »</h3>
+<h3 id="option_left_margin">Option « marge-gauche »</h3>
 <table>
 <colgroup>
 <col style="width: 29%" />
@@ -1797,7 +1797,7 @@ mod Sol_min/(sous-dom.) 200 300
 </tr>
 <tr class="even">
 <td>Option</td>
-<td><code class="code">marge gauche</code>, <code class="code">left margin</code></td>
+<td><code class="code">marge-gauche</code>, <code class="code">left-margin</code></td>
 </tr>
 <tr class="odd">
 <td>Type</td>
@@ -1805,10 +1805,10 @@ mod Sol_min/(sous-dom.) 200 300
 </tr>
 </tbody>
 </table>
-<p>Lors de l’<a href="#sequence_images">écriture séquentielle des images</a>, cette valeur détermine la marge gauche où placer l’image (son <code class="prop">x</code>).</p>
+<p>Lors de l’<a href="#sequence_images">écriture séquentielle des images</a>, cette valeur détermine la marge-gauche où placer l’image (son <code class="prop">x</code>).</p>
 <div class="sourceCode" id="cb76"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb76-1" title="1"></a>
 <a class="sourceLine" id="cb76-2" title="2">  <span class="co">// Dans _tags_.js</span></a>
-<a class="sourceLine" id="cb76-3" title="3">  <span class="at">option</span>(<span class="st">&#39;marge gauche&#39;</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb76-3" title="3">  <span class="at">option</span>(<span class="st">&#39;marge-gauche&#39;</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span></a>
 <a class="sourceLine" id="cb76-4" title="4">  Tags<span class="op">=</span><span class="vs">`</span></a>
 <a class="sourceLine" id="cb76-5" title="5"><span class="vs">    ...</span></a>
 <a class="sourceLine" id="cb76-6" title="6"><span class="vs">  `</span><span class="op">;</span>  </a></code></pre></div>
@@ -1839,7 +1839,7 @@ mod Sol_min/(sous-dom.) 200 300
 </tr>
 <tr class="even">
 <td>Option</td>
-<td><code class="code">vitesse animation</code>, <code class="code">animation speed</code></td>
+<td><code class="code">animation-speed</code>, <code class="code">animation-speed</code></td>
 </tr>
 <tr class="odd">
 <td>Type</td>

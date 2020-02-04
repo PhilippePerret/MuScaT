@@ -172,12 +172,12 @@ const MuScaT = {
         // Quand on clique sur la partition, en dehors d'un élément,
         // ça déselectionne tout
         // $('#tags').on('click', function(ev){CTags.deselectAll()})
-        if(!Options.get('crop image')){Page.observe()};
+        if(!Options.get('crop-image')){Page.observe()};
         // Dans tous les cas, on construit les liTags
         ULTags.build();
-        // Si l'option 'lines of reference' a été activée, il faut
+        // Si l'option 'lines-of-reference' a été activée, il faut
         // ajouter les deux lignes repères
-        if(Options.get('lines of reference')){
+        if(Options.get('lines-of-reference')){
           Page.build_lines_of_reference();
           Page.assure_lines_draggable();
         }
@@ -202,7 +202,7 @@ const MuScaT = {
   , endLoadingImages: function(){
       D.dfn('MuScaT#endLoadingImages');
       return new Promise(function(ok,ko){
-        if (Options.get('crop image')){
+        if (Options.get('crop-image')){
           M.loadModule('cropper').then(function(){M.prepare_crop_image.bind(M)()});
         } else {
           // Si des lignes ont été créées au cours ud processus,
@@ -257,7 +257,7 @@ const MuScaT = {
    */
   , build_very_full_code: function(options_to_tags_js){
       var my = this ;
-      if (Options.get('code no option')){
+      if (Options.get('code-no-option')){
         options_to_tags_js = RC+RC + '// Version X.X' + RC+RC ;
       } else {
         if (undefined === options_to_tags_js){
@@ -298,7 +298,7 @@ const MuScaT = {
    * Si c'est le cas, elle modifie le code pour que cette séquence soit
    * bien traitée.
    *
-   * Note : l'option 'espacement images' peut modifier l'espacement par
+   * Note : l'option 'espacement-images' peut modifier l'espacement par
    * défaut
    */
   , check_sequence_image_in_tags: function(){
@@ -332,9 +332,9 @@ const MuScaT = {
         , images_list = new Array()
         ;
 
-      var left      = asPixels(Options.get('marge gauche') || DEFAULT_SCORE_LEFT_MARGIN) ;
-      var top_first = asPixels(Options.get('marge haut') || DEFAULT_SCORE_TOP_MARGIN) ;
-      var voffset   = asPixels(Options.get('espacement images')) ;
+      var left      = asPixels(Options.get('marge-gauche') || DEFAULT_SCORE_LEFT_MARGIN) ;
+      var top_first = asPixels(Options.get('marge-haut') || DEFAULT_SCORE_TOP_MARGIN) ;
+      var voffset   = asPixels(Options.get('espacement-images')) ;
 
       // Pour indiquer qu'il faut calculer la position des images en fonction
       // de 1. l'espacement choisi ou par défaut et 2. la hauteur de l'image
@@ -343,12 +343,12 @@ const MuScaT = {
       // Il faut étudier aft_name pour voir si des données de position ou de
       // taille sont définies
       if (data_img.x) {
-        // console.log('La marge gauche est définie à ', data_img.x);
+        // console.log('La marge-gauche est définie à ', data_img.x);
       } else {
         data_img.x = asPixels(left) ;
       }
       if (data_img.y) {
-        // console.log("La marge haute est définie à ", data_img.y)
+        // console.log("La marge-haute est définie à ", data_img.y)
         top_first = asPixels(data_img.y) ;
       } else {
         data_img.y = top_first - voffset ; // -voffset pour éviter une condition ci-dessous

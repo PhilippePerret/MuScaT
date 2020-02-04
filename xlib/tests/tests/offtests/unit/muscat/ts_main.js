@@ -66,7 +66,7 @@ test.test_methode_onEachTagsLine = function(){
 test.test_fonction_codeAnalyseInClipboard = function(){
   assert_function('codeAnalyseInClipboard', MuScaT);
   M.reset_for_tests();
-  option('code no option', 'lang', 'fr');
+  option('code-no-option', 'lang', 'fr');
   Tags = `
 acc C x=100 y=200
   `

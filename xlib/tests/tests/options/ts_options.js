@@ -34,11 +34,11 @@ test.case('Définition des options', function(){
 
   given("Avec plusieurs arguments dans set pour des options booléennes");
   M.reset_for_tests();
-  var lo = ['code', 'images PNG', 'lines of reference'];
+  var lo = ['code', 'images-PNG', 'lines-of-reference'];
   for(var i=0; i<3;++i){
     preAssert(OPTIONS[lo[i]].value === null, `L'option "${lo[i]}" devrait être nulle.`);
   }
-  options('code', 'images PNG', 'lines of reference');
+  options('code', 'images-PNG', 'lines-of-reference');
   for(var i=0; i<3;++i){
     assert(OPTIONS[lo[i]].value === true,
       `L'option "${lo[i]} est bien activée"`,
@@ -63,19 +63,19 @@ test.case('Définition des options', function(){
   given("Avec plusieurs couples d'argeuments dans set pour des options non booléennes");
   M.reset_for_tests();
   lo = {
-    'lang': 'fr', 'top first score': 20, 'animation speed': 80
+    'lang': 'fr', 'top-first-score': 20, 'animation-speed': 80
   };
   test.assertOptionsNull(lo);
-  options('lang', 'fr', 'marge haut', 20, 'animation speed', 80);
+  options('lang', 'fr', 'marge-haut', 20, 'animation-speed', 80);
   test.assertOptions(lo);
 
   given("Avec des options et des arguments de divers types dans set");
   M.reset_for_tests();
   lo = {
-    'lang':'en', 'lines of reference':true, 'top first score': 22, 'animation speed': 70
+    'lang':'en', 'lines-of-reference':true, 'top-first-score': 22, 'animation-speed': 70
   };
   test.assertOptionsNull(lo);
-  options('lang', 'en', 'repères', 'marge haut', 22, 'code', 'animation speed', 70);
+  options('lang', 'en', 'repères', 'marge-haut', 22, 'code', 'animation-speed', 70);
   test.assertOptions(lo);
 
   // === Erreurs ===
@@ -89,9 +89,9 @@ test.case('Définition des options', function(){
   given("Avec un seul argument pour une option non booléenne");
   M.reset_for_tests();
   option('lang','fr');
-  test.assertOptionsNull({'space between scores': null});
-  option('espacement images');
-  assert_error("il faut définir la valeur de l'option non booléenne 'space between scores'");
+  test.assertOptionsNull({'space-between-scores': null});
+  option('espacement-images');
+  assert_error("il faut définir la valeur de l'option non booléenne 'space-between-scores'");
 })
 // ---------------------------------------------------------------------
 // Méthodes fonctionnelles

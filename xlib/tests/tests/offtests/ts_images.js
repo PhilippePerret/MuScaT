@@ -72,7 +72,7 @@ testCreateImage.rang_images_sans_espacement_defini = function(){
 testCreateImage.before_un_rang_dimages_est_cree_normalement = function() {
   // Préambule
   M.reset_for_tests();
-  option('code', 'espacement images', 100);
+  option('code', 'espacement-images', 100);
   Tags=`
   sco ${image_path('image-[1-3].png')}
   `;
@@ -108,7 +108,7 @@ testCreateImage.un_rang_dimages_est_cree_normalement = function(){
 testCreateImage.before_avec_taille_sans_unite = function(){
   given("Avec une image-sequence définissant une taille sans unité");
   M.reset_for_tests();
-  option('code', 'espacement images', 50);
+  option('code', 'espacement-images', 50);
   Tags=`
   sco ${image_path('image-[1-2].png')} w=200
   `;
@@ -134,7 +134,7 @@ testCreateImage.avec_taille_sans_unite = function(){
 testCreateImage.before_avec_taille_et_unite = function(){
   given("Avec une image-séquence définissant une taille avec unité");
   M.reset_for_tests();
-  option('code', 'espacement images', 50);
+  option('code', 'espacement-images', 50);
   Tags=`
   sco ${image_path('image-[1-3].png')} w=20cm
   `;
@@ -156,7 +156,7 @@ testCreateImage.avec_taille_et_unite = function(){
 testCreateImage.before_avec_taille_en_pourcentage = function(){
   given("Avec une image-séquence définissant une taille en pourcentage");
   M.reset_for_tests();
-  option('code', 'espacement images', 50);
+  option('code', 'espacement-images', 50);
   Tags=`
   sco ${image_path('image-[1-2].png')} w=40%
   `;

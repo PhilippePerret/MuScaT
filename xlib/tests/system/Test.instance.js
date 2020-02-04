@@ -13,7 +13,7 @@ const Test = function(test_name){
 Test.prototype.run = function(){
   console.log(RC+RC);
   Tests.log(`${this.name} (${this.relative_path})`, STYLE2);
-  if(Options.get('shuffle tests')){this.cases = shuffle(this.cases)}
+  if(Options.get('shuffle-tests')){this.cases = shuffle(this.cases)}
   this.run_case(0);
 };
 Test.prototype.run_case = function(case_idx){

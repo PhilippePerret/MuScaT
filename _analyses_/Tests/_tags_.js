@@ -1,7 +1,7 @@
 /**
  * Cette analyse est automatiquement lancée au démarrage des tests
  */
-options('code no options', 'code') ;
+options('code-no-options', 'code') ;
 Tags = `
 acc C_maj x=5 y=5
 `;

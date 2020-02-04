@@ -160,7 +160,7 @@ const Page = {
 
   , treate_images_spaces: function(fn_suite){
       return new Promise(function(ok,ko){
-        var voffset = asPixels(Options.get('espacement images') || DEFAULT_SCORES_SPACES) ;
+        var voffset = asPixels(Options.get('espacement-images') || DEFAULT_SCORES_SPACES) ;
         var topImage ;
         CTags.onEachTag(function(itag){
           if(!itag.is_image){return};
@@ -192,9 +192,9 @@ const Page = {
        // dans le fichier _tags_.js (option), ou par cookie, après un premier
        // déplacement. La définition dans le fichier _tags_.js est toujours
        // prioritaire.
-       var vpos = Options.get('vertical line offset') || Cook.get('vline-top');
+       var vpos = Options.get('vertical-line-offset') || Cook.get('vline-top');
        if(vpos){$('#refline_v').css('top', vpos + 'px')};
-       var hpos = Options.get('horizontal line offset') || Cook.get('hline-left');
+       var hpos = Options.get('horizontal-line-offset') || Cook.get('hline-left');
        if(hpos){$('#refline_h').css('left', hpos + 'px')};
 
      }

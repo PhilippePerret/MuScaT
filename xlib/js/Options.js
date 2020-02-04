@@ -7,54 +7,52 @@
  const OPTIONS = {
    // Note : `user_name` permet de garder la trace du nom de l'option que l'user
    // à employée, en cas de "aka" pour lui redonner la même.
-     'animation speed':             {boolean: false, value: null, default: 50, user_name: null}
-   , 'vitesse animation':           {aka: 'animation speed'}
+     'animation-speed':             {boolean: false, value: null, default: 50, user_name: null}
+   , 'animation-speed':           {aka: 'animation-speed'}
    , 'code':                        {boolean: true, value: false, default: false}
-   , 'code beside':                 {aka: 'code'}
-   , 'code à côté':                 {aka: 'code'}
-   , 'code no option':              {boolean: true, value: null}
-   , 'code no options':             {aka: 'code no option'}
-   , 'code sans option':            {aka: 'code no option'}
-   , 'code sans options':           {aka: 'code no option'}
-   , 'crop image':                  {boolean: true, value: false}
-   , 'images PNG':                  {boolean: true, value: false} // true si on veut des noms de fichier ne png (pour convert par exemple)
-   , 'découpe image':               {aka: 'crop image'}
+   , 'code-no-option':              {boolean: true, value: null}
+   , 'code-no-options':             {aka: 'code-no-option'}
+   , 'code-sans-option':            {aka: 'code-no-option'}
+   , 'code-sans-options':           {aka: 'code-no-option'}
+   , 'crop-image':                  {boolean: true, value: false}
+   , 'images-PNG':                  {boolean: true, value: false} // true si on veut des noms de fichier ne png (pour convert par exemple)
+   , 'découpe-image':               {aka: 'crop-image'}
    , 'coordonates':                 {boolean: true, value: false} // afficher les coordonnées lors des déplacementss
-   , 'repères':                     {aka: 'lines of reference'}
-   , 'reperes':                     {aka: 'lines of reference'}
-   , 'guides':                      {aka: 'lines of reference'}
+   , 'repères':                     {aka: 'lines-of-reference'}
+   , 'reperes':                     {aka: 'lines-of-reference'}
+   , 'guides':                      {aka: 'lines-of-reference'}
    , 'lang':                        {boolean: false, value: null, default: 'fr'}
    , 'langue':                      {aka: 'lang'}
    , 'language':                    {aka: 'lang'}
    , 'langage':                     {aka: 'lang'}
-   , 'lines of reference':          {boolean: true, value: false} // si true, affiche les lignes de guide
-   , 'espacement images':           {aka: 'space between scores'}
-   , 'space between scores':        {boolean: false, value: null, default: 10}
-   , 'top first score':             {boolean: false, value: null}
-   , 'marge haut':                  {aka: 'top first score'}
-   , 'left margin':                 {boolean: false, value: null}
-   , 'marge gauche':                {aka: 'left margin'}
-   , 'horizontal line offset':      {boolean: false, value: null, default: 46}
-   , 'position repère vertical':    {aka: 'vertical line offset'}
-   , 'position repère horizontal':  {aka: 'horizontal line offset'}
+   , 'lines-of-reference':          {boolean: true, value: false} // si true, affiche les lignes de guide
+   , 'espacement-images':           {aka: 'space-between-scores'}
+   , 'space-between-scores':        {boolean: false, value: null, default: 10}
+   , 'top-first-score':             {boolean: false, value: null}
+   , 'marge-haut':                  {aka: 'top-first-score'}
+   , 'left-margin':                 {boolean: false, value: null}
+   , 'marge-gauche':                {aka: 'left-margin'}
+   , 'horizontal-line-offset':      {boolean: false, value: null, default: 46}
+   , 'position-repère-vertical':    {aka: 'vertical-line-offset'}
+   , 'position-repère-horizontal':  {aka: 'horizontal-line-offset'}
    , 'theme':                       {boolean: false, value: null}
    , 'visor':                       {boolean: true, value: null, default: false}
    , 'viseur':                      {aka: 'visor'}
-   , 'vertical line offset':        {boolean: false, value: null, default: 42}
+   , 'vertical-line-offset':        {boolean: false, value: null, default: 42}
    // TOUTES LES DIMENSIONS
-   , 'cadence size':                {boolean: false, value: null}
-   , 'chord size':                  {boolean: false, value: null}
-   , 'degree size':                 {boolean: false, value: null}
-   , 'degre size':                  {aka: 'degree size'}
-   , 'harmony size':                {boolean: false, value: null}
-   , 'harmonie size':               {aka: 'harmony size'}
-   , 'measure size':                {boolean: false, value: null}
-   , 'mesure size':                 {aka:'measure size'}
-   , 'modulation size':             {boolean: false, value: null}
-   , 'rectangle selection':         {boolean: true, value: null, default: false}
-   , 'part size':                   {boolean: false, value: null}
-   , 'shuffle tests':               {boolean: true, value: null, default: true}
-   , 'text size':                   {boolean: false, value: null}
+   , 'cadence-size':                {boolean: false, value: null}
+   , 'chord-size':                  {boolean: false, value: null}
+   , 'degree-size':                 {boolean: false, value: null}
+   , 'degre-size':                  {aka: 'degree-size'}
+   , 'harmony-size':                {boolean: false, value: null}
+   , 'harmonie-size':               {aka: 'harmony-size'}
+   , 'measure-size':                {boolean: false, value: null}
+   , 'mesure-size':                 {aka:'measure-size'}
+   , 'modulation-size':             {boolean: false, value: null}
+   , 'rectangle-selection':         {boolean: true, value: null, default: false}
+   , 'part-size':                   {boolean: false, value: null}
+   , 'shuffle-tests':               {boolean: true, value: null, default: true}
+   , 'text-size':                   {boolean: false, value: null}
  }
 
  // pour ajouter une option
@@ -95,7 +93,7 @@ const Options = {
 
         seq_options = seq_options.entries();
         while(dopt = seq_options.next().value){
-          opt_id = dopt[1] ;
+          opt_id = dopt[1].replace(/ /g,'-') ;
           opt_id_init = `${opt_id}`;
           // console.log('Traitement de opt_id: ', opt_id);
           if(undefined == OPTIONS[opt_id]){
@@ -151,8 +149,8 @@ const Options = {
       // Dans le cas spécial des repères, on demande s'il faut prendre
       // la nouvelle position ou garder l'ancienne
       if (undefined === memo_guides){
-        opt_vline = OPTIONS['vertical line offset'].value ;
-        opt_hline = OPTIONS['horizontal line offset'].value ;
+        opt_vline = OPTIONS['vertical-line-offset'].value ;
+        opt_hline = OPTIONS['horizontal-line-offset'].value ;
         if (opt_vline || opt_hline){
           cur_vline = $('#refline_v').offset().top  ;
           cur_hline = $('#refline_h').offset().left ;
@@ -169,8 +167,8 @@ const Options = {
         }
       } else {
         if (memo_guides === true){
-          OPTIONS['vertical line offset'].value = $('#refline_v').offset().top;
-          OPTIONS['horizontal line offset'].value = $('#refline_h').offset().left;
+          OPTIONS['vertical-line-offset'].value = $('#refline_v').offset().top;
+          OPTIONS['horizontal-line-offset'].value = $('#refline_h').offset().left;
         }
       }
       for(opt in OPTIONS){

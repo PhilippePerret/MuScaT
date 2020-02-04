@@ -66,7 +66,7 @@ Object.assign(MuScaT,{
       var scoreTag = CTags[1] ;
       var codeConvert = '-crop ' + w + 'x' + h + '+' + x + '+' + y ;
       var indiceImg  = ++ my.indice_cropped_image ;
-      var extensionImg = Options.get('images PNG') ? 'png' : 'jpg' ;
+      var extensionImg = Options.get('images-PNG') ? 'png' : 'jpg' ;
       codeConvert = 'convert ' + scoreTag.src + ' ' + codeConvert + ' ' + scoreTag.src + '-'+indiceImg+'.'+extensionImg;
       navigator.clipboard.writeText(codeConvert);
       message(t('code-to-run', {code: codeConvert}));
