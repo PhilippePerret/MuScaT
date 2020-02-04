@@ -320,7 +320,8 @@ Tag.prototype.scrollIfNotVisible = function(){
   const topWindow = window.scrollY
   const botWindow = topWindow + window.outerHeight
   const milieu = Math.floor(window.innerHeight / 2) - 100
-  const top = this.jqObj.position().top
+  // const top = this.jqObj.position().top
+  const top = this.jqObj.offset().top
   const hei = this.jqObj.height()
   const bot = top + hei
   console.log({topWindow:topWindow, botWindow:botWindow, milieu:milieu, top:top, height:hei, bot:bot })
@@ -485,7 +486,8 @@ Tag.prototype.reveal = function(options){
       my.jqObj.css('border-color',old_bgc);
     };
   });
-  my.domObj.scrollIntoView({behavior: 'smooth'});
+  this.scrollIfNotVisible()
+  // my.domObj.scrollIntoView({behavior: 'smooth'});
 };
 Tag.prototype.remove = function(){
   var my = this ;

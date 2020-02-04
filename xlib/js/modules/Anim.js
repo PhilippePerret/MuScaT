@@ -13,6 +13,9 @@ const Anim = {
       , exergue:  true  // si true la révélation est mise en exergue en rouge
     }
 
+    /**
+      Méthode appelée pour lancer l'animation
+    **/
   , start: function(){
       this.init();
       this.current    = 0;
@@ -21,6 +24,7 @@ const Anim = {
       this.search_start();
       this.next();
       this.playing = true ;
+      this.onStart();
     }
   , waitingLoop: function(){
       this.timer = setTimeout(this.next.bind(this), this.laps);
@@ -49,7 +53,6 @@ const Anim = {
   , reveal_nexts: function(){
       this.desactivateLiTags();
       while((litag=ULTags.index(this.current++)) && litag.itag.real){
-        // console.log('# item ', this.current);
         litag.itag.reveal(this.options);
         litag.activate();
         this.activateds.push(litag);
@@ -100,11 +103,17 @@ const Anim = {
         // lever la pause ou reprendre au début
         this.stateButtons(false);
         this.next();
+        this.onStart();
       }
       this.playing = !this.playing;
       this.onTogglePlayButton(false);
     }
 
+  , onStart: function(){
+      UI.divULTags.css({opacity:0})
+      this.rerunSaveLoopAfter = Boolean(!!IO.saveLooping)
+      IO.stopSavingLoop()
+    }
   , onStop: function(){
       this.playing = !this.playing;
       this.current = 0;
@@ -112,6 +121,9 @@ const Anim = {
       this.stateButtons(true);
       this.onTogglePlayButton(true);
       this.reset().search_start();
+      UI.divULTags.css({opacity:1})
+      if (this.rerunSaveLoopAfter) IO.startSavingLoop()
+      CTags.onEachTag(function(itag){itag.real && itag.jqObj.show()});
     }
   , stateButtons: function(for_stop){
       var my = this

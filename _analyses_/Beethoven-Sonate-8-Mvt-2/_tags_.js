@@ -1,23 +1,33 @@
 options('code', 'lang', 'fr') ;
 
 Tags = `
+// START
+
 titre Sonate_8_Mouvement_2 x=48 y=3
 compositeur Beethoven x=475 y=8
 
 // Mesure 1-5
 score bee-son8-mvt2-0.png x=15 y=300 w=640px
+
 acc Ab x=108 y=271
 har I x=110 y=461
 
 har V x=155 y=461
-har V x=344 y=461
-har IV x=370 y=461
-har V7 x=263 y=461
-har I x=218 y=461
-har I x=320 y=461
 acc Eb x=158 y=270
+
+har I x=218 y=461
 acc Ab x=218 y=271
+
+har V7 x=263 y=461
 acc Eb x=260 y=271
+
+har I x=320 y=461
+
+
+har V x=344 y=461
+
+har IV x=370 y=461
+
 score bee-son8-mvt2-1.png x=14 y=600 w=640px
 score bee-son8-mvt2-2.png x=14 y=900 w=640px
 score bee-son8-mvt2-3.png x=15 y=1200 w=640px

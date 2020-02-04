@@ -375,7 +375,7 @@ Notez que pour ces *TAGs* il est inutile de préciser les positions. C'est le th
 
 
 
-### Créer les *TAGs* (accords, les chiffrages, les cadences et autres éléments d'analyse)
+### Créer les *TAGs*
 
 L'élément graphique de base de l'application **MuScaT** est le « *TAG* » (comme on en trouve sur les murs des villes). Une analyse avec **MuScaT** consiste à « taguer » une partition (remarquez que les partitions elles-mêmes, ou les images de leurs systèmes, sont elles aussi des *TAGs*).
 
@@ -383,6 +383,8 @@ Plusieurs moyens permettent de créer un nouveau *TAG* dans l’éditeur de tags
 
 * soit : utiliser le bouton « + »,
 * soit : sélectionner une ligne de code et jouer `⌘ ↩︎`.
+
+
 
 #### En faisant des copies d'éléments existants
 
@@ -411,6 +413,14 @@ Une modulation peut être inscrite par :
 mod G_min x=150 y=539
 ```
 
+
+
+#### Déplacement rapide des lignes de code
+
+On peut déplacer rapidement les lignes de code à l’aide du raccourci-clavier `⌘⌃↑/↓`. Il suffit de placer le curseur dans la ligne de code et d’utiliser `⌘⌃↑` pour faire remonter la ligne et `⌘⌃↓` pour la faire redescendre.
+
+
+
 #### Pour aller plus loin…
 
 * [Composition détaillé d'un *TAG*](#composition_dun_tag),
@@ -418,23 +428,30 @@ mod G_min x=150 y=539
 
 
 
-### Positionnement  et dimensionnement des éléments graphiques
+### Modifier le *TAG*
+
+
+
+#### Modifier la position du *TAG*
 
 On peut placer les éléments aux bons endroits de plusieurs manières :
 
 * en les déplaçant à la souris,
     ![Exemple de déplacement d'élément](./img/move_score.png)
 * en utilisant les flèches de son clavier,
-* en jouant sur les touches `x` et `y`,
+* en jouant sur les touches `x` / `y` (pour descendre ou aller à droite) et  `⇧ x` / `⇧ y` (pour monter et aller à gauche,
 * en modifiant leur coordonnées dans le champ de code.
 
 Pour le détail, cf. [Positionnement des *TAGs*](#modify_position_tag).
 
 
+
+#### Modifier la taille du *TAG*
+
 On peut modifier les tailles des éléments de plusieurs manières aussi :
 
 * en modifiant leur code,
-* en jouant sur les touches `w` et `h`.
+* en jouant sur les touches `w` / `h` (pour augmenter les tailles) et  `⇧ w` / `⇧ h` (pour diminuer les tailles), 
 
 Pour le détail, cf. [Dimensionnement des *TAGs*](#dimensionner_les_tags).
 
@@ -443,6 +460,8 @@ On peut en ajouter de nouveaux en dupliquant les lignes de code.
 À tout moment on peut annuler une opération pour revenir en arrière en jouant `⌘ Z` (sur Mac) ou `Ctrl Z` (sur Windows).
 
 Sans l'option `option('code');` activée, il faut modifier le code directement dans le fichier `_tags_.js` puis recharger la page dans Chrome pour voir les changements.
+
+
 
 #### Lignes repères
 
@@ -474,34 +493,19 @@ Les positions `x` (horizontale) et `y` (verticale) s'indiquent toujours sans uni
 Toutes les autres propriétés de dimension et de position peuvent s'indiquer sans ou avec unité ou pourcentage.
 
 ```javascript
-  Tags = `
     ... w=200
     ... w=20%
     ... h=23mm
     ... fs=12pt
-    `;
 ```
+
+
 
 #### Obtenir des coordonnées
 
 Pour obtenir les x/y d'une position quelconque, il suffit de cliquer à l'endroit de cette position sur la table d'analyse. Cela affiche les coordonnées en bas de l'écran, mais plus encore, ça colle un `y=134 x=145` correspondant dans le presse-papier, valeur qu'il suffit ensuite de coller dans le code de la ligne du *TAG* (`⌘ V` sur Mac ou `Ctrl V` avec Windows).
 
-#### Positionnement des *TAGs* {#modify_position_tag}
 
-Pour **modifier la position d'un tag** (image, modulation, texte quelconque, etc.), on a plusieurs solutions :
-
-* soit on la règle de façon explicite dans sa ligne de code, en définissant les valeurs de `x` (position horizontale) et/ou `y` (position verticale),
-* soit on le sélectionne et on joue sur les flèches dans les quatre sens,
-* soit on le sélectionne et on presse les touches `x` ou `y` pour modifier respectivement sa position horizontale et verticale.
-    Avec la touche `ALT` (`ALT x`, `ALT y`), on inverse le déplacement. Avec la touche `MAJ` (`MAJ x`, `MAJ y`, `ALT MAJ x`, `ALT MAJ y`), on augmente le pas de déplacement, avec la touche `CTRL`, on peut régler la position pixel par pixel.
-
-#### Dimensionnement des *TAGs*
-
-Pour **modifier les dimensions d'un tag** (comme une ligne, une cadence, une boite, une image), on a plusieurs solutions :
-
-* soit on les règle de façon explicite dans sa ligne de code en définissant les valeurs de `w` (largeur) et/ou `h` (hauteur),
-* soit on sélectionne l'élément et on presse la touche `w` pour augmenter la largeur, `ALT w` pour diminuer la largeur, `h` (comme "hauteur") pour augmenter la hauteur, `ALT h` pour diminuer la hauteur.
-    Tout comme pour les `x` et `y`, avec la touche `ALT` (`ALT x`, `ALT y`), on inverse le déplacement. Avec la touche `MAJ` (`MAJ x`, `MAJ y`, `ALT MAJ x`, `ALT MAJ y`), on augmente le pas de déplacement, avec la touche `CTRL`, on peut régler la position pixel par pixel.
 
 #### Mesure d'urgence (ou de secours)
 
@@ -1286,17 +1290,11 @@ Noter également qu'on peut utiliser de la transparence pour les boites. Il suff
 
 ### Verrouillage des *TAGs* {#lock_tags}
 
-On peut « verrouiller » un *TAG*, c'est-à-dire empêcher totalement ses modifications, aussi bien sa position que son contenu, en ajoutant une astérisque, un rond (`ALT #`) ou même un ![cadenas](img/cadenas.png) au tout début de sa ligne (suivi ou non par une espace).
+On peut « verrouiller » un *TAG*, c'est-à-dire empêcher totalement ses modifications, aussi bien sa position que son contenu. Il suffit de le sélectionner et de cliquer sur le bouton ![cadenas](img/cadenas.png) sous le code. Pour le déverrouiller, cliquer à nouveau sur ce bouton.
 
-Les trois lignes suivantes verrouillent leur *TAG* :
-
-![Verrou dans le code](img/verrou_code.png)
-
-**MuScaT** ajoutera un vrai cadenas (![cadenas](img/cadenas.png)) qui rendra ce verrouillage très visuel.
+**MuScaT** ajoutera un cadenas (![cadenas](img/cadenas.png)) en début de ligne de code, ce qui rendra ce verrouillage très visuel.
 
 Une fois verrouillé, le *TAG* ne peut plus être déplacé à la souris. En revanche, il peut tout à fait être modifié dans le code (sa position, son contenu, etc.) pour un ajustement très précis.
-
-Pour déverrouiller un *TAG* et le rendre à nouveau mobile, il suffit tout simplement de retirer cette marque de verrouillage dans le code.
 
 
 
@@ -1316,6 +1314,8 @@ Pour dégrouper :
 
 ---
 
+
+
 ## Procédure de découpage de la partition
 
 Voyons quelques méthodes de découpage de la partition en « images-systèmes ». Je les présente ici de la meilleure à la moins bonne. Cette qualité a été définie en fonction des deux critères suivants :
@@ -1323,12 +1323,14 @@ Voyons quelques méthodes de découpage de la partition en « images-systèmes�
 * rapidité d'exécution,
 * précision du découpage.
 
+
+
 ### Avec capture sélection dans Aperçu (Mac)
 
 Méthode la plus rapide, mais également la moins précise. Ce manque de précision oblige parfois à reprendre des systèmes pour mieux les découper. Cependant, elle est tellement plus rapide que les autres que je la privilégie sans problème, d'autant que le redécoupage est aussi simple.
 
 * Ouvrir la partition PDF dans l'application Aperçu,
-* jouer `⌘ Maj 4` pour activer la sélection par souris,
+* jouer `⌘ ⇧ 4` pour activer la sélection par souris,
 * sélectionner la zone de la partition à capturer — un système — (ne pas avoir peur de « prendre large », il est facile d'affiner ensuite),
 * recommencer l'opération pour tous les systèmes,
 * récupérer les captures sur le bureau — sauf si l'astuce ci-dessous (1) a été utilisée — et les mettre dans le dossier `images` de votre analyse,
@@ -1349,7 +1351,9 @@ Pour affiner le découpage :
 * effectuer les captures,
 * utiliser l'[utilitaire Muscat `rename_images`](#utils_renommer_fichiers) pour renommer instantanément vos fichiers.
 
-Note : vous pouvez voir ou revoir la procédure dans les tutoriels consacrés sur [ma chaine YouTube]().
+Note : vous pouvez voir ou revoir la procédure dans les tutoriels consacrés sur [ma chaine YouTube](). (attention : c’est une ancienne version qui est utilisée là, sans commande)
+
+
 
 ### Avec sélection rectangulaire dans Aperçu (Mac)
 
@@ -1363,9 +1367,13 @@ La méthode suivante ressemble à la précédente mais permet d'être plus préc
 * activer la combinaison `⌘ N` pour créer une nouvelle image à partir du presse-papier,
 * enregistrer l'image (`⌘ S`) avec le nom voulu, dans le dossier voulu, en choisissant le format voulu.
 
+
+
 ### Avec Aperçu, sélection souris et rectangle (Mac)
 
 On peut bien entendu imaginer une méthode intermédiaire qui reprendrait les deux méthodes précédentes. Lorsque la découpe est facile, on utilise la première, lorsque la découpe demande plus de précision, on privilégie la seconde.
+
+
 
 ### Avec **MuScaT** et `convert`
 
@@ -1398,6 +1406,8 @@ Maintenant, il suffit de sélectionner, à la souris, la zone de l'image à pren
 
 Répéter l'opération avec chaque système, puis avec chaque page de la partition.
 
+
+
 ### Avec Gimp/Photoshop (ou autre logiciel de traitement de l'image)
 
 Si un logiciel de traitement d'images présente une précision de découpage inégalable, il offre en revanche la méthode la plus chronophage, même avec l'habitude du logiciel.
@@ -1410,7 +1420,9 @@ Si un logiciel de traitement d'images présente une précision de découpage in�
 
 Ce mode d'emploi n'étant pas destiné à maitriser Gimp, Photoshop ou autre, je vous renvoie au manuel d'utilisation de ces applications.
 
-### Ligne de code du *TAG* {#tag_code_line}
+
+
+### Ligne de code du *TAG*
 
 On peut obtenir la ligne de code d'un *TAG* ou même de plusieurs *TAGs* de cette manière :
 
@@ -1419,6 +1431,8 @@ On peut obtenir la ligne de code d'un *TAG* ou même de plusieurs *TAGs* de cett
 * coller le code mis dans le presse-papier.
 
 ---
+
+
 
 ## Animation d'une analyse {#animation_analyse}
 
@@ -1432,6 +1446,8 @@ Les fonctionnalités de l'animation sont limitées cependant, puisqu'on ne peut 
 
 Vous pouvez en trouver des illustrations sur les vidéos de ma chaine : https://www.youtube.com/channel/UCX3XhJw9x1RsVx1s3GNYceA.
 
+
+
 ### Démarrage de l'animation {#starting_animation}
 
 Pour lancer une animation, il n'y a rien de plus simple à faire que d'ajouter le commentaire `// START` à l'endroit où l'on veut qu'elle démarre.
@@ -1443,8 +1459,6 @@ Tout ce qui précède ce commentaire `// START` sera affiché d'un seul coup.
 Ensuite, chaque « groupe de *TAGs* » est affiché en laissant une pause entre chacun d'eux. Un « groupe de TAGs » est une suite de *TAGs* qui ne sont séparés d'aucune ligne vide. Par exemple, ci-dessous, on trouve deux groupes de *TAGs*, qui s'afficheront donc en deux temps lors de l'animation :
 
 ```javascript
-  // dans _tags_.js
-  Tags = `
   // ...
 
   // START
@@ -1459,7 +1473,6 @@ Ensuite, chaque « groupe de *TAGs* » est affiché en laissant une pause entr
   sco mon-systeme-e.jpg x=5 y=400
 
   // ... suite...
-  `;
 ```
 
 On peut [régler la vitesse générale de l'animation](#set_animation_speed) en option mais on peut également définir des temps plus ou moins longs entre l'affichage des différents *TAGs*, par exemple pour aménager un temps plus long d'explication entre deux *TAGs*. Pour ce faire, on joue simplement sur le nombre de lignes vides entre ces *TAGs*.

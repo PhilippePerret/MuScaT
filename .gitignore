@@ -4,7 +4,5 @@ Manuel/img/
 Manuel/Manuel.html
 Manuel/manuel.css
 
-# Tous les dossiers analyses personnels doivent terminer par "InPlace"
-# pour ne pas être exportés
-
-/_analyses_/*InPlace/
+/_analyses_/
+!/_analyses/Analyse_Sonate_Haydn/

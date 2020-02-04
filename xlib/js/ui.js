@@ -58,6 +58,8 @@ class UI {
     console.log('-> set_ui')
     this.tableAnalyse = $('#tags');
     this.ulTags = $('ul#ultags');
+    this.divULTags = $('#div-ultags');
+
     // Le mieux, c'est la tournure ci-dessous, où l'on met "t-<id locale>"
     // dans la classe de l'élément, qui renvoie à "<id locale>"
     ['clipboard', 'source-code', 'selected-tags', 'Open', 'the-help', 'sur', 'operations'].forEach(function(tid){

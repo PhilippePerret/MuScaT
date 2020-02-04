@@ -83,7 +83,7 @@ section#tools.opened .masked {
 section#footer {
   position: fixed;
   bottom: 0;
-  width: 100%;
+  width: 80%;
   color: white;
   background-color: black;
   padding: 2px 8px;
@@ -164,21 +164,25 @@ div#div-ultags div#div-ultags-buttons button.normal {
   margin-left: 1em;
 }
 
-div#div-ultags div#div-ultags-buttons div#anim-buttons {
+div#anim-buttons {
   /* border: 1px solid black; */
   border-radius: 0.3em;
+  position:fixed;
+  bottom:0;
+  right:0;
+  z-index:1000;
 }
-div#div-ultags div#div-ultags-buttons div#anim-buttons img{
+div#anim-buttons img{
   width: 34px;
   height: 34px;
   border: 1px solid black;
   margin: 0;
   padding: 0;
 }
-div#div-ultags div#div-ultags-buttons div#anim-buttons img#anim-btn-rewind {
+div#anim-buttons img#anim-btn-rewind {
   margin-right: -5px;
 }
-div#div-ultags div#div-ultags-buttons div#anim-buttons img#anim-btn-play {
+div#anim-buttons img#anim-btn-play {
   margin-left: -5px;
 }
 
