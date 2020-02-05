@@ -90,10 +90,7 @@ class << self
   # fourni en argument de commande (il peut être partiel)
   # +return+ [String] Le nom (forcément complet) ou [NilClass] Nil
   def get_name_from_args
-    ARGV.each do |arg|
-      # On passe toutes les options
-      arg.start_with?('-') && next
-      # On a trouvé le nom
+    ARGSTRING.each do |arg|
       name = arg.gsub(/ /, '_')
       if File.exists?(File.join(ANALYSES_FOLDER,name))
         # <= le nom complet bien donné
@@ -113,15 +110,15 @@ class << self
   def get_realname_from_args name
     # Liste qui contiendra tous les candidats
     names = Array.new
-    names_list.each do |name|
-      if name.start_with?(name)
-        names << name
+    names_list.each do |n|
+      if n.start_with?(name)
+        names << n
       end
     end
     if names.count == 1
       return names.first
     elsif names.count == 0
-      puts t('no-folder-found', {name: name}).vert
+      return nil
     else
       puts t('too-much-candidate', {name:name, list: names.join(', ')}).rouge
     end

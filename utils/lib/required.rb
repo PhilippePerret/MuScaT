@@ -1,6 +1,6 @@
 # frozen_string_literal:true
 # encoding: UTF-8
-
+require 'json'
 require 'io/console'
 require 'fileutils'
 

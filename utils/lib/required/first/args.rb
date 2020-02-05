@@ -10,7 +10,8 @@
     OPTIONS[<key symbolique>]
 
   Pour obtenir un paramètre
-    PARAMS[<key symbolique>]
+    PARAMS[<key string>]
+    PARAMS_SYM[<key symbolique>]
 
 =end
 OPTIONS_DIM_TO_REAL = {
@@ -21,6 +22,7 @@ OPTIONS_DIM_TO_REAL = {
 }
 OPTIONS = {}
 PARAMS  = {}
+PARAMS_SYM  = {}
 ARGSTRING = []
 ARGV.each do |arg|
   if arg.start_with?('--')
@@ -33,7 +35,15 @@ ARGV.each do |arg|
     if ( val.start_with?('"') && val.end_with?('"') ) then
       val = val[1...-1]
     end
-    PARAMS.merge!(var.to_sym => val)
+    val = case val
+          when /^[0-9]+$/     then val.to_i
+          when /^[0-9.]+$/    then val.to_f
+          when "true"         then true
+          when "false"        then false
+          when "nil", "null"  then nil
+          end
+    PARAMS.merge!(var => val)
+    PARAMS_SYM.merge!(var.to_sym => val)
   else
     ARGSTRING << arg
   end
@@ -46,7 +56,8 @@ COMMAND_LANG = {
   'ouvre':                    'open',
   'créer':                    'create',
   'renommer_images':          'rename_images',
-  'change_dossier_captures':  'change_folder_caputres'
+  'change_dossier_captures':  'change_folder_caputres',
+  'options':                  'option'
 }
 cmd = ARGSTRING.shift
 COMMAND = (COMMAND_LANG[cmd] || cmd).gsub(/\-/, '_')
