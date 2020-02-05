@@ -3,15 +3,10 @@
 =begin
   Script pour renommer les fichiers du dossier donné en argument.
 =end
-require_relative 'required'
 
-WHAT =  unless ['-h','--help'].include?(ARGV.first)
-          ARGV.shift
-        else
-          nil
-        end
+WHAT = FIRST_ARG
 
-unless ARGV.include?('-h') || ARGV.include?('--help') || WHAT.nil?
+unless OPTIONS[:help] || WHAT.nil?
   begin
     case WHAT
     when 'manuel', 'manual'

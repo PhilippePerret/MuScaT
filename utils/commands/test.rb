@@ -8,8 +8,6 @@
     - voir dans Firefox les résultats obtenus en console.
 
 =end
-require_relative 'required'
-require 'fileutils'
 
 begin
   # Inscription de tous les fichiers de tests (système et tests) dans

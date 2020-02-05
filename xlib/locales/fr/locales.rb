@@ -49,6 +49,7 @@ LOCALES = {
   'no-images-in-folder' => 'Le dossier %{path} ne semble contenir aucune image (extensions prises en compte : %{extensions}).',
 
   'no-folder-found' =>  "Aucun dossier d'analyse n'a été trouvé avec « %{name} »",
+  'too-much-candidate' => "Trop de noms correspondent au nom partiel '%{name}' fourni (%{list}). Précisez votre demande.",
   'folder-built' => 'Le dossier "%{name}" a été construit',
   'folder-unfound' => 'Le dossier "%{name}" est introuvable.',
   'unknown-folder' => "Dossier inconnu, je ne peux rien faire pour vous…",

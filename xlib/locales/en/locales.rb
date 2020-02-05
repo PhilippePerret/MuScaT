@@ -49,6 +49,7 @@ LOCALES = {
   'no-images-in-folder' => 'It seems that %{path} folder holds no images (with %{extensions} extensions).',
 
   'no-folder-found' =>  "No analysis folder name starts with « %{name} » (or has that name).",
+  'too-much-candidate' => "Too much candidate for '%{name}' partial name (%{list}). Redefine your wish.",
   'folder-built' => '"%{name}" folder has been built.',
   'folder-unfound' => '"%{name}" folder is unfound.',
   'unknown-folder' => "Unknown folder, I can't do anything for you…",

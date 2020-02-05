@@ -3,9 +3,8 @@
 =begin
   Script pour renommer les fichiers du dossier donné en argument.
 =end
-require_relative 'required'
 
-unless ARGV.include?('-h') || ARGV.include?('--help')
+unless OPTIONS[:help]
   begin
 
     # 'Mon texte'.essai

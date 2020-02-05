@@ -1,6 +1,8 @@
 # frozen_string_literal:true
 # encoding: UTF-8
 
+require 'io/console'
+require 'fileutils'
 
 # Requérir d'abord toutes les constantes
 require_relative 'required/constants'

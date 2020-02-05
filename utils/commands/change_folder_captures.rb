@@ -3,17 +3,16 @@
 =begin
   Script pour renommer les fichiers du dossier donné en argument.
 =end
-require_relative 'required'
 
-unless ARGV.include?('-h') || ARGV.include?('--help')
+unless AOPTIONS[:help]
   begin
 
     # 'Mon texte'.essai
     # exit
     msgs = Array.new
 
-    DST_FOLDER = ARGV.shift || File.join(Dir.home,'Desktop')
-    CREATE_IT  = ARGV.shift == '-mk'
+    DST_FOLDER = FIRST_ARG || File.join(Dir.home,'Desktop')
+    CREATE_IT  = OPTIONS[:make]
     unless File.exist?(DST_FOLDER)
       if CREATE_IT
         `mkdir -p #{DST_FOLDER}`

@@ -11,21 +11,8 @@
 require_relative 'lib/required'
 
 
-# ---------------------------------------------------------------------
-# TRAITEMENT DE LA LIGNE DE COMMANDE
-COMMAND_LANG = {
-  'aide':                     'help',
-  'ouvre':                    'open',
-  'créer':                    'create',
-  'renommer_images':          'rename_images',
-  'change_dossier_captures':  'change_folder_caputres'
-}
 
 begin
-  # La commande
-  cmd = ARGV.shift
-  COMMAND = COMMAND_LANG[cmd] || cmd
-
   if !COMMAND || COMMAND == 'help'
     # Afficher l'aide
     # puts "\033c"

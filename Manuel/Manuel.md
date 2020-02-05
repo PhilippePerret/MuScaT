@@ -1,4 +1,4 @@
-# MuScaT<br>Manuel d'utilisatio
+# MuScaT<br>Manuel d'utilisation
 
 [Github de MuScaT]: https://github.com/PhilippePerret/MuScaT
 
@@ -235,21 +235,29 @@ Pour une version détaillée et illustrée de la procédure, je vous renvoie à 
 
     ```
     
-    > cd /chemin/vers/application/MuScaT
-    > ./utils/change_folder_captures.rb /dossier/des/captures/
-    
-    ou
-    
     > muscat change_folder_captures "/dossier/des/catpures/"
     
     ```
-
+    
     > Note : pour ne pas avoir à remplir les chemins à la main, il vous suffit de glisser les éléments (fichier ou dossier) depuis le Finder jusque sur la fenêtre de Terminal. Le chemin de l'élément est aussitôt inscrit.
-
+    
+    Ajouter l’option `-m/—make` pour créer le dossier, s’il n’existe pas.
+    
 * ouvrir le PDF dans Aperçu,
+
 * activer la combinaison de touches `⌘⇧4`,
+
 * sélectionner le système (ou la portion de partition à isoler) (note : prendre un peu « large », il sera possible d’affiner ensuite),
+
 * recommencer ces opérations pour chaque système (ou chaque portion de partition).
+
+Pour revenir au dossier par défaut, il suffit de jouer la commande sans argument :
+
+~~~sh
+> muscat change-folder-captures
+~~~
+
+> Noter que les commandes peuvent être données indifféremment avec des tirets ('-') ou des traits plats ('_').
 
 Pour renommer automatiquement toutes les captures produites — qui possèdent pour le moment des noms quelque peu ésotériques… — vous pouvez utiliser :
 
@@ -944,7 +952,7 @@ Trouvez ci-dessous la liste complète de tous les *TAGs*.
 +-----------------+---------------------------------------------------+
 
 
-## Les Images {#les_images}
+## Les Images
 
 Il existe trois mots clés pour indiquer la nature d'une image, mais ils produisent en réalité la même sorte de *TAG* : `image`, `score` ou `partition`. C'est le premier mot à trouver sur la ligne d'une image. Juste après, on doit trouver le nom de cette image, ou son chemin relatif depuis le dossier `images` du dossier de l'analyse.
 
@@ -955,7 +963,7 @@ Il existe trois mots clés pour indiquer la nature d'une image, mais ils produis
 
 Ci-dessus, l'image `image-12.png` doit donc se trouver dans le dossier `_analyses_/monAnalyse/images/premier_mouvement/`.
 
-### Définition de la taille d'une image {#defining_image_size}
+### Définition de la taille d'une image
 
 On peut définir la taille d'une image à l'aide du paramètre `w` (ou `width`, « largeur », en anglais). Sa valeur peut être explicite avec une unité, explicite sans unité ou en pourcentage. Par exemple :
 
@@ -1536,7 +1544,7 @@ Cela produit dans le fichier `_tags_.js` :
 ```
 ---
 
-## Options {#all_options}
+## Options
 
 * [Options de la langue](#choix_langue)
 * [Option « code-sans-options »](#option_code_sans_options)
@@ -2080,16 +2088,15 @@ Quand on utilise l'alias ci-dessus, on peut utiliser ces termes :
 | à venir…      | à venir…     | à venir…       |
 +---------------+--------------+----------------+
 
-## Annexe {#annexe}
+## Annexe
 
-### Application « Terminal » {#application_terminal}
+### Application « Terminal »
 
 Le Terminal est une application des plus puissantes, sur Mac, qui permet de travailler directement avec le noyau unix du Mac. En d'autres termes, elle permet de tout faire — attention : le pire comme le meilleur.
 
 Cette application se trouve dans le dossier `/Applications/Utilitaires` mais vous pouvez l'utiliser plus facilement en passant par Spotlight. Jouer `⌘ ESPACE`, puis taper les premières lettres « Term ».
 
-### Raccourcis clavier {#keyboard_shortcuts}
-
+### Raccourcis clavier
 
 +-----------------------+-----------------------------------------+
 | Général               |                                         |
