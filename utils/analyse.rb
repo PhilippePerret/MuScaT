@@ -7,10 +7,6 @@ require 'io/console'
 require 'fileutils'
 require_relative 'required'
 
-def get_current_analyse
-  File.read(CUR_ANALYSE_FILE).match(/ANALYSE(?:.*?)=(?:.*?)"(.*?)"/).to_a[1]
-end
-
 unless ARGV.include?('-h') || ARGV.include?('--help')
   begin
 
@@ -23,13 +19,13 @@ unless ARGV.include?('-h') || ARGV.include?('--help')
     # Si aucun nom n'a été donné, on présente toute la liste
     names = nil
     if analyse_name.nil?
-      names = names_list
+      names = Analyse.names_list
     elsif File.exist?(File.join(ANALYSES_FOLDER,analyse_name))
       analyse_folder = File.join(ANALYSES_FOLDER,analyse_name)
     else
       # Mauvais nom ou
       names = Array.new
-      names_list.each do |name|
+      Analyse.names_list.each do |name|
         if name.start_with?(analyse_name)
           names << name
         end
@@ -38,7 +34,7 @@ unless ARGV.include?('-h') || ARGV.include?('--help')
         analyse_folder = File.join(ANALYSES_FOLDER,names.first)
       elsif names.count == 0
         puts t('no-folder-found', {name: analyse_name}).vert
-        names = names_list
+        names = Analyse.names_list
         analyse_folder = nil
       end
     end
@@ -50,7 +46,7 @@ unless ARGV.include?('-h') || ARGV.include?('--help')
         puts "    #{(97+idx).chr}: #{aname}"
       end
       puts "\n\n"
-      puts RC*2 + "#{t('currente')} #{get_current_analyse}"
+      puts RC*2 + "#{t('currente')} #{Analyse.get_current_analyse}"
       print t('which-folder')
       choix = STDIN.getch()
       puts ''

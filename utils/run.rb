@@ -8,7 +8,7 @@
       > mus create "Ma nouvelle analyse"
 
 =end
-require_relative 'required'
+require_relative 'lib/required'
 
 
 # ---------------------------------------------------------------------
@@ -30,15 +30,18 @@ begin
     # Afficher l'aide
     # puts "\033c"
     puts_help('run')
-  elsif File.exist?(File.join(APPFOLDER,'utils',"#{COMMAND}.rb"))
-    # C'est bon, on peut le faire
-    # On se place toujours dans l'application
-    Dir.chdir(APPFOLDER) do
-      require_relative COMMAND
-    end
-
   else
-    puts (RC*2 + t('unknown-command', {command: COMMAND}) + RC*2).rouge
+    COMMAND_PATH = File.join(APPFOLDER,'utils','commands', "#{COMMAND}.rb")
+    if File.exist?(COMMAND_PATH)
+      # C'est bon, on peut le faire
+      # On se place toujours dans l'application
+      Dir.chdir(APPFOLDER) do
+        # require_relative COMMAND
+        require COMMAND_PATH
+      end
+    else
+      puts (RC*2 + t('unknown-command', {command: COMMAND}) + RC*2).rouge
+    end
   end
 rescue Exception => e
   puts e.message
