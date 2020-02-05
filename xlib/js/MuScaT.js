@@ -5,6 +5,8 @@
   Class MuScaT (alias : M)
   -------------
 
+  Alias plus pratique : M
+
 */
 // La classe principale
 // MuScaT pour "Mu Sc Ta (à l'envers)" pour "Music Score Tagger"
@@ -75,7 +77,7 @@ const MuScaT = {
           })
           .catch(function(e){
             if (my.analyse_name == 'Analyse_Sonate_Haydn'){
-              MuScaT.loading_error('analyse');
+              M.loading_error('analyse');
               console.error(e);
             } else {
               my.analyse_name = 'Analyse_Sonate_Haydn';
@@ -95,8 +97,16 @@ const MuScaT = {
           nodetags.src = `_analyses_/${analyse_folder_name}/_tags_.js`;
           D.dv('tags.js src', nodetags.src, 4);
           console.log("Fichier tags.js chargé avec succès (%s)", nodetags.src)
+
+          Analyse.current = new Analyse(analyse_folder_name)
+          // Chargement par le fichier JSON (tags.json)
+          A.load_tags()
+          // Chargement des options options.js
+          A.load_options()
+
         } catch (e) {
           console.error("ERREUR EN CHARGEANT ", nodetags.src)
+          console.error(e)
           $(nodetags).remove();
           return ko();
         };
@@ -236,10 +246,7 @@ const MuScaT = {
   // Méthode appelée par le bouton pour afficher le code source
   // On met le code dans le clipboard pour qu'il soit copié-collé
   , codeAnalyseInClipboard: function(message){
-      var my = this ;
-      if (!message){message = t('full-code-in-clipboard')};
-      F.notify(message);
-      navigator.clipboard.writeText(my.build_very_full_code());
+      console.warn("On ne met plus le code dans le clipboard (supprimer l'appel à la méthode 'codeAnalyseInClipboard')")
     }
   /**
    * Méthode secours pour obtenir le code complet de l'analyse,
@@ -255,28 +262,27 @@ const MuScaT = {
   /**
    * Construit (de façon asychrone) le code complet du fichier _tags_.js
    */
-  , build_very_full_code: function(options_to_tags_js){
+  , build_very_full_code: function(){
       var my = this ;
-      if (Options.get('code-no-option')){
-        options_to_tags_js = RC+RC + '// Version X.X' + RC+RC ;
-      } else {
-        if (undefined === options_to_tags_js){
-          // Note : c'est vraiment un return, ci-dessus, car c'est un
-          // traitement asynchrone (on demande à l'user s'il veut conserver
-          // la position de ses lignes repères)
-          return Options.to_tags_js();
-        };
-      }
-      return options_to_tags_js + 'Tags = `'+ RC + this.full_code() + RC + '`;';
+      return '// Version X.X' + RC+RC + 'Tags = `'+ RC + this.full_code() + RC + '`;';
     }
 
   // Retourne le code complet des lignes de tags
   , full_code: function(){
+      return this.full_code_lines().join(RC) ;
+    }
+
+    /**
+      Retourne les lignes de code en format complet
+      Pour le fichier _tags_.js ancienne formule (cf. full_code)
+      et le fichier tags.json nouvelle formule
+    **/
+  , full_code_lines: function(){
       var arr = new Array() ;
       ULTags.onEachLITag(function(litag){
         arr.push(CTags[litag.id].to_line());
       })
-      return arr.join(RC) ;
+      return arr
     }
 
   /**

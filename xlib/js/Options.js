@@ -56,7 +56,9 @@
  }
 
  // pour ajouter une option
+ // OBSOLETE La définition doit se faire maintenant dans le fichier options.js
  window.options = function(){
+   console.warn("La méthode 'options/option' est obsolète")
    Options.set(arguments);
  }
  window.option = window.options;
@@ -93,7 +95,10 @@ const Options = {
 
         seq_options = seq_options.entries();
         while(dopt = seq_options.next().value){
-          opt_id = dopt[1].replace(/ /g,'-') ;
+          // La clé d'option. Comme on peut la fournir avec des espaces
+          // ou des traits plats, on transforme toujours pour obtenir des
+          // tirets entre les mots
+          opt_id = dopt[1].replace(/ /g,'-').replace(/_/g, '-') ;
           opt_id_init = `${opt_id}`;
           // console.log('Traitement de opt_id: ', opt_id);
           if(undefined == OPTIONS[opt_id]){
@@ -134,59 +139,11 @@ const Options = {
     }
 
     /**
-     * Construit et retourne le texte qui doit être inscrit dans le
-     * code de _tags_.js
-     *
-     * Note : c'est une méthode asynchrone car elle demande à l'utilisateur
-     * s'il faut enregistrer la position des lignes de repère.
+      Enregistre les options dans le fichier options.json
+      de l'analyse.
      */
-  , to_tags_js: function(memo_guides){
-      var   my = this
-          , opts = new Array()
-          , opt
-          , val
-          ;
-      // Dans le cas spécial des repères, on demande s'il faut prendre
-      // la nouvelle position ou garder l'ancienne
-      if (undefined === memo_guides){
-        opt_vline = OPTIONS['vertical-line-offset'].value ;
-        opt_hline = OPTIONS['horizontal-line-offset'].value ;
-        if (opt_vline || opt_hline){
-          cur_vline = $('#refline_v').offset().top  ;
-          cur_hline = $('#refline_h').offset().left ;
-          req_vline = opt_vline && opt_vline != cur_vline ;
-          req_hline = opt_hline && opt_hline != cur_hline ;
-          if (req_vline || req_hline){
-            dask = {
-              onOK: $.proxy(my, 'to_tags_js', true),
-              onCancel: $.proxy(my, 'to_tags_js', false)
-            }
-            F.ask(t('memo-guides-offsets'), dask);
-            return ; // en attendant de revenir
-          }
-        }
-      } else {
-        if (memo_guides === true){
-          OPTIONS['vertical-line-offset'].value = $('#refline_v').offset().top;
-          OPTIONS['horizontal-line-offset'].value = $('#refline_h').offset().left;
-        }
-      }
-      for(opt in OPTIONS){
-        if(OPTIONS[opt].aka){continue};
-        var opt_user_name = OPTIONS[opt].user_name||opt;
-        if(OPTIONS[opt].boolean){
-          if (OPTIONS[opt].value) {opts.push("'" + opt_user_name + "'")};
-        } else if (val = OPTIONS[opt].value) {
-          if ('string' == typeof(val)){ val= "'"+val+"'"}
-          opts.push("'" + opt_user_name + "', " + val);
-        };
-      };
-      if (opts.length){
-        opts = 'options(' + opts.join(', ') + ') ;' + RC + RC ;
-      } else {
-        opts = '' ;
-      };
-      return M.build_very_full_code(opts); // ~asynchrone
+  , save: function(){
+      IO.saveOptions()
     }
 
     // Pour remettre toutes les options à false (utile pour les tests)

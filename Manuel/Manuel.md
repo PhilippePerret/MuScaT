@@ -1560,78 +1560,57 @@ Cela produit dans le fichier `_tags_.js` :
 * [Vitesse de l'animation](#vitesse_animation)
 * [Option « Viseur de position »](#position_visor)
 
-Comme les *TAGs* et les partitions, les options se règlent dans le fichier `_tags_.js`. On utilise tout naturellement la fonction `option` (ou `options`) avec en argument les options à activer.
 
-Ci-dessous, par exemple, on active l'option `guide` qui affiche deux lignes repère déplaçables pour aligner des éléments à la souris (ou par magnétisation).
 
-```javascript
+#### Définition des options de l'analyse
 
-  // Dans _tags_.js
-  option('guide');
-  Tags=`
-    ...
-  `;  
+Les options de l’analyse se définissent avec la commande `option` :
 
-```
+~~~sh
+> muscat option "<nom analyse>" <option>=<value>
 
-Dans la méthode `option`, on peut passer toutes les options les unes à la suite des autres, ou utiliser plusieurs fois la méthode `option`. Les trois formulations suivantes sont équivalentes :
+ou
 
-```javascript
+> muscat use "<mon analyse>"
+> muscat option <option>=<value>
+~~~
 
-  // Dans _tags_.js
-  option('guide', 'code', 'marge-haut', 100);
+Par exemple :
 
-```
+~~~sh
+> muscat option "Ma première analyse" animation_speed=100
+~~~
 
-… équivaut à :
+… qui définit la vitesse de l’animation.
 
-```javascript
+Pour les options « simple » (i.e. sans valeur), on met `true’ en valeur :
 
-  // Dans _tags_.js
-  option('guide');option('code');option('marge-haut', 100);
+~~~sh
+> muscat option guide=true
+~~~
 
-```
+Vous noterez qu'il existe deux types d'options. Les options dites « booléenne »  ou « simple »  (par exemple `guide`) et il y a les options non booléennes qui attendent une valeur précise (par exemple `marge-haut` attend la valeur de cette marge-haut).
 
-… qui équivaut à :
+Voyons à présent la liste de toutes les options.
 
-```javascript
 
-  // Dans _tags_.js
-  option('guide');
-  option('code');
-  option('marge-haut', 100);
 
-```
+### Option « langue »
 
-> Note : les points-virgules sont optionnels.
-
-Vous noterez qu'il existe deux types d'options. Les options dites « booléenne » qu'on active simplement en indiquant leur nom en argument (par exemple `guide` ou `code`) et il y a les options non booléennes qui attendent une valeur précise (par exemple `marge-haut` attend la valeur de cette marge-haut).
-
-Dans les arguments de la méthode `option`, la valeur des options non booléennes doit suivre immédiatement le nombre de l'option :
-
-```javascript
-
-  // Dans _tags_.js
-  option('marge-haut', 100);
-
-```
-
-Ci-dessus, la valeur `100`{.num} sera appliquée à l'option `marge-haut`.
-
-### Option « langue » {#choix_langue}
-
-+---------------------+---------------------------------------------+
-|                     |                                             |
-+---------------------+---------------------------------------------+
-| Option              | `lang`, `langue`              |
-+---------------------+---------------------------------------------+
-| Type                | les deux lettres de la langue, par exemple  |
-|                     | `fr` (français) ou `en`         |
-|                     | (anglais).                                  |
-+---------------------+---------------------------------------------+
-
+|         |                                        |      |
+| ------- | -------------------------------------- | ---- |
+| Option  | `lang`, `langue`                       |      |
+| Type    | String, les deux lettres de la langue. |      |
+| Exemple | `fr` (français), `en` (anglais)        |      |
 
 Pour définir la langue parlée par l'application. Pour le moment, l'application ne sait que parler français et anglais, mais nous espérons rapidement voir d'autres langues se développer. Avis aux amateurs traducteurs même inexpérimentés !
+
+~~~sh
+> muscat use "Mon analyse courante"
+> muscat option lang=fr
+~~~
+
+
 
 
 

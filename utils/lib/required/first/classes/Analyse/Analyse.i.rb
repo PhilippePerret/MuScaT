@@ -33,7 +33,7 @@ class Analyse
 
   # Chemin d'accès au fichier options.js de l'analyse
   def path_options_js
-    @path_options_js ||= File.join(path,'options.js')
+    @path_options_js ||= File.join(path,'options.json')
   end
 
   # Chemin d'accès absolu au dossier de l'analyse

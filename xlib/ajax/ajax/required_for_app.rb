@@ -14,6 +14,7 @@ end
 
 ANALYSE_NAME = get_current_analyse_name
 ANALYSE_FOLDER = File.join(APP_FOLDER,'_analyses_', ANALYSE_NAME)
-ANALYSE_TAGS_JS = File.join(ANALYSE_FOLDER, '_tags_.js')
+ANALYSE_TAGS_JS = File.join(ANALYSE_FOLDER, '_tags_.js') # old formula
+ANALYSE_TAGS_JSON = File.join(ANALYSE_FOLDER, 'tags.json') # new formula
 ANALYSE_BACKUP_FOLDER = File.join(ANALYSE_FOLDER, 'xbackups')
 `mkdir -p "#{ANALYSE_BACKUP_FOLDER}"`

@@ -43,11 +43,11 @@ class IO {
   }
 
   static saveIfModified(){
-    if ( Muscat.modified ) {
+    if ( M.modified ) {
       this.saving = true
       console.log('%c--- Modification du code => Enregistrement', 'color:green;')
       this.saveTags()
-      Muscat.modified = false
+      M.modified = false
       this.saving = false
     } else {
       console.log('%c--- Pas de modification (pas d’enregistrement)', 'color:blue;')
@@ -60,11 +60,25 @@ class IO {
         type:'POST'
       , data: {
             script: "save_current.rb"
-          , args: {code: MuScaT.build_very_full_code()}
+          , args: {code: M.build_very_full_code(), lines: M.full_code_lines}
         }
       , success: my.onTagsSaved.bind(my)
     })
 
+  }
+
+  static saveOptions(){
+    const my = this
+    Ajax.send({
+        type: 'POST'
+      , data: {
+            script: "save_options.rb"
+          , args: {
+                options: Options.OPTIONS
+              , analyse: A.name
+            }
+        }
+    })
   }
 
   /**
