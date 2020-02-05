@@ -19,13 +19,6 @@ const MuScaT = {
     // chargé et ne pas le charger à chaque fois
   , tags_file_loaded: false
 
-    // Exécute la fonction +method+ sur toutes les lignes de la
-    // constante Tags.
-  , onEachTagsLine: function(method){
-      var  i = 0, lines = Tags.trim().split(RC), len = lines.length ;
-      for(i;i<len;++i){method(lines[i])};
-    }
-
     /**
      * Nouvelle méthode utilisant les promises pour charger tous les
      * premiers éléments asynchrones.
@@ -33,11 +26,17 @@ const MuScaT = {
   , preload: function(){
       return new Promise(function(ok, ko){
         Cook.parse();
-        M.load_analyse_data()
-          .then(Locales.PLoad)
-          .then(Theme.PLoad)
-          .then(ok);//on peut commencer
-      })
+
+        // TODO DÉFINIR L'ANALYSE COURANTE POUR QUE A SOIT DÉFINI
+        
+        A.loadOptions() // pour connaitre la langue et le thème (if any)
+        .then(Locales.PLoad)
+        .then(Theme.PLoad)
+        .then(ok)
+        .catch(this.onPreloadError.bind(this))
+    }
+  , onPreloadError: function(err){
+      error(err)
     }
 
   , loading_error: function(){
@@ -59,34 +58,43 @@ const MuScaT = {
      * se trouve toujours dans la distribution.
      */
   , load_analyse_data: function(){
-      console.log("-> load_analyse_data")
       D.dfn('MuScaT#load_analyse_data');
       var my = this ;
-      if (my.tags_file_loaded){
-        // Pour le cas des tests par exemple
+      if (my.tags_file_loaded){// Pour le cas des tests par exemple
         return new Promise(function(ok,ko){ok()});
       };
       return new Promise(function(ok, ko){
         // On charge les éléments de l'analyse courante
-        console.log("my.analyse_name = ", my.analyse_name)
         my.load_analyse_of(my.analyse_name)
-          .then(function(){
-            console.log("load_analyse_of ok", )
-            M.tags_file_loaded = true ;
-            ok();
-          })
-          .catch(function(e){
-            if (my.analyse_name == 'Analyse_Sonate_Haydn'){
-              M.loading_error('analyse');
-              console.error(e);
-            } else {
-              my.analyse_name = 'Analyse_Sonate_Haydn';
-              ok();
-              return my.load_analyse_data();
-            }
-          });
+          .then(this.onLoadingAnalyseDataOK.bind(this))
+          .catch(this.onLoadingAnalyseDataError.bind(this))
       })
     }
+
+    /**
+      En cas de succès du chargement des données de l'analyse
+    **/
+  , onLoadingAnalyseDataOK: function(ok){
+      console.log("load_analyse_of ok (analyse_name = '%s')", my.analyse_name)
+      M.tags_file_loaded = true ;
+      ok();
+    }
+    /**
+      En cas d'erreur de chargement de l'analyse voulue
+      (on charge l'analyse de Haydn qui se trouve toujours dans la distribution)
+    **/
+  , onLoadingAnalyseDataError: function(e){
+      if (my.analyse_name == 'Analyse_Sonate_Haydn'){
+        M.loading_error('analyse');
+        console.error(e);
+      } else {
+        my.analyse_name = 'Analyse_Sonate_Haydn';
+        ok();
+        return my.load_analyse_data();
+      }
+    }
+
+
   , load_analyse_of: function(analyse_folder_name){
       var nodetags;
       return new Promise(function(ok, ko){
@@ -98,11 +106,9 @@ const MuScaT = {
           D.dv('tags.js src', nodetags.src, 4);
           console.log("Fichier tags.js chargé avec succès (%s)", nodetags.src)
 
-          Analyse.current = new Analyse(analyse_folder_name)
+          Analyse.current = new Analyse(analyse_folder_name) // => A
           // Chargement par le fichier JSON (tags.json)
-          A.load_tags()
-          // Chargement des options options.js
-          A.load_options()
+          A.loadTags()
 
         } catch (e) {
           console.error("ERREUR EN CHARGEANT ", nodetags.src)
@@ -122,7 +128,6 @@ const MuScaT = {
 
   , start_and_run: function(){
       D.dfn('MuScat#start_and_run');
-      console.log("-> start_and_run")
       return new Promise(function(ok,ko){
         // On prépare l'interface (notamment au niveau de la langue)
         UI.set_ui();
@@ -293,7 +298,7 @@ const MuScaT = {
       var my = this, itag ;
       console.log('-> parse_tags_js')
       my.check_sequence_image_in_tags();
-      my.onEachTagsLine(function(line){
+      A.onEachTagsLine(function(line){
         CTags.push(new Tag(line)) ;
       });
     }
@@ -313,7 +318,7 @@ const MuScaT = {
         , lines_finales = new Array()
         , rg
         ;
-      my.onEachTagsLine(function(line){
+      A.onEachTagsLine(function(line){
         // console.log("LINE: '%s'", line)
         if(rg = line.match(/^([^\/].*)\[([0-9]+)\-([0-9]+)\]([^ ]+)( (.*))?$/)){
           my.treate_as_sequence_images(rg, lines_finales);

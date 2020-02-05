@@ -5,7 +5,7 @@
 
 $(document).ready(function(){
   if('undefined'==typeof(TESTING)){TESTING = false};
-  console.log(TESTING?'Oui, du test':'NON, pas de test');
+  // console.log(TESTING?'Oui, du test':'NON, pas de test');
 
   MuScaT.analyse_name = TESTING?'Tests':ANALYSE ;// Modifiée si inexistante
   MuScaT.preload()
