@@ -147,7 +147,7 @@ const Mover = {
       var surf = new Surf(this.selectionPosDim);
       // console.log('surf:',surf.inspect());
       var arr = new Array();
-      CTags.onEachTag(function(itag){
+      CTags.forEachTag(function(itag){
         if(!itag.real){return};
         // console.log('itag.surf de #', itag.id, itag.surf);
         if(itag.surf.isIn(surf)){

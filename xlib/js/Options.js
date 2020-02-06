@@ -1,14 +1,15 @@
 /**
- * Class Options
+ * Class Options (alias 'Opt')
  * -------------
  * Pour la gestion des options
  */
  // Les options utilisables
  const OPTIONS = {
    // Note : `user_name` permet de garder la trace du nom de l'option que l'user
-   // à employée, en cas de "aka" pour lui redonner la même.
+   // a employée, en cas de "aka" pour lui redonner la même.
      'animation-speed':             {boolean: false, value: null, default: 50, user_name: null}
-   , 'animation-speed':           {aka: 'animation-speed'}
+   , 'animation-speed':             {aka: 'animation-speed'}
+   , 'auto-save':                   {boolean: true, value: null, default: true}
    , 'code':                        {boolean: true, value: false, default: false}
    , 'code-no-option':              {boolean: true, value: null}
    , 'code-no-options':             {aka: 'code-no-option'}
@@ -27,7 +28,7 @@
    , 'langage':                     {aka: 'lang'}
    , 'lines-of-reference':          {boolean: true, value: false} // si true, affiche les lignes de guide
    , 'espacement-images':           {aka: 'space-between-scores'}
-   , 'space-between-scores':        {boolean: false, value: null, default: 10}
+   , 'space-between-scores':        {boolean: false, value: null, default: DEFAULT_SCORES_SPACES}
    , 'top-first-score':             {boolean: false, value: null}
    , 'marge-haut':                  {aka: 'top-first-score'}
    , 'left-margin':                 {boolean: false, value: null}
@@ -63,27 +64,31 @@
  }
  window.option = window.options;
 
-const Options = {
-    class: 'Options'
+class Options {
+
     /**
      * Retourne la valeur de l'option d'identifiant opt_id ou sa valeur
      * par défaut si elle est définie,
      * Ou undefined si l'option n'existe pas
      */
-  , get: function(opt_id, options) {
-      if (undefined == options){options = {}}
-      if (undefined == OPTIONS[opt_id]){
-        if(options.no_alert != true){
-          error(t('unknown-option', {option: opt_id}));
-        }
-        return undefined ;
-      } else if (OPTIONS[opt_id].aka){
-        opt_id = OPTIONS[opt_id].aka ;
+  static get(opt_id, options) {
+    if (undefined == options){options = {}}
+    if (undefined == OPTIONS[opt_id]){
+      if(options.no_alert != true){
+        error(t('unknown-option', {option: opt_id}));
       }
-      return OPTIONS[opt_id].value || OPTIONS[opt_id].default ;
+      return undefined ;
+    } else if (OPTIONS[opt_id].aka){
+      opt_id = OPTIONS[opt_id].aka ;
     }
+    let optVal = OPTIONS[opt_id].value
+    if ( optVal === null ) {
+      optVal = OPTIONS[opt_id].default
+    }
+    return optVal ;
+  }
 
-  , set: function(){
+  static set(){
       var opt, opt_id ;
       try {
         // console.log('args: ', arguments);
@@ -142,15 +147,17 @@ const Options = {
       Enregistre les options dans le fichier options.json
       de l'analyse.
      */
-  , save: function(){
+  static save(){
       IO.saveOptions()
     }
 
-    // Pour remettre toutes les options à false (utile pour les tests)
-  , reset: function(){
+  // Pour remettre toutes les options à false (utile pour les tests)
+  static reset(){
       for(var k in OPTIONS){
         if (OPTIONS[k].aka){continue}
         else {OPTIONS[k].value = null};
       }
     }
 };
+
+const Opt = Options ;

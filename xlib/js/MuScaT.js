@@ -19,25 +19,6 @@ const MuScaT = {
     // chargé et ne pas le charger à chaque fois
   , tags_file_loaded: false
 
-    /**
-     * Nouvelle méthode utilisant les promises pour charger tous les
-     * premiers éléments asynchrones.
-     */
-  , preload: function(){
-      return new Promise(function(ok, ko){
-        Cook.parse();
-
-        // TODO DÉFINIR L'ANALYSE COURANTE POUR QUE A SOIT DÉFINI
-        
-        A.loadOptions() // pour connaitre la langue et le thème (if any)
-        .then(Locales.PLoad)
-        .then(Theme.PLoad)
-        .then(ok)
-        .catch(this.onPreloadError.bind(this))
-    }
-  , onPreloadError: function(err){
-      error(err)
-    }
 
   , loading_error: function(){
       F.error(function(){
@@ -160,8 +141,8 @@ const MuScaT = {
       D.dfn('Muscat#load')
       return new Promise(function(ok,ko){
         if ('undefined' == typeof Tags) {return alert(t('tags-undefined'))};
-        M.reset_all();
-        M.parse_tags_js();
+        // M.reset_all(); // OK dans Muscat
+        // M.parse_tags_js(); // OK dans Muscat
         M.build_tags();
         M.traite_images()
           .then(M.endLoadingImages)
@@ -182,7 +163,7 @@ const MuScaT = {
         // soit en bonne position
         // On fera la même chose, un peu plus bas, avec les lignes de
         // référence
-        CTags.onEachTag(function(tg){tg.jqObj.css('position','absolute')});
+        CTags.forEachTag(function(tg){tg.jqObj.css('position','absolute')});
 
         // Quand on clique sur la partition, en dehors d'un élément,
         // ça déselectionne tout
@@ -239,13 +220,7 @@ const MuScaT = {
    */
   , animated: false
   , build_tags: function(){
-      var my = this ;
-      // On construit d'abord tous les tags, mais en les masquant si c'est
-      // pour une animation.
-      CTags.onEachTag(function(itag){
-        if(itag.real){itag.build({visible: !my.animated})};
-        if(itag.is_anim_start){my.animated = true}
-      });
+      console.warn("-> build_tags OBSOLÈTE")
     }
 
   // Méthode appelée par le bouton pour afficher le code source
@@ -295,12 +270,7 @@ const MuScaT = {
    * en tirer le code de l'analyse.
    */
   , parse_tags_js: function(){
-      var my = this, itag ;
-      console.log('-> parse_tags_js')
-      my.check_sequence_image_in_tags();
-      A.onEachTagsLine(function(line){
-        CTags.push(new Tag(line)) ;
-      });
+      console.warn("OBSOLÈTE. Cf. Analyse.parseTags")
     }
 
   /**
@@ -313,87 +283,16 @@ const MuScaT = {
    * défaut
    */
   , check_sequence_image_in_tags: function(){
-      console.log('-> check_sequence_image_in_tags')
-      var my = this
-        , lines_finales = new Array()
-        , rg
-        ;
-      A.onEachTagsLine(function(line){
-        // console.log("LINE: '%s'", line)
-        if(rg = line.match(/^([^\/].*)\[([0-9]+)\-([0-9]+)\]([^ ]+)( (.*))?$/)){
-          my.treate_as_sequence_images(rg, lines_finales);
-        } else {
-          lines_finales.push(line);
-        }
-      })
-      Tags = lines_finales.join(RC);
+      console.warn("-> check_sequence_image_in_tags OBSOLÈTE")
     }
   , treate_as_sequence_images: function(dreg, lines_finales) {
-      console.log('-> treate_as_sequence_images')
-      var my          = this
-        , bef_name    = dreg[1]
-        , from_indice = Number.parseInt(dreg[2], 10)
-        , to_indice   = Number.parseInt(dreg[3], 10)
-        , suffix      = dreg[4]
-        , aft_name    = (dreg[5]||'')
-        , src_name
-        , itag
-        , i = from_indice
-        , data_img    = CTags.parseLine(aft_name)
-        , images_list = new Array()
-        ;
-
-      var left      = asPixels(Options.get('marge-gauche') || DEFAULT_SCORE_LEFT_MARGIN) ;
-      var top_first = asPixels(Options.get('marge-haut') || DEFAULT_SCORE_TOP_MARGIN) ;
-      var voffset   = asPixels(Options.get('espacement-images')) ;
-
-      // Pour indiquer qu'il faut calculer la position des images en fonction
-      // de 1. l'espacement choisi ou par défaut et 2. la hauteur de l'image
-      my.treate_images_spaces = true ;
-
-      // Il faut étudier aft_name pour voir si des données de position ou de
-      // taille sont définies
-      if (data_img.x) {
-        // console.log('La marge-gauche est définie à ', data_img.x);
-      } else {
-        data_img.x = asPixels(left) ;
-      }
-      if (data_img.y) {
-        // console.log("La marge-haute est définie à ", data_img.y)
-        top_first = asPixels(data_img.y) ;
-      } else {
-        data_img.y = top_first - voffset ; // -voffset pour éviter une condition ci-dessous
-      }
-      if (data_img.w) {
-        // console.log("La largeur est définie à ", data_img.w);
-      };
-      // if (data_img.h){
-      //   console.log("La hauteur est définie à ", data_img.h);
-      // }
-      for(i;i<=to_indice;++i){
-        // Placement vertical provisoire. La vraie position sera recalculée dans
-        // Page.treate_images_spaces
-        data_img.y += voffset ;
-        lines_finales.push(`${bef_name}${i}${suffix} ${CTags.compactLine(data_img)}`);
-      };
-      M.motif_lines_added = t('image-sequentielle');
+      console.warn('-> treate_as_sequence_images OBSOLÈTE')
     }
 
 
   // ---------------------------------------------------------------------
   // Méthodes fonctionnelles
 
-  // Pour tout réinitialiser chaque fois qu'on actualise l'affichage
-  // Pour les tests, appeler plutôt `reset_for_tests` (qui appelle aussi
-  // celle-ci)
-  , reset_all: function(){
-      var my = this ;
-      my.errors = new Array();
-      CTags.last_tag_id = 0 ; // commence à 1
-      Page.table_analyse[0].innerHTML = '' ;
-      my.treate_images_spaces = false ;
-      my.motif_lines_added = null ;
-    }
 
   , loadModule: function(module_name){
       return new Promise(function(ok,ko){

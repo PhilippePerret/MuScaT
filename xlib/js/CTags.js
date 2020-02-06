@@ -11,11 +11,11 @@ const CTags = {
   /**
    * Exécute la méthode +method+ sur tous les tags
    */
-  , onEachTag: function(method, options){
+  , forEachTag: function(method, options){
       var i = 1, len = this.length ;
       if(options && options.from){i = options.from}
       if(options && options.to){len = options.to + 1}
-      // console.log(`Boucle dans onEachTag de ${i} à ${len} (length=${this.length})`);
+      // console.log(`Boucle dans forEachTag de ${i} à ${len} (length=${this.length})`);
       for(i;i<=len;++i){method(this[i], i)};
     }
 
@@ -214,7 +214,7 @@ const CTags = {
     // On traite le clic sur l'élément courant
     if(itag.group){
       ev.shiftKey = true;
-      itag.group.onEachTag(function(itag){itag.onClick(ev)})
+      itag.group.forEachTag(function(itag){itag.onClick(ev)})
     } else {
       if( !itag.locked ) {
         itag.onClick(ev);

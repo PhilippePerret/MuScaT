@@ -39,7 +39,7 @@ const ULTags = {
   , build: function(){
       var my = this;
       my.setULHeight();
-      CTags.onEachTag(function(itag){
+      CTags.forEachTag(function(itag){
         const tag = new LITag(itag)
         tag.build.call(tag)
       });

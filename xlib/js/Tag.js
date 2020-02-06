@@ -439,7 +439,9 @@ Tag.prototype.to_html = function() {
   var ftext = my.text || '';
   switch (my.nature) {
     case 'score':
-      return `<img id="${my.domId}" data-id="${my.id}" class="${classes.join(' ')}" src="${M.images_folder}/${my.src}" style="${css}" />`
+      // fabriqué par Images.treateImages de la nouvelle formule
+      return my.imageTag.replace(/__classes__/,classes.join(' ')).replace(/__css__/,css)
+      // tag.imageTag = `<img id="${my.domId}" data-id="${my.id}" class="${classes.join(' ')}" src="${A.imagesFolder}/${my.src}" style="${css}" />`
     case 'cadence':
     case 'text':
       classes.push(my.type) ;
@@ -1165,6 +1167,7 @@ Object.defineProperties(Tag.prototype,{
   , is_image: {
       get: function(){return this.nature == 'score' }
     }
+  , isImage: {get:function(){return this.nature == 'score' }}
   , is_modulation:{
       get: function(){return this.type == 'modulation'}
     }

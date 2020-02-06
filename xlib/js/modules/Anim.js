@@ -83,7 +83,7 @@ const Anim = {
      */
   , reset: function(){
       var itag;
-      CTags.onEachTag(function(itag){if(itag.real){itag.jqObj.hide()}});
+      CTags.forEachTag(function(itag){if(itag.real){itag.jqObj.hide()}});
       this.desactivateLiTags();
       return this; // chainage
     }
@@ -124,7 +124,7 @@ const Anim = {
       this.reset().search_start();
       UI.divULTags.css({opacity:1})
       if (this.rerunSaveLoopAfter) IO.startSavingLoop()
-      CTags.onEachTag(function(itag){itag.real && itag.jqObj.show()});
+      CTags.forEachTag(function(itag){itag.real && itag.jqObj.show()});
     }
   , stateButtons: function(for_stop){
       var my = this

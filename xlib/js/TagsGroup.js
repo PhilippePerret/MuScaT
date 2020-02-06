@@ -13,7 +13,7 @@ const TagsGroup = function() {
 }
 
 // Pour faire tourner une méthode sur tous les tags d'un group
-TagsGroup.prototype.onEachTag = function(method){
+TagsGroup.prototype.forEachTag = function(method){
   var my = this ;
   for(var tg of my.tags){method(tg)};
 }
@@ -32,6 +32,6 @@ TagsGroup.prototype.remove_tag = function(itag){
  */
 TagsGroup.prototype.ungroup = function(){
   var my = this, itag ;
-  my.onEachTag(function(itag){itag.ungroup()});
+  my.forEachTag(function(itag){itag.ungroup()});
   delete TagsGroups.groups[my.id];
 };

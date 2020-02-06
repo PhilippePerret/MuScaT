@@ -158,26 +158,6 @@ const Page = {
       })
     }
 
-  , treate_images_spaces: function(fn_suite){
-      return new Promise(function(ok,ko){
-        var voffset = asPixels(Options.get('espacement-images') || DEFAULT_SCORES_SPACES) ;
-        var topImage ;
-        CTags.onEachTag(function(itag){
-          if(!itag.is_image){return};
-          if(undefined == topImage){
-            // <= Première image (ne pas la bouger)
-            topImage = Number.parseInt(itag.jqObj.offset().top,10) ;
-          } else {
-            itag.y = topImage ;
-            itag.jqObj.css('top', topImage + 'px');
-          }
-          // Pour la prochaine image
-          topImage = topImage + itag.jqObj.height() + voffset;
-        });
-        ok();
-      })
-    }
-
   /**
    * Affiche la ligne horizontale et la ligne verticale qui permettent
    * d'aligner des éléments.
