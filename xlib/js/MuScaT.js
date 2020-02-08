@@ -1,109 +1,174 @@
-/*
-  Gestion de la partition
-  -----------------------
+'use strict';
+/** ---------------------------------------------------------------------
+  *   Classe Muscat
+  *   -------------
+  *
+  Elle est destinée à remplacer la constante MuScaT (déjà trop dure à
+  écrire, et en constante)
+*** --------------------------------------------------------------------- */
+class Muscat {
+  static get modified(){return this._modified || false}
+  static set modified(v){
+    this._modified = v
+    // TODO Peut-être une marque pour indiquer que ce n'est pas sauvé
+  }
 
-  Class MuScaT (alias : M)
-  -------------
+  /**
+    En cas d'erreur, utilisable par toutes les méthodes, par exemple dans
+    le catch des promesses.
+  **/
+  static onError(err){
+    console.error(err)
+    error("Une erreur est survenue")
+  }
+  /**
+    * @async
+    * Nouvelle méthode utilisant les promises pour charger tous les
+    * premiers éléments asynchrones.
+  **/
+  static preload(){
+    return new Promise((ok, ko)=>{
+      Cook.parse();
+      A.loadOptions() // pour connaitre la langue et le thème (if any)
+      .then(Locales.PLoad)
+      .then(Theme.PLoad)
+      .then(ok)
+      .catch(this.onPreloadError.bind(this))
+    })
+  }
 
-  Alias plus pratique : M
+  /**
+    Chargement, principalement, des tags de l'analyse
+  **/
+  static load(){
+    console.log('-> load')
+    this.resetAll();
+    return new Promise((ok,ko)=>{
+      A.loadTags()
+      .then(A.prepareLines)
+      .then(Images.loadAllImages.bind(Images,A))
+      .then(ok)
+    })
+  }
 
-*/
-// La classe principale
-// MuScaT pour "Mu Sc Ta (à l'envers)" pour "Music Score Tagger"
-const MuScaT = {
-    // Liste des erreurs rencontrées (sert surtout aux textes)
-  motif_lines_added: null
+  static postload(){
+    console.log('-> postload')
+    return new Promise((ok,ko) => {
+      A.buildTags()
+      .then(Images.treateImagesSeparationIfRequired.bind(Images,A))
+      .then(ULTags.build.bind(ULTags))
+      .then(this.setupInPostLoad.bind(this))
+      .then(ok)
+      .catch(Muscat.onError)
+    })
+  }
 
-    /**
-     * Toute première méthode appelée, qui va charger le fichier de données
-     * _tags_.js de l'application. S'il ne le trouve pas ou qu'une erreur
-     * se produit, l'application charge l'analyse 'Analyse_Sonate_Haydn' qui
-     * se trouve toujours dans la distribution.
-     */
-  , load_analyse_data: function(){
-      console.warn("OBSOLÈTE. La méthode load_analyse_data ne doit plus servir")
+  static setupInPostLoad(){
+    return new Promise((ok,ko) => {
+      try {
+
+        // Préparation de l'interface
+        // C'est cette méthode, par exemple, qui va afficher ou masquer
+        // les boutons de contrôle de l'animation si c'est une animation
+        UI.setUI()
+
+        // Chargement du module d'automation si l'analyse est
+        // automatisée
+        A.animated && requireModule('Automation')
+
+        // Le nom de l'analyse en filigrane sur la table d'analyse
+        // TODO Doit pouvoir être réglé (visible/masqué) par une option
+        $('span#analyse_name').text(A.name);
+
+        // TODO Voir si c'est encore utile :
+        // Pour une raison pas encore expliquée, il arrive que les
+        // éléments se bloquent et ne prenent plus leur position
+        // absolute (bug dans le draggable de jQuery).
+        // Donc, ici, on s'assure toujours que les éléments draggable
+        // soit en bonne position
+        // On fera la même chose, un peu plus bas, avec les lignes de
+        // référence
+        CTags.forEachTag(function(tg){tg.jqObj.css('position','absolute')});
+
+        // Lignes de références
+        if(Options.get('lines-of-reference')){
+          Page.build_lines_of_reference();
+          Page.assure_lines_draggable();
+        }
+
+        // Observation de la page
+        Page.observe()
+
+        // OK
+        ok()
+      } catch (err) { ko(err) }
+    })
+  }
+
+
+  // ---------------------------------------------------------------------
+
+  static resetAll(){
+    var my = this ;
+    my    .errors = new Array();
+    my    .treate_images_spaces = false ;
+    my    .motif_lines_added    = null ;
+    CTags .last_tag_id = 0 ; // 1-start
+    Page  .table_analyse[0].innerHTML = '' ;
+  }
+
+  /**
+    Appelée lorsque l'analyse est vraiment prête, c'est-à-dire qu'elle
+    est chargée et construite sur la table
+  **/
+  static onReady(){
+    // Si on est en train de tester, on lance les tests
+    if(TESTING){
+      Tests.run()
+    } else {
+      // hors tests
+      console.log("auto-save = ", Options.get('auto-save'))
+      Options.get('auto-save') && IO.startSavingLoop()
     }
 
-    /**
-      En cas de succès du chargement des données de l'analyse
-    **/
-  , onLoadingAnalyseDataOK: function(ok){
-      console.warn("OBSOLÈTE. La méthode onLoadingAnalyseDataOK ne doit plus servir")
+  }
+
+  static onPreloadError(err){
+    error(err)
+  }
+
+  static loadingError(when){
+    let err ;
+    switch(Muscat.lang){
+      case 'en':
+        err = `An error occured (${when}). Can’t launch Muscat, sorry.`;
+        break;
+      default:
+        err = `Une erreur fatale est malheureusement survenue (${when}). Je ne peux pas lancer Muscat…`;
     }
-    /**
-      En cas d'erreur de chargement de l'analyse voulue
-      (on charge l'analyse de Haydn qui se trouve toujours dans la distribution)
-    **/
-  , onLoadingAnalyseDataError: function(e){
-      console.warn("OBSOLÈTE. La méthode onLoadingAnalyseDataError ne doit plus servir")
-    }
+    F.error(err);
+  }
 
-
-  , postLoad: function(){
-      D.dfn('MuScaT#postLoad');
-      return new Promise(function(ok,ko){
-        // On met le titre du dossier d'analyse
-
-
-
-        // Quand on clique sur la partition, en dehors d'un élément,
-        // ça déselectionne tout
-        // $('#tags').on('click', function(ev){CTags.deselectAll()})
-        // Dans tous les cas, on construit les liTags
-        // ULTags.build();
-        // Si l'option 'lines-of-reference' a été activée, il faut
-        // ajouter les deux lignes repères
-        ok();
-      });
-    }
-
-
-  // Méthode appelée par le bouton pour afficher le code source
-  // On met le code dans le clipboard pour qu'il soit copié-collé
-  , codeAnalyseInClipboard: function(message){
-      console.warn("On ne met plus le code dans le clipboard (supprimer l'appel à la méthode 'codeAnalyseInClipboard')")
-    }
   /**
    * Méthode secours pour obtenir le code complet de l'analyse,
    * quand la copie dans le presse-papier ne fonctionne pas.
    */
-  , codeCompletSecours: function(){
-      var my = this;
-      var o = $('textarea#code-complet-secours');
-      o.val(my.veryFullCode());
-      o.show().focus().select();
-      UI.toggle_tools();
-    }
+  static codeCompletSecours(){
+    var my = this;
+    var o = $('textarea#code-complet-secours');
+    o.val(my.veryFullCode());
+    o.show().focus().select();
+    UI.toggle_tools();
+  }
 
 
   /**
-   * Méthode qui prend le code du fichier Tags.js et le décompose pour
-   * en tirer le code de l'analyse.
-   */
-  , parse_tags_js: function(){
-      console.warn("OBSOLÈTE. Cf. Analyse.parseTags")
-    }
+    Retourne la langue courante
+  **/
+  static get lang(){
+    return this._lang || (this._lang = Options.get('lang').toLowerCase())
+  }
 
-  /**
-   * Méthode qui, avant toute autre opération sur les lignes de la donnée
-   * Tags, regarde s'il n'y a pas une séquence d'images à traiter
-   * Si c'est le cas, elle modifie le code pour que cette séquence soit
-   * bien traitée.
-   *
-   * Note : l'option 'espacement-images' peut modifier l'espacement par
-   * défaut
-   */
-  , check_sequence_image_in_tags: function(){
-      console.warn("-> check_sequence_image_in_tags OBSOLÈTE")
-    }
-  , treate_as_sequence_images: function(dreg, lines_finales) {
-      console.warn('-> treate_as_sequence_images OBSOLÈTE')
-    }
+}
 
-
-  // ---------------------------------------------------------------------
-  // Méthodes fonctionnelles
-
-};
-// Alias
-const M = MuScaT ;
+const M = Muscat;

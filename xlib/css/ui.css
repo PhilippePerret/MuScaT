@@ -147,6 +147,10 @@ div#div-ultags div#div-ultags-buttons button.plus-moins {
   padding:0;
   border: 1px solid grey;
   font-family: Arial, Helvetica;
+  vertical-align: top;
+}
+div#div-ultags div#div-ultags-buttons button.plus-moins img {
+  width:30px;
 }
 div#div-ultags div#div-ultags-buttons div.buttons-block {
   display: inline-block;

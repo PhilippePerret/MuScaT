@@ -30,8 +30,7 @@
     <script type="text/javascript" src="xlib/js/main.js"></script>
     <script type="text/javascript" src="xlib/js/Analyse.js"></script>
     <script type="text/javascript" src="xlib/js/Images.js"></script>
-    <script type="text/javascript" src="xlib/js/MuScaT.js"></script>
-    <script type="text/javascript" src="xlib/js/Muscat-class.js"></script>
+    <script type="text/javascript" src="xlib/js/Muscat.js"></script>
     <script type="text/javascript" src="xlib/js/Tag.js"></script>
     <script type="text/javascript" src="xlib/js/TagsGroup.js"></script>
     <script type="text/javascript" src="xlib/js/CTags.js"></script>
@@ -68,9 +67,11 @@
             <button type="button" id="ultags-btn-plus" class="plus-moins" onclick="$.proxy(ULTags,'addTag')()">➕</button>
             <button type="button" id="ultags-btn-moins" class="plus-moins" onclick="$.proxy(ULTags,'removeTag')()">➖</button>
             <button type="button" id="ultags-btn-lock" class="plus-moins">🔒</button>
-            <span>    </span>
-            <button type="button" id="btn-stop-restart-saving">Stop auto save</button>
-            <button type="button" id="btn-force-save">Force save</button>
+            <button type="button" id="btn-stop-restart-saving" class="plus-moins">
+              <img src="xlib/images/pictos/auto-save-on.png" alt="Auto-save code" title="Sauvegarde automatique"></button>
+            <button type="button" id="btn-force-save" class="plus-moins">
+              <img src="xlib/images/pictos/save.png" alt="Save code" title="Sauver le code"></button>
+            </button>
           </div>
 
         </div>
@@ -125,7 +126,7 @@
 
         <fieldset id="fs_aide">
           <div id="div-code-complet-secours">
-            <button type="button" onclick="MuScaT.codeCompletSecours.bind(MuScaT)()">Code complet (secours)</button>
+            <button type="button" onclick="Muscat.codeCompletSecours.bind(Muscat)()">Code complet (secours)</button>
           </div>
           <div>
             <a href="Manuel/Manuel.pdf" target="_new"><span class="t-Open"></span> <span class="t-the-help"></span></a>

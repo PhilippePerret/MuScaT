@@ -785,7 +785,13 @@ Tag.prototype.recompose = function(options){
   aLine.push(my.nature_init) ; // par exemple 'image', line', 'part', 'mesure'
   // Deuxième mot, la source ou le texte, ou rien
   my.src  && aLine.push(my.src) ;
-  my.text && aLine.push(my.is_comment_line ? my.text : my.text.replace(/ /g,'_')) ;
+  try {
+    my.text && aLine.push(my.is_comment_line ? my.text : my.text.replace(/ /g,'_')) ;
+  } catch (e) {
+    console.error("Une erreur a été rencontrée (j'ai remplacé par une texte '-no text-') : ", e)
+    console.error("La tag = ", this)
+    aLine.push('-no_text-')
+  }
 
   // Si un type est défini, et que la nature n'est pas un raccourci
   // de nature, on écrit ce type

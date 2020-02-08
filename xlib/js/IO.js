@@ -25,7 +25,9 @@ class IO {
   static startSavingLoop(){
     this.saveLooping = true
     this.saveTimer = setInterval(this.saveIfModified.bind(this), 5000)
-    UI.btnStopSave.innerHTML = "Stop Save Loop"
+    // UI.btnStopSave.innerHTML = "Stop Save Loop"
+    UI.btnStopSave.querySelector('img').src = 'xlib/images/pictos/auto-save-on.png'
+    UI.btnStopSave.style.opacity = '1'
     console.log("Boucle de sauvegarde automatique ON")
   }
 
@@ -36,7 +38,8 @@ class IO {
     if ( undefined !== this.saveTimer ) {
       clearInterval(this.saveTimer)
       delete this.saveTimer
-      UI.btnStopSave.innerHTML = "Start Save Loop📥"
+      UI.btnStopSave.querySelector('img').src = 'xlib/images/pictos/auto-save-off.png'
+      UI.btnStopSave.style.opacity = '0.3'
       console.log("Boucle de sauvegarde automatique OFF")
     }
     this.saveLooping = false
