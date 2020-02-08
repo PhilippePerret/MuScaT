@@ -9,9 +9,9 @@ class UI {
 
   static toggle_tools(){
     if (this.tools_are_opened()){
-      this.hide_tools();
+      this.hideTools();
     } else {
-      this.show_tools();
+      this.showTools();
     }
   }
 
@@ -22,10 +22,7 @@ class UI {
   /**
    * Méthode appelée quand on ouvre la boite à outils
   **/
-  static show_tools(){
-
-    // TODO Il vaudrait mieux les mettre dans une méthode init()
-    this.set_ui(); // pour les textes pas encore mis
+  static showTools(){
 
     this.domTools.className = 'opened';
     var plusieurs_selections = CTags.selections.length > 1 ;
@@ -44,7 +41,7 @@ class UI {
     }
   }
 
-  static hide_tools(){
+  static hideTools(){
     this.domTools.className = 'closed';
   }
 
@@ -54,8 +51,8 @@ class UI {
    * C'est aussi cette méthode qui dessine des lignes repères pour
    * les sauts de page.
   **/
-  static set_ui(){
-    console.log('-> set_ui')
+  static setUI(){
+    console.log('-> UI.setUI')
     this.tableAnalyse = $('#tags');
     this.ulTags = $('ul#ultags');
     this.divULTags = $('#div-ultags');

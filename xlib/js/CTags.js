@@ -151,7 +151,7 @@ const CTags = {
         }
         my.onEachSelected(function(itag){itag.update(prop, value)})
         Muscat.modified = true
-        UI.hide_tools();
+        UI.hideTools();
       }
     }
 
@@ -160,7 +160,7 @@ const CTags = {
    * sélections, pour les grouper ou les dégrouper.
    */
   , grouper_selected: function(){
-      UI.hide_tools();
+      UI.hideTools();
       if ( !this.selections[0].group ) {
         var new_group = new TagsGroup();
         this.onEachSelected(function(itag){itag.add_in_group(new_group)});
@@ -210,7 +210,7 @@ const CTags = {
    */
   , onclick: function(itag, ev){
     // On ferme la boite d'outils si elle était ouverte
-    if(UI.tools_are_opened()){UI.hide_tools()}
+    if(UI.tools_are_opened()){UI.hideTools()}
     // On traite le clic sur l'élément courant
     if(itag.group){
       ev.shiftKey = true;

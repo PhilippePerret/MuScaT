@@ -52,12 +52,12 @@ const Locales = {
   , PLoadLocale: function(locale_name){
       var pth, nod ;
       return new Promise(function(ok,ko){
-        pth = `xlib/locales/${M.lang}/${locale_name}.js`;
+        pth = `xlib/locales/${Muscat.lang}/${locale_name}.js`;
         nod = document.body.appendChild(document.createElement('script'));
         nod.src = pth;
         $(nod)
           .on('load',  function(){ok()})
-          .on('error', function(){MuScaT.loading_error(pth)});
+          .on('error', function(){Muscat.loadingError(pth)});
       });
     }
 };

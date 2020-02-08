@@ -31,7 +31,7 @@ const Theme = {
         $(nod)
           .on('load', ok)
           .on('error', function(e){
-            MuScaT.loading_error('theme');
+            Muscat.loadingError('theme');
             console.error(e);
           });
       })

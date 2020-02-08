@@ -55,7 +55,7 @@ const Page = {
     */
   , onClickOut: function(ev){
       // console.log(ev);
-      if(UI.tools_are_opened()){UI.hide_tools()};
+      if(UI.tools_are_opened()){UI.hideTools()};
       CTags.deselectAll();
       Page.getCoordonates(ev);
     }
@@ -213,6 +213,9 @@ const Page = {
     }
 
   , observe: function(){
+      // Si on est en mode crop-image, il ne faut pas mettre
+      // d'observateur sur la page
+      if ( Options.get('crop-image') ) return
       // Pour le rectangle de sélection
       // Pour initier tous les déplacements (dont le rectangle de sélection
       // mais tous les autres aussi)

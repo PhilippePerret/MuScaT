@@ -38,11 +38,16 @@ const ULTags = {
      */
   , build: function(){
       var my = this;
-      my.setULHeight();
-      CTags.forEachTag(function(itag){
-        const tag = new LITag(itag)
-        tag.build.call(tag)
-      });
+      return new Promise((ok,ko) => {
+        try {
+          my.setULHeight();
+          CTags.forEachTag(function(itag){
+            const tag = new LITag(itag)
+            tag.build.call(tag)
+          });
+          ok()
+        } catch (e) { ko(e) }
+      })
     }
   /**
   * Régler la hauteur du UL pour qu'il tienne bien sur la page

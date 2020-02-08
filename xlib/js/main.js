@@ -15,6 +15,4 @@ $(document).ready(function(){
   .then(Muscat.onReady.bind(Muscat))
   .catch(Muscat.onError)
 
-  // MuScaT.preload()
-    // .then(MuScaT.start_and_run.bind(MuScaT))
 });

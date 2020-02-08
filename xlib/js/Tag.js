@@ -324,15 +324,13 @@ Tag.prototype.scrollIfNotVisible = function(){
   const top = this.jqObj.offset().top
   const hei = this.jqObj.height()
   const bot = top + hei
-  console.log({topWindow:topWindow, botWindow:botWindow, milieu:milieu, top:top, height:hei, bot:bot })
+  // console.log({topWindow:topWindow, botWindow:botWindow, milieu:milieu, top:top, height:hei, bot:bot })
   if ( bot > botWindow || top < topWindow ) {
-    console.log("L'objet n'est pas visible")
-    console.log("Je dois scroller vers l'élément ", this)
     window.scroll(0, top - milieu)
   } else {
-    console.log("L'élément est visible")
+    // console.log("L'élément est visible")
   }
-  console.log("Offset domObj", this.jqObj.offset(), this.jqObj.position(), this.jqObj.height())
+  // console.log("Offset domObj", this.jqObj.offset(), this.jqObj.position(), this.jqObj.height())
   // my.domObj.scrollIntoView({behavior: 'smooth'});
 };
 

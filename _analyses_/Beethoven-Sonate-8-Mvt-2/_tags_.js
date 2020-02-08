@@ -1,7 +1,8 @@
-options('code', 'lang', 'fr') ;
+// Version X.X
 
 Tags = `
-// S TART
+// START
+analyste Philippe_Perret
 titre Sonate_8_Mouvement_2 x=48 y=3
 compositeur Beethoven x=475 y=8
 

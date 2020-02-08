@@ -56,8 +56,47 @@ class Muscat {
     return new Promise((ok,ko) => {
       A.buildTags()
       .then(Images.treateImagesSeparationIfRequired.bind(Images,A))
+      .then(ULTags.build.bind(ULTags))
+      .then(this.setupInPostLoad.bind(this))
       .then(ok)
       .catch(Muscat.onError)
+    })
+  }
+
+  static setupInPostLoad(){
+    return new Promise((ok,ko) => {
+      try {
+
+        // Préparation de l'interface
+        // Utile ?
+        UI.setUI()
+
+        // Le nom de l'analyse en filigrane sur la table d'analyse
+        // TODO Doit pouvoir être réglé (visible/masqué) par une option
+        $('span#analyse_name').text(M.analyse_name);
+
+        // TODO Voir si c'est encore utile :
+        // Pour une raison pas encore expliquée, il arrive que les
+        // éléments se bloquent et ne prenent plus leur position
+        // absolute (bug dans le draggable de jQuery).
+        // Donc, ici, on s'assure toujours que les éléments draggable
+        // soit en bonne position
+        // On fera la même chose, un peu plus bas, avec les lignes de
+        // référence
+        CTags.forEachTag(function(tg){tg.jqObj.css('position','absolute')});
+
+        // Lignes de références
+        if(Options.get('lines-of-reference')){
+          Page.build_lines_of_reference();
+          Page.assure_lines_draggable();
+        }
+
+        // Observation de la page
+        Page.observe()
+
+        // OK
+        ok()
+      } catch (err) { ko(err) }
     })
   }
 
@@ -74,22 +113,43 @@ class Muscat {
   }
 
   /**
-    Appelée lorsque l'analyse est vraiment prêt, c'est-à-dire qu'elle
+    Appelée lorsque l'analyse est vraiment prête, c'est-à-dire qu'elle
     est chargée et construite sur la table
   **/
   static onReady(){
     // Si on est en train de tester, on lance les tests
-    if(TESTING){Tests.run()}
-    else {
+    if(TESTING){
+      Tests.run()
+    } else {
       // hors tests
+      console.log("auto-save = ", Options.get('auto-save'))
       Options.get('auto-save') && IO.startSavingLoop()
     }
 
   }
 
-
   static onPreloadError(err){
     error(err)
+  }
+
+  static loadingError(when){
+    let err ;
+    switch(Muscat.lang){
+      case 'en':
+        err = `An error occured (${when}). Can’t launch Muscat, sorry.`;
+        break;
+      default:
+        err = `Une erreur fatale est malheureusement survenue (${when}). Je ne peux pas lancer Muscat…`;
+    }
+    F.error(err);
+  }
+
+
+  /**
+    Retourne la langue courante
+  **/
+  static get lang(){
+    return this._lang || (this._lang = Options.get('lang').toLowerCase())
   }
 
 }

@@ -43,11 +43,11 @@ class IO {
   }
 
   static saveIfModified(){
-    if ( M.modified ) {
+    if ( Muscat.modified ) {
       this.saving = true
       console.log('%c--- Modification du code => Enregistrement', 'color:green;')
       this.saveTags()
-      M.modified = false
+      Muscat.modified = false
       this.saving = false
     } else {
       console.log('%c--- Pas de modification (pas d’enregistrement)', 'color:blue;')
