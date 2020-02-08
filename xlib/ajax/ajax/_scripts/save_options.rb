@@ -11,7 +11,8 @@ analyse_name = Ajax.arg(:analyse)  # Nouvelle version (json)
 begin
 
   Ajax << {options: options, analyse_name:analyse_name}
-  
+
+  raise "Il faut implémenter la sauvegarde des options"
   # # On vérifie d'abord que le code soit conforme
   # code.include?('Tags = ') || raise("Le code devrait contenir 'Tags = '")
   #

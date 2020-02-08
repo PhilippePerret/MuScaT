@@ -56,11 +56,12 @@ class IO {
 
   static saveTags(){
     const my = this
+    A.increaseVersionPatch() // Patch suivant
     Ajax.send({
         type:'POST'
       , data: {
             script: "save_current.rb"
-          , args: {code: M.build_very_full_code(), lines: M.full_code_lines}
+          , args: { code: A.veryFullCode }
         }
       , success: my.onTagsSaved.bind(my)
     })

@@ -87,6 +87,10 @@ class UI {
       // On met le bouton pour obtenir le code dans le div des boutons
       $('#div-ultags-buttons').append($('#btn-code-in-clipboard'));
     }
+
+    // Réglage des boutons de contrôle de l'animation
+    this.animationController.classList[A.animated?'remove':'add']('noDisplay')
+
     this.observe()
   }
   static observe(){
@@ -98,15 +102,18 @@ class UI {
   }
 
   static get btnStopSave(){
-    return this._btnstopsave || (this._btnstopsave = document.querySelector('button#btn-stop-restart-saving'))
+    return this._btnstopsave || (this._btnstopsave = DGet('button#btn-stop-restart-saving'))
   }
   static get btnForceSave(){
-    return this._btnforcesave || (this._btnforcesave = document.querySelector('button#btn-force-save'))
+    return this._btnforcesave || (this._btnforcesave = DGet('button#btn-force-save'))
   }
   static get domTools(){
     return document.getElementById('tools')
   }
 
+  static get animationController(){
+    return this._animationcont || (this._animationcont = DGet('#anim-buttons'))
+  }
 }
 
 // Permet de stopper complètement n'importe quel évènement

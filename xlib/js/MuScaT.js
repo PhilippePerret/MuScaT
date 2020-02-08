@@ -112,35 +112,11 @@ const MuScaT = {
   , codeCompletSecours: function(){
       var my = this;
       var o = $('textarea#code-complet-secours');
-      o.val(my.build_very_full_code());
+      o.val(my.veryFullCode());
       o.show().focus().select();
       UI.toggle_tools();
     }
-  /**
-   * Construit (de façon asychrone) le code complet du fichier _tags_.js
-   */
-  , build_very_full_code: function(){
-      var my = this ;
-      return '// Version X.X' + RC+RC + 'Tags = `'+ RC + this.full_code() + RC + '`;';
-    }
 
-  // Retourne le code complet des lignes de tags
-  , full_code: function(){
-      return this.full_code_lines().join(RC) ;
-    }
-
-    /**
-      Retourne les lignes de code en format complet
-      Pour le fichier _tags_.js ancienne formule (cf. full_code)
-      et le fichier tags.js nouvelle formule
-    **/
-  , full_code_lines: function(){
-      var arr = new Array() ;
-      ULTags.onEachLITag(function(litag){
-        arr.push(CTags[litag.id].to_line());
-      })
-      return arr
-    }
 
   /**
    * Méthode qui prend le code du fichier Tags.js et le décompose pour

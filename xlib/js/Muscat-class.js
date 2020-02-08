@@ -68,7 +68,8 @@ class Muscat {
       try {
 
         // Préparation de l'interface
-        // Utile ?
+        // C'est cette méthode, par exemple, qui va afficher ou masquer
+        // les boutons de contrôle de l'animation si c'est une animation
         UI.setUI()
 
         // Le nom de l'analyse en filigrane sur la table d'analyse

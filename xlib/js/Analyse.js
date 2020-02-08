@@ -141,6 +141,61 @@ class Analyse {
     })
   }
 
+
+  /**
+   * Construit (de façon asychrone) le code complet du fichier _tags_.js
+   */
+  get veryFullCode(){
+    return `A.version='${this.version}'` + RC + 'A.lines='+ RC + '`' + this.fullCode + RC + '`;';
+  }
+
+
+  // Retourne le code complet des lignes de tags
+  get fullCode(){
+    return this.fullCodeLines.join(RC) ;
+  }
+  /**
+    Retourne les lignes de code en format complet
+    Pour le fichier _tags_.js ancienne formule (cf. full_code)
+    et le fichier tags.js nouvelle formule
+  **/
+  get fullCodeLines(){
+    var arr = new Array() ;
+    ULTags.onEachLITag(function(litag){
+      arr.push(CTags[litag.id].to_line());
+    })
+    return arr
+  }
+
+  /*
+    Version methods
+  */
+  /**
+    Définition de la version (dans le fichier tags.js)
+  **/
+  set version(vers){
+    const [maj,min,pat] = vers.split(vers)
+    this._versionmaj    = Number(maj)
+    this._versionmin    = Number(min)
+    this._versionpatch  = Number(pat)
+  }
+  get version(){
+    return `${this.versionMajor}.${this.versionMinor}.${this.versionPatch}`
+  }
+
+  get versionMajor(){
+    return this._versionmaj || (this._versionmaj = 0)
+  }
+  get versionMinor(){
+    return this._versionmin || (this._versionmin = 0)
+  }
+  get versionPatch(){
+    return this._versionpatch || (this._versionpatch = 0)
+  }
+  increaseVersionPatch(){
+    this._versionpatch = this.versionPatch + 1
+  }
+
   //
   /**
     @async
