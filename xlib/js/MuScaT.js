@@ -39,28 +39,6 @@ const MuScaT = {
     }
 
 
-  , load_analyse_of: function(analyse_folder_name){
-      console.warn("OBSOLÈTE. La méthode load_analyse_of ne doit plus servir")
-    }
-
-  , start_and_run: function(){
-      console.warn("OBSOLÈTE. La méthode start_and_run ne doit plus servir")
-    }
-
-    /**
-     * Quand l'animation est demandée
-     */
-  , run_animation: function(){
-      this.loadModule('Animation').then(function(){Animation.start()});
-    }
-    /**
-     * Chargement du fichier _tags_.js, analyse du code et construction de
-     * l'analyse sur la table.
-     */
-  , load: function(){
-      console.warn("Le méthode MuScaT.load est obsolète")
-    } // Fin du chargement des éléments
-
   , postLoad: function(){
       D.dfn('MuScaT#postLoad');
       return new Promise(function(ok,ko){
@@ -78,27 +56,7 @@ const MuScaT = {
         ok();
       });
     }
-  , traite_images: function(){
-      console.warn("OBSOLÈTE. La fonction traite_images ne doit plus être utilisée")
-    }
-    /**
-      * Finir le chargement
-     */
-  , endLoadingImages: function(){
-      console.warn("OBSOLÈTE. La fonction endLoadingImages ne doit plus être utilisée")
-    } // load
 
-
-  /**
-   * Méthode qui construit les tags sur la table
-   *
-   * Note les watchers ne sont pas placés, ici, car ils le seront
-   * d'un seul coup (cette méthode est seulement appelée par load)
-   */
-  , animated: false
-  , build_tags: function(){
-      console.warn("-> build_tags OBSOLÈTE")
-    }
 
   // Méthode appelée par le bouton pour afficher le code source
   // On met le code dans le clipboard pour qu'il soit copié-collé
@@ -146,18 +104,6 @@ const MuScaT = {
   // ---------------------------------------------------------------------
   // Méthodes fonctionnelles
 
-
-  , loadModule: function(module_name){
-      return new Promise(function(ok,ko){
-        var nod = document.body.appendChild(document.createElement('script'));
-        nod.src = `xlib/js/modules/${module_name}.js`;
-        $(nod)
-          .on('load', ok)
-          .on('error', function(e){
-            F.error(t('loading-module-failed', {name: module_name}));
-          })
-      });
-  }
 };
 // Alias
 const M = MuScaT ;

@@ -72,9 +72,13 @@ class Muscat {
         // les boutons de contrôle de l'animation si c'est une animation
         UI.setUI()
 
+        // Chargement du module d'automation si l'analyse est
+        // automatisée
+        A.animated && requireModule('Automation')
+
         // Le nom de l'analyse en filigrane sur la table d'analyse
         // TODO Doit pouvoir être réglé (visible/masqué) par une option
-        $('span#analyse_name').text(M.analyse_name);
+        $('span#analyse_name').text(A.name);
 
         // TODO Voir si c'est encore utile :
         // Pour une raison pas encore expliquée, il arrive que les

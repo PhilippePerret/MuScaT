@@ -15,3 +15,12 @@ function require(path){
       })
   })
 }
+
+/**
+  @async
+  Pour requérir un module
+**/
+function requireModule(moduleName) {
+  return require(`xlib/js/modules/${moduleName}.js`)
+}
+const loadModule = requireModule

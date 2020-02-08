@@ -79,7 +79,7 @@ Elle est semi-graphique, et permet d'ajuster très finement les *TAGs* — au p
   * [Verrouillage des *TAGs*](#lock_tags)
   * [Grouper et dégrouper des *TAGs*](#grouper_tags)
   * [Ligne de code du *TAG*](#tag_code_line)
-* [Animation d'une analyse](#animation_analyse)
+* [Automation d'une analyse](#animation_analyse)
 * [Les Options](#all_options)
 * [Les Utilitaires](#les_utilitaires)
   * [Changement du dossier des captures écran (Mac)](#utils_change_captures_folder)
@@ -133,7 +133,7 @@ Pour fonctionner, l’application a besoin :
 * qu’un serveur local soit en route,
 * qu’un dossier `Sites` soit réglé pour recevoir l’application.
 
-### 
+###
 
 ### Chargement de l'application **MuScaT**
 
@@ -167,7 +167,7 @@ Pour cela, vous utilisez le script `/utils/create.rb`.
 
 	# Pour rejoindre le dossier muscat
   > cd ~/Sites/Muscat
-  
+
   # Pour créer l'analyse
   > ./utils/create.rb "Ma première analyse"
 
@@ -206,7 +206,7 @@ Utiliser le code suivant pour mettre l’analyse en analyse courante :
 
 
 
-Si vous utilisez [la commande shell `muscat`](#commandemuscat), il vous suffit de faire : 
+Si vous utilisez [la commande shell `muscat`](#commandemuscat), il vous suffit de faire :
 
 ~~~sh
 > muscat analyse "Nom de l'analyse"
@@ -234,15 +234,15 @@ Pour une version détaillée et illustrée de la procédure, je vous renvoie à 
 * Sur Mac, vous pouvez modifier le dossier de capture (le dossier où seront automatiquement enregistrées les captures d'écran) en utilisant l'utilitaire `change_folder_captures.rb` de **MuScaT**. Dans le [Terminal](#application_terminal), taper :
 
     ```
-    
+
     > muscat change_folder_captures "/dossier/des/catpures/"
-    
+
     ```
-    
+
     > Note : pour ne pas avoir à remplir les chemins à la main, il vous suffit de glisser les éléments (fichier ou dossier) depuis le Finder jusque sur la fenêtre de Terminal. Le chemin de l'élément est aussitôt inscrit.
-    
+
     Ajouter l’option `-m/—make` pour créer le dossier, s’il n’existe pas.
-    
+
 * ouvrir le PDF dans Aperçu,
 
 * activer la combinaison de touches `⌘⇧4`,
@@ -321,7 +321,7 @@ ou sous forme de suite :
 
 ![Code raccourcis en série](./img/3systemesEn1.png)
 
-Noter le `[0-2]` ci-dessus qui indique qu’il faut prendre l’image `0` à l’image `2`. Dès qu’il sera « interprété », ce code deviendra : 
+Noter le `[0-2]` ci-dessus qui indique qu’il faut prendre l’image `0` à l’image `2`. Dès qu’il sera « interprété », ce code deviendra :
 
 
 
@@ -448,7 +448,7 @@ Pour le détail, cf. [Positionnement des *TAGs*](#modify_position_tag).
 On peut modifier les tailles des éléments de plusieurs manières aussi :
 
 * en modifiant leur code,
-* en jouant sur les touches `w` / `h` (pour augmenter les tailles) et  `⇧ w` / `⇧ h` (pour diminuer les tailles), 
+* en jouant sur les touches `w` / `h` (pour augmenter les tailles) et  `⇧ w` / `⇧ h` (pour diminuer les tailles),
 
 Pour le détail, cf. [Dimensionnement des *TAGs*](#dimensionner_les_tags).
 
@@ -1434,7 +1434,7 @@ On peut obtenir la ligne de code d'un *TAG* ou même de plusieurs *TAGs* de cett
 
 
 
-## Animation d'une analyse {#animation_analyse}
+## Automation d'une analyse {#animation_analyse}
 
 * [Démarrage de l'animaton](#starting_animation)
 * [Boutons de l'animation](#boutons_animation)
@@ -1811,7 +1811,7 @@ Noter que même si une taille est définie par les options, on peut fixer indivi
 
 
 
-### Option « Espacement entre images » 
+### Option « Espacement entre images »
 
 
 

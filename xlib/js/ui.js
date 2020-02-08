@@ -99,6 +99,7 @@ class UI {
     this.btnForceSave.addEventListener('click', IO.saveTags.bind(IO))
     const btnLock = document.querySelector('button#ultags-btn-lock')
     btnLock.addEventListener('click', ULTags.lockTag.bind(ULTags))
+
   }
 
   static get btnStopSave(){
@@ -117,6 +118,7 @@ class UI {
 }
 
 // Permet de stopper complètement n'importe quel évènement
+// Préférer stopEvent ? (si se trouve dans Dom_utils…)
 window.stop = function(ev){
   ev.stopPropagation();
   ev.preventDefault();

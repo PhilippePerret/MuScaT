@@ -1,7 +1,7 @@
 /**
  * Module permettant de jouer l'analyse comme une animation.
  */
-class Animation {
+class Automation {
   static get options(){
     return this._options || (this._options = {duration:400, exergue:true})
   }
@@ -10,6 +10,7 @@ class Animation {
     Méthode appelée pour lancer l'animation
   **/
   static start(){
+    console.log("-> Automation::start")
     this.init();
     this.reset();
     this.searchStart();
@@ -91,7 +92,7 @@ class Animation {
 
   static desactivateLiTags(){
     this.activateds.forEach(function(litag){litag.desactivate()});
-    this.activateds = new Array();
+    this.activateds = [];
   }
 
   // ---------------------------------------------------------------------
@@ -134,7 +135,7 @@ class Animation {
     var my = this
       , opacity_value = for_stop ? '0.3' : '1';
     ['stop','rewind'].forEach(function(suf){
-      my[`btn_${suf}`].css('opacity', opacity_value);
+      $(my[`btn_${suf}`]).css('opacity', opacity_value);
     })
   }
   static pause(){
@@ -172,17 +173,25 @@ class Animation {
     UI.tableAnalyse.css('zoom','200%')
   }
 
+  static observeController(){
+    console.log('-> Automation::observeController')
+    if (this.alreadyObserved) return
+    this.btn_play.addEventListener('click', this.onTogglePause.bind(this))
+    this.btn_stop.addEventListener('click', this.onStop.bind(this))
+    this.btn_rewind.addEventListener('click', this.onRewind.bind(this))
 
+    this.alreadyObserved = true // pour ne le faire qu'une seule fois
+  }
+
+  static get btn_play(){
+    return this._btnplay || (this._btnplay = DGet('#anim-btn-play'))
+  }
+  static get btn_stop(){
+    return this._btnstop || (this._btnstop = DGet('#anim-btn-stop'))
+  }
+  static get btn_rewind(){
+    return this._btnrewind || (this._btnrewind = DGet('#anim-btn-rewind'))
+  }
 };
-
-Object.defineProperties(Animation,{
-    btn_play: {
-      get: function(){return $('#anim-btn-play')}
-    }
-  , btn_stop: {
-      get: function(){return $('#anim-btn-stop')}
-    }
-  , btn_rewind: {
-      get: function(){return $('#anim-btn-rewind')}
-    }
-})
+Automation.observeController.call(Automation)
+console.log("<- module Automation")
