@@ -36,7 +36,7 @@ class IO {
     if ( undefined !== this.saveTimer ) {
       clearInterval(this.saveTimer)
       delete this.saveTimer
-      UI.btnStopSave.innerHTML = "Start Save Loop"
+      UI.btnStopSave.innerHTML = "Start Save Loop📥"
       console.log("Boucle de sauvegarde automatique OFF")
     }
     this.saveLooping = false
