@@ -81,7 +81,8 @@ class UI {
 
     // Réglage du listing de code (ULTags/LITag)
     var with_code = true // toujours, maintenant Options.get('code');
-    $('div#div-ultags')[with_code?'show':'hide']();
+    this.tagsList[with_code?'show':'hide']();
+
     // $('#fs_code')[with_code?'hide':'show']();
     if(Options.get('code')){
       // On met le bouton pour obtenir le code dans le div des boutons
@@ -92,6 +93,9 @@ class UI {
     this.animationController.classList[A.animated?'remove':'add']('noDisplay')
 
     this.observe()
+  }
+  static get tagsList(){
+    return this._tagslist || (this._tagslist = $('div#div-ultags'))
   }
   static observe(){
     console.log("-> observe")

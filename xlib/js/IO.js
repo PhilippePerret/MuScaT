@@ -26,20 +26,20 @@ class IO {
     this.saveLooping = true
     this.saveTimer = setInterval(this.saveIfModified.bind(this), 5000)
     UI.btnStopSave.innerHTML = "Stop Save Loop"
-    console.log("Boucle de sauvegarde automatique démarrée")
+    console.log("Boucle de sauvegarde automatique ON")
   }
 
   /**
     On arrête la sauvegarde auto
   **/
   static stopSavingLoop(){
-    if ( this.saveTimer ) {
+    if ( undefined !== this.saveTimer ) {
       clearInterval(this.saveTimer)
       delete this.saveTimer
+      UI.btnStopSave.innerHTML = "Start Save Loop"
+      console.log("Boucle de sauvegarde automatique OFF")
     }
-    UI.btnStopSave.innerHTML = "Start Save Loop"
     this.saveLooping = false
-    console.log("Boucle de sauvegarde automatique arrêtée")
   }
 
   static saveIfModified(){

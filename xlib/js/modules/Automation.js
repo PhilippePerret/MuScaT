@@ -1,3 +1,4 @@
+'use strict'
 /**
  * Module permettant de jouer l'analyse comme une animation.
  */
@@ -17,6 +18,8 @@ class Automation {
     this.next();
     this.playing = true ;
     this.onStart();
+    this.started = true ;
+    console.log("<- Automation::start")
   }
 
   /**
@@ -30,8 +33,10 @@ class Automation {
     * de code.
    */
   static reset(){
+    console.log("-> Automation::reset")
     this.current    = 0;
-    this.laps       = (100 - Options.get('animation-speed')) * 40 ;
+    const multi = (100 - Options.get('animation-speed')) || 10 // toujours au moins
+    this.laps = multi * 40 ;
     this.lastIndex  = ULTags.jqObj.find('> li').length - 1 ;
     this.activateds = []
     // Code qui était avant dans le reset initial :
@@ -42,7 +47,7 @@ class Automation {
   }
 
   static waitingLoop(){
-      this.timer = setTimeout(this.next.bind(this), this.laps);
+    this.timer = setTimeout(this.next.bind(this), this.laps);
   }
     /**
      * Pour passer à l'image suivante.
@@ -67,6 +72,7 @@ class Automation {
    * On révèle le groupe des tags suivants
    */
   static reveal_nexts(){
+    var litag ;
     this.desactivateLiTags();
     while((litag=ULTags.index(this.current++)) && litag.itag.real){
       litag.itag.reveal(this.options);
@@ -79,7 +85,9 @@ class Automation {
      * On cherche le premier tag à afficher, celui qui contient "// START"
      */
   static searchStart(){
-    var last_visible ;
+    var last_visible
+      , litag
+      ;
     while((litag=ULTags.index(this.current++)) && !litag.itag.is_anim_start){
       litag.itag.jqObj.show(); // quand on relance l'animation
       if(litag.itag.real){last_visible = litag.itag;}
@@ -97,6 +105,10 @@ class Automation {
 
   // ---------------------------------------------------------------------
   //  MÉTHODES ÉVÈNEMENTIELLES
+
+  /**
+    Méthode appelée pour lancer l'animation
+  **/
   static onTogglePlay(){
     if(this.playing){
       // On doit s'arrêter
@@ -104,9 +116,13 @@ class Automation {
     } else {
       // On doit reprendre. Mais c'est différent suivant qu'on doivent
       // lever la pause ou reprendre au début
+      if ( this.started ) {
+        this.onStart();
+      } else {
+        this.start()
+      }
       this.stateButtons(false);
       this.next();
-      this.onStart();
     }
     this.playing = !this.playing;
     this.onTogglePlayButton(false);
@@ -129,6 +145,10 @@ class Automation {
     UI.divULTags.css({opacity:1})
     if (this.rerunSaveLoopAfter) IO.startSavingLoop()
     CTags.forEachTag(function(itag){itag.real && itag.jqObj.show()});
+    // On réaffiche la boite de code
+    UI.tagsList.show()
+    // On remet au zoom normal
+    UI.tableAnalyse.css('zoom','100%')
   }
 
   static stateButtons(for_stop){
@@ -160,7 +180,7 @@ class Automation {
     itag.jqObj.hide();
   }
   static onTogglePlayButton(for_stop){
-    this.btn_play[0].src=`xlib/images/anim/btn-${for_stop ? 'play' : 'pause'}.jpg`;
+    this.btn_play.src=`xlib/images/anim/btn-${for_stop ? 'play' : 'pause'}.jpg`;
   }
     /**
      * Initialisation.
@@ -169,8 +189,8 @@ class Automation {
      * En fait, ils sont dans le code, on ne fait que les révéler
      */
   static init(){
-    this.controller.show()
     UI.tableAnalyse.css('zoom','200%')
+    UI.tagsList.hide()
   }
 
   static observeController(){
