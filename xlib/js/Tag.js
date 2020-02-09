@@ -272,7 +272,7 @@ class Tag {
   //   if (my.jqObj.length == 0){
   //     // L'objet n'existe pas encore, il faut le construire (note : si c'est
   //     // une ligne vide ou un commentaire, rien ne sera construit)
-  //     my.buildAndWatch()
+  //     my.buildAndObserve()
   //   } else if (my.isEmpty || my.isComment){
   //     // Le tag a changé de nature, il est devenu une ligne vide ou
   //     // un commentaire => il faut le détruire
@@ -330,43 +330,44 @@ class Tag {
       // actualiser
       switch (prop) {
         case 'nature':
-          throw('On ne peut pas changer directement la nature d’un tag…');
+          // throw('On ne peut pas changer directement la nature d’un tag…');
+          my.updateNature(new_value); break
         case 'nature_init':
-          my.updateNatureInit(new_value);break;
+          my.updateNatureInit(new_value);break
         case 'type':
-          my.updateType(new_value);break;
+          my.updateType(new_value);break
         case 'y':
         case 'top':
-          my.updateY(new_value);break;
+          my.updateY(new_value);break
         case '-y':
         case 'bottom':
-          my.updateY(new_value - my.jqObj.height());break;
+          my.updateY(new_value - my.jqObj.height());break
         case 'x':
         case 'left':
-          my.updateX(new_value);break;
+          my.updateX(new_value);break
         case '-x':
         case 'right':
-          my.updateX(new_value - my.jqObj.width());break;
+          my.updateX(new_value - my.jqObj.width());break
         case 'h':
         case 'height':
-          my.updateH(new_value);break;
+          my.updateH(new_value);break
         case 'w':
         case 'width':
-          my.updateW(new_value);break;
+          my.updateW(new_value);break
         case 'text':
-          my.updateText(new_value);break;
+          my.updateText(new_value);break
         case 'src':
-          my.updateSrc(new_value);break;
+          my.updateSrc(new_value);break
         case 'locked':
-          my.updateLock(new_value);break;
+          my.updateLock(new_value);break
         case 'destroyed':
-          my.updateDestroyed(new_value);break;
+          my.updateDestroyed(new_value);break
         case 'c':
-          my.updateColor(new_value);break;
+          my.updateColor(new_value);break
         case 'bgc':
-          my.updateBackgroundColor(new_value);break;
+          my.updateBackgroundColor(new_value);break
         case 'fs':
-          my.updateFontSize(new_value);break;
+          my.updateFontSize(new_value);break
       }
     }
     my.litag.update(my.to_line);
@@ -466,7 +467,7 @@ class Tag {
     var domstl  = my.domObj.style ;
     var jqPos   = my.jqObj.position();
     var hstyles = {}
-    ['left','top','width','height'].forEach(function(prop){
+    CONSTANTS_POS_ET_TAILLE.forEach(function(prop){
       if (domstl[prop]) { hstyles[prop] = domstl[prop] }
       else {
         // Si on ne trouve pas les valeurs dans l'attribut style, par
@@ -474,8 +475,8 @@ class Tag {
         switch (prop) {
           case 'left':
           case 'top':
-            hstyles[prop] = Number.parseInt(jqPos[prop],10);
-            break;
+            hstyles[prop] = Number(jqPos[prop]);
+            break
           case 'width':
           case 'height':
             hstyles[prop] = my.jqObj[prop]();
@@ -583,7 +584,7 @@ class Tag {
         switch (my.type) {
           case 'part':
             css.push('transform:rotate(-38.9deg);transform-origin:center');
-            break;
+            break
           default:
 
         }
@@ -616,13 +617,13 @@ class Tag {
         classes.push(my.type) ;
         switch (my.type) {
           case 'modulation':    return my.buildAsModulation(classes, css);
-          case 'analyst':       ftext = `${t('analyzed-by')} ${ftext}`;break;
-          case 'analysis_date': ftext = `${t('le-of-date')} ${ftext}`;break;
+          case 'analyst':       ftext = `${t('analyzed-by')} ${ftext}`;break
+          case 'analysis_date': ftext = `${t('le-of-date')} ${ftext}`;break
         }
-        break;
+        break
       case 'line':
         classes.push('line'+my.codeLineByType)
-        break;
+        break
       default:
     }
     return `<span id="${my.domId}" data-id="${my.id}" class="${classes.join(' ')}" style="${css}">${ftext}</span>`;
@@ -630,8 +631,8 @@ class Tag {
 
   // Construit le tag et pose les observers dessus. Mais seulement si
   // c'est un "vrai" tag (pas une ligne de commentaire ou une ligne vide)
-  buildAndWatch(){
-    this.isRealTag && this.build().observe();
+  buildAndObserve(options){
+    this.isRealTag && this.build(options).observe();
   }
   // Méthode qui construit l'élément dans la page
   build(options){
@@ -696,23 +697,24 @@ class Tag {
 
   // ---------------------------------------------------------------------
   // Méthodes de transformation
+
+  updateNature(newn){
+    this._nature = newn
+  }
   updateNatureInit(newn){
     var my = CTags[this.id];
     my.jqObj.removeClass(my.nature);
-    delete my._data_nature ;
-    delete my._nature;
     my.nature_init = newn;
-    // Pour gérer les changements importants de nature (modulation, image, etc.),
-    // on ne prend aucun risque, on reconstruit toujours le tag dès que sa nature
-    // change.
-    if(my.built){my.jqObj.replaceWith(my.to_html())}
+    if ( my.built ) { my.jqObj.replaceWith(my.to_html) }
   }
+
   updateType(newt){
     var my = CTags[this.id];
     if(my.type){my.jqObj.removeClass(my.type)}
     my.type = newt;
     if(my.type){my.jqObj.addClass(my.type)}
   }
+
   updateXY(){
     var my = this ;
     my.update('x', my.x);
@@ -821,7 +823,7 @@ class Tag {
     } else {
       // Annulation de destruction. Il faut remettre l'objet à
       // sa place, à sa ligne
-      my.buildAndWatch();
+      my.buildAndObserve();
     }
   }
   updateBackgroundColor(newc){
@@ -930,7 +932,7 @@ class Tag {
     const lineStr   = my.recompose() ;
     const newtag    = CTags.push(new Tag(lineStr));
     const newlitag  = new LITag(newtag).build({after: my.litag.jqObj});
-    newtag.buildAndWatch();
+    newtag.buildAndObserve();
     message(t('new-tag-created', {ref: my.ref}));
     return newtag;
   }
@@ -949,14 +951,14 @@ class Tag {
     my.modified = false ;
     // Les nouvelles données
     const newData = this.parseLine(newLine)
-    console.log("newData = ", newData)
+    // console.log("newData = ", newData)
 
     // if (tagComp.isRealTag && !my.built){
     //   // Pour pouvoir faire une "pré-construction" du tag, il faut donner
     //   // quelques propriétés tout de suite.
     //   my.nature_init = tagComp.nature_init ;
     //   my.type   = tagComp.type ;
-    //   my.buildAndWatch();
+    //   my.buildAndObserve();
     // } else if (!tagComp.isRealTag && my.built){
     //   my.remove();
     // }
@@ -978,10 +980,10 @@ class Tag {
   // créé après la première fabrication (copies)
   observe(){
     var my = this ;
-    if(my.locked){return}// suffit pour bloquer l'élément
+    if ( my.locked ) return ;// suffit pour bloquer l'élément
     my.jqObj
-      .on('mousedown',  $.proxy(my,'onMouseDown'))
-      .on('mouseup',    $.proxy(my,'onMouseUp'))
+      .on('mousedown',  my.onMouseDown.bind(my) )
+      .on('mouseup',    my.onMouseUp.bind(my)   )
       ;
   }
 
@@ -1044,6 +1046,7 @@ class Tag {
   }
 
   onMouseDown(ev){
+    console.log("-> onMouseDown")
     this.downed = true ;
     this.startMoving(ev);
     return stop(ev);

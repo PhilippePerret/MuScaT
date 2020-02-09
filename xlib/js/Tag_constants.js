@@ -7,6 +7,10 @@ const TAG_PROPERTIES_LIST = [
   'c', 'bgc', 'fs', 'ff'
 ];
 
+const CONSTANTS_POS_ET_TAILLE = [
+  'left','top','width','height'
+]
+
 const NATURES = {
     'marque':     'Description'
   // -------------------------------------------------------

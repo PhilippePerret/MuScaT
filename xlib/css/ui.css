@@ -5,6 +5,10 @@ body {
   background-color: #DDDDDD;
 }
 
+body, body * {
+  -webkit-user-select: none;
+}
+
 a, a:link, a:hover, a:visited {
   text-decoration: none;
   color: #000099;

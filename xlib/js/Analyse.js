@@ -130,7 +130,9 @@ class Analyse {
         // On construit d'abord tous les tags, mais en les masquant si c'est
         // pour une animation.
         my.forEachTag(tag => {
-          if ( tag.isRealTag ) { tag.build({visible: !my.animated}) };
+          if ( tag.isRealTag ) {
+            tag.buildAndObserve({visible: !my.animated})
+          };
           // On indique que c'est une animation si on rencontre le tag
           // 'START'. Noter qu'en le traitant seulement ici, ça permet
           // d'afficher tous les éléments précédent.
@@ -161,9 +163,7 @@ class Analyse {
   **/
   get fullCodeLines(){
     var arr = new Array() ;
-    ULTags.onEachLITag(function(litag){
-      arr.push(CTags[litag.id].to_line);
-    })
+    ULTags.onEachLITag(litag => { arr.push( CTags[litag.id].to_line) })
     return arr
   }
 

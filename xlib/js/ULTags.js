@@ -118,7 +118,7 @@ const ULTags = {
         litag.build();
       }
       litag.jqObj.focus();
-      tag.buildAndWatch();
+      tag.buildAndObserve();
       Muscat.modified = true
     }
 
