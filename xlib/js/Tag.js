@@ -252,14 +252,24 @@ class Tag {
 
 
   /**
-   * Grand méthode d'actualisation du TAg
-   * C'est devenu la méthode incontournable puisqu'elle gère aussi
-   * l'historique des opérations (pour les annulations)
-   *
-   * Cf. La constante TAG_PROPERTIES_LIST
+    Grande méthode d'actualisation du Tag
+
+
+    C'est devenu la méthode incontournable puisqu'elle gère aussi
+    l'historique des opérations (pour les annulations)
+    Cf. La constante TAG_PROPERTIES_LIST
+
+    +Params+::
+      +prop+:: [String] La propriété à actualiser
+      +new_value+:: [Any]   La nouvelle valeur à donner à la propriété +prop+
+      +options+:: [Object]  Table des options avec :
+          :updateLi     Si exactement false, on ne doit pas actualiser la ligne
+                        de code (utilisé quand on doit modifier beaucoup de
+                        propriétés d'affilée)
    */
   update(prop, new_value, options) {
     var my = CTags[this.id];
+    options = options || {}
 
     // 'c', pour la couleur, peut avoir été donné par 'color', on change
     // 'color' en 'c' ici.
@@ -335,6 +345,11 @@ class Tag {
           // définir directement
           my[prop] = new_value ;
       }
+    }
+
+    if ( options.updateLi !== false ) {
+      my.litag.update(my.to_line); // Actualisation de la ligne de code
+      Muscat.modified = true
     }
   }
 
@@ -934,7 +949,7 @@ class Tag {
     var hasBeenModified = false
     TAG_PROPERTIES_LIST.forEach( prop => {
       if ( my[prop] != newData[prop] ){
-        my.update(prop, newData[prop]) ;
+        my.update(prop, newData[prop], {updateLi:false}) ;
         my.modified = true ;
         hasBeenModified = true
       }

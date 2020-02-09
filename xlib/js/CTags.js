@@ -227,8 +227,8 @@ class CTagsClass {
   changeSelection(prop, value){
     var my = this;
     my.selections.forEach(function(tag){
-      tag[prop] += value ;
-      tag.update();
+      // tag[prop] += value ;
+      tag.update(prop, tag[prop] + value);
     })
   }
 
@@ -251,7 +251,7 @@ class CTagsClass {
   lines_selected_in_clipboard(){
     var my = this, arr = new Array() ;
     my.onEachSelected(function(tag){
-      arr.push(tag.to_line());
+      arr.push(tag.to_line);
     });
     clip(arr.join(RC) + RC);
     F.notify(t('code-lines-in-clipboard'));
