@@ -1022,7 +1022,6 @@ class Tag {
   }
 
   onMouseDown(ev){
-    console.log("-> onMouseDown")
     this.downed = true ;
     this.startMoving(ev);
     return stop(ev);
