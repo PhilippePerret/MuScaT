@@ -8,6 +8,13 @@
 
 class IO {
 
+  static setSavingLoop() {
+    if ( Options.get('auto-save') ) {
+      this.startSavingLoop()
+    } else if ( this.saveLooping ) {
+      this.stopSavingLoop()
+    }
+  }
   /**
     Pour mettre en route ou arrêter la sauvegarde automatique
   **/
@@ -25,12 +32,19 @@ class IO {
   static startSavingLoop(){
     this.saveLooping = true
     this.saveTimer = setInterval(this.saveIfModified.bind(this), 5000)
-    // UI.btnStopSave.innerHTML = "Stop Save Loop"
-    UI.btnStopSave.querySelector('img').src = 'xlib/images/pictos/auto-save-on.png'
-    UI.btnStopSave.style.opacity = '1'
+    this.setAutoSaveButton()
     console.log("Boucle de sauvegarde automatique ON")
   }
 
+  /**
+    Règle le bouton de sauvegarde automatique
+    Note : la méthode est appelée par UI.setUI au démarrage.
+  **/
+  static setAutoSaveButton(){
+    const autosave = Options.get('auto-save')
+    UI.btnStopSave.querySelector('img').src = `xlib/images/pictos/auto-save-${autosave?'on':'off'}.png`
+    UI.btnStopSave.style.opacity = autosave ? '1' : '0.3'
+  }
   /**
     On arrête la sauvegarde auto
   **/
@@ -38,8 +52,7 @@ class IO {
     if ( undefined !== this.saveTimer ) {
       clearInterval(this.saveTimer)
       delete this.saveTimer
-      UI.btnStopSave.querySelector('img').src = 'xlib/images/pictos/auto-save-off.png'
-      UI.btnStopSave.style.opacity = '0.3'
+      this.setAutoSaveButton()
       console.log("Boucle de sauvegarde automatique OFF")
     }
     this.saveLooping = false

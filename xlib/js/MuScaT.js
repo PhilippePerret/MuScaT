@@ -127,8 +127,7 @@ class Muscat {
       Tests.run()
     } else {
       // hors tests
-      console.log("auto-save = ", Options.get('auto-save'))
-      Options.get('auto-save') && IO.startSavingLoop()
+      IO.setSavingLoop()
     }
 
   }

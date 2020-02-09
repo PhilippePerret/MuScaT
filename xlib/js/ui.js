@@ -92,6 +92,9 @@ class UI {
     // Réglage des boutons de contrôle de l'animation
     this.animationController.classList[A.animated?'remove':'add']('noDisplay')
 
+    // Réglage du bouton de sauvegarde automatique
+    IO.setAutoSaveButton()
+
     this.observe()
   }
   static get tagsList(){
