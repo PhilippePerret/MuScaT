@@ -250,44 +250,6 @@ class Tag {
     }
   }
 
-  // /**
-  //  * Ancienne méthode, depuis qu'on met le code sous forme de UL, pour
-  //  * parser la nouvelle ligne modifiée.
-  //  * Noter qu'ici la ligne peut changer du tout au tout, devenir commentaire
-  //  * en étant ligne vide, devenir ligne vide en ayant été tag, etc.
-  //  */
-  // parse(newline){
-  //   console.warn("La méthode 'parse' doit être revue pour faire la même chose qu'à l'instanciation.")
-  //   return
-  //   var my = this ;
-  //   var ret = ULTags.epureAndSplitRawLine(newline) ;
-  //   my.data_line  = ret.data ;
-  //   my.locked     = ret.locked ;
-  //   // nature_init permettra de déterminer le type du tag, vrai tag ou
-  //   // ligne vide ou ligne de commentaires
-  //   my.nature_init = ret.nature_init ;
-  //   my.decompose();
-  //   // Si l'objet n'est pas encore construit, il faut le construire, sinon,
-  //   // il faut seulement l'updater
-  //   if (my.jqObj.length == 0){
-  //     // L'objet n'existe pas encore, il faut le construire (note : si c'est
-  //     // une ligne vide ou un commentaire, rien ne sera construit)
-  //     my.buildAndObserve()
-  //   } else if (my.isEmpty || my.isComment){
-  //     // Le tag a changé de nature, il est devenu une ligne vide ou
-  //     // un commentaire => il faut le détruire
-  //     my.remove();
-  //   }
-  // }
-
-  /**
-   * La ligne qui doit être enregistrée dans le fichier _tags_.js et
-   * telle qu'elle est dans le champ ULTags
-   */
-  get to_line(){
-    var my = this ;
-    return (this.recompose().join(' ')).trim() ;
-  }
 
   /**
    * Grand méthode d'actualisation du TAg
@@ -368,10 +330,12 @@ class Tag {
           my.updateBackgroundColor(new_value);break
         case 'fs':
           my.updateFontSize(new_value);break
+        default:
+          // Dans le cas contraire, c'est une propriété qu'on peut
+          // définir directement
+          my[prop] = new_value ;
       }
     }
-    my.litag.update(my.to_line);
-    Muscat.modified = true
   }
 
   /**
@@ -852,10 +816,13 @@ class Tag {
   // ---------------------------------------------------------------------
   //  Méthodes d'analyse
 
-  // Méthode qui décompose la donnée fournie à l'instanciation pour en
-  // déduire les données connues
-  decompose(){
-    console.warn('La méthode "decompose" est OBSOLÈTE.')
+  /**
+   * La ligne qui doit être enregistrée dans le fichier _tags_.js et
+   * telle qu'elle est dans le champ ULTags
+   */
+  get to_line(){
+    var my = this ;
+    return (this.recompose().join(' ')).trim() ;
   }
 
   // Méthode inverse de la précédente : elle recompose la ligne
@@ -947,11 +914,12 @@ class Tag {
    */
   compareAndUpdateAgainst(newLine) {
     const my = this
+    // console.log('-> compareAndUpdateAgainst (%s)', newLine)
     // On part du principe qu'il n'y aura pas de différences
     my.modified = false ;
     // Les nouvelles données
     const newData = this.parseLine(newLine)
-    // console.log("newData = ", newData)
+    // console.log("newData dans compare = ", newData)
 
     // if (tagComp.isRealTag && !my.built){
     //   // Pour pouvoir faire une "pré-construction" du tag, il faut donner
@@ -963,13 +931,21 @@ class Tag {
     //   my.remove();
     // }
 
+    var hasBeenModified = false
     TAG_PROPERTIES_LIST.forEach( prop => {
-      const are_different = my[prop] != newData[prop]
-      if (are_different){
+      if ( my[prop] != newData[prop] ){
         my.update(prop, newData[prop]) ;
         my.modified = true ;
+        hasBeenModified = true
       }
     })
+
+    if ( hasBeenModified ) {
+      my.litag.update(my.to_line); // Actualisation de la ligne de code
+      Muscat.modified = true
+    }
+
+
   }
 
 
@@ -1249,7 +1225,7 @@ class Tag {
 
   // +return+::[Boolean] true si le tag est une ligne vide
   get isEmpty(){return this._isemptyline}
-  set isEmpty(v){this._isemptyline = v}
+  set isEmpty(v){ this._isemptyline = v }
 
   // +return+::[Boolean] true si le tag est une image
   get isImage(){return this.nature == 'score' }

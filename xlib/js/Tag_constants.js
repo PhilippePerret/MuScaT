@@ -4,7 +4,8 @@
 const TAG_PROPERTIES_LIST = [
   'nature', 'nature_init', 'type',
   'x', 'y', 'h', 'h_unit', 'w', 'w_unit', 'text', 'src', 'locked',
-  'c', 'bgc', 'fs', 'ff'
+  'c', 'bgc', 'fs', 'ff',
+  'isEmpty', 'isComment'
 ];
 
 const CONSTANTS_POS_ET_TAILLE = [

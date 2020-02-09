@@ -59,13 +59,6 @@ class LITag {
   // ---------------------------------------------------------------------
   //  MÉTHODES DE DONNÉES
 
-  parse_and_compare(){
-    var my = this ;
-    var txt = my.jqObj.text().trim().replace(/[\n\r]/g,'');
-    my.jqObj.text(txt);
-    my.tag.compareAndUpdateAgainst(txt);
-  }
-
   /**
    * Auparavant, ce code était exécuté au blur du LITag. Mais maintenant,
    * on veut rester dans le tag lorsqu'il a été modifié.
@@ -74,13 +67,16 @@ class LITag {
    */
   checkAndUpdate(){
     var my = this;
-    my.newContent = my.jqObj.text();
+    my.newContent = my.jqObj.text().trim().replace(/[\n\r]/g,'')
+    // console.log('-> checkAndUpdate')
+    // console.log("[checkAndUpdate] iniContent='%s', newContent='%s'", my.iniContent, my.newContent)
     if (my.iniContent != my.newContent) {
-      my.parse_and_compare(my.newContent);
+      my.jqObj.text(my.newContent);
+      my.tag.compareAndUpdateAgainst(my.newContent);
       my.iniContent = my.newContent;
-      return true; // pour dire que oui, il y a eu actualisation
+      return true // pour dire que oui, il y a eu actualisation
     } else {
-      return false;
+      return false
     }
   }
 
@@ -181,7 +177,6 @@ class LITag {
     if(my.new){my.new = false}
     my.activated      = false ;
     ULTags.activated  = false ;
-    my.checkAndUpdate();
     my.jqObj.removeClass('selected');
     my.tag.desactivate();
     my.selected = null; // ULTags.selected reste à ce tag
