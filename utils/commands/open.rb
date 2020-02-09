@@ -3,7 +3,6 @@
 =begin
   Script pour activer une analyse
 =end
-puts "FIRST_ARG = #{FIRST_ARG}"
 unless OPTIONS[:help] || FIRST_ARG.nil?
   begin
     case FIRST_ARG
@@ -23,6 +22,8 @@ unless OPTIONS[:help] || FIRST_ARG.nil?
         pth = File.join(LOCALES_FOLDER,'Manual','Manual.pdf')
         `open "#{path}"`
       end
+    when 'dev'
+      puts "Pour lancer le développement, taper 'openmuscat'.".vert
     else
       # Sinon, on cherche à ouvrir l'analyse courante
       require_relative 'analyse'
