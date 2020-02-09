@@ -18,11 +18,11 @@ TagsGroup.prototype.forEachTag = function(method){
   for(var tg of my.tags){method(tg)};
 }
 // Pour retirer une tag du group
-TagsGroup.prototype.remove_tag = function(itag){
+TagsGroup.prototype.remove_tag = function(tag){
   var my = this ;
   var newtags = new Array();
   for(var tg of my.tags){
-    if(tg.id == itag.id){continue}
+    if(tg.id == tag.id){continue}
     else{newtags.push(tg)}
   }
   my.tags = newtags ;
@@ -31,7 +31,7 @@ TagsGroup.prototype.remove_tag = function(itag){
  * Pour dégrouper les éléments
  */
 TagsGroup.prototype.ungroup = function(){
-  var my = this, itag ;
-  my.forEachTag(function(itag){itag.ungroup()});
+  var my = this, tag ;
+  my.forEachTag(function(tag){tag.ungroup()});
   delete TagsGroups.groups[my.id];
 };

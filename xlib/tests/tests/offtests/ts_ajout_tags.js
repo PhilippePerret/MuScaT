@@ -171,12 +171,12 @@ acc G x=100 y=200
     assert(
       ctag.id == dexpect.id,
       `L'identifiant du tag #${ctag.id} est bon`,
-      `L'identifiant du tag #${ctag.id} devrait être ${dexpect.real}.`
+      `L'identifiant du tag #${ctag.id} devrait être ${dexpect.isRealTag}.`
     );
     assert(
-      ctag.real == dexpect.real,
-      `La valeur .real du tag #${ctag.id} est bonne (${ctag.real})`,
-      `La valeur .real du tag #${ctag.id} devrait être ${dexpect.real}, elle est ${ctag.real}`
+      ctag.isRealTag == dexpect.isRealTag,
+      `La valeur .isRealTag du tag #${ctag.id} est bonne (${ctag.isRealTag})`,
+      `La valeur .isRealTag du tag #${ctag.id} devrait être ${dexpect.isRealTag}, elle est ${ctag.isRealTag}`
     );
   }
 

@@ -147,15 +147,15 @@ const Mover = {
       var surf = new Surf(this.selectionPosDim);
       // console.log('surf:',surf.inspect());
       var arr = new Array();
-      CTags.forEachTag(function(itag){
-        if(!itag.real){return};
-        // console.log('itag.surf de #', itag.id, itag.surf);
-        if(itag.surf.isIn(surf)){
-          itag.onClick({shiftKey: true});
-          arr.push(itag);
+      CTags.forEachTag(function(tag){
+        if(!tag.isRealTag){return};
+        // console.log('tag.surf de #', tag.id, tag.surf);
+        if(tag.surf.isIn(surf)){
+          tag.onClick({shiftKey: true});
+          arr.push(tag);
         } else {
-          // console.log(`Le tag ${itag.ref()} est en dehors :`);
-          // console.log('sa surface :', itag.surf.inspect());
+          // console.log(`Le tag ${tag.ref} est en dehors :`);
+          // console.log('sa surface :', tag.surf.inspect());
         }
       });
       // console.log('tags:', arr);

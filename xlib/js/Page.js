@@ -8,21 +8,16 @@ const Page = {
   /**
     * Ajoute un élément quelconque dans la page (image, cadence, accord, etc.)
     *
-    * +itag+ Instance Tag de l'élément à mettre dans la page
+    * +tag+ Instance Tag de l'élément à mettre dans la page
     *
     * Note : la méthode n'ajoute plus le tag à CTags, il faut le faire
     * au moment de la création de l'instance définitive (pas à son instanciation
     * car on instancie des Tags sans pour autant qu'ils existent vraiment).
     */
-  , add: function(itag) {
+  , add: function(tag) {
       var my = this;
-      // Note : avant, on faisait des corrections pour les valeurs, pour que
-      // la première fois des tags ne se retrouvent pas au même endroit. On ne
-      // le fait plus, ça pose trop de problèmes.
-      // Si on est en mode animation, on doit faire apparaitre l'élément
-      // doucement.
       var xpage = 1 ;
-      my.table_analyse.append(itag.to_html());
+      my.table_analyse.append(tag.to_html);
     }
 
   /**
@@ -38,7 +33,7 @@ const Page = {
     }
 
     /**
-     * Reçoit un noeud (tag sur la table) et retourne l'itag
+     * Reçoit un noeud (tag sur la table) et retourne l'tag
      * correspondant.
      */
   , tagFromNode: function(node){

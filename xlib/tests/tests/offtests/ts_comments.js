@@ -22,9 +22,9 @@ test.image_sequentielle_commented = function(){
 
   assert_nombre_tags(1, 0);
   assert(
-    tag.is_comment_line,
+    tag.isComment,
     'le seul tag est bien un commentaire',
-    "le seul tag devrait être un commentaire… (son is_comment_line est false)"
+    "le seul tag devrait être un commentaire… (son isComment est false)"
   );
   assert(
     tag.text == texte_original,

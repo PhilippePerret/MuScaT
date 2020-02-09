@@ -32,17 +32,17 @@ acc G x=200 y= 300
   )
 
   for(var i=1, len=CTags.length; i<=len; ++i){
-    itag = CTags[i]; // Tag
+    tag = CTags[i]; // Tag
 
-    // console.log(itag);
+    // console.log(tag);
 
     assert(
-      'object' == typeof(itag),
+      'object' == typeof(tag),
       `Le tag ${i} est bien un object`,
       `Le tag ${i} devrait être un objet`
     );
     assert(
-      itag.real == true,
+      tag.isRealTag == true,
       'Le tag est un vrai tag',
       'Le tag devrait être un vrai tag…'
     )

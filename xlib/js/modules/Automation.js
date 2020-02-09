@@ -40,8 +40,8 @@ class Automation {
     this.lastIndex  = ULTags.jqObj.find('> li').length - 1 ;
     this.activateds = []
     // Code qui était avant dans le reset initial :
-    var itag;
-    CTags.forEachTag(function(itag){if(itag.real){itag.jqObj.hide()}});
+    var tag;
+    CTags.forEachTag(function(tag){if(tag.isRealTag){tag.jqObj.hide()}});
     this.desactivateLiTags();
     return this; // chainage
   }
@@ -74,8 +74,8 @@ class Automation {
   static reveal_nexts(){
     var litag ;
     this.desactivateLiTags();
-    while((litag=ULTags.index(this.current++)) && litag.itag.real){
-      litag.itag.reveal(this.options);
+    while((litag=ULTags.index(this.current++)) && litag.tag.isRealTag){
+      litag.tag.reveal(this.options);
       litag.activate();
       this.activateds.push(litag);
     }
@@ -88,9 +88,9 @@ class Automation {
     var last_visible
       , litag
       ;
-    while((litag=ULTags.index(this.current++)) && !litag.itag.is_anim_start){
-      litag.itag.jqObj.show(); // quand on relance l'animation
-      if(litag.itag.real){last_visible = litag.itag;}
+    while((litag=ULTags.index(this.current++)) && !litag.tag.isAutomationStart){
+      litag.tag.jqObj.show(); // quand on relance l'animation
+      if(litag.tag.isRealTag){last_visible = litag.tag;}
     };
     if(last_visible){last_visible.domObj.scrollIntoView({behavior: 'smooth'})};
     if(this.current > 0){-- this.current};
@@ -144,7 +144,7 @@ class Automation {
     this.reset().searchStart();
     UI.divULTags.css({opacity:1})
     if (this.rerunSaveLoopAfter) IO.startSavingLoop()
-    CTags.forEachTag(function(itag){itag.real && itag.jqObj.show()});
+    CTags.forEachTag(function(tag){tag.isRealTag && tag.jqObj.show()});
     // On réaffiche la boite de code
     UI.tagsList.show()
     // On remet au zoom normal
@@ -171,13 +171,13 @@ class Automation {
     }
   }
   static onRewind(){
-    var itag ;
+    var tag ;
     // On remonte jusqu'au premier tag visible
     do {
       this.current --;
-      itag = ULTags.index(this.current).itag;
-    } while(!itag.real);
-    itag.jqObj.hide();
+      tag = ULTags.index(this.current).tag;
+    } while(!tag.isRealTag);
+    tag.jqObj.hide();
   }
   static onTogglePlayButton(for_stop){
     this.btn_play.src=`xlib/images/anim/btn-${for_stop ? 'play' : 'pause'}.jpg`;

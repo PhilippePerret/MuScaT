@@ -9,12 +9,12 @@ Object.assign(MuScaT,{
    */
   , prepare_crop_image: function(){
       var my = MuScaT ;
-      itag = CTags[1];
-      console.log(itag);
-      itag.x = 0 ; itag.y = 0 ; itag.update();
-      itag.build();
-      console.log("src:", itag.domObj.src);
-      itag.jqObj.css({'position': 'absolute', 'top': 0, 'left': 0});
+      tag = CTags[1];
+      console.log(tag);
+      tag.x = 0 ; tag.y = 0 ; tag.update();
+      tag.build();
+      console.log("src:", tag.domObj.src);
+      tag.jqObj.css({'position': 'absolute', 'top': 0, 'left': 0});
       message(t('crop-image-ready'));
       this.set_observers_mode_crop();
       // Pour indicer chaque image

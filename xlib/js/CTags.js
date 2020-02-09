@@ -1,17 +1,19 @@
 
 // Objet gérant les Tags dans leur ensemble (à commencer par
 // les sélections)
-const CTags = {
-    class: 'CTags'
-  , last_tag_id: 0      // Dernier ID attribué à un tag
-  , selection: null    // La sélection courante (Tag)
-  , selections: []     // Les sélections (Tag(s))
-  , last_group_id: 0   // Pour les tags groupés
+class CTagsClass {
+  constructor(){
+    this.class = 'CTags'
+    this.last_tag_id = 0
+    this.selection = null
+    this.selections = []
+    this.last_group_id = 0
+  }
 
   /**
    * Exécute la méthode +method+ sur tous les tags
    */
-  , forEachTag: function(method, options){
+  forEachTag(method, options){
       var i = 1, len = this.length ;
       if(options && options.from){i = options.from}
       if(options && options.to){len = options.to + 1}
@@ -22,42 +24,10 @@ const CTags = {
   /**
    * Pour répéter une opération sur tous les éléments sélectionnés
    */
-  , onEachSelected: function(method){
-      for(var itag of this.selections){
-        method(itag);
+  onEachSelected(method){
+      for(var tag of this.selections){
+        method(tag);
       }
-    }
-
-    /**
-      * Reçoit une ligne de code de TAG et retourne une table des
-      * données qui en sont tirées.
-      *
-      * TODO Faire de cette méthode la seule qui analyse une ligne de
-      * données de Tag. Il faut qu'elle soit complète et fiable.
-      */
-  , parseLine: function(str){
-      var h = {} ;
-      str = str.trim().replace(/[\t ]/g, ' ') ;
-      str = str.replace(/ +/g, ' ') ;
-      str.split(' ').forEach(function(paire){
-        [prop, value] = paire.split('=');
-        h[prop] = value || true ;
-      });
-      if (h.left)   { h.x = delete h.left   };
-      if (h.top)    { h.y = delete h.top    };
-      if (h.width)  { h.w = delete h.width  };
-      if (h.height) { h.h = delete h.height };
-      ['x','y'].forEach(function(prop){
-        if(h[prop]){h[prop] = asPixels(h[prop])}
-      });
-      ['w','h'].forEach(function(prop){
-        if(h[prop]){
-          var pair = valueAndUnitOf(h[prop]);
-          h[prop] = pair[0] ;
-          h[`${prop}_unit`] = pair[1];
-        };
-      });
-      return h ;
     }
 
   /**
@@ -65,116 +35,116 @@ const CTags = {
     * Reçoit {x: 120, y: 130} et retourne " x=120 y=130"
     * TODO Faire aussi de cette méthode une méthode générale/générique
     */
-  , compactLine: function(h){
-      var arr = new Array();
-      for(var k in h){arr.push(`${k}=${h[k]}`)};
-      return arr.join(' ')
+  compactLine(h){
+    var arr = new Array();
+    for(var k in h){arr.push(`${k}=${h[k]}`)};
+    return arr.join(' ')
+  }
+
+
+  push(tag){
+    if(undefined == tag.id){tag.id = ++ this.last_tag_id;}
+    this[tag.id] = tag;
+    this.length += 1 ;
+    return tag; // pour chainage
+  }
+
+  onSelect(tag, with_maj){
+    var my = this ;
+    if (tag.selected){
+      // console.log('-> tag est sélectionné')
+      // Si c'est une reselection de l'élément déjà sélectionné,
+      // on le désélectionne
+      my.remove_from_selection(tag);
+    } else {
+      if (false == with_maj) { my.deselectAll() }
+      my.selections.push(tag);
+      tag.select();
+      my.selection = tag ;
     }
+  } // onSelect
 
-
-  , push: function(itag){
-      if(undefined == itag.id){itag.id = ++ this.last_tag_id;}
-      this[itag.id] = itag;
-      this.length += 1 ;
-      return itag; // pour chainage
-    }
-
-  , onSelect: function(itag, with_maj){
-      var my = this ;
-      if (itag.selected){
-        // console.log('-> itag est sélectionné')
-        // Si c'est une reselection de l'élément déjà sélectionné,
-        // on le désélectionne
-        my.remove_from_selection(itag);
-      } else {
-        if (false == with_maj) { my.deselectAll() }
-        my.selections.push(itag);
-        itag.select();
-        my.selection = itag ;
-      }
-    } // onSelect
-
-  , deselectAll: function(){
-      var my = this ;
-      my.selections.forEach(function(el){el.deselect()})
-      my.selections = new Array();
-      my.selection  = null ;
-    }
+  deselectAll(){
+    var my = this ;
+    my.selections.forEach(function(el){el.deselect()})
+    my.selections = new Array();
+    my.selection  = null ;
+  }
 
   /**
-   * Pour retirer le tag +itag+ de la sélection courante
+   * Pour retirer le tag +tag+ de la sélection courante
    * (lorsqu'il n'est pas le tag courant)
    */
-  , remove_from_selection: function(itag){
-      var my = this ;
-      if(itag == my.selection){
-        // Si le tag est le tag courant
-        my.selections.pop();
-        my.selection = null;
-      } else {
-        // Si le tag n'est pas le tag courant
-        var new_selections = new Array();
-        for(var tg of my.selections){
-          if(tg.id == itag.id){continue};
-          new_selections.push(tg);
-        }
-        my.selections = new_selections;
-      };
-      // Et on finit par le déselectionner
-      itag.deselect();
-    }
+  remove_from_selection(tag){
+    var my = this ;
+    if(tag == my.selection){
+      // Si le tag est le tag courant
+      my.selections.pop();
+      my.selection = null;
+    } else {
+      // Si le tag n'est pas le tag courant
+      var new_selections = new Array();
+      for(var tg of my.selections){
+        if(tg.id == tag.id){continue};
+        new_selections.push(tg);
+      }
+      my.selections = new_selections;
+    };
+    // Et on finit par le déselectionner
+    tag.deselect();
+  }
 
   // Méthode appelée quand on veut aligner des éléments
-  , align: function(alignement) {
-      var my = this ;
-      if (undefined == alignement){
-        alignement = document.getElementById('alignement').value;
-      }
-      if (my.selections.length < 2) { error(t('thinks-to-align-required')) }
-      else {
-        var referent = my.selections[0] ;
-        var value, method ;
-        switch (alignement) {
-          case 'up':
-            prop = 'y'; value = referent.y ;
-            break;
-          case 'down':
-            prop = '-y' ; value = referent.y + referent.jqObj.height();
-            break;
-          case 'left':
-            prop = 'x' ; value = referent.x ;
-            break;
-          case 'right':
-            prop = '-x' ; value = referent.x + referent.jqObj.width();
-            break;
-          default:
-        }
-        my.onEachSelected(function(itag){itag.update(prop, value)})
-        Muscat.modified = true
-        UI.hideTools();
-      }
+  align(alignement) {
+    var my = this ;
+    if (undefined == alignement){
+      alignement = document.getElementById('alignement').value;
     }
+    if (my.selections.length < 2) { error(t('thinks-to-align-required')) }
+    else {
+      var referent = my.selections[0] ;
+      var value, method ;
+      switch (alignement) {
+        case 'up':
+          prop = 'y'; value = referent.y ;
+          break;
+        case 'down':
+          prop = '-y' ; value = referent.y + referent.jqObj.height();
+          break;
+        case 'left':
+          prop = 'x' ; value = referent.x ;
+          break;
+        case 'right':
+          prop = '-x' ; value = referent.x + referent.jqObj.width();
+          break;
+        default:
+      }
+      my.onEachSelected(function(tag){tag.update(prop, value)})
+      Muscat.modified = true
+      UI.hideTools();
+    }
+  }
 
   /**
    * Méthode appelée par le bouton outil "Grouper", quand il y a plusieurs
    * sélections, pour les grouper ou les dégrouper.
    */
-  , grouper_selected: function(){
-      UI.hideTools();
-      if ( !this.selections[0].group ) {
-        var new_group = new TagsGroup();
-        this.onEachSelected(function(itag){itag.add_in_group(new_group)});
-      } else {
-        this.selections[0].group.ungroup();
-      }
+  grouper_selected(){
+    UI.hideTools();
+    if ( !this.selections[0].group ) {
+      var new_group = new TagsGroup();
+      this.onEachSelected(function(tag){tag.add_in_group(new_group)});
+    } else {
+      this.selections[0].group.ungroup();
     }
+  }
 
   /**
    * Appelée par un bouton outil pour répartir les images sélectionnées.
    * Normalement, ce sont des images de système. On les répartit régulièrement
    * entre le plus haut et le plus bas verticalement.
    */
-  , repartir_selected: function(){
+  repartir_selected(){
     // Dans un premier temps, il faut trouver le plus haut
     var my = this
       , upper = null
@@ -196,8 +166,8 @@ const CTags = {
     var esp = Number.parseInt(dist / (my.selections.length - 1),10);
 
     var i = 0 ;
-    sorteds.forEach(function(itag){
-      itag.update('y', upper.y + (i++ * esp)) ;
+    sorteds.forEach(function(tag){
+      tag.update('y', upper.y + (i++ * esp)) ;
     });
     Muscat.modified = true
   }
@@ -208,20 +178,20 @@ const CTags = {
    *
    * +ev+ est l'évènement click, mais il peut être null aussi.
    */
-  , onclick: function(itag, ev){
+  onclick(tag, ev){
     // On ferme la boite d'outils si elle était ouverte
     if(UI.tools_are_opened()){UI.hideTools()}
     // On traite le clic sur l'élément courant
-    if(itag.group){
+    if(tag.group){
       ev.shiftKey = true;
-      itag.group.forEachTag(function(itag){itag.onClick(ev)})
+      tag.group.forEachTag(function(tag){tag.onClick(ev)})
     } else {
-      if( !itag.locked ) {
-        itag.onClick(ev);
+      if( !tag.locked ) {
+        tag.onClick(ev);
       }
     }
     return stop(ev);
-  },
+  }
 
   // ---------------------------------------------------------------------
   // Méthode d'action sur la sélection
@@ -232,7 +202,7 @@ const CTags = {
    *  - La touche majuscule aggrandit le pas
    *  - La touche ALT le diminue
    */
-  pas_by_modifiers: function(ev){
+  pas_by_modifiers(ev){
     if(ev.shiftKey){
       return 50 ;
     } else if (ev.altKey) {
@@ -240,28 +210,29 @@ const CTags = {
     } else {
       return 10 ;
     }
-  },
-  moveUpSelection: function(ev) {
+  }
+
+  moveUpSelection(ev) {
     this.changeSelection('y', -this.pas_by_modifiers(ev)) ;
-  },
-  moveDownSelection: function(ev) {
+  }
+  moveDownSelection(ev) {
     this.changeSelection('y', this.pas_by_modifiers(ev)) ;
-  },
-  moveRightSelection: function(ev) {
+  }
+  moveRightSelection(ev) {
     this.changeSelection('x', this.pas_by_modifiers(ev)) ;
-  },
-  moveLeftSelection: function(ev) {
+  }
+  moveLeftSelection(ev) {
     this.changeSelection('x', -this.pas_by_modifiers(ev)) ;
-  },
-  changeSelection: function(prop, value){
+  }
+  changeSelection(prop, value){
     var my = this;
-    my.selections.forEach(function(itag){
-      itag[prop] += value ;
-      itag.update();
+    my.selections.forEach(function(tag){
+      tag[prop] += value ;
+      tag.update();
     })
   }
 
-  , ask_for_erase: function(ev){
+  ask_for_erase(ev){
     var my = this ;
     var nb = my.selections.length ;
     var msg ;
@@ -273,26 +244,21 @@ const CTags = {
     F.ask(t('should-destroy', {what: msg}), {onOK: $.proxy(CTags,'erase_selections')});
   }
 
-  , erase_selections: function(){
-      var my = this ;
-      my.onEachSelected(function(itag){itag.update('destroyed', true)});
-    }
-
-  , lines_selected_in_clipboard: function(){
-      var my = this, arr = new Array() ;
-      my.onEachSelected(function(itag){
-        arr.push(itag.to_line());
-      });
-      clip(arr.join(RC) + RC);
-      F.notify(t('code-lines-in-clipboard'));
-    }
-};
-Object.defineProperties(CTags,{
-
-    property: {'value':'virgule'}
-    // Retourne le nombre de Tag(s) consignés
-  , length:{
-      get:function(){return this._length || 0},
-      set:function(val){this._length = val}
+  erase_selections(){
+    this.onEachSelected(function(tag){tag.update('destroyed', true)});
   }
-})
+
+  lines_selected_in_clipboard(){
+    var my = this, arr = new Array() ;
+    my.onEachSelected(function(tag){
+      arr.push(tag.to_line());
+    });
+    clip(arr.join(RC) + RC);
+    F.notify(t('code-lines-in-clipboard'));
+  }
+
+  get length(){return this._length || 0}
+  set length(val){this._length = val}
+
+} // CTagsClass
+const CTags = new CTagsClass()

@@ -1,3 +1,11 @@
+// Les propriétés du tag. Ce sont les propriétés qui seront checkées au cours
+// de la comparaison quand un changement se produit.
+// Note : le type doit être traité avant 'nature_init'
+const TAG_PROPERTIES_LIST = [
+  'nature', 'nature_init', 'type',
+  'x', 'y', 'h', 'h_unit', 'w', 'w_unit', 'text', 'src', 'locked',
+  'c', 'bgc', 'fs', 'ff'
+];
 
 const NATURES = {
     'marque':     'Description'
@@ -114,13 +122,6 @@ const DEFAULT_SCORE_LEFT_MARGIN = 50  ;
 const DEFAULT_SCORE_TOP_MARGIN  = 100 ;
 const DEFAULT_SCORES_SPACES     = 0 ; // espace entre les images de système
 
-// Les propriétés du tag. Ce sont les propriétés qui seront checkées au cours
-// de la comparaison quand un changement se produit.
-// Note : le type doit être traité avant 'nature_init'
-const TAG_PROPERTIES_LIST = [
-  'x', 'y', 'h', 'w', 'text', 'src', 'type', 'nature_init', 'locked',
-  'c', 'bgc', 'fs'
-];
 // Table de correspondance entre un nom de propriété et son nom générique.
 // Par exemple, pour la couleur du fond, on peut mettre `fond`, mais la
 // propriété s'appelle toujours `bgc`
@@ -136,3 +137,19 @@ const TAG_PROPS_TO_REAL = {
   , 'couleur': 'c'
   , 'color': 'c'
 };
+
+// Les attributs pour le SVG d'une modulation
+const MODUL_SVG_ATTRS = {
+  'xml:lang':     'fr',
+  'width':        '140',
+  'height':       '140',
+  'xmlns':        'http://www.w3.org/2000/svg',
+  'xmlns:xlink':  'http://www.w3.org/1999/xlink'
+}
+// Les attributs du texte principal (tonalité) pour le SVG modulation
+const MODUL_MAIN_TEXT_ATTRS = {
+  'font-size': '16', 'x': 0, 'y': 56, 'transform': 'rotate(-28deg 0 0)'
+}
+const MODUL_SOUS_TEXT_ATTRS = {
+  'font-size': '14', 'x': 2, 'y': 84, 'transform': 'rotate(-28deg 0 0)'
+}
