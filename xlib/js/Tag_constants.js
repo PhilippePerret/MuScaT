@@ -120,13 +120,6 @@ const TABLECOR_TYPES_LINE = {
 
 }
 
-/**
- * Valeurs par défaut pour les images
- */
-const DEFAULT_SCORE_LEFT_MARGIN = 50  ;
-const DEFAULT_SCORE_TOP_MARGIN  = 100 ;
-const DEFAULT_SCORES_SPACES     = 0 ; // espace entre les images de système
-
 // Table de correspondance entre un nom de propriété et son nom générique.
 // Par exemple, pour la couleur du fond, on peut mettre `fond`, mais la
 // propriété s'appelle toujours `bgc`

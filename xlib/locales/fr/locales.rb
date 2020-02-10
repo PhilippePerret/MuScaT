@@ -32,6 +32,7 @@ LOCALES = {
 
 # === TITRES ===
 
+'title-help' => "AIDE",
 'title-commands-list' => "LISTE DES COMMANDES",
 
 # === CONFIRMATIONS ===
@@ -69,6 +70,34 @@ LOCALES = {
 
 'fatal-error' => "\n\n\tERREUR: %{err_msg}\n\n(pour obtenir de l'aide, jouez './utils/%{command}.rb --help' — ou '-h')\n\n",
 
-'help-commands-overview' => "(pour voir l'aide précise d'une commande, \njouer #{'mus[cat] <commande> -h/--help'.jaune})"
+'help-commands-overview' => "(pour voir l'aide précise d'une commande, \njouer #{'mus[cat] <commande> -h/--help'.jaune})",
 
+# === OPTIONS ===
+
+'option-animation-speed' => 'Vitesse de l’animation',
+'option-auto-save' => "Sauvegarde automatique",
+'option-crop-image' => "Découpage assisté de la partition",
+'option-images-PNG' => "Pour des noms d'images en PNG",
+'option-coordonates' => "Affichage des coordonnées lors des déplacements de tags",
+'option-lang' => "Langue de l'interface",
+'option-lines-of-reference' => "Affichage des lignes de référence",
+'option-horizontal-line-offset' => "Position horizontale de la ligne de repère verticale",
+'option-vertical-line-offset' => "Position verticale de la ligne de répère horizontale",
+'option-space-between-scores' => "Espace entre les systèmes (images séquentielles)",
+'option-top-first-score' => "Espace entre le haut de la page et le premier système (images séquentielles)",
+'option-left-margin' => "Marge gauche (images séquentielles)",
+'option-theme' => "Thème d'interface",
+'option-visor' => "Affichage du viseur",
+'option-cadence-size' => "Taille de l'affichage des cadences",
+'option-chord-size' => "Taille de l'affichage des accords",
+'option-harmony-size' => "Taille de l'affichage des marques d'harmonie",
+'option-measure-size' => "Taille de l'affichage des numéros de mesure",
+'option-modulation-size' => "Taille de l'affichage des marques de modulation",
+'option-part-size' => "Taille de l'affichage des marques de parties",
+'option-degree-size' => "Taille de l'affichage des degrés de la gamme",
+'option-text-size' => "Taille de l'affichage des autres textes",
+'option-rectangle-selection' => "Sélection pour rectangle",
+'option-shuffle-tests' => "Pour jouer les tests dans un ordre aléatoire",
+
+'fin-des-locales' => "Juste pour dernier sans virgule"
 }

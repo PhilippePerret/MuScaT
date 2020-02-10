@@ -9,6 +9,8 @@ WHAT = FIRST_ARG
 unless OPTIONS[:help] || WHAT.nil?
   begin
     case WHAT
+    when 'options'
+      Options.update_js_file
     when 'manuel', 'manual'
       folder_manual = case LANG
       when 'fr' then File.join(APPFOLDER,'Manuel')

@@ -23,51 +23,81 @@ EOT
 
 LOCALES = {
 
-  'currente'  => 'Current:',
+'currente'  => 'Current:',
 
-  'analysis-folder' => "Analysis folder: %{name}",
+'analysis-folder' => "Analysis folder: %{name}",
 
-  'analysis-folder-chosen' => "You choosed the analysis folder: %{name}",
-  'folder-captures-set' => "Captures folder set to %{name}.",
+'analysis-folder-chosen' => "You choosed the analysis folder: %{name}",
+'folder-captures-set' => "Captures folder set to %{name}.",
 
-  # === TITRES ===
+# === TITRES ===
 
-  'title-commands-list' => "COMMAND LIST",
+'title-help' => "HELP",
+'title-commands-list' => "COMMAND LIST",
 
-  # === CONFIRMATIONS ===
+# === CONFIRMATIONS ===
 
-  'operation-successful' => "#{RC * 3}#{INDENT}Proceeded with success.#{RC * 3}",
-  'create-confirmation' => create_confirmation,
-  'export-to-pdf' => "You can now export the HTML document to PDF.",
-  'lang-successfully-defined' => "OK, let's speak english from now!",
-  'editor-successfully-defined' => "Editor defined.",
+'operation-successful' => "#{RC * 3}#{INDENT}Proceeded with success.#{RC * 3}",
+'create-confirmation' => create_confirmation,
+'export-to-pdf' => "You can now export the HTML document to PDF.",
+'lang-successfully-defined' => "OK, let's speak english from now!",
+'editor-successfully-defined' => "Editor defined.",
 
-  # === QUESTIONS ===
+# === QUESTIONS ===
 
-  'which-folder' => "Which folder do you choose (letter above) ? ('q' to quit, nothing for the current analysis)",
+'which-folder' => "Which folder do you choose (letter above) ? ('q' to quit, nothing for the current analysis)",
 
-  # === ERREURS ===
+# === ERREURS ===
 
-  'folder-images-required' => 'Images folder path is required!',
-  'should-be-folder-path'  => '%{path} should be a folder path.',
-  'no-images-in-folder' => 'It seems that %{path} folder holds no images (with %{extensions} extensions).',
+'folder-images-required' => 'Images folder path is required!',
+'should-be-folder-path'  => '%{path} should be a folder path.',
+'no-images-in-folder' => 'It seems that %{path} folder holds no images (with %{extensions} extensions).',
 
-  'no-folder-found' =>  "No analysis folder name starts with « %{name} » (or has that name).",
-  'too-much-candidate' => "Too much candidate for '%{name}' partial name (%{list}). Redefine your wish.",
-  'folder-built' => '"%{name}" folder has been built.',
-  'folder-unfound' => '"%{name}" folder is unfound.',
-  'unknown-folder' => "Unknown folder, I can't do anything for you…",
+'no-folder-found' =>  "No analysis folder name starts with « %{name} » (or has that name).",
+'too-much-candidate' => "Too much candidate for '%{name}' partial name (%{list}). Redefine your wish.",
+'folder-built' => '"%{name}" folder has been built.',
+'folder-unfound' => '"%{name}" folder is unfound.',
+'unknown-folder' => "Unknown folder, I can't do anything for you…",
 
-  'analysis-name-required' => "Analysis name is required as the first argument.",
-  'analysis-folder-built' => "Analysis folder built.",
-  'analysis-folder-already-exists' => "This analysis folder already exists.#{RC}\t\tDelete it or choose another name.",
+'analysis-name-required' => "Analysis name is required as the first argument.",
+'analysis-folder-built' => "Analysis folder built.",
+'analysis-folder-already-exists' => "This analysis folder already exists.#{RC}\t\tDelete it or choose another name.",
 
-  'unknown-command' => "Sorry, I don't know the `%{command}' command…\nTo get help, use `help` as the first argument.",
-  'unknown-property' => 'I don’t know the "%{prop}" property, I can’t set it.',
-  'unknown-lang' => "MuScaT doesn't speak the language designed by '%{lang}'. Do you want to make the translation of MuScaT in this language?",
+'unknown-command' => "Sorry, I don't know the `%{command}' command…\nTo get help, use `help` as the first argument.",
+'unknown-property' => 'I don’t know the "%{prop}" property, I can’t set it.',
+'unknown-lang' => "MuScaT doesn't speak the language designed by '%{lang}'. Do you want to make the translation of MuScaT in this language?",
 
-  'fatal-error' => "\n\n\tERROR: %{err_msg}\n\n(to get help, run './utils/%{command}.rb --help' — ou '-h')\n\n",
+'fatal-error' => "\n\n\tERROR: %{err_msg}\n\n(to get help, run './utils/%{command}.rb --help' — ou '-h')\n\n",
 
-  'help-commands-overview' => "(to get the command help,\nrun #{'mus[cat] <commande> -h/--help'.jaune})"
+'help-commands-overview' => "(to get the command help,\nrun #{'mus[cat] <commande> -h/--help'.jaune})",
+
+# === OPTIONS ===
+
+'option-animation-speed' => 'Animation speed',
+'option-auto-save' => "Autosave",
+'option-crop-image' => "Crop score with assitant",
+'option-images-PNG' => "PNG images format",
+'option-coordonates' => "Coordonates displaying when modifying",
+'option-lang' => "UI Lang",
+'option-lines-of-reference' => "Displaying of reference lines",
+'option-horizontal-line-offset' => "Horizontal offset of vertical reference line",
+'option-vertical-line-offset' => "Vertical offset of horizontal reference line",
+'option-space-between-scores' => "Space between systems (images sequence)",
+'option-top-first-score' => "Top margin of first system (images sequence)",
+'option-left-margin' => "Left margin of systems (images sequence)",
+'option-theme' => "UI Theme",
+'option-visor' => "Displaying of visor",
+'option-cadence-size' => "Size of cadenzia marks",
+'option-chord-size' => "Size of chords marks",
+'option-harmony-size' => "Size of Harmony marks",
+'option-measure-size' => "Size of measure number marks",
+'option-modulation-size' => "Size of modulation marks",
+'option-part-size' => "Size of part marks",
+'option-degree-size' => "Size of scale degrees marks",
+'option-text-size' => "Size of other texts",
+'option-rectangle-selection' => "Rectable selection",
+'option-shuffle-tests' => "To run test in random order",
+
+'fin-des-locales' => "Juste pour dernier sans virgule"
 
 }

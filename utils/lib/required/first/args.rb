@@ -18,6 +18,7 @@ OPTIONS_DIM_TO_REAL = {
   'c' => :cible,
   'e' => :edit,
   'h' => :help,
+  'l' => :list,
   'm' => :make
 }
 OPTIONS = {}
@@ -51,8 +52,11 @@ end
 
 # ---------------------------------------------------------------------
 # TRAITEMENT DE LA LIGNE DE COMMANDE
+
+# Pour mettre la commande en français ou en anglais
 COMMAND_LANG = {
   'aide':                     'help',
+  'commandes':                'commands',
   'ouvre':                    'open',
   'créer':                    'create',
   'renommer_images':          'rename_images',

@@ -17,7 +17,7 @@ class Analyse
   def options
     @options ||= begin
       if File.exists?(path_options_js)
-        JSON.parse(File.read(path_options_js).force_encoding('utf-8'))
+        JSON.parse(File.read(path_options_js).force_encoding('utf-8').split(RC)[1])
       else
         {}
       end
@@ -33,7 +33,7 @@ class Analyse
 
   # Chemin d'accès au fichier options.js de l'analyse
   def path_options_js
-    @path_options_js ||= File.join(path,'options.json')
+    @path_options_js ||= File.join(path,'options.js')
   end
 
   # Chemin d'accès absolu au dossier de l'analyse

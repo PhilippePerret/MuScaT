@@ -1,0 +1,8 @@
+Gestion des options
+-------------------
+
+#{"mus options \"nom analyse\"".jaune}
+
+  Cette commande permet de voir où en est l'état des options
+  d'une analyse. En l'absence du nom de l'analyse, c'est
+  l'analyse cible qui est choisie.

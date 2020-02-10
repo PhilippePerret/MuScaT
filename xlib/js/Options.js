@@ -8,7 +8,6 @@
    // Note : `user_name` permet de garder la trace du nom de l'option que l'user
    // a employée, en cas de "aka" pour lui redonner la même.
      'animation-speed':             {boolean: false, value: null, default: 50, user_name: null}
-   , 'animation-speed':             {aka: 'animation-speed'}
    , 'auto-save':                   {boolean: true, value: null, default: true}
    , 'code':                        {boolean: true, value: false, default: false}
    , 'code-no-option':              {boolean: true, value: null}
