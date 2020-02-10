@@ -7,6 +7,7 @@ CUR_ANALYSE_FILE  = File.join(APPFOLDER,'analyse.js')
 
 UTILS_FOLDER = File.join(APPFOLDER,'utils')
 LIB_FOLDER   = File.join(UTILS_FOLDER, 'lib')
+COMMANDS_FOLDER = File.join(UTILS_FOLDER, 'commands')
 
 INFOS_FILE        = File.join(APPFOLDER,'xlib','infos.rb')
 LANG_FILE         = File.join(APPFOLDER,'xlib','locales','LANG')

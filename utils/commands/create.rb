@@ -3,9 +3,6 @@
 =begin
   Script pour renommer les fichiers du dossier donné en argument.
 =end
-require 'fileutils'
-require_relative 'required'
-
 INFOS_CODE = <<-EOT
 INFOS = {
   analyse_name:     "%{analyse_name}",

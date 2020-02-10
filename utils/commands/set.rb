@@ -8,8 +8,6 @@
       > mus set lang=fr
 
 =end
-require_relative 'required'
-
 DPROPERTIES = {
   'lang'    => {id: 'lang',   value: nil, default: 'en'},
   'editor'  => {id: 'editor', value: nil, default: 'TextEdit'}

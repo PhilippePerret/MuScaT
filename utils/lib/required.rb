@@ -4,6 +4,9 @@ require 'json'
 require 'io/console'
 require 'fileutils'
 
+# Requérir ce module utilisé par les suivants
+require_relative 'required/first/String_helpers'
+
 # Requérir d'abord toutes les constantes
 require_relative 'required/constants'
 

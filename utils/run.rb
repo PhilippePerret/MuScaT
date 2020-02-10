@@ -18,7 +18,7 @@ begin
     # puts "\033c"
     puts_help('run')
   else
-    COMMAND_PATH = File.join(APPFOLDER,'utils','commands', "#{COMMAND}.rb")
+    COMMAND_PATH = File.join(COMMANDS_FOLDER, "#{COMMAND}.rb")
     if File.exist?(COMMAND_PATH)
       # C'est bon, on peut le faire
       # On se place toujours dans l'application

@@ -23,48 +23,52 @@ EOT
 
 LOCALES = {
 
-  'currente'  => 'Courante :',
+'currente'  => 'Courante :',
 
-  'analysis-folder' => "Dossier analyse : %{name}",
+'analysis-folder' => "Dossier analyse : %{name}",
 
-  'analysis-folder-chosen' => "Vous avez choisi le dossier d'analyse : %{name}",
-  'folder-captures-set' => "Le dossier des captures a été mis à %{name}.",
+'analysis-folder-chosen' => "Vous avez choisi le dossier d'analyse : %{name}",
+'folder-captures-set' => "Le dossier des captures a été mis à %{name}.",
 
-  # === CONFIRMATIONS ===
+# === TITRES ===
 
-  'operation-successful' => "#{RC * 3}#{INDENT}Opération exécutée avec succès.#{RC * 3}",
-  'create-confirmation' => create_confirmation,
-  'export-to-pdf' => "Il suffit maintenant d'exporter ce document HTML au format PDF.",
-  'lang-successfully-defined' => "D'accord, maintenant je parle français dans le texte.",
-  'editor-successfully-defined' => "Votre éditeur a été défini.",
+'title-commands-list' => "LISTE DES COMMANDES",
 
-  # === QUESTIONS ===
+# === CONFIRMATIONS ===
 
-  'which-folder' => "Quel dossier choisir (lettre) ? ('q' pour renoncer, rien pour la courante)",
+'operation-successful' => "#{RC * 3}#{INDENT}Opération exécutée avec succès.#{RC * 3}",
+'create-confirmation' => create_confirmation,
+'export-to-pdf' => "Il suffit maintenant d'exporter ce document HTML au format PDF.",
+'lang-successfully-defined' => "D'accord, maintenant je parle français dans le texte.",
+'editor-successfully-defined' => "Votre éditeur a été défini.",
 
-  # === ERREURS ===
+# === QUESTIONS ===
 
-  'folder-images-required' => 'Il faut définir le chemin au dossier contenant les images !',
-  'should-be-folder-path'  => '%{path} devrait être un chemin de dossier.',
-  'no-images-in-folder' => 'Le dossier %{path} ne semble contenir aucune image (extensions prises en compte : %{extensions}).',
+'which-folder' => "Quel dossier choisir (lettre) ? ('q' pour renoncer, rien pour la courante)",
 
-  'no-folder-found' =>  "Aucun dossier d'analyse n'a été trouvé avec « %{name} »",
-  'too-much-candidate' => "Trop de noms correspondent au nom partiel '%{name}' fourni (%{list}). Précisez votre demande.",
-  'folder-built' => 'Le dossier "%{name}" a été construit',
-  'folder-unfound' => 'Le dossier "%{name}" est introuvable.',
-  'unknown-folder' => "Dossier inconnu, je ne peux rien faire pour vous…",
+# === ERREURS ===
 
-  'analysis-name-required' => "Il faut définir le nom de l'analyse en premier argument.",
-  'analysis-folder-built' => "Dossier des analyses construit.",
-  'analysis-folder-already-exists' => "Ce dossier d'analyse existe déjà.#{RC}\t\tDétruisez-le ou choisissez un autre nom.",
+'folder-images-required' => 'Il faut définir le chemin au dossier contenant les images !',
+'should-be-folder-path'  => '%{path} devrait être un chemin de dossier.',
+'no-images-in-folder' => 'Le dossier %{path} ne semble contenir aucune image (extensions prises en compte : %{extensions}).',
 
-  # == UNKNOWN ==
-  'unknown-command' => "Désolé, je ne connais pas la commande `%{command}'…\nPour obtenir de l'aide, mettre `help` ou `aide` en premier argument.",
-  'unknown-property' => 'Je ne connais pas la propriété "%{prop}", je ne peux pas la définir.',
-  'unknown-lang' => "MuScaT ne sait pas (encore) parler la langue désignée par '%{lang}'. Vous voulez vous proposer pour en faire la traduction ?",
+'no-folder-found' =>  "Aucun dossier d'analyse n'a été trouvé avec « %{name} »",
+'too-much-candidate' => "Trop de noms correspondent au nom partiel '%{name}' fourni (%{list}). Précisez votre demande.",
+'folder-built' => 'Le dossier "%{name}" a été construit',
+'folder-unfound' => 'Le dossier "%{name}" est introuvable.',
+'unknown-folder' => "Dossier inconnu, je ne peux rien faire pour vous…",
 
-  'fatal-error' => "\n\n\tERREUR: %{err_msg}\n\n(pour obtenir de l'aide, jouez './utils/%{command}.rb --help' — ou '-h')\n\n"
+'analysis-name-required' => "Il faut définir le nom de l'analyse en premier argument.",
+'analysis-folder-built' => "Dossier des analyses construit.",
+'analysis-folder-already-exists' => "Ce dossier d'analyse existe déjà.#{RC}\t\tDétruisez-le ou choisissez un autre nom.",
 
+# == UNKNOWN ==
+'unknown-command' => "Désolé, je ne connais pas la commande `%{command}'…\nPour obtenir de l'aide, mettre `help` ou `aide` en premier argument.",
+'unknown-property' => 'Je ne connais pas la propriété "%{prop}", je ne peux pas la définir.',
+'unknown-lang' => "MuScaT ne sait pas (encore) parler la langue désignée par '%{lang}'. Vous voulez vous proposer pour en faire la traduction ?",
 
+'fatal-error' => "\n\n\tERREUR: %{err_msg}\n\n(pour obtenir de l'aide, jouez './utils/%{command}.rb --help' — ou '-h')\n\n",
+
+'help-commands-overview' => "(pour voir l'aide précise d'une commande, \njouer #{'mus[cat] <commande> -h/--help'.jaune})"
 
 }

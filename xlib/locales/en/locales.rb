@@ -30,6 +30,10 @@ LOCALES = {
   'analysis-folder-chosen' => "You choosed the analysis folder: %{name}",
   'folder-captures-set' => "Captures folder set to %{name}.",
 
+  # === TITRES ===
+
+  'title-commands-list' => "COMMAND LIST",
+
   # === CONFIRMATIONS ===
 
   'operation-successful' => "#{RC * 3}#{INDENT}Proceeded with success.#{RC * 3}",
@@ -62,6 +66,8 @@ LOCALES = {
   'unknown-property' => 'I don’t know the "%{prop}" property, I can’t set it.',
   'unknown-lang' => "MuScaT doesn't speak the language designed by '%{lang}'. Do you want to make the translation of MuScaT in this language?",
 
-  'fatal-error' => "\n\n\tERROR: %{err_msg}\n\n(to get help, run './utils/%{command}.rb --help' — ou '-h')\n\n"
+  'fatal-error' => "\n\n\tERROR: %{err_msg}\n\n(to get help, run './utils/%{command}.rb --help' — ou '-h')\n\n",
+
+  'help-commands-overview' => "(to get the command help,\nrun #{'mus[cat] <commande> -h/--help'.jaune})"
 
 }

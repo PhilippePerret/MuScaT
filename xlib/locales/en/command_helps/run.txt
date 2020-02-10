@@ -1,12 +1,20 @@
 [UGLY ENGLISH TRANSLATION TO IMPROVE]
 
-RUN.RB MUSCAT COMMAND HELP
---------------------------
+MUSCAT COMMAND HELP
+-------------------
 
 The `run` command lets you use MuScaT easily in command line,
 thanks to an alias in your bash profile (see below).
 
 If `mus` is your alias, you can use:
+
+#{'> mus commands'.jaune}
+
+    To get a list of all commands.
+
+#{'> mus open manual'.jaune}
+
+    To open the PDF version of the Muscat Manual.
 
 #{'> mus create "New Analysis Name" -o'.jaune}
 
@@ -16,8 +24,9 @@ If `mus` is your alias, you can use:
 
     Load the analysis in the browser.
 
-    Note: with no argument (`> mus analysis`), you can get
-    the analysis list and choose one of them.
+    Note: with -l/--list option and no argument
+    (`> mus analysis`), you can get the analysis list and
+    choose one of them.
 
 #{'> mus test -o'.jaune}
 
@@ -26,7 +35,7 @@ If `mus` is your alias, you can use:
 CREATING THE ALIAS
 ------------------
 
-On mac :
+On Mac/Apple :
 
   * open the Terminal application,
   * open your bash profile (`> vim ~/.bash_profile`),
