@@ -4,7 +4,7 @@
 
 
 
-## Nota Bene commande
+## Rappel rapide
 
 Si vous avez installé [la commande `muscat`](#commandemuscat) pour la console ou le Terminal, toutes les opérations sont simplifiées :
 
@@ -18,6 +18,12 @@ Si vous avez installé [la commande `muscat`](#commandemuscat) pour la console o
 
 ~~~sh
 > muscat analyse "Nom de l'analyse"
+~~~
+
+**Réglage des options**
+
+~~~sh
+> muscat option <mon-option>="<valeur>"
 ~~~
 
 

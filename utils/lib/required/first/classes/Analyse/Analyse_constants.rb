@@ -29,31 +29,31 @@ DEFAULT_SCORE_TOP_MARGIN  = 100
 DEFAULT_SCORES_SPACES     = 50    # espace entre les images de système
 
 ANALYSIS_OPTIONS = {
-  'animation-speed' =>              {boolean: false, default: 50, user_name: nil},
-  'auto-save' =>                    {boolean: true, default: true},
-  'crop-image' =>                   {boolean: true, aka:['découpe-image']},
-  'images-PNG' =>                   {boolean: true}, # true si on veut des noms de fichier ne png (pour convert par exemple)
-  'coordonates' =>                  {boolean: true}, # afficher les coordonnées lors des déplacementss
-  'lang' =>                         {boolean: false, default: 'fr', aka:['langue','language','langage']},
-  'lines-of-reference' =>           {boolean: true, aka:['repères','reperes','guides']},
-  'horizontal-line-offset' =>       {boolean: false, default: 46, aka:'position-repère-horizontal'},
-  'vertical-line-offset' =>         {boolean: false, default: 42, aka:'position-repère-vertical'},
-  'space-between-scores' =>         {boolean: false, default: DEFAULT_SCORES_SPACES, aka:'espacement-images'},
-  'top-first-score' =>              {boolean: false, aka:'marge-haut', default:DEFAULT_SCORE_TOP_MARGIN},
-  'left-margin' =>                  {boolean: false, aka:'marge-gauche', default:DEFAULT_SCORE_LEFT_MARGIN},
-  'theme' =>                        {boolean: false},
-  'visor' =>                        {boolean: true, default: false, aka:['viseur']},
+  'animation-speed' =>              {boolean: false, type: :integer, max:100, min:1, default: 50, user_name: nil},
+  'auto-save' =>                    {boolean: true, default: true, type: :boolean},
+  'crop-image' =>                   {boolean: true, aka:['découpe-image'], type: :boolean},
+  'images-PNG' =>                   {boolean: true, type: :boolean}, # true si on veut des noms de fichier ne png (pour convert par exemple)
+  'coordonates' =>                  {boolean: true, type: :boolean}, # afficher les coordonnées lors des déplacementss
+  'lang' =>                         {boolean: false, type: :string, length:2, default: 'fr', aka:['langue','language','langage']},
+  'lines-of-reference' =>           {boolean: true, type: :boolean, aka:['repères','reperes','guides']},
+  'horizontal-line-offset' =>       {boolean: false, type: :integer, default: 46, aka:'position-repère-horizontal'},
+  'vertical-line-offset' =>         {boolean: false, type: :integer, default: 42, aka:'position-repère-vertical'},
+  'space-between-scores' =>         {boolean: false, type: :integer, default: DEFAULT_SCORES_SPACES, aka:'espacement-images'},
+  'top-first-score' =>              {boolean: false, type: :integer, aka:'marge-haut', default:DEFAULT_SCORE_TOP_MARGIN},
+  'left-margin' =>                  {boolean: false, type: :integer, aka:'marge-gauche', default:DEFAULT_SCORE_LEFT_MARGIN},
+  'theme' =>                        {boolean: false, type: :string},
+  'visor' =>                        {boolean: true, type: :boolean, default: false, aka:['viseur']},
   # TOUTES LES DIMENSIONS
-  'cadence-size' =>                 {boolean: false},
-  'chord-size' =>                   {boolean: false},
-  'harmony-size' =>                 {boolean: false, aka:['harmonie-size', 'dimension-harmonie']},
-  'measure-size' =>                 {boolean: false, aka:['mesure-size', 'dimension-mesure', 'dimension-mesures']},
-  'modulation-size' =>              {boolean: false, aka:['dimension-modulation','dimension-modulations']},
-  'degree-size' =>                  {boolean: false, aka:['degre-size','dimension-degre','dimension-degres']},
-  'part-size' =>                    {boolean: false, aka:['dimension-partie','dimension-parties']},
-  'text-size' =>                    {boolean: false, aka:['dimension-texte','dimension-textes']},
-  'rectangle-selection' =>          {boolean: true, default: false},
-  'shuffle-tests' =>                {boolean: true, default: true}
+  'cadence-size' =>                 {boolean: false, type: :integer},
+  'chord-size' =>                   {boolean: false, type: :integer},
+  'harmony-size' =>                 {boolean: false, type: :integer, aka:['harmonie-size', 'dimension-harmonie']},
+  'measure-size' =>                 {boolean: false, type: :integer, aka:['mesure-size', 'dimension-mesure', 'dimension-mesures']},
+  'modulation-size' =>              {boolean: false, type: :integer, aka:['dimension-modulation','dimension-modulations']},
+  'degree-size' =>                  {boolean: false, type: :integer, aka:['degre-size','dimension-degre','dimension-degres']},
+  'part-size' =>                    {boolean: false, type: :integer, aka:['dimension-partie','dimension-parties']},
+  'text-size' =>                    {boolean: false, type: :integer, aka:['dimension-texte','dimension-textes']},
+  'rectangle-selection' =>          {boolean: true, type: :boolean, default: false},
+  'shuffle-tests' =>                {boolean: true, type: :boolean, default: true}
 }
 
 class Options

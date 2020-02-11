@@ -73,6 +73,8 @@ LOCALES = {
 
 # === OPTIONS ===
 
+'options-saved' => "Analyse “%{name}”'s options have been set to: %{options}",
+
 'option-animation-speed' => 'Animation speed',
 'option-auto-save' => "Autosave",
 'option-crop-image' => "Crop score with assitant",
@@ -97,6 +99,12 @@ LOCALES = {
 'option-text-size' => "Size of other texts",
 'option-rectangle-selection' => "Rectable selection",
 'option-shuffle-tests' => "To run test in random order",
+
+'option-error-string-bad-length' => "'%{sujet}' should have a length of %{expected} (it's %{actual} characters long)",
+'option-error-bad-integer' => '%{sujet} should be a number (it is %{value})',
+'option-error-integer-to-small' => '%{sujet} should be greater than %{expected} (it is %{actual})',
+'option-error-integer-to-big' => "%{sujet} should be a number less or equal to %{expected} (it is %{actual})",
+'option-error-boolean-required' => "%{sujet} should be a boolean (it is %{value})",
 
 'fin-des-locales' => "Juste pour dernier sans virgule"
 

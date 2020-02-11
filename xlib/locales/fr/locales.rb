@@ -74,6 +74,8 @@ LOCALES = {
 
 # === OPTIONS ===
 
+'options-saved' => "Les options de l'analyse “%{name}” ont été mise à : %{options}",
+
 'option-animation-speed' => 'Vitesse de l’animation',
 'option-auto-save' => "Sauvegarde automatique",
 'option-crop-image' => "Découpage assisté de la partition",
@@ -98,6 +100,12 @@ LOCALES = {
 'option-text-size' => "Taille de l'affichage des autres textes",
 'option-rectangle-selection' => "Sélection pour rectangle",
 'option-shuffle-tests' => "Pour jouer les tests dans un ordre aléatoire",
+
+'option-error-string-bad-length' => "'%{sujet}' devrait avoir une longueur de %{expected} (mesure %{actual} caractères)",
+'option-error-bad-integer' => '%{sujet} devrait être un nombre (il vaut %{value})',
+'option-error-integer-to-small' => '%{sujet} devrait être supérieur à %{expected} (il vaut %{actual})',
+'option-error-integer-to-big' => "%{sujet} devrait être un nombre inférieur ou égal à %{expected} (vaut %{actual})",
+'option-error-boolean-required' => "%{sujet} devrait être une valeur booleénne (il vaut %{value})",
 
 'fin-des-locales' => "Juste pour dernier sans virgule"
 }

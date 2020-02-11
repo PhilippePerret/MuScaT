@@ -55,13 +55,13 @@ end
 
 # Pour mettre la commande en français ou en anglais
 COMMAND_LANG = {
-  'aide':                     'help',
-  'commandes':                'commands',
-  'ouvre':                    'open',
-  'créer':                    'create',
-  'renommer_images':          'rename_images',
-  'change_dossier_captures':  'change_folder_caputres',
-  'options':                  'option'
+  'aide' =>                     'help',
+  'commandes' =>                'commands',
+  'ouvre' =>                    'open',
+  'créer' =>                    'create',
+  'renommer_images' =>          'rename_images',
+  'change_dossier_captures' =>  'change_folder_caputres',
+  'option' =>                   'options'
 }
 cmd = ARGSTRING.shift
 COMMAND = (COMMAND_LANG[cmd] || cmd).gsub(/\-/, '_')
