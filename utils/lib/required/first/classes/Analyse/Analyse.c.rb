@@ -144,13 +144,14 @@ class << self
     print t('which-folder')
     choix = STDIN.getch()
     puts ''
-    if choix.to_s.strip == ''
+    case choix.to_s.strip
+    when ''
+      return Analyse.get_current_analyse
+    when 'q'
       return nil
-    elsif choix == 'q'
-      raise
     else
       choix = choix.ord - 97
-      return names_list[choix]
+      return names_list[choix] # peut être nil
     end
   end
 

@@ -25,7 +25,8 @@ unless OPTIONS[:help] || FIRST_ARG.nil?
     when 'dev'
       puts "Pour lancer le développement, taper 'openmuscat'.".vert
     else
-      # Sinon, on cherche à ouvrir l'analyse courante
+      # Sinon, on cherche à ouvrir l'analyse courante ou à
+      # afficher la liste des analyses.
       require_relative 'analyse'
     end
 

@@ -62,7 +62,7 @@ Elle est semi-graphique, et permet d'ajuster très finement les *TAGs* — au p
 
 * [Synopsis général de création d'une analyse](#synopsis_fabrication)
 * [Synopsis détaillé](#synopsis_detailled)
-  * [Charger de l'application **MuScaT**](#download_muscat)
+  * [Charger l'application **MuScaT**](#download_muscat)
   * [Créer du dossier de l'analyse](#creation_dossier_analyse)
   * [Mettre l'analyse en analyse courante](#set_analyse_courante)
   * [Découper la partition en « images-systèmes»](#syn_crop_score)
@@ -73,7 +73,6 @@ Elle est semi-graphique, et permet d'ajuster très finement les *TAGs* — au p
   * [Positionner les éléments graphiques](#syn_ajustement_elements)
     * [Les lignes repères](#ligne_reperes)
     * [Note sur les coordonnées et dimensions](#note_coors_dims)
-  * [Récupérer le code final](#syn_recuperation_code_final)
   * [Versions de l'analyse](#versions_de_analyse)
   * [Imprimer en PDF](#syn_print_pdf)
 * [L'interface](#user_interface)
@@ -108,8 +107,8 @@ Elle est semi-graphique, et permet d'ajuster très finement les *TAGs* — au p
 * [Les Utilitaires](#les_utilitaires)
   * [Changement du dossier des captures écran (Mac)](#utils_change_captures_folder)
   * [Renommage des fichiers images (Mac/Unix)](#utils_renommer_fichiers)
-  * [Création d'une nouvelle analyse (Mac)](#create_new_analyse)
-  * [Activation d'une analyse (Mac)](#activate_analyse)
+  * [Création d'une nouvelle analyse](#create_new_analyse)
+  * [Activation d'une analyse](#activate_analyse)
   * [Commande Shell `muscat`](#commandemuscat)
 * [Annexe](#annexes)
   * [Application « Terminal »](#application_terminal)
@@ -157,7 +156,7 @@ Pour fonctionner, l’application a besoin :
 * qu’un serveur local soit en route,
 * qu’un dossier `Sites` soit réglé pour recevoir l’application.
 
-###
+
 
 ### Chargement de l'application **MuScaT**
 
@@ -181,59 +180,45 @@ Déplacez-le dossier dans votre dossier serveur (`~/Sites/` sur Mac)
 
 #### Création en ligne de commande
 
-Si vous êtes à l'aise avec votre [Terminal](#application_terminal) sur Mac, avec votre console sur Unix (`Application -> Accessories -> Terminal`) ou avec votre console dans Windows (`Start > Run`, puis `⌘` et `Entrée`), le plus simple est d'exécuter l'opération en ligne de commande.
+Pour créer une nouvelle application, on joue la commande suivant dans son Terminal (Mac/Unix) ou sa Console (Windows)
 
-Pour cela, vous utilisez le script `/utils/create.rb`.
-
-> Notez que comme l'extension le suggère, le langage Ruby doit être installé sur votre machine. Il l'est par défaut sur Mac, vous pouvez [l'installer facilement sur Windows](https://editrocket.com/articles/ruby_windows.html).
-
-```bash
-
-	# Pour rejoindre le dossier muscat
-  > cd ~/Sites/Muscat
-
-  # Pour créer l'analyse
-  > ./utils/create.rb "Ma première analyse"
-
-```
-
-> Note : les chemins ci-dessus correspondent aux OS de Mac et Linux. Il faut utiliser des balances arrières (« \\ ») si vous êtes sur Windows.
-
-L'avantage de cette procédure en ligne de commande, c'est notamment qu'elle enregistre la version de **MuScaT** utilisée, ce qui sera très pratique pour les actualisations.
+~~~sh
+> mus create "Mon analyse"
+~~~
 
 #### Création par le Finder
 
-La procédure ne se fait plus par le Finder. Utiliser la ligne de commande (cf. ci-dessus.
+Si vous utilisiez l’ancienne formule de Muscat, en créant l’analyse par le Finder, elle n’est plus d’usage aujourd’hui.
 
 #### Contenu d'un dossier d'analyse
 
-Voyons rapidement le contenu du dossier d'analyse. On trouve :
+Voyons rapidement le contenu du dossier d'analyse. Notez qu’à présent il n’est plus utile que pour le dossier `images` dans lequel on place les partitions et les images de l'analyse. On trouve :
 
 * le dossier « images » qui comme son nom l'indique va rassembler toutes les images utiles à l'analyse, c'est-à-dire les partitions, les *systèmes*,
-* le fichier le plus important, le fichier `_tags_.js` qui va contenir la définition précise de l'analyse,
-* un fichier `analyse.js` obsolète dans la nouvelle version.
+* le fichier `tags.js` qui va contenir la définition précise de l'analyse,
+* le fichier `options.js` définissant les options.
+* le dossier `Output` pour les sorties,
+* le dossier `xbackups` pour les derniers backups de l’analyse.
 
-Dans ce dossier, vous pouvez mettre enfin votre partition en PDF ou en image.
+![Parition originale](Contenu-dossier-analyse.png)
 
-![Parition originale](img/6.5.Partition.png)
+
+
+> Dans ce dossier, vous pouvez mettre aussi en racine la partition de base de l’œuvre à analyser.
 
 ### Mettre l'analyse en analyse courante
 
-
-
-Utiliser le code suivant pour mettre l’analyse en analyse courante :
-
 ~~~sh
-> cd ~/Sites/Muscat
-> ./utils/analyse.rb "Nom de l'analyse"
+> muscat analyse "Nom de l'analyse"
 ~~~
 
 
 
-Si vous utilisez [la commande shell `muscat`](#commandemuscat), il vous suffit de faire :
+Vous pouvez aussi régler cette analyse comme « analyse cible » (de toutes les commandes) et donc simplement jouer `mus analyse` ensuite, même les sessions ou les jours suivants.
 
 ~~~sh
-> muscat analyse "Nom de l'analyse"
+> mus use "Nom analyse"
+> mus analyse
 ~~~
 
 
@@ -480,7 +465,7 @@ On peut en ajouter de nouveaux en dupliquant les lignes de code.
 
 À tout moment on peut annuler une opération pour revenir en arrière en jouant `⌘ Z` (sur Mac) ou `Ctrl Z` (sur Windows).
 
-Sans l'option `option('code');` activée, il faut modifier le code directement dans le fichier `_tags_.js` puis recharger la page dans Chrome pour voir les changements.
+Sans l'option `code` activée, il faut modifier le code directement dans le fichier `_tags_.js` puis recharger la page dans Chrome pour voir les changements.
 
 
 
@@ -630,22 +615,22 @@ Voyons plus en détail comment se compose une ligne du fichier `_tags_.js`, une 
 
 Cette ligne a le format général suivant :
 
-`nature`{.ital}[ `contenu`{.ital}][ `propriétés`{.ital}][ `option/type`{.ital}]
+`nature`[ `contenu`][ `propriétés`][ `option/type`]
 
-`nature`{.ital}
+`nature`
 : C'est la *nature* du *TAG*, ce qui détermine ce qu'il est, cadence, modulation, boite ou image, etc.
 
-`contenu`{.ital}
+`contenu`
 : C'est le *contenu* du *TAG*, parfois son *type* (pour les lignes par exemple). Pour un *TAG* de texte, c'est le texte, pour une modulation, c'est la tonalité vers laquelle on module.
 : Cf. [Note sur le contenu du *TAG*](#note_contenu_tag)
 
-`propriétés`{.ital}
+`propriétés`
 : Les propriétés du *TAG*, à commencer par ses coordonnées `x` (position horizontale) et `y` (position verticale) ainsi que les dimensions h (hauteur) et w (largeur) du *TAG*.
 : Ces coordonnées et ces dimensions se notent simplement en donnant les valeurs à l'aide d'un signe égal (`=`) **sans espace** : `x=12`, `y=20`, `w=12%`, `h=12mm`, etc.
 : Cf. aussi [Note sur les coordonnées et dimensions](#note_coors_dims)
 : On peut également trouver les propriétés de couleur. Cf. [Note sur les couleurs](#note_couleurs)
 
-`option/type`{.ital}
+`option/type`
 : Des options ou des types en fonction de la nature du *TAG*. Nous y reviendrons.
 
 Noter qu'à part les deux premiers éléments, tous les autres peuvent être donnés dans l'ordre qu'on veut, sans importance.
@@ -754,13 +739,13 @@ Ces couleurs sont définies par les propriétés suivantes au choix, suivant vot
 +---------------------------+---------------------------+
 |                           |                           |
 +---------------------------+---------------------------+
-| `couleur`{.ital}          | `c`                |
+| `couleur`          | `c`                |
 +---------------------------+---------------------------+
 |                           | `couleur`          |
 +---------------------------+---------------------------+
 |                           | `color`            |
 +---------------------------+---------------------------+
-| `couleur de fond`{.ital}  | `bgc`              |
+| `couleur de fond`  | `bgc`              |
 +---------------------------+---------------------------+
 |                           | `fond`             |
 +---------------------------+---------------------------+
@@ -1037,25 +1022,23 @@ Le texte ci-dessus indique qu'il y a 35 images de système dans ce mouvement. Le
 
 Si vous indiquez une taille — ce qui est mieux pour être sûr de tenir dans la page — cette taille sera appliquée à toutes les images.
 
-```javascript
-  Tags=`
-  score mouvement_1/image-[1-35].png w=17.5cm
-  `;
+```sh
+score mouvement_1/image-[1-35].png w=17.5cm
 ```
 
 Nous vous invitons vivement à commencer par cette opération — l'inscription des systèmes par séquence — avant l'insertion de toute autre marque sur la partition. Comme [nous l'expliquons plus haut déjà](#dim_et_pos_against_overview), il est recommandé, pour s'éviter ensuite un travail fastidieux de repositionnement, de placer en tout premier lieu les systèmes correctement sur chaque feuille, de façon définitive, en se servant de l'aperçu d'impression.
 
 Noter que lorsque **MuScaT** place les images sur la table d'analyse, il les répartit pour obtenir l'aspect original de la partition. On peut modifier ce comportement en définissant explicitement un espace (vertical) entre chaque système ou chaque image, grâce à l'option `espacement-images` :
 
-```javascript
+~~~sh
+# À jouer dans le Terminal/Console
+> mus option espacement-images=50
+~~~
 
-  // Code intégrale du fichier _tags_.js
-  option('code');option('espacement-images', 50);
+Dans le code de l’analyse :
 
-  Tags=`
-  sco haydn/mouvement_1-[1-35].png
-  `;
-
+```sh
+sco haydn/mouvement_1-[1-35].png
 ```
 
 > Noter la version raccourcie de la nature du *TAG* : `sco` pour `score`.

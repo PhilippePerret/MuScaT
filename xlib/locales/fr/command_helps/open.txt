@@ -21,3 +21,7 @@ OPTIONS
 -------
 
   -h/--help   Pour afficher cette aide.
+
+  -l/--list   Au lieu d'ouvrir l'analyse courante, affiche la
+              liste de toutes les analyses du dossier, pour en
+              choisir une.

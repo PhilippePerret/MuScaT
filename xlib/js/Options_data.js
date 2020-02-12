@@ -10,7 +10,7 @@ const DEFAULT_SCORE_TOP_MARGIN = 100;
 const DEFAULT_SCORES_SPACES = 50;
 
 const OPTIONS = {
-  'option': {'prop': value, 'prop': value}
+  'option': {'prop': 'value', 'prop': 'value'}
 , 'animation-speed': {"boolean":false,"default":50,"user_name":null,"value":null}
 , 'auto-save': {"boolean":true,"default":true,"value":null}
 , 'code': {"boolean":true,"default":false,"value":null}

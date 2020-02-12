@@ -1,1 +1,1 @@
-const ANALYSE="Tests";
+const ANALYSE="Beethoven-Sonate-8-Mvt-2";
