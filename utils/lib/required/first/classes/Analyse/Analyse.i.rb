@@ -8,6 +8,11 @@ class Analyse
     @name = folder_name
   end
 
+  # Pour ouvrir le dossier dans le finder
+  def open_folder
+    `open "#{path}"`
+  end
+
   # Nom réel
   def real_name
     @real_name ||= name.gsub(/[_\-]/,' ')

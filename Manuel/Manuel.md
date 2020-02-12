@@ -1,3 +1,5 @@
+
+
 # MuScaT<br>Manuel d'utilisation
 
 [Github de MuScaT]: https://github.com/PhilippePerret/MuScaT
@@ -221,9 +223,13 @@ Vous pouvez aussi régler cette analyse comme « analyse cible » (de toutes les
 > mus analyse
 ~~~
 
+Pour choisir l’analyse parmi toutes celles présentes, on peut faire :
 
+~~~sh
+> mus analyse --list # ou -l
+~~~
 
-Noter que si vous ne mettez pas de nom, l’application vous propose la liste de toutes les analyses, et vous pouvez en choisir une par sa lettre.
+**Muscat** affiche alors la liste de toutes les analyses, pour en choisir une.
 
 Noter aussi que vous pouvez ne donner que le début du nom, **Muscat** fait le reste en cherchant l’analyse correspondante.
 
@@ -240,7 +246,7 @@ Mais vous avez plus simple, beaucoup plus pratique et extrêmement plus rapide 
 
 Pour une version détaillée et illustrée de la procédure, je vous renvoie à [ma chaine YouTube](https://www.youtube.com/channel/UCX3XhJw9x1RsVx1s3GNYceA) et plus précisément le [Découpage de la partition](https://www.youtube.com/watch?v=kVebmZgl4o8). Je l'explique rapidement seulement ici.
 
-* Sur Mac, vous pouvez modifier le dossier de capture (le dossier où seront automatiquement enregistrées les captures d'écran) en utilisant l'utilitaire `change_folder_captures.rb` de **MuScaT**. Dans le [Terminal](#application_terminal), taper :
+* Sur Mac, vous pouvez modifier le dossier de capture (le dossier où seront automatiquement enregistrées les captures d'écran) en utilisant la commande `change_folder_captures` de **MuScaT**. Dans le [Terminal](#application_terminal), taper :
 
     ```
 
@@ -274,8 +280,6 @@ Pour renommer automatiquement toutes les captures produites — qui possèdent 
 > muscat rename_images "path/to/dossier" "prefixe-nom"
 ~~~
 
-
-
 Pour obtenir de l’aide sur cette commande :
 
 ~~~sh
@@ -294,9 +298,19 @@ Noter que si vous avez mal découpé certains systèmes, il est extrêmement sim
 * jouer la combinaison `⌘ K`,
 * enregistrer l'image.
 
-Quelle que soit la méthode adoptée pour découper la partition en systèmes, on place obligatoirement toutes les images dans le dossier `images` de l’analyse :
+Quelle que soit la méthode adoptée pour découper la partition en systèmes, on place obligatoirement toutes les images dans le dossier `images` de l’analyse qu’on peut voir en jouant :
 
-![Dossier images](img/Dossier_images.png)
+~~~sh
+> mus open folder "Mon Analyse"
+
+# ou simplement (si l'analyse est la courante)
+
+> mus open folder
+~~~
+
+> Si vous ne connaissez pas le nom de l’analyse, ajoutez l’option `-l` (ou `—list`) pour obtenir la liste de toutes les analyses présentes.
+
+
 
 ### Inscrire les images-systèmes
 
@@ -305,13 +319,12 @@ Maintenant que nos images sont prêtes, nous devons les « inscrire » dans l'
 Pour se faire, on lance l’analyse si nécessaire avec :
 
 ~~~sh
-> muscat analyse current
+> muscat analyse[ "mon analyse"]
 ~~~
 
 Et dans la fenêtre de code, on écrit :
 
 ~~~terminal
-
 //Premier système
 sco sonate-haydn-0.png x=50 y=100 w=16cm
 
@@ -326,7 +339,7 @@ sco sonate-haydn-2.png x=50 y=180 w=16cm
 
 
 
-ou sous forme de suite :
+ou sous forme de séquence :
 
 ![Code raccourcis en série](./img/3systemesEn1.png)
 
@@ -351,7 +364,7 @@ Avant de placer quelconque marque d'analyse sur la partition, nous vous invitons
 
 Pour ce faire :
 
-* ouvrir la table d'analyse dans Chrome (le fichier `MuScaT/_TABLE_ANALYSE_.html`),
+* ouvrir l'analyse dans Chrome,
 * disposer les systèmes en les déplaçant à la souris,
 * demander l'impression (`⌘/⌃ P`),
 * faire les réglages nécessaires (taille du papier, marges, etc. — sur Chrome, l'idéal est d'utiliser le format « Portrait », des marges « minimum », un grossissement de 100 % et pas d'entête ni de pied de page),
@@ -367,13 +380,15 @@ Vous pouvez placer les titre, compositeur, date, opus, etc. aux endroits voulus 
 
 C'est-à-dire que vous pouvez placer, en haut de votre définition de `Tags` dans votre fichier `_tags_.js`, les informations suivantes :
 
-![Code pour les titres, auteurs, etc.](code_pour_titre.png)
+![Code pour les titres, auteurs, etc.](img/code_pour_titre.png)
 
 
 
 Ce qui donnera à l’écran (peu ou prou) :
 
-![Résultat de l'entête](code_pour_titre_table.png)
+![Résultat de l'entête](img/code_pour_titre_table.png)
+
+> Dans la nouvelle version de **Muscat**, les tags ne sont plus entourés d’un cadre gris.
 
 
 
@@ -465,26 +480,31 @@ On peut en ajouter de nouveaux en dupliquant les lignes de code.
 
 À tout moment on peut annuler une opération pour revenir en arrière en jouant `⌘ Z` (sur Mac) ou `Ctrl Z` (sur Windows).
 
-Sans l'option `code` activée, il faut modifier le code directement dans le fichier `_tags_.js` puis recharger la page dans Chrome pour voir les changements.
-
 
 
 #### Lignes repères
 
 Pour faciliter l'alignement des *TAGs* — par exemple l'alignement des dernières mesures de fin des systèmes — on peut utiliser des lignes repères. Pour cela, il suffit d'activer l'option `repères` (ou `reperes` ou `lines-of-reference`).
 
+~~~sh
+> mus option reperes=true
+~~~
+
+
+
 Cela ajoute deux lignes à l'écran, une verticale et une horizontale, qu'on peut déplacer à loisir à la souris.
 
 ![Lignes repères pour aligner les éléments](img/Ligne_repere.png)
 
+
+
 Vous pouvez également définir leur emplacement exact avec les options `position-repère-vertical` (ou `vertical-line-offset`) et `position-repère-horizontal` (ou `horizontal-line-offset`) :
 
-```javascript
-  // Dans le fichier _tags_.js de l'analyse
-  option('code');
-   // à 120 pixels du haut et 200 de la gauche
-  option('vertical-line-offset', 120, 'horizontal-line-offset', 200);
-```
+~~~sh
+> mus option reperes=true vertical-line-offset=120 horizontal-line-offset=200
+~~~
+
+
 
 ### Positionnement et dimensionnement des *TAGs*
 
@@ -511,17 +531,12 @@ Toutes les autres propriétés de dimension et de position peuvent s'indiquer sa
 
 Pour obtenir les x/y d'une position quelconque, il suffit de cliquer à l'endroit de cette position sur la table d'analyse. Cela affiche les coordonnées en bas de l'écran, mais plus encore, ça colle un `y=134 x=145` correspondant dans le presse-papier, valeur qu'il suffit ensuite de coller dans le code de la ligne du *TAG* (`⌘ V` sur Mac ou `Ctrl V` avec Windows).
 
+Ce qui fait que la procédure naturelle de création d’un tag consiste à :
 
-
-#### Mesure d'urgence (ou de secours)
-
-Parfois, le code de l'analyse (des *TAGs*) refuse de se copier dans le presse-papier. À la place, on trouve par exemple les coordonnées du dernier point cliqué sur l'analyse.
-
-Il existe une solution de secours qui permet de ne pas perdre tout son code : utiliser le bouton « Code complet (secours) » de la boite à outils, près du bouton d'aide.
-
-![Bouton code complet secours](img/code-complet-secours.png)
-
-En cliquant, on ouvre un champ de texte dans lequel se trouve tout le code, sélectionné. Il suffit de le copier (avec `X` pour s'assurer de bien l'avoir copié) et de le coller dans le fichier `_tags_.js`.
+* cliquer sur la table d’analyse à l’endroit où l’on veut que le tag s’inscrive,
+* créer une nouvelle ligne de code (par exemple avec le bouton « + »),
+* mlettre le type et la valeur en début de ligne (par exemple `acc D` pour un accord de Ré majeur ),
+* jouer `⌘ v` pour coller les coordonnées x et y au bout de la ligne.
 
 
 
@@ -537,6 +552,12 @@ Enfin, on imprime la page HTML du navigateur en choisissant le format PDF :
 ### Et voilà !
 
 Et voilà, c'est fait ! Et vous pourrez retoucher votre analyse à n'importe quel moment en la remettant en analyse courante.
+
+~~~sh
+> mus use "Mon analyse"
+~~~
+
+
 
 ---
 
@@ -570,40 +591,35 @@ Cette boite à outils contient des outils pour regrouper ou dégrouper des *TAGs
 
 ### Le champ de code
 
-Un champ de code est ouvert à droite de la page, contenant le code défini dans votre fichier `_tags_.js` (seulement celui dans `Tags`, pas le code intégral).
+Un champ de code est ouvert à droite de la page, contenant la définition successive de tous les tags d’analyse. L’ordre est indifférent pour une analyse « statique » mais il est déterminant pour une [animation de l’analyse](#animation_analyse).
 
-En modifiant ce code, vous pouvez construire votre analyse (n'oubliez pas d'en copier ensuite le code intégral).
+En modifiant ce code, vous pouvez construire votre analyse.
+
+| Action                        | Description                                              |
+| ----------------------------- | -------------------------------------------------------- |
+| `⌘ Entrée`<br>ou bouton « + » | Créer une nouvelle ligne/un nouveau *TAG*.               |
+| Bouton « - »                  | Destruction du *TAG* courant                             |
+| `flèche haut`                 | Passer au *TAG* au-dessus                                |
+| `flèche bas`                  | Passer au *TAG* en dessous                               |
+| `⌘ ⌃ ↑`                       | Remonter le *TAG* courant                                |
+| `⌘ ⌃ ↓`                       | Descendre le *TAG* courant                               |
+| `⇥`                           | Se place dans le code du *TAG* sélectionné sur la table. |
+
+
 
 > Note : la touche `⌘`, sur PC/Windows, doit être remplacée par la touche `⌃` (Ctrl).
 
-+-----------------------------+-------------------------------+
-| `Action`{.label-table}      | `Description`{.label-table}   |
-+-----------------------------+-------------------------------+
-| `⌘ Entrée`<br> | Créer une nouvelle ligne/un   |
-| ou bouton « + »             | nouveau *TAG*.                  |
-+-----------------------------+-------------------------------+
-| Bouton « - »                | Suppression du *TAG* courant    |
-+-----------------------------+-------------------------------+
-| `flèche haut`    | Passer au *TAG* au-dessus       |
-+-----------------------------+-------------------------------+
-| `flèche bas`     | Passer au *TAG* en dessous      |
-+-----------------------------+-------------------------------+
-| `⌘ flèche haut`| Remonter le *TAG* courant       |
-+-----------------------------+-------------------------------+
-| `⌘ flèche bas` | Descendre le *TAG* courant      |
-+-----------------------------+-------------------------------+
-| `Tabulation`     | Se place dans le code du *TAG*  |
-|                             | sélectionné sur la table.     |
-+-----------------------------+-------------------------------+
+
 
 Notez que dès que vous sélectionnez un *TAG* dans le code, le *TAG* est aussitôt sélectionné sur la table d'analyse (la table est « scrollée » pour toujours rendre visible ce *TAG*). L'opération inverse est vraie : toute sélection de *TAG* sur la table d'analyse est aussitôt sélectionné et affiché dans le code.
 
 ---
 
 
+
 ## Composition détaillé d'un *TAG* {#composition_dun_tag}
 
-Le *code* de l'analyse est constitué simplement de *lignes*, les unes au-dessus des autres, qui déterminent les images et les *TAGs*. Chaque ligne est une image ou un *TAG* (exception faite des lignes vides et des lignes de commentaire).
+Le *code* de l'analyse est constitué simplement de *lignes*, les unes au-dessus des autres, qui déterminent les images et les *TAGs*. Chaque ligne est une image ou un *TAG* (exception faite des lignes vides et des lignes de commentaire — précédées de `//`).
 
 ```{.center .exergue}
 1 ligne = 1 TAG
@@ -611,7 +627,7 @@ Le *code* de l'analyse est constitué simplement de *lignes*, les unes au-dessus
 
 Chaque ligne de *TAG* est composée d'un nombre de propriétés souvent définies par le signe égal — exception faite des deux premiers « mots » qui déterminent le plus souvent la *nature* et le *contenu* du *TAG*.
 
-Voyons plus en détail comment se compose une ligne du fichier `_tags_.js`, une ligne définissant un *TAG* ou une partition.
+Voyons plus en détail comment se compose le code d’un *TAG*.
 
 Cette ligne a le format général suivant :
 
@@ -638,8 +654,6 @@ Noter qu'à part les deux premiers éléments, tous les autres peuvent être don
 Voici quelques définitions de *TAGs* :
 
 ```javascript
-Tags = `
-
   score ma_partition.jpg y=100 x=10
 
   // => L'image 'images/ma_partition.jpg' placée à 10 pixels de
@@ -654,7 +668,6 @@ Tags = `
 
   // => Une modulation vers Sol mineur.
 
-`;
 ```
 
 > Noter les lignes commençant par `//` qui permettent de laisser un commentaire. C'est très utile lorsque l'on veut s'y retrouver lorsque l'analyse devient conséquente.
@@ -662,8 +675,6 @@ Tags = `
 Noter qu'une *nature* de *TAG* (le premier mot), peut toujours être exprimée par ses trois premières lettres (exception faite du terme « partition » qui rentrerait en conflit avec « partie »). Ainsi, on peut écrire le code ci-dessous :
 
 ```javascript
-Tags = `
-
   sco ma_partition.jpg y=100 x=10
 
   // sco => score (partition)
@@ -675,20 +686,18 @@ Tags = `
   mod G_min x=200 y=100
 
   // mod => modulation
-
-`;
 ```
 
 L'intégralité des *natures* de *TAG* (et leur diminutif) [est détaillée ici](#complete_list_tags).
+
+
 
 ### Forme raccourcie d'écriture
 
 Pour la première définition du *TAG*, on peut utiliser une version raccourcie de définition qui la rend très simple et très rapide. Elle consiste à utiliser :
 
 ```javascript
-Tags = `
 <nature>[ <contenu>] <valeur y seule> <valeur x seule>
-`;
 ```
 
 Par exemple, pour une *modulation* vers la tonalité de SOL mineur (G min.) qui doit se situer à 200 pixels du haut et 450 pixels de la gauche, on pourra écrire simplement :
@@ -699,13 +708,15 @@ Par exemple, pour une *modulation* vers la tonalité de SOL mineur (G min.) qui 
 
 Il suffit de se souvenir que le premier nombre concerne la *hauteur*.
 
-### Note sur le contenu du *TAG* (texte) {#note_contenu_tag}
+
+
+### Note sur le contenu du *TAG* (texte)
 
 Le *contenu* du *TAG*, c'est-à-dire son deuxième *mot*, peut être de type très différent. Mais en règle générale, il s'agit d'un texte, d'un accord ou d'un chiffrage.
 
 Il est important de noter immédiatement ce point :
 
-`Aucune espace ne doit se trouver dans ce contenu.`{.center .exergue}
+`Aucune espace ne doit se trouver dans ce contenu.`
 
 On doit obligatoirement remplacer les espaces par des traits plats (MAJ tiret sur Mac).
 
@@ -736,23 +747,14 @@ Tous les *TAGs* à part les images peuvent avoir une couleur d'écriture et une 
 
 Ces couleurs sont définies par les propriétés suivantes au choix, suivant votre convenance. La première (`c` pour la *couleur* et `bgc` pour la *couleur de fond* sont les moins difficiles pour *MuScaT* puisque ce sont celles qu'il utilise dans sa langue naturelle) :
 
-+---------------------------+---------------------------+
-|                           |                           |
-+---------------------------+---------------------------+
-| `couleur`          | `c`                |
-+---------------------------+---------------------------+
-|                           | `couleur`          |
-+---------------------------+---------------------------+
-|                           | `color`            |
-+---------------------------+---------------------------+
-| `couleur de fond`  | `bgc`              |
-+---------------------------+---------------------------+
-|                           | `fond`             |
-+---------------------------+---------------------------+
-|                           | `cf`               |
-+---------------------------+---------------------------+
-|                           | `background-color` |
-+---------------------------+---------------------------+
+| Couleur             | c                |
+| ------------------- | ---------------- |
+|                     | couleur          |
+|                     | color            |
+| **Couleur de fond** | bgc              |
+|                     | fond             |
+|                     | background-color |
+|                     |                  |
 
 Pour la valeur, on peut utiliser soit la forme littérale en anglais (`red`, `yellowgreen`, etc.) soit la forme hexadécimale (`12FF67`, `#12FF67`) soit la forme RVB (`rgb(100,23,45)`).
 
@@ -760,205 +762,148 @@ Pour la valeur, on peut utiliser soit la forme littérale en anglais (`red`, `ye
 
 ---
 
+
+
 ## Liste complète de tous les *TAGs* {#complete_list_tags}
 
 Trouvez ci-dessous la liste complète de tous les *TAGs*.
 
+| TAG                           | Description                                                  |
+| ----------------------------- | ------------------------------------------------------------ |
+| partition<br />score<br />sco | Écriture d’une image, à commencer par celle de la partition ou du système à analyse. |
+| image                         | image <source> x=... y=... z=...                             |
+| Exemple                       | sco sonate_haydn-2.png x=24 y=200 w=12.5cm                   |
+|                               | ![Un score](exemple-score.png)                               |
+| Note                          | L'image doit se trouver dans le dossier `images` du dossier de l'analyse. |
+| Détail                        | [Les Images](#les_images)                                    |
 
-+-----------------+---------------------------------------------------+
-| *TAG*           | *Description*                                     |
-+-----------------+---------------------------------------------------+
-| partition<br>   | Écriture d'une image, à commencer par celle de la |
-| score<br>       | partition ou du système à analyser.               |
-| sco<br>         |                                                   |
-| image           | ```{.usage}                                       |
-|                 | image <source> x=... y=... z=...                  |
-|                 | ```                                               |
-|                 |                                                   |
-|                 | Exemple                                           |
-|                 | : ```{.exemple}                                   |
-|                 |sco sonate_haydn-2.png x=24 y=200 w=12.5cm         |
-|                 |```                                                |
-|                 |                                                   |
-|                 | ![Un score](img/exemple-score.png)                |
-|                 |                                                   |
-|                 | Note                                              |
-|                 | : L'image doit se trouver dans le dossier         |
-|                 | "images" du dossier de l'analyse.                 |
-|                 |                                                   |
-|                 | Détail                                            |
-|                 | : [Les Images](#les_images)                       |
-+-----------------+---------------------------------------------------+
-| accord<br>      | Écriture d'un accord au-dessus de la partition.   |
-| chord<br>       |                                                   |
-| acc             | ```{.usage} |
-|                 | accord <nom> x=... y=...|
-|                 | ``` |
-|                 | Exemple |
-|                 | : ```{.exemple} |
-|                 | acc E_min x=100 y=200 |
-|                 | ``` |
-|                 |                                                   |
-|                 | ![Un accord](img/exemple-accord.png)              |
-| | |
-|                 | Détail |
-|                 | : [Les Accords](#les_accords) |
-+-----------------+---------------------------------------------------+
-| harmonie<br>    | Écriture d'un chiffrage sous la partition. C'est  |
-| harmony<br>     | en général un chiffre romain indiquant le         |
-| chiffrage<br>   | renversement de l'accord.                         |
-| har             |                                                   |
-|                 |  ```{.usage} |
-|                 | har[mony] <chiffrage> x=... y=... |
-|                 | ``` |
-|                 | Exemple |
-|                 | : ```{.exemple} |
-|                 | har VII*** x=540 y=325 |
-|                 | ``` |
-|                 |                                                   |
-|                 | ![Une harmony](img/exemple-harmony.png)           |
-| | |
-|                 | Détail |
-|                 | : [Les Harmonies](#les_harmonies) |
-+-----------------+---------------------------------------------------+
-| modulation<br>  | Marque de modulation à placer en haut de la       |
-| mod             | partition.                                        |
-|                 |                                                   |
-|                 |  ```{.usage} |
-|                 | mod[ulation] <tonalité> x=... y=... |
-|                 | ``` |
-|                 | Exemple |
-|                 | : ```{.exemple} |
-|                 | mod G_Maj/Relatif_maj. x=83 y=77 h=70px |
-|                 | ``` |
-|                 |                                                   |
-|                 | ![Une modulation](img/exemple-modulation.png)     |
-| | |
-|                 | Détail |
-|                 | : [Les Modulations](#les_modulations) |
-+-----------------+---------------------------------------------------+
-| cadence<br>     | Marque de cadence à placer sous la partition.     |
-| cad             |                                                   |
-|                 |  ```{.usage} |
-|                 | cad[ence] <acc> type=<type cad> x=. y=. w=... |
-|                 | ``` |
-|                 | Exemple |
-|                 | : ```{.exemple} |
-|                 | cad V type=demi x=23 y=3456 w=80 |
-|                 | ``` |
-|                 |                                                   |
-|                 | ![Une cadence](img/exemple-cadence.png)     |
-|                 |                                                   |
-|                 | Note |
-|                 | : Noter ci-dessus l'emploi 1) d'un *type* (type de |
-|                 | la cadence) et 2) d'une largeur *w* (longueur du  |
-|                 | trait).                                           |
-| | |
-|                 | Détail |
-|                 | : [Les Cadences](#les_cadences) |
-| | |
-+-----------------+---------------------------------------------------+
-| mesure<br>      | Marque de mesure à placer à l'endroit voulu.      |
-| measure<br>     |                                                   |
-| mes             |  ```{.usage} |
-|                 | mes[ure] <numéro> x=... y=... |
-|                 | ``` |
-|                 | Exemple |
-|                 | : ```{.exemple} |
-|                 | measure 15 x=434 y=171 |
-|                 | ``` |
-|                 |                                                   |
-|                 | ![Une mesure](img/exemple-mesure.png)     |
-| | |
-|                 | Note|
-|                 | : Noter que le style dépend du thème choisi. |
-| | |
-|                 | Détail |
-|                 | : [Les Mesures](#les_mesures) |
-+-----------------+---------------------------------------------------+
-| degree<br>      | Marque du degré de la note dans la gamme, à placer|
-| degre<br>       | à l'endroit voulu.                                |
-| deg             |                                                   |
-|                 |  ```{.usage} |
-|                 | degre <degré> x=... y=... |
-|                 | ``` |
-|                 | Exemple |
-|                 | : ```{.exemple} |
-|                 | degre 4# x=23 y=1200 |
-|                 | ``` |
-|                 |                                                   |
-|                 |                                                   |
-|                 | ![Un degré](img/mark_degree.png)     |
-| | |
-|                 | Détail |
-|                 | : [Les Degrés](#les_degres) |
-+-----------------+---------------------------------------------------+
-| ligne<br>       | Marque une ligne, par exemple pour indiquer la   |
-| line<br>        | poursuite d'un chiffrage sur plusieurs temps.     |
-| lig<br>         |                                                   |
-| lin             |  ```{.usage} |
-|                 | ligne <type> x=... y=... w=... |
-|                 | ``` |
-|                 | Exemple |
-|                 | : ```{.exemple} |
-|                 | line |___| x=242 y=323 h=15 w=110 |
-|                 | ``` |
-+-----------------+---------------------------------------------------+
-|                 | ![Une ligne](img/exemple-ligne.png)     |
-+-----------------+---------------------------------------------------+
-|                 | Détail |
-|                 | : [Les Lignes](#les_lignes) |
-+-----------------+---------------------------------------------------+
-| box<br>         | Dessine une boite à l'écran. Ces boites permettent|
-| boite<br>       | de masquer des éléments de la partition. Bien que |
-| boi             | ces boites apparaissent en gris sur la table      |
-|                 | d'analyse, elles seront invisibles dans le        |
-|                 | document PDF final ou à l'impression.               |
-| | |
-|                 |  ```{.usage} |
-|                 | box x=... y=... w=<largeur> h=<hauteur> |
-|                 | ``` |
-|                 | Exemple |
-|                 | : ```{.exemple} |
-|                 | boite x=45 y=152 h=180 w=295 |
-|                 | ``` |
-+-----------------+---------------------------------------------------+
-|                 | ![Une boite](img/exemple-boite.png)     |
-+-----------------+---------------------------------------------------+
-|                 | Note |
-|                 | : La hauteur (`h`) et la largeur (`w`) sont ici très |
-|                 | importantes. Noter également que cette boite est visible  |
-|                 | sur la table d'analyse, mais elle sera invisible dans     |
-|                 | le document imprimé.                                      |
-| | |
-|                 | Détail |
-|                 | : [Les Boites](#les_boites) |
-+-----------------+---------------------------------------------------+
-| texte<br>       | Pour marquer un texte quelconque à l'écran.       |
-| text<br>        |                                                   |
-| tex             |  ```{.usage} |
-|                 | tex[te] <le_texte> x=... y=...[ type=<type>] |
-|                 | ``` |
-|                 | Exemple |
-|                 | : ```{.exemple} |
-|                 | tex Opposition_marquée x=296 y=138 w=73 |
-|                 | ``` |
-+-----------------+---------------------------------------------------+
-|                 | ![Un texte](img/exemple-texte.png)     |
-+-----------------+---------------------------------------------------+
-|                 | Notes |
-+-----------------+---------------------------------------------------+
-|                 | * Mettre des traits plats à la place des espaces  |
-|                 | dans le code. Ils seront remplacés par de vraies  |
-|                 | espaces lors de l'inscription du texte sur la     |
-|                 | table d'analyse.                                  |
-| | |
-|                 | * Grâce à la définition de la largeur (w), on met le |
-|                 | texte sur deux lignes.                            |
-| | |
-|                 | Détail |
-|                 | : [Les Textes](#les_textes) |
-+-----------------+---------------------------------------------------+
+
+
+
+
+| TAG                        | Description                                     |
+| -------------------------- | ----------------------------------------------- |
+| accord<br />chord<br />acc | Écritude d’un accord au-dessus de la partition. |
+| Usage                      | `accord <nom> x=... y=…`                        |
+| Exemple                    | `acc E_min x=100 y=200`                         |
+|                            | ![Un accord](exemple-accord.png)                |
+| Note                       |                                                 |
+| Détail                     | [Les Accords](#les_accords)                     |
+|                            |                                                 |
+
+
+
+
+
+| TAG                            | Description                                                  |
+| ------------------------------ | ------------------------------------------------------------ |
+| harmonie<br />harmony<br />har | Écriture d'un chiffrage sous la partition. C’est en général un chiffre romain indiquant le renversement de l'accord. |
+| Usage                          | `har[mony] <chiffrage> x=... y=...`                          |
+| Exemple                        | `har VII*** x=540 y=325`                                     |
+|                                | ![Une harmony](exemple-harmony.png)                          |
+| Note                           |                                                              |
+| Détail                         | [Les Harmonies](#les_harmonies)                              |
+
+
+
+
+
+| TAG                 | Description                                            |
+| ------------------- | ------------------------------------------------------ |
+| modulation<br />mod | Marque de modulation à placer en haut de la partition. |
+| Usage               | `mod[ulation] <tonalité> x=... y=...`                  |
+| Exemple             | `mod G_Maj/Relatif_maj. x=83 y=77 h=70px`              |
+|                     | ![Une modulation](exemple-modulation.png)              |
+| Note                |                                                        |
+| Détail              | [Les Modulations](#les_modulations)                    |
+
+
+
+
+
+
+
+| TAG              | Description                                                  |
+| ---------------- | ------------------------------------------------------------ |
+| cadence<br />cad | Marque de cadence à placer sous la partition.                |
+| Usage            | `cad[ence] <acc> type=<type cad> x=. y=. w=...`              |
+| Exemple          | `cad V type=demi x=23 y=3456 w=80`                           |
+|                  | ![Une cadence](exemple-cadence.png)                          |
+| Note             | Noter ci-dessus l'emploi 1) d'un *type* (type de la cadence) et 2) d'une largeur *w* (longueur du trait). |
+| Détail           | [Les Cadences](#les_cadences)                                |
+
+
+
+
+
+
+| TAG                          | Description                                  |
+| ---------------------------- | -------------------------------------------- |
+| mesure<br />measure<br />mes | Marque de mesure à placer à l'endroit voulu. |
+| Usage                        | `mes[ure] <numéro> x=... y=...`              |
+| Exemple                      | `measure 15 x=434 y=171`                     |
+|                              | ![Une mesure](exemple-mesure.png)            |
+| Note                         | Noter que le style dépend du thème choisi.   |
+| Détail                       | [Les Mesures](#les_mesures)                  |
+
+
+
+
+
+
+| TAG                        | Description                                                  |
+| -------------------------- | ------------------------------------------------------------ |
+| degree<br />degre<br />deg | Marque du degré de la note dans la gamme, à placer à l'endroit voulu. |
+| Usage                      | `degre <degré> x=... y=...`                                  |
+| Exemple                    | `degre 4# x=23 y=1200`                                       |
+|                            | ![Un degré](mark_degree.png)                                 |
+| Note                       |                                                              |
+| Détail                     | [Les Degrés](#les_degres)                                    |
+
+
+
+
+
+
+| TAG                      | Description                                                  |
+| ------------------------ | ------------------------------------------------------------ |
+| ligne<br />line<br />lig | Marque une ligne, par exemple pour indiquer la poursuite d'un chiffrage sur plusieurs temps. |
+| Usage                    | `ligne <type> x=... y=... w=...`                             |
+| Exemple                  | `line |___| x=242 y=323 h=15 w=110`                          |
+|                          | ![Une ligne](exemple-ligne.png)                              |
+| Note                     |                                                              |
+| Détail                   | [Les Lignes](#les_lignes)                                    |
+
+
+
+
+
+
+| TAG                     | Description                                                  |
+| ----------------------- | ------------------------------------------------------------ |
+| box<br />boite<br />boi | Dessine une boite à l'écran. Ces boites permettent de masquer des éléments de la partition. Bien que ces boites apparaissent en gris sur la table d'analyse, elles seront invisibles dans le document PDF final ou à l'impression. |
+| Usage                   | `box x=... y=... w=<largeur> h=<hauteur>`                    |
+| Exemple                 | `boite x=45 y=152 h=180 w=295`                               |
+|                         | ![Une boite](exemple-boite.png)                              |
+| Note                    | La hauteur (`h`) et la largeur (`w`) sont ici très importantes. Noter également que cette boite est visible sur la table d'analyse, mais elle sera invisible dans le document imprimé. |
+| Détail                  | [Les Boites](#les_boites)                                    |
+
+
+
+
+
+| TAG                      | Description                                                  |
+| ------------------------ | ------------------------------------------------------------ |
+| texte<br />text<br />tex | Pour marquer un texte quelconque à l'écran.                  |
+| Usage                    | `tex[te] <le_texte> x=... y=...[ type=<type>]`               |
+| Exemple                  | `tex Opposition_marquée x=296 y=138 w=73`                    |
+|                          | ![Un texte](exemple-texte.png)                               |
+| Note                     | * Mettre des traits plats à la place des espaces dans le code. Ils seront remplacés par de vraies espaces lors de l'inscription du texte sur la table d'analyse.<br />* Grâce à la définition de la largeur (w), on met le texte sur deux lignes. |
+| Détail                   | [Les Textes](#les_textes)                                    |
+
+
+
+
 
 
 ## Les Images
@@ -967,36 +912,34 @@ Il existe trois mots clés pour indiquer la nature d'une image, mais ils produis
 
 ```
   partition premier_mouvement/image-12.png [...]
-
 ```
 
 Ci-dessus, l'image `image-12.png` doit donc se trouver dans le dossier `_analyses_/monAnalyse/images/premier_mouvement/`.
+
+
 
 ### Définition de la taille d'une image
 
 On peut définir la taille d'une image à l'aide du paramètre `w` (ou `width`, « largeur », en anglais). Sa valeur peut être explicite avec une unité, explicite sans unité ou en pourcentage. Par exemple :
 
 ```javascript
-
-  // Dans _tags_.js
-  Tags = `
-  sco image-0.png
-  sco image-1.png w=200
-  sco image-2.png w=10cm
-  sco image-3.png w=50%
-  `;
-
+sco image-0.png
+sco image-1.png w=200
+sco image-2.png w=10cm
+sco image-3.png w=50%
 ```
 
 Avec le code ci-dessus, l'image 0 aura sa taille normale, `image-1.png` fera 200 pixels de large, `image-2.png` fera 10 centimètres de large et `image-3.png` sera mise à 50 % de sa largeur.
 
 Pour voir en détail toutes les façons de modifier la taille ou la position d'une image, cf. [Dimensionnement des *TAGs*](#dimensionner_les_tags) et [Positionnement des *TAGs*](#modify_position_tag).
 
+
+
 ### Séquence d'images {#sequence_images}
 
-Bien souvent, une analyse n'est pas constituée d'une seule image pour toute la partition. Il y a trop peu d'espace entre les systèmes. On conseille donc fortement de découper les partitions en autant de systèmes qu'elles en comportent (vous trouverez des indications sur la [procédure de découpage de la partition](#procedure_crop_partition) ci-dessous).
+Très souvent, une analyse n'est pas constituée d'une seule image pour toute la partition. Il y a trop peu d'espace entre les systèmes. On conseille donc fortement de découper les partitions en autant de systèmes qu'elles en comportent (vous trouverez des indications sur la [procédure de découpage de la partition](#procedure_crop_partition) ci-dessous).
 
-Mais il serait fastidieux d'entrer la ligne de chaque image de système dans notre fichier `_tags_.js`. Une partition même courte peut très vite comporter de 20 à 30 systèmes et ce serait autant de lignes de partition qu'il faudrait introduire dans le code…
+Mais il serait fastidieux d'entrer la ligne de chaque image de système dans notre code des tags. Une partition même courte peut très vite comporter de 20 à 30 systèmes et ce serait autant de lignes de partition qu'il faudrait introduire dans le code…
 
 Au lieu de ça, si les images des systèmes ont été nommées en respectant une règle simple (avec des suites de nombres), une seule ligne suffira pour entrer tous les systèmes de la partition. Par exemple :
 
@@ -1052,17 +995,16 @@ Une fois ce code établi, vous pouvez déplacer les images dans la page pour les
 Astuce : si votre écran et assez grand et que vous adoptez [l'option `code beside` (ou `code à côté`)](#option_code_beside), vous pourrez voir en direct votre code s'actualiser.
 
 
-### Les Accords {#les_accords}
+
+### Les Accords
 
 Les accords, placés en général au-dessus de la portée, se définissent par les natures `accord`, `chord` ou `acc` en version raccourcie.
 
 On peut les indiquer en version anglosaxonne (`A`, `B`, …) ou en version italienne (`Do`, `Ré`, …), peu importe. L'important est de comprendre que comme tout texte **MuScaT** impose de remplacer les espaces par des traits plats. Ainsi, pour indiquer un accord de Si bémol 7e diminuée, on pourra utiliser dans les deux systèmes de langue :
 
 ```javascript
-  Tags=`
-  chord SIb_min_7edim
-  acc Bb_min_7edim
-  `;
+chord SIb_min_7edim
+acc Bb_min_7edim
 ```
 
 Le code ci-dessus produira :
@@ -1072,6 +1014,8 @@ Le code ci-dessus produira :
 La taille du texte peut se régler de façon générale avec l'option `chord-size` ou, pour un accord particulier, avec la propriété `fs`.
 
 Cf. [Options de taille pour les textes](#options_size_for_texts), pour des renseignements complets sur les options de tailles.
+
+
 
 ### Les Chiffrages (Harmonie)
 
@@ -1085,19 +1029,17 @@ Cf. [Options de taille pour les textes](#options_size_for_texts), pour des rense
 
 
 
-#### Les Cadences
+### Les Cadences
 
 On indique une cadence, sous la partition, à l'aide de la *nature* `cadence` ou `cad`.
 
 ```javascript
-Tags=`
-  cadence I type=parfaite x=100 y=200 w=150
-`;
+cadence I type=parfaite x=100 y=200 w=150
 ```
 
 > Remarquer que deux nouvelles propriétés apparaissent ici : le `type`, qui définit comme son nom l’indique le type de cadence (cf. la liste ci-dessous) et `w`, la largeur, qui détermine ici la longueur du trait.
 
-On peut faire varier la longueur du trait en jouant sur la touche `w` (pour augmenter la longueur du trait) et `ALT w` (pour la diminuer). Les touches `MAJ` et `CTRL` servent respectivement à augmenter le pas ou à le diminuer (action plus précise).
+On peut faire varier la longueur du trait en jouant sur la touche `w` (pour augmenter la longueur du trait) et `⌥ w` (pour la diminuer). Les touches `⇧` et `⌃` servent respectivement à augmenter le pas ou à le diminuer (action plus précise).
 
 La taille du texte peut se régler de façon générale avec l'option `cadence-size` ou, pour une cadence particulière, avec la propriété `fs`.
 
@@ -1120,18 +1062,14 @@ Les types de cadence qu'on peut utiliser comme argument de la propriété `type`
 Exemple :
 
 ```javascript
-
-Tags=`
-  har I x=110 y=264
-  har IV x=155 y=262
-  cad V* type=demi x=77 y=263 w=147px
-`;
-
+har I x=110 y=264
+har IV x=155 y=262
+cad V* type=demi x=77 y=263 w=147px
 ```
 
 ![Demi-cadence](img/demi-cadence.png)
 
-#### Les modulations {#les_modulations}
+### Les modulations
 
 On peut mettre un texte au-dessus de la barre inclinée (en général la tonalité vers laquelle on module) et un texte en dessous (en général la fonction de cette tonalité).
 
@@ -1141,20 +1079,22 @@ Pour séparer les deux textes, on utilise tout simplement la barre inclinée, ap
 
 … on utilisera simplement :
 
-```
+```sh
 modulation Sol_min/(sous-dom.) x=200 y=300
 
-ou
+// ou
 
 mod Sol_min/(sous-dom.) 200 300
 
 ```
 
-On peut modifier la hauteur du trait vertical qui rejoint la partition en modifiant la propriété `h`. On peut donc la modifier en pressant la touche `h` (augmente la longueur du trait) ou les touches `ALT h` (diminue la longueur du trait).
+On peut modifier la hauteur du trait vertical qui rejoint la partition en modifiant la propriété `h`. On peut donc la modifier en pressant la touche `h` (augmente la longueur du trait) ou les touches `⌥ h` (diminue la longueur du trait).
 
 La taille du texte peut se régler de façon générale avec l'option `modulation-size` ou, pour une modulation particulière, avec la propriété `fs`.
 
 Cf. [Options de taille pour les textes](#options_size_for_texts), pour des renseignements complets sur les options de tailles.
+
+
 
 ### Les autres types de textes
 
@@ -1184,7 +1124,9 @@ En dehors des textes « normaux » ou simples, on peut utiliser :
 * [Les mesures](#type_texte_mesure)
 * [Les degrés](#les_degres)
 
-#### Les parties {#les_parties}
+
+
+### Les parties
 
 Les marques de partie s'indiquent avec le *TAG* `partie` (ou `par` ou `part`). Ce sont des textes dans des boites inclinées qui ont cet aspect :
 
@@ -1194,7 +1136,9 @@ La taille du texte peut se régler de façon générale avec l'option `part-size
 
 Cf. [Options de taille pour les textes](#options_size_for_texts), pour des renseignements complets sur les options de tailles.
 
-#### Les mesures {#les_mesures}
+
+
+### Les mesures
 
 Les numéros de mesure, s'ils ne sont pas indiqués sur la partition elle-même, peuvent être ajoutés à l'aide du *TAG* `mesure` (ou `measure`, ou `mes`), suivi du numéro de mesure puis des coordonnées.
 
@@ -1204,16 +1148,14 @@ La taille du texte peut se régler de façon générale avec l'option `mesure-si
 
 Cf. [Options de taille pour les textes](#options_size_for_texts), pour des renseignements complets sur les options de tailles.
 
-#### Les degrés {#les_degres}
+
+
+### Les degrés
 
 Parfois il est intéressant de marquer les degrés des notes dans la gamme. On peut le faire grâce à la *nature* `degre`, `degree` ou le diminutif `deg`.
 
-```javascript
-Tag=`
-
-degree 4# x=123 y=678
-
-`;
+```sh
+degree 4 # x=123 y=678
 ```
 
 ![Marque des degrés](img/mark_degree.png)
@@ -1230,6 +1172,8 @@ Plusieurs marques musicales seront introduites dans les versions suivantes.
 
 ---
 
+
+
 ### Autres éléments graphiques
 
 #### Les Lignes {#les_lignes}
@@ -1244,26 +1188,20 @@ Tags = `
 `;
 ```
 
-… `|___|` est le *type* de la ligne.
+… `|___|` est le *type* de la ligne. On peut aussi le désigner par une lettre, comme le montre la table ci-dessous.
 
 Les *types* sont les suivants :
 
+| Nature lettre | Nature aspect | Description                                     |
+| ------------- | ------------- | ----------------------------------------------- |
+| U             | `|___|`       | Ligne inférieure, trait vertical avant et après |
+| N             | `|---|`       | Ligne supérieure, trait vertical avant et après |
+| L             | `|___`        | Ligne inférieure, trait vertical avant          |
+| K             | `|---`        | Ligne supérieure, trait vertical avant          |
+| V             | `___|`        | Ligne inférieure, trait vertical après          |
+| ^             | `---|`        | Ligne supérieure, trait vertical après          |
 
-+-----+-------+-------------------------------------------------+
-|     |       | Description
-+-----+-------+-------------------------------------------------+
-| U   | |___| | Ligne inférieure, trait vertical avant et après |
-+-----+-------+-------------------------------------------------+
-| N   | |---| | Ligne supérieure, trait vertical avant et après |
-+-----+-------+-------------------------------------------------+
-| L   | |___  | Ligne inférieure, trait vertical avant          |
-+-----+-------+-------------------------------------------------+
-| K   | |---  | Ligne supérieure, trait vertical avant          |
-+-----+-------+-------------------------------------------------+
-| V   | ___|  | Ligne inférieure, trait vertical après          |
-+-----+-------+-------------------------------------------------+
-| ^   | ---|  | Ligne supérieure, trait vertical après          |
-+-----+-------+-------------------------------------------------+
+
 
 On peut ensuite définir sa taille et sa position avec les lettres habituelles `x` (position horizontale), `y` (position verticale) et `w` (largeur en pixels).
 
@@ -1275,12 +1213,8 @@ Noter qu'une boite sans couleur, sur la table d'analyse, apparaitra toujours gri
 
 Noter également qu'on peut utiliser de la transparence pour les boites. Il suffit pour cela de leur donner une valeur de `bgc` (background-color) à l'aide de `rgba` (où « a » final signifie « alpha », la transparence). Par exemple :
 
-```javascript
-  Tags=`
-  // ...
-  box x=100 y=233 w=50 h=400 bgc=rgba(0,255,0,0.3)
-  // ...
-  `;
+```sh
+box x=100 y=233 w=50 h=400 bgc=rgba(0,255,0,0.3)
 ```
 
 ![Boite transparente](img/boite-transparente.png)
@@ -1289,13 +1223,19 @@ Noter également qu'on peut utiliser de la transparence pour les boites. Il suff
 
 ---
 
-## Opérations sur les *TAGs* {#operation_on_tags}
+
+
+<a name="operation_on_tags"></a>
+
+## Opérations sur les *TAGs*
 
 * [Verrouiller les *TAGs*](#lock_tags)
 * [Grouper et dégrouper des *TAGs*](#grouper_tags)
 * [Ligne de code du *TAG*](#tag_code_line)
 
-### Verrouillage des *TAGs* {#lock_tags}
+<a name="lock_tags"></a>
+
+### Verrouillage des *TAGs*
 
 On peut « verrouiller » un *TAG*, c'est-à-dire empêcher totalement ses modifications, aussi bien sa position que son contenu. Il suffit de le sélectionner et de cliquer sur le bouton ![cadenas](img/cadenas.png) sous le code. Pour le déverrouiller, cliquer à nouveau sur ce bouton.
 
@@ -1354,9 +1294,9 @@ Pour affiner le découpage :
 
 (1) Astuce : pour aller encore plus vite, vous pouvez :
 
-* utiliser l'[utilitaire Muscat `change_folder_captures`](#utils_change_captures_folder) pour définir le dossier des captures écran ou consulter la [procédure décrite ici](https://www.laptopmag.com/articles/change-macs-default-screenshot-directory). Vos captures iront directement dans ce dossier,
+* utiliser la [commande Muscat `change_folder_captures`](#utils_change_captures_folder) pour définir le dossier des captures écran ou consulter la [procédure décrite ici](https://www.laptopmag.com/articles/change-macs-default-screenshot-directory). Vos captures iront directement dans ce dossier,
 * effectuer les captures,
-* utiliser l'[utilitaire Muscat `rename_images`](#utils_renommer_fichiers) pour renommer instantanément vos fichiers.
+* utiliser la [commande Muscat `rename_images`](#utils_renommer_fichiers) pour renommer instantanément vos fichiers.
 
 Note : vous pouvez voir ou revoir la procédure dans les tutoriels consacrés sur [ma chaine YouTube](). (attention : c’est une ancienne version qui est utilisée là, sans commande)
 
@@ -1397,17 +1337,27 @@ Autant d'images que de pages sont produites.
 
 On insert la première dans le code du fichier `_tags_.js`, avec l'option `crop-image` :
 
-```
+Dans le code : 
 
-    # Dans _tags_.js
-    option('crop-image')
-    Tags=`
-    partition partition-0.jpg
-    `;
+~~~sh
+partition partition-0.jpg
+~~~
 
-```
+En console, on joue :
 
-On ouvre le fichier `TABLE_ANALYSE.html` dans Chrome.
+~~~sh
+> mus option crop-image=true
+~~~
+
+
+
+Et on ouvre l’analyse dans Chrome.
+
+~~~sh
+> mus analyse "Mon analyse"
+~~~
+
+
 
 Maintenant, il suffit de sélectionner, à la souris, la zone de l'image à prendre puis de coller le code du presse-papier dans la console du Terminal. Puis de jouer ce code.
 
@@ -1441,7 +1391,9 @@ On peut obtenir la ligne de code d'un *TAG* ou même de plusieurs *TAGs* de cett
 
 
 
-## Automation d'une analyse {#animation_analyse}
+<a name="animation_analyse"></a>
+
+## Automation d'une analyse
 
 * [Démarrage de l'animaton](#starting_animation)
 * [Boutons de l'animation](#boutons_animation)
@@ -1455,9 +1407,11 @@ Vous pouvez en trouver des illustrations sur les vidéos de ma chaine : https://
 
 
 
-### Démarrage de l'animation {#starting_animation}
+<a name="starting_animation"></a>
 
-Pour lancer une animation, il n'y a rien de plus simple à faire que d'ajouter le commentaire `// START` à l'endroit où l'on veut qu'elle démarre.
+### Démarrage de l'animation
+
+Pour définir le début de l'animation, il n'y a rien de plus simple à faire que d'ajouter le commentaire `// START` à l'endroit où l'on veut qu'elle démarre.
 
 À partir de ce `START`, tous les groupes de *TAGs* non espacés seront affichés ensemble et l'animation fera une pause lorsqu'elle rencontrera une ligne vide.
 
@@ -1486,9 +1440,8 @@ On peut [régler la vitesse générale de l'animation](#set_animation_speed) en 
 
 Par exemple, ci-dessous, il y aura deux fois plus de temps entre la ligne `acc D x=100 y=200` et la ligne `acc E x=120 y=200` qu'entre la ligne `acc E x=120 y=200` et la ligne `acc F x=140 y=200`.
 
-```javascript
-  // Dans le fichier _tags_.js
-  Tags= `
+```sh
+
  1| // ...
  2|
  3| // START
@@ -1501,10 +1454,10 @@ Par exemple, ci-dessous, il y aura deux fois plus de temps entre la ligne `acc D
 10|
 11| acc F x=140 y=200
 12|
-  `;
 ```
+<a name="boutons_animation"></a>
 
-### Boutons de l'animation {#boutons_animation}
+### Boutons de l'animation
 
 Des boutons permettent d'interagir sur l'animation pour la mettre en pause, remonter les pas ou l'arrêter et la reprendre grâce à des boutons « Retour en arrière », « Stop » et « Jouer/Pause ».
 
@@ -1536,20 +1489,9 @@ ou
 
 
 
-Cela produit dans le fichier `_tags_.js` :
-
-```javascript
-  option('animation-speed', 80);
-  Tags = `
-  // Premiers tags à afficher d'un coup
-
-  // START
-
-  // Tags qui s'afficheront progressivement.
-  `;
-
-```
 ---
+
+<a name="lesoptions"></a>
 
 ## Options
 
@@ -1604,11 +1546,11 @@ Voyons à présent la liste de toutes les options.
 
 ### Option « langue »
 
-|         |                                        |      |
-| ------- | -------------------------------------- | ---- |
-| Option  | `lang`, `langue`                       |      |
-| Type    | String, les deux lettres de la langue. |      |
-| Exemple | `fr` (français), `en` (anglais)        |      |
+| Option      | `lang`, `langue`                                  |      |
+| ----------- | ------------------------------------------------- | ---- |
+| Description | Définit la langue de l’interface et de l’analyse. |      |
+| Type        | String, les deux lettres de la langue.            |      |
+| Exemple     | `fr` (français), `en` (anglais)                   |      |
 
 Pour définir la langue parlée par l'application. Pour le moment, l'application ne sait que parler français et anglais, mais nous espérons rapidement voir d'autres langues se développer. Avis aux amateurs traducteurs même inexpérimentés !
 
@@ -1623,147 +1565,54 @@ Pour définir la langue parlée par l'application. Pour le moment, l'application
 
 ### Option « découpe-image »
 
-+---------------------+---------------------------------------------+
-|                     |                                             |
-+---------------------+---------------------------------------------+
-| Option              | `crop-image`, `découpe-image` |
-+---------------------+---------------------------------------------+
-| Type                | booléen                                     |
-+---------------------+---------------------------------------------+
-
-Cette option fait passer dans un mode d'utilisation qui va permettre de découper l'image de façon aisée (par simple copié-collé).
-
-
-
-### Option « code-sans-options »
-
-+---------------------+---------------------------------------------+
-|                     |                                             |
-+---------------------+---------------------------------------------+
-| Option              | `code-sans-option`, `code-sans-options`, |
-|                     | `code-no-option`                     |
-+---------------------+---------------------------------------------+
-| Type                | booléen                                     |
-+---------------------+---------------------------------------------+
-
-Par défaut, le code de l'analyse copiée dans le presse-papier contient l'intégralité de ce que doit contenir le fichier `_tags_.js`, c'est-à-dire la définition des options et la valeur de la variable `Tags`.
-
-Mais lorsque l'on veut garder plusieurs versions de son code, en les mettant au bout les unes des autres plutôt qu'en les remplaçant, des définitions d'options peuvent se contredire.
-
-Avec l'option `code-sans-option` activée, seule la définition de la variable `Tags` est copiée dans le presse-papier, ce qui permet de ne garder que la ligne en haut du fichier pour définir les options. Impossible dans ce cas de s'y perdre :
-
-```javascript
-  // Dans _tags_.js
-  option('code', 'code-sans-options', 'reperes');
-
-  // Version 1
-  Tags = `
-  // ... tags de la version 1
-  `;
-
-  // Version 2
-  Tags = `
-  // ... tags de la version 2
-  `;
-
-  // Version 3
-  Tags = `
-  // ... tags de la version 3
-  `;
-
-  // etc.
-```
+| Option      | `crop-image`, `découpe-image`  |
+| ----------- | ---- |
+| Description | Cette option fait passer dans un mode d'utilisation qui va permettre de découper l'image de façon aisée (par simple copié-collé). |
+| Type        |   booléen   |
+| Exemple     |      |
 
 
 
 ### Option « lignes de repère »
 
-+---------------------+---------------------------------------------+
-
-|      |      |
-| ---- | ---- |
-|      |      |
-+---------------------+---------------------------------------------+
-| Option | `repères`, `reperes`, |
-| ------ | --------------------- |
-|        |                       |
-|      | `lines-of-reference`, `guides` |
-| ---- | ------------------------------ |
-|      |                                |
-+---------------------+---------------------------------------------+
-| Type | booléen |
-| ---- | ------- |
-|      |         |
-+---------------------+---------------------------------------------+
+| Option      | `repères`, `reperes`, `lines-of-reference`, `guides`         |
+| ----------- | ------------------------------------------------------------ |
+| Description | Ajoute une ligne horizontale et une ligne verticale qu'on peut déplacer et qui peuvent servir de guide, de repère, pour placer les *TAGs*. |
+| Type        | booléen                                                      |
+| Exemple     |                                                              |
 
 
-
-| Options | `repères`, `reperes`           |      |
-| ------- | ------------------------------ | ---- |
-|         | `lines-of-reference`, `guides` |      |
-| Type    | Booléen                        |      |
-|         |                                |      |
-
-
-Ajoute une ligne horizontale et une ligne verticale qu'on peut déplacer et qui peuvent servir de guide, de repère, pour placer les *TAGs*.
 
 ### Position des lignes repères {#position_lignes_reperes}
 
-Pour la position de la ligne verticale :
-
-+---------------------+---------------------------------------------+
-|                     |                                             |
-+---------------------+---------------------------------------------+
-| Option              | `position-repère-vertical`,          |
-|                     | `vertical-line-offset`               |
-+---------------------+---------------------------------------------+
-| Type                | nombre de pixels                            |
-+---------------------+---------------------------------------------+
-
-|        | Description                                            |
-| ------ | ------------------------------------------------------ |
-| Option | `position-repère-vertical`<br />`vertical-line-offset` |
-| Type   | Nombre de pixels                                       |
-
-Pour la position de la ligne horizontale :
-
-+---------------------+---------------------------------------------+
-|                     |                                             |
-+---------------------+---------------------------------------------+
-| Option              | `position-repère-horizontal`,        |
-|                     | `horizontal-line-offset`             |
-+---------------------+---------------------------------------------+
-| Type                | nombre de pixels                            |
-+---------------------+---------------------------------------------+
-
-Exemple :
-
-```javascript
-
-  // Dans le fichier _tags_.js de l'analyse
-   // à 120 pixels du haut et 200 de la gauche
-  option('vertical-line-offset', 120, 'horizontal-line-offset', 200);
-
-```
-
-### Option « Rectangle de sélection » {#option_rectangle_selection}
 
 
-+---------------------+---------------------------------------------+
-|                     |                                             |
-+---------------------+---------------------------------------------+
-| Option              | `rectangle-selection`,               |
-+---------------------+---------------------------------------------+
-| Type                | booléenne                                   |
-+---------------------+---------------------------------------------+
+| Option      | `position-repère-vertical`, `vertical-line-offset` |
+| ----------- | -------------------------------------------------- |
+| Description | Pour la position de la ligne verticale.            |
+| Type        | nombre de pixels                                   |
+| Exemple     |                                                    |
 
-Le « rectangle de sélection » permet de sélectionner plusieurs éléments à la fois en les incluant dans un rectangle dessiné à la souris.
 
-Mais si cette fonctionnalité est tout à fait opérante dans la plupart des applications que nous connaissons, elle est très loin d'être pleinement satisfaisante dans les navigateurs (pour ceux qui connaissent : même avec `DragSelect`).
 
-Aussi a-t-elle été mise en option dans **MuScaT**.
+| Option      | `position-repère-horizontal`, `horizontal-line-offset`       |
+| ----------- | ------------------------------------------------------------ |
+| Description | Pour la position de la ligne horizontale.                    |
+| Type        | nombre de pixels                                             |
+| Exemple     | option('vertical-line-offset', 120, 'horizontal-line-offset', 200); |
 
-Si vous l'utilisez, pensez également que vous devez attendre une seconde avec la souris pressée avant qu'elle se mette en route.
+
+
+<a name="option_rectangle_selection"></a>
+
+### Option « Rectangle de sélection »
+
+
+| Option      | `rectangle-selection`                                        |
+| ----------- | ------------------------------------------------------------ |
+| Description | Le « rectangle de sélection » permet de sélectionner plusieurs éléments à la fois en les incluant dans un rectangle dessiné à la souris<br />Mais si cette fonctionnalité est tout à fait opérante dans la plupart des applications que nous connaissons, elle est très loin d'être pleinement satisfaisante dans les navigateurs (pour ceux qui connaissent : même avec `DragSelect`).<br />Aussi a-t-elle été mise en option dans **MuScaT**.<br />Si vous l'utilisez, pensez également que vous devez attendre une seconde avec la souris pressée avant qu'elle se mette en route. |
+| Type        | booléenne                                                    |
+| Exemple     |                                                              |
 
 > Astuce : si le rectangle vert de sélection reste actif après avoir relâché la souris, il vous suffit de cliquer n'importe où sauf sur lui pour le faire disparaitre.
 
@@ -1771,48 +1620,42 @@ Si vous l'utilisez, pensez également que vous devez attendre une seconde avec l
 
 ### Options de taille pour les textes
 
-Grâce aux options, on peut définir la taille par défaut de tous les types de texte de l'analyse (accords, cadences, etc.).
 
-```javascript
-// Dans _tags_.js
-option('<type> size', '<valeur>');
-```
+
+| Option      | `<type>-size`                                                |
+| ----------- | ------------------------------------------------------------ |
+| Description | Grâce aux options, on peut définir la taille par défaut de tous les types de texte de l'analyse (accords, cadences, etc.). |
+| Type        | Nombre de pixels                                             |
+| Exemple     |                                                              |
+
+
 
 Par exemple :
 
-```javascript
-// Dans _tags_.js
-option('harmony-size', '11pt');
+```sh
+> mus option text-size="23pt"
 ```
 
 Voici la table de toutes les options et ce qu'elles affectent.
 
-+---------------------------+-----------------------+
+
+
+
 | L'option…                 | affecte…              |
-+---------------------------+-----------------------+
+|---------------------------|-----------------------|
 | `chord-size`       | Les accords           |
-+---------------------------+-----------------------+
 | `harmony-size`     | Les chiffrages        |
-+---------------------------+-----------------------+
 | `harmonie-size`    | idem                  |
-+---------------------------+-----------------------+
 | `cadence-size`     | Les cadences          |
-+---------------------------+-----------------------+
 | `modulation-size`  | Les modulations       |
-+---------------------------+-----------------------+
 | `measure-size`     | Les numéros de mesures|
-+---------------------------+-----------------------+
 | `mesure-size`      | idem                  |
-+---------------------------+-----------------------+
 | `degre-size`       | Les degrés de gamme   |
-+---------------------------+-----------------------+
 | `degree-size`      | idem                  |
-+---------------------------+-----------------------+
 | `part-size`        | Les noms de parties   |
-+---------------------------+-----------------------+
-| `text-size`        | Tous les autres       |
-|                           | textes                |
-+---------------------------+-----------------------+
+| `text-size`        | Tous les autres textes      |
+
+
 
 Noter que même si une taille est définie par les options, on peut fixer individuellement la taille des *TAGs* à l'aide de la propriété `fs` (ou `font-size`) dans la ligne de code du *TAG*.
 
@@ -1822,50 +1665,25 @@ Noter que même si une taille est définie par les options, on peut fixer indivi
 
 
 
-|             | Description                                 |
-| ----------- | ------------------------------------------- |
 | Option      | `espacement-images`                         |
+| ----------- | ------------------------------------------- |
 | Valeur      | Nombre de pixels                            |
 | Description | Espacement entre deux images séquentielles. |
 
 Permet de régler l'espacement en pixels entre deux images lorsque l'[écriture séquentielle des images](#sequence_images) a été adoptée.
 
-```javascript
-
-  // Dans _tags_.js
-  option('espacement-images', 100);
-  Tags=`
-    ...
-  `;  
-
-```
-
-Avec le code ci-dessus, l'espace entre les différents systèmes sera de 100 pixels.
-
 
 
 ### Option « marge-haut »
 
-|             |                                                              |
-| ----------- | ------------------------------------------------------------ |
-| Option      | `marge-haut`<br />`top-first-score`                          |
-| Type        | Nombre de pixels                                             |
+
+| Option      | `marge-haut`<br />`top-first-score`|
+| ----------- | ------ |
+| Type        | Nombre de pixels |
 | Description | Marge entre le haut de la page et la première image d’une image séquentielle |
-|             |                                                              |
 
 Lors de l'[écriture séquentielle des images](#sequence_images), cette valeur permet de déterminer à quelle hauteur doit être placée la première image (le premier système ou la partition).
 
-```javascript
-
-  // Dans _tags_.js
-  option('marge-haut', 200);
-  Tags=`
-    ...
-  `;  
-
-```
-
-Avec le code ci-dessus, la première image de partition sera placée à 200 pixels du haut.
 
 > Penser à laisser de la place pour le titre.
 
@@ -1873,36 +1691,27 @@ Avec le code ci-dessus, la première image de partition sera placée à 200 pixe
 
 ### Option « marge-gauche »
 
-+---------------------+---------------------------------------------------+
-|                     |                                                   |
-+---------------------+---------------------------------------------------+
+
+|                     |   |
+|---|---|
 | Option              | `marge-gauche`, `left-margin`       |
-+---------------------+---------------------------------------------------+
-| Type                | nombre de pixels                                  |
-+---------------------+---------------------------------------------------+
+| Type                | nombre de pixels |
 
 Lors de l'[écriture séquentielle des images](#sequence_images), cette valeur détermine la marge-gauche où placer l'image (son `x`).
 
-```javascript
 
-  // Dans _tags_.js
-  option('marge-gauche', 50);
-  Tags=`
-    ...
-  `;  
 
-```
+<a name="option_theme"></a>
 
-Avec le code ci-dessus, toutes les images de la séquence seront placées à 50 pixels de la gauche.
+### Thème
 
-### Thème {#option_theme}
+| Option      |  `theme`    |
+| ----------- | ---- |
+| Description | permet de choisir le thème, c'est-à-dire l'apparence générale de la partition.   |
+| Type        |  String   |
+| Exemple     |      |
 
-L'option `theme` permet de choisir le thème, c'est-à-dire l'apparence générale de la partition. Pour choisir ce thème, utilisez, en haut de votre fichier `_tags_.js` :
 
-```javascript
-option('theme', '<nom du thème>');
-//...
-```
 
 Le thème par défaut est le thème `MuScaT`. On peut trouver les autres thèmes dans le dossier `/xlib/css/themes/`. Il suffit de retirer `.css` à leur nom pour obtenir le nom du thème.
 
@@ -1918,80 +1727,38 @@ Voici une liste complète des thèmes, mais ceux-ci devraient rapidement s'étof
 * fantasy
 * serioso
 
-### Vitesse de l'animation {#vitesse_animation}
 
-+---------------------+---------------------------------------------------+
-|                     |                                                   |
-+---------------------+---------------------------------------------------+
+
+<a name="vitesse_animation"></a>
+
+### Vitesse de l'animation
+
+
 | Option              | `animation-speed`, `animation-speed` |
-+---------------------+---------------------------------------------------+
-| Type                | nombre de `1` (très lent) à `100` (très rapide)       |
-+---------------------+---------------------------------------------------+
+|---------------------|---|
+| Description | Réglage de la vitesse de l'animation. |
+| Type                | nombre de `1` (très lent) à `99` (très rapide) |
 
 Pour le détail, cf. [animation d'une analyse](#animation_analyse).
 
 
 ### Option « Viseur de position » {#position_visor}
 
-C'est plutôt un outil de développement (pour implémenter l'application), qui affiche un rectangle orange à l'endroit du clic (un peu plus en haut et à gauche).
+| Option      | `visor`, `viseur`                                            |
+| ----------- | ------------------------------------------------------------ |
+| Description | C'est plutôt un outil de développement (pour implémenter l'application), qui affiche un rectangle orange à l'endroit du clic (un peu plus en haut et à gauche).<br />Mais il peut être utile parfois pour signaler un problème : lorsque vous cliquez à un endroit de la table d'analyse et que ce « viseur » se positionne trop loin de la position cliquée, c'est qu'il y a un problème de positionnement. Si le problème persiste, vous pouvez soumettre une « issue » (un problème, une erreur) sur le [Github de MuScaT][]. |
+| Type        | Booléen                                                      |
+| Exemple     |                                                              |
 
-Mais il peut être utile parfois pour signaler un problème : lorsque vous cliquez à un endroit de la table d'analyse et que ce « viseur » se positionne trop loin de la position cliquée, c'est qu'il y a un problème de positionnement. Si le problème persiste, vous pouvez soumettre une « issue » (un problème, une erreur) sur le [Github de MuScaT][].
+
+
+
 
 ---
 
-## Utilitaires {#les_utilitaires}
-
-L'application **MuScaT**, comme tout bon vin, est fournie avec quelques utilitaires pour se faciliter la vie, en tout cas sur Mac. En voici la liste avec leur mode d'utilisation.
-
-### Renommage des fichiers images (Mac/Unix) {#utils_renommer_fichiers}
-
-Ce script, qui se trouve comme tous les scripts dans le dossier `utils` de l'application, permet de renommer les images d'un dossier de façon cohérente et indexée.
-
-Pour utiliser ce script :
-
-* ouvrir [l'application Terminal](#application_terminal),
-* rejoindre le dossier de l'application **MuScaT** (commande `cd `),
-* taper `./utils/rename_images.rb -h` et la touche Entrée pour tout savoir du script.
-
-    > Noter que l'option `-h` ou `--help` permet toujours d'obtenir l'aide de la commande jouée.
-
-### Changement du dossier des captures écran (Mac) {#utils_change_captures_folder}
-
-Par défaut, sur un Mac, les captures d'écran sont enregistrées sur le bureau. Ça n'est pas gênant en soit, il suffit de les glisser ensuite dans le dossier `images` de l'analyse. Mais si on veut encore gagner du temps, ce script permet de changer le dossier de destination.
-
-Voici la procédure :
-
-* ouvrir [l'application Terminal](#application_terminal),
-* rejoindre le dossier de l'application **MuScaT** (commande `cd `),
-* taper `./utils/change_folder_captures.rb -h` et la touche Entrée pour tout savoir du script.
-
-Pour remettre la valeur par défaut (le bureau), jouer simplement `./utils/change_folder_captures.rb` sans aucun autre argument.
 
 
-### Création d'une nouvelle analyse (Mac) {#create_new_analyse}
-
-Le script `create.rb` permet de créer une nouvelle analyse dans le dossier `_analyses_` de **MuScaT**.
-
-* Ouvrir [l'application Terminal](#application_terminal),
-* rejoindre le dossier de l'application **MuScaT** (commande `cd `),
-* puis, au choix :
-  * taper `./utils/create.rb -h` et la touche Entrée pour tout savoir du script,
-  * taper `./utils/create.rb "Ma nouvelle analyses" -o` pour créer l'analyse et l'ouvrir dans le finder.
-
-Notez que pour l'activer, il faut l'ouvrir dans le navigateur avec le script `./utils/analyse.rb`.
-
-### Activation d'une analyse (Mac) {#activate_analyse}
-
-Le script `analyse.rb` permet d'activer une analyse se trouvant dans le dossier `_analyses_` de **MuScaT**.
-
-* Ouvrir [l'application Terminal](#application_terminal),
-* rejoindre le dossier de l'application **MuScaT** (commande `cd `),
-* puis, au choix :
-  * taper `./utils/analyse.rb -h` et la touche Entrée pour tout savoir du script.
-  * taper `./utils/analyse.rb` pour obtenir la liste des analyses et en choisir une,
-  * taper `./utils/analyse.rb "Mon_analyse"` pour ouvrir l'analyse qui commence par ce titre.
-
-### Pour aller plus loin
+### Commande muscat
 
 
 
@@ -2052,27 +1819,27 @@ mus analyse "Analyse Sonate Haydn"
 
 … pour ouvrir l'analyse « Analyse Sonate Haydn » qui se trouve dans le dossier `_analyses_/Analyse_Sonate_Haydn` (noter que les espaces sont automatiquement remplacées).
 
-#### Correspondances linguistiques {#corresp_linguistiques}
+
+<a name="corresp_linguistiques"></a>
+
+#### Correspondances linguistiques
 
 Quand on utilise l'alias ci-dessus, on peut utiliser ces termes :
 
-+------------------------+-------------------------+
-| Anglais                | Français                |
-+------------------------+-------------------------+
-| create                 | créer                   |
-+------------------------+-------------------------+
-| open                   | ouvrir                  |
-+------------------------+-------------------------+
-| rename_images          | renommer_images         |
-+------------------------+-------------------------+
-| change_folder_captures | change_dossier_captures |
-+------------------------+-------------------------+
 
-+---------------+--------------+----------------+
+| Anglais                | Français                |
+|------------------------|-------------------------|
+| create                 | créer                   |
+| open                   | ouvrir                  |
+| rename_images          | renommer_images         |
+| change_folder_captures | change_dossier_captures |
+
+
 | Espagnol      | Allemand     | Mandarin       |
-+---------------+--------------+----------------+
+|---------------|--------------|----------------|
 | à venir…      | à venir…     | à venir…       |
-+---------------+--------------+----------------+
+
+
 
 ## Annexe
 
@@ -2082,76 +1849,51 @@ Le Terminal est une application des plus puissantes, sur Mac, qui permet de trav
 
 Cette application se trouve dans le dossier `/Applications/Utilitaires` mais vous pouvez l'utiliser plus facilement en passant par Spotlight. Jouer `⌘ ESPACE`, puis taper les premières lettres « Term ».
 
+
+
 ### Raccourcis clavier
 
-+-----------------------+-----------------------------------------+
+
 | Général               |                                         |
-+-----------------------+-----------------------------------------+
+|-----------------------|-----------------------------------------|
 | ![TAB][K_tab]         | Passer de la table d'analyse au champ   |
 |                       | de code s'il est ouvert.                |
-+-----------------------+-----------------------------------------+
-| #### Sur la sélection |                                         |
-+-----------------------+-----------------------------------------+
+
+| Sur la sélection |                                         |
+|-----------------------|-----------------------------------------|
 | ![->][K_Fd]           | Déplacement à droite, à gauche, vers le |
 | ![<-][K_Fg]           | bas, vers le haut                       |
 | ![v][K_Fb]            |                                         |
 | ![haut][K_Fh]         |                                         |
-+-----------------------+-----------------------------------------+
-|            \+ MAJ     |         \+ fortement    |
-+-----------------------+-----------------------------------------+
-|            \+ ALT     |         \+ finement     |
-+-----------------------+-----------------------------------------+
+|            \+ ⇧     |         \+ fortement    |
+|            \+ ⌥     |         \+ finement     |
 | w                     | Augmente la largeur     |
-+-----------------------+-----------------------------------------+
-|            \+ MAJ     |         \+ fortement    |
-+-----------------------+-----------------------------------------+
-|            \+ CTRL    |         \+ finement     |
-+-----------------------+-----------------------------------------+
-| ALT w                 | Diminue la taille       |
-+-----------------------+-----------------------------------------+
-|            \+ MAJ     |         \+ fortement    |
-+-----------------------+-----------------------------------------+
-|            \+ CTRL    |         \+ finement     |
-+-----------------------+-----------------------------------------+
+|            \+ ⇧     |         \+ fortement    |
+|            \+ ⌃    |         \+ finement     |
+| ⌥ w                 | Diminue la taille       |
+|            \+ ⇧     |         \+ fortement    |
+|            \+ ⌃    |         \+ finement     |
 | h                     | Augmente la hauteur     |
-+-----------------------+-----------------------------------------+
-|            \+ MAJ     |         \+ fortement    |
-+-----------------------+-----------------------------------------+
-|            \+ CTRL    |         \+ finement     |
-+-----------------------+-----------------------------------------+
-| ALT h                 | Diminue la hauteur      |
-+-----------------------+-----------------------------------------+
-|            \+ MAJ     |         \+ fortement    |
-+-----------------------+-----------------------------------------+
-|            \+ CTRL    |         \+ finement     |
-+-----------------------+-----------------------------------------+
+|            \+ ⇧     |         \+ fortement    |
+|            \+ ⌃    |         \+ finement     |
+| ⌥ h                 | Diminue la hauteur      |
+|            \+ ⇧     |         \+ fortement    |
+|            \+ ⌃    |         \+ finement     |
 | x                     | Augmente la position H  |
-+-----------------------+-----------------------------------------+
-|            \+ MAJ     |         \+ fortement    |
-+-----------------------+-----------------------------------------+
-|            \+ CTRL    |         \+ finement     |
-+-----------------------+-----------------------------------------+
-| ALT x                 | Diminue la position H   |
-+-----------------------+-----------------------------------------+
-|            \+ MAJ     |         \+ fortement    |
-+-----------------------+-----------------------------------------+
-|            \+ CTRL    |         \+ finement     |
-+-----------------------+-----------------------------------------+
+|            \+ ⇧     |         \+ fortement    |
+|            \+ ⌃    |         \+ finement     |
+| ⌥ x                 | Diminue la position H   |
+|            \+ ⇧     |         \+ fortement    |
+|            \+ ⌃    |         \+ finement     |
 | y                     | Augmente la position V  |
-+-----------------------+-----------------------------------------+
-|            \+ MAJ     |         \+ fortement    |
-+-----------------------+-----------------------------------------+
-|            \+ CTRL    |         \+ finement     |
-+-----------------------+-----------------------------------------+
-| ALT y                 | Diminue la position V   |
-+-----------------------+-----------------------------------------+
-|            \+ MAJ     |         \+ fortement    |
-+-----------------------+-----------------------------------------+
-|            \+ CTRL    |         \+ finement     |
-+-----------------------+-----------------------------------------+
+|            \+ ⇧     |         \+ fortement    |
+|            \+ ⌃    |         \+ finement     |
+| ⌥ y                 | Diminue la position V   |
+|            \+ ⇧     |         \+ fortement    |
+|            \+ ⌃    |         \+ finement     |
 
 `Document rédigé par Phil (Philippe Perret <philippe.perret@yahoo.fr>)
-et corrigé par Marion MICHEL.`{.footer .copyright}
+et corrigé par Marion MICHEL.`
 
 [K_Fb]: img/clavier/K_FlecheB.png
 [K_Fd]: img/clavier/K_FlecheD.png

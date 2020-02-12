@@ -24,6 +24,17 @@ unless OPTIONS[:help] || FIRST_ARG.nil?
       end
     when 'dev'
       puts "Pour lancer le développement, taper 'openmuscat'.".vert
+    when 'folder'
+      # Ouverture du dossier de l'analyse
+      if OPTIONS[:list]
+        analyse = Analyse.ask_for_analyse
+        analyse || raise
+      else
+        analyse = Analyse.get_from_all
+        raise t('unknown-folder') unless analyse
+      end
+      Analyse.set_current(analyse)
+      Analyse.current.open_folder
     else
       # Sinon, on cherche à ouvrir l'analyse courante ou à
       # afficher la liste des analyses.

@@ -14,8 +14,9 @@ USAGE
   tenir toutes vos analyses MuScaT. Si plusieurs dossiers ont le
   même début, la commande permet de choisir lequel utiliser.
 
-  Si aucun argument n'est mis, c'est la liste de toutes les analy-
-  qui est présentée, pour en choisir une.
+  Si aucun argument n'est mis, c'est l'analyse courante qui est
+  ouverte. Pour obtenir plutôt la liste de toutes les analyses,
+  ajouter l'option `-a/--all`.
 
 OPTIONS
 -------
