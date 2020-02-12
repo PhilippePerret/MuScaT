@@ -26,9 +26,27 @@ Si vous avez installé [la commande `muscat`](#commandemuscat) pour la console o
 > muscat option <mon-option>="<valeur>"
 ~~~
 
+**Obtenir de l'aide**
+
+~~~sh
+> muscat aide
+~~~
+
+**Liste des commandes**
+
+~~~sh
+> mus commandes
+~~~
+
+**Obtenir de l’aide sur une commande**
+
+~~~sh
+> mus <commande> -h # ou --help
+~~~
 
 
-## Introduction (histoire)
+
+## Un peu d'histoire
 
 Suite à la diffusion de mon [Initiation à l'analyse musicale](https://www.youtube.com/channel/UCX3XhJw9x1RsVx1s3GNYceA) des professeurs et autres pédagogues/musicologues m'ont sollicité pour me demander le logiciel utilisé pour créer l'animation de cette initiation. C'est malheureusement une application personnelle un peu trop… personnelle, une usine à gaz ne fonctionnant qu'à la ligne de code.
 

@@ -1,46 +1,44 @@
-[UGLY ENGLISH TRANSLATION TO IMPROVE]
+[TO BE TRANSLATED]
 
-This script lets you define the folder which will hold the screen
-shots.
+Ce script permet de définir le dossier qui va recevoir les captures
+écran, ou de le remettre à sa valeur par défaut.
 
 USAGE
 -----
-  #{'./change_folder_captures.rb[ ./path/to/folder][ options][-h]'.jaune}
+  #{'> mus change_folder_captures[ ./chemin/vers/dossier][ options][-h]'.jaune}
 
-  The `path/to/folder` path becomes the receiver of all
-  captures. If not provided, the default folder (desktop), is
-  used.
+  Le dossier `chemin/vers/dossier` devient le dossier qui va rece-
+  voir toutes les captures. S'il n'est pas défini, c'est le dossier
+  par défaut (le bureau) qui est remis.
 
-OPTIONS
--------
+  Les #{'options'.jaune} peuvent être `-mk` qui indique qu'il faut
+  construire le dossier s'il n'existe pas.
 
-  #{'-mk'.jaune}
-      The folder will be built if it doesn't exist.
+  #{'-h'.jaune} ou #{'--help'.jaune} à la fin de la ligne indique
+  qu'il faut afficher cette aide.
 
-  #{'-h'.jaune} or #{'--help'.jaune}
-      To display this help.
+ASTUCE
+------
 
-TIP
----
+  Le chemin vers le dossier peut être obtenu simplement en glissant
+  le dossier dans la fenêtre du Terminal (ou la console) après le
+  texte `change_folder_captures ` (ne pas oublier l'espace au
+  bout avant de glisser le dossier).
 
-  To set the path, you can simply drag and drop the folder on the
-  Terminal window, juste after `./utils/change_folder_captures.rb `.
-  Don't forget the space at the end before dragging.
-
-EXAMPLES
+EXEMPLES
 --------
 
-  #{'> cd /Users/athome/Programs/MuScaT
-  > ./utils/change_folder_captures.rb /Users/athome/Music/Analysis/ -mk'.jaune}
+  #{'> cd /Users/chezmoi/Programmes/MuScaT
+  > mus change_folder_captures /Users/chezmoi/Music/Analyses/ -mk'.jaune}
 
-      The `~/Music/Analysis` folder becomes the folder where
-      captures will be saved.
-      The folder is built if it doesn't exist (option `-mk`).
+  Le dossier `~/Music/Analyses` devient le dossier où sont enregis-
+  trées les captures d'écran.
+  Le dossier est construit s'il n'existe pas (option `-mk`).
 
-  #{'> ./utils/change_folder_captures.rb'.jaune}
+  #{'> muscat utils/change_folder_captures'.jaune}
 
-      The captures folder is reset to its default value (Desktop).
+  Le dossier des captures d'écran est remis à sa valeur par défaut.
 
-  #{'> ./utils/change_folder_captures.rb -h'.jaune}
+  #{'> mus utils/change_folder_captures -h'.jaune}
 
-      Display this help.
+  Affiche cette aide.

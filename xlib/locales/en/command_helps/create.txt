@@ -1,13 +1,18 @@
-[UGLY ENGLISH TRANSLATION TO IMPROVE]
+[TO BE TRANSLATED]
 
-Use this script to create a new analysis in the `_analyses_`
-folder of MuScaT.
+Ce script permet de créer une nouvelle analyse dans le dossier
+`analyses` de MuScaT.
 
 USAGE
 -----
-  #{'./utils/create.rb "<analysis name>"'.jaune}
+  #{'> mus[cat] create.rb "<nom analyse>"'.jaune}
 
-  With alias : #{'mus create "<analysis name>"'.jaune}
+  Le #{'<nom analyse>'} est le nom que prendra le dossier principale
+  de l'analyse. Il faut le mettre entre guillemets s'il contient des
+  espaces mais, de toutes façons, les espaces seront toujours rem-
+  placées par des traits plats.
 
-  The `<analysis name>` is the name of the folder of the analysis. In
-  this name, spaces are replaced with underscore ('_').
+OPTIONS
+-------
+
+  -h/--help   Obtenir cette aide.

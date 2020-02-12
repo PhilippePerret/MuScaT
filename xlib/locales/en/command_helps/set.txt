@@ -1,32 +1,41 @@
-[UGLY ENGLISH TRANSLATION TO IMPROVE]
+[TO BE TRANSLATED]
 
-SET MUSCAT COMMAND HELP
-=======================
-
-Use this script to set some generale value for the scripts, starting
-with language.
+Permet de régler certaines valeurs générales de l'application,
+à commencer par la langue parlée par les scripts.
 
 USAGE
 -----
 
-  #{'./utils/set.rb prop=value prop=value... prop=value[ <options>]'.jaune}
+  #{'> mus set <prop>=<value> <prop>=<value>... <prop>=<value>[ <options>]'.jaune}
 
-  Or, with `mus` alias:
 
-  #{'mus set prop=value prop=value... prop=value[ <options>]'.jaune}
-
-SETTABLE PROPERTIES
--------------------
+PROPRITÉTÉS DÉFINISSABLES
+-------------------------
 
   #{'lang'.jaune}
 
-    To define the language. Value must be the lang code, in two
-    letters, 'fr' for french, 'en' for english, 'de' for deutch,
-    etc.
+      Pour définir la langue. La valeur doit être le code de langue
+      en deux lettres, 'fr' pour le français, 'en' pour l'anglais,
+      'de' pour l'allemand, etc.
 
-    Example : #{'mus set lang=fr'.jaune}
+      Exemple : #{'>mus set lang=fr'.jaune}
+
+      NOTE IMPORTANTE
+      ---------------
+
+      Cette langue définit la langue des messages de MuScaT au niveau
+      des scripts seulement. Pour ce qui est de l'interface et des
+      messages dans le navigateur, il convient d'utiliser l'option
+      'lang' :
+
+      #{'> mus option lang="<deux lettres langue>"'.jaune}
 
   #{'editor'.jaune}
 
-    Use to define the editor to use to edit files of data, starting
-    with the `_tags_.js` file..
+      Définit l'éditeur à utiliser pour ouvrir les fichiers de don-
+      nées, à commencer par le fichier `_tags_.js`.
+
+OPTIONS
+-------
+
+  -h/--help   Afficher cette aide de la commande.

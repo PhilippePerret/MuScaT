@@ -3,13 +3,7 @@ Ce script permet d'activer une analyse se trouvant dans le dossier
 
 USAGE
 -----
-  #{'./analyse.rb "<Début_du_nom_de_dossier>"'.jaune}
-
-  (avec l'alias `mus`) > mus analyse "début du nom"
-
-  Note : si on se trouve dans le dossier principal de MuScaT, il faut
-  faire `./utils/analyse.rb`.
-
+  #{'> mus analyse "<Début_du_nom_de_dossier>"'.jaune}
 
   Le #{'<Début_du_nom_de_dossier>'} est le nom ou le début du nom
   du dossier dans le dossier général `_analyses_` qui devrait con-
@@ -22,8 +16,4 @@ USAGE
 OPTIONS
 -------
 
-  #{'--tags/-t'.jaune}
-
-    Si cette option est activée, le fichier `_tags_.js` est ouvert
-    lui aussi dans l'éditeur de son choix, spécifié par la commande
-    `set editor=`
+  -h/--help   Pour obtenir l'aide de cette commande.

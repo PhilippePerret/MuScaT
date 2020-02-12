@@ -1,51 +1,60 @@
-[UGLY ENGLISH TRANSLATION TO IMPROVE]
+[TO BE TRANSLATED]
 
-This script lets you rename all the image files in a folder from
-1 to 1 starting with 0.
+Ce script permet de renommer tous les fichiers images d'un dossier
+en les indexant de 1 en 1.
 
 USAGE
 -----
-  #{'./utils/rename_images.rb <path/to/folder>[ <affixe>][ <sort key>]'.jaune}
+  #{'> mus rename_images[ <chemin/vers/dossier>][ <affixe nom>][ <clé classement>]'.jaune}
 
-  #{'path/to/folder'} is the relative or absolute path up to the
-  images folder.
+  Le #{'chemin/vers/dossier'} est le chemin relatif ou absolu
+  qui conduit au dossier contenant les images à renommer. Si
+  une analyse est définie, c'est son dossier images qui est
+  choisi par défaut.
 
-  The #{'`<affixe>`'.jaune} is the name without extname. For instance,
-  if affixe is set to 'my-image', image files will rename like:
-  'my-image-0.png', 'my-image-1.png', 'my-image-2.png', etc.
-  The extname depends on original file.
+  L'#{'`<affixe nom>`'.jaune} est le nom sans l'extension. Par exemple, si
+  l'affixe est défini à 'mes-images', les fichiers seront re-
+  nommés : "mes-images-1.png", "mes-images-2.png" etc. L'exten-
+  sion est celle du fichier original.
 
-  If the #{'<sort key>'.jaune} is set to `-name`, files are sorted by
-  their name rather by their creation date (default).
+  Si la #{'<clé classement>'.jaune} est `-name`, le classement des fichiers ne
+  se fait plus par la date de création (comportement normal) mais
+  par le nom du fichier.
 
-TIP
----
+ASTUCE
+------
 
-  You can get easily the path/to/folder: type `./utils/rename_images.rb `
-  (with a space at the end) and drag and drop the folder from your
-  Finder to the Terminal Window (or your console).
+  Le chemin vers le dossier peut être obtenu simplement en glissant
+  le dossier dans la fenêtre du Terminal (ou la console) après le
+  texte `rename_images ` (ne pas oublier l'espace au bout avant
+  de glisser le dossier).
+  Mais le mieux est quand même d'utiliser une analyse cible en
+  faisant :
+    #{'> mus use "Mon analyse"'.jaune}
+    #{'> mus rename_images "image-score"'.jaune}
 
-EXAMPLES
+
+EXEMPLES
 --------
 
-  #{'> cd /Users/athome/Programs/MuScaT
-  > ./utils/rename_images.rb /Users/athome/Music/Analysis/myLastAnalysis/images'.jaune}
+  #{'> mus rename_images /Users/chezmoi/Music/Analyses/monAnalyse/images'.jaune}
 
-      All images of `myLastAnalysis/images` folder will be renamed
-      in "image-X.png" in the creation date order.
+  Ci-dessus, tous les fichiers du dossier `monAnalyse/images` se-
+  ront renommés en "image-X.png" dans l'ordre de leur création.
 
-  #{'> dMuscat="/Users/athome/Programs/MuScaT"
-  > dImages="/Users/athome/Music/Analysis/Mozart/Sonate/images"
-  > cd $dMuscat
-  > ./utils/rename_images.rb $dImages mozart-sonata -name'.jaune}
+  #{'> mus use "Mon analyse"'.jaune}
+  #{'> mus rename_images "mozart-sonata" -name'.jaune}
 
-      All of the files of `Sonate/images` folder will be renamed
-      in "mozart-sonata-X.jpg" in the name order.
+  Ci-dessus, tous les fichiers du dossier `monAnalyse/images` se
+  trouvant dans mes analyses de Mozart, au format `.jpg`, seront
+  renommés 'mozart-sonata-1.jpg', 'mozart-sonata-2.jpg', ...
+  'mozart-sonata-N.jpg' en les classant par leur nom (`-name`).
 
-      Note the second parameter ("mozart-sonata") which sets the
-      "affixe" of the names and the third parameter ("-name") which
-      modify the sort key.
+  Noter le premier paramètre ("mozart-sonata") qui définit l'affi-
+  xe des fichiers finaux et le deuxième paramètre ("-name") qui
+  modifie la clé de classement des fichiers.
 
-      Above, we used variables (`dMuscat`, 'dImages') for
-      convenience. They could be defined in your bash profile
-      to be used anywhere.
+OPTIONS
+-------
+
+  -h/--help   Pour afficher cette aide de la commande.

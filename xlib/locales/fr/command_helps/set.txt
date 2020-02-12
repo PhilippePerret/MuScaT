@@ -1,16 +1,11 @@
-AIDE DE LA COMMANDE `set`
-
-  Permet de régler certaines valeurs générales de l'application,
-  à commencer par la langue parlée par les scripts.
+Permet de régler certaines valeurs générales de l'application,
+à commencer par la langue parlée par les scripts.
 
 USAGE
 -----
 
-  #{'./utils/set.rb prop=value prop=value... prop=value[ <options>]'.jaune}
+  #{'> mus set <prop>=<value> <prop>=<value>... <prop>=<value>[ <options>]'.jaune}
 
-  Ou, avec l'alias `mus` :
-
-  #{'mus set prop=value prop=value... prop=value[ <options>]'.jaune}
 
 PROPRITÉTÉS DÉFINISSABLES
 -------------------------
@@ -21,7 +16,7 @@ PROPRITÉTÉS DÉFINISSABLES
       en deux lettres, 'fr' pour le français, 'en' pour l'anglais,
       'de' pour l'allemand, etc.
 
-      Exemple : #{'mus set lang=fr'.jaune}
+      Exemple : #{'>mus set lang=fr'.jaune}
 
       NOTE IMPORTANTE
       ---------------
@@ -29,11 +24,16 @@ PROPRITÉTÉS DÉFINISSABLES
       Cette langue définit la langue des messages de MuScaT au niveau
       des scripts seulement. Pour ce qui est de l'interface et des
       messages dans le navigateur, il convient d'utiliser l'option
-      'lang' en ajoutant en haut du fichier `_tags_.fr` :
+      'lang' :
 
-      option('lang', '<deux lettres');
+      #{'> mus option lang="<deux lettres langue>"'.jaune}
 
   #{'editor'.jaune}
 
       Définit l'éditeur à utiliser pour ouvrir les fichiers de don-
       nées, à commencer par le fichier `_tags_.js`.
+
+OPTIONS
+-------
+
+  -h/--help   Afficher cette aide de la commande.

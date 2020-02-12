@@ -3,13 +3,12 @@ en les indexant de 1 en 1.
 
 USAGE
 -----
-  #{'./rename_images.rb <chemin/vers/dossier>[ <affixe nom>][ <clé classement>]'.jaune}
+  #{'> mus rename_images[ <chemin/vers/dossier>][ <affixe nom>][ <clé classement>]'.jaune}
 
-  On doit se trouver dans le dossier `utils` de MuScaT, pas dans le
-  dossier de l'analyse.
-
-  Le #{'chemin/vers/dossier'} est le chemin relatif ou absolu qui conduit
-  au dossier contenant les images à renommer.
+  Le #{'chemin/vers/dossier'} est le chemin relatif ou absolu
+  qui conduit au dossier contenant les images à renommer. Si
+  une analyse est définie, c'est son dossier images qui est
+  choisi par défaut.
 
   L'#{'`<affixe nom>`'.jaune} est le nom sans l'extension. Par exemple, si
   l'affixe est défini à 'mes-images', les fichiers seront re-
@@ -25,33 +24,35 @@ ASTUCE
 
   Le chemin vers le dossier peut être obtenu simplement en glissant
   le dossier dans la fenêtre du Terminal (ou la console) après le
-  texte `./rename_images ` (ne pas oublier l'espace au bout avant
+  texte `rename_images ` (ne pas oublier l'espace au bout avant
   de glisser le dossier).
+  Mais le mieux est quand même d'utiliser une analyse cible en
+  faisant :
+    #{'> mus use "Mon analyse"'.jaune}
+    #{'> mus rename_images "image-score"'.jaune}
+
 
 EXEMPLES
 --------
 
-  #{'> cd /Users/chezmoi/Programmes/MuScaT
-  > ./utils/rename_images.rb /Users/chezmoi/Music/Analyses/monAnalyse/images'.jaune}
+  #{'> mus rename_images /Users/chezmoi/Music/Analyses/monAnalyse/images'.jaune}
 
   Ci-dessus, tous les fichiers du dossier `monAnalyse/images` se-
   ront renommés en "image-X.png" dans l'ordre de leur création.
 
-  #{'> dMuscat="/Users/chezmoi/Programmes/MuScaT"
-  > dImages="/Users/chezmoi/Music/Analyses/Mozart/monAnalyse/images"
-  > cd $dMuscat
-  > ./utils/rename_images.rb $dImages mozart-sonata -name'.jaune}
+  #{'> mus use "Mon analyse"'.jaune}
+  #{'> mus rename_images "mozart-sonata" -name'.jaune}
 
   Ci-dessus, tous les fichiers du dossier `monAnalyse/images` se
   trouvant dans mes analyses de Mozart, au format `.jpg`, seront
   renommés 'mozart-sonata-1.jpg', 'mozart-sonata-2.jpg', ...
   'mozart-sonata-N.jpg' en les classant par leur nom (`-name`).
 
-  Noter le deuxième paramètre ("mozart-sonata") qui définit l'affi-
-  xe des fichiers finaux et le troisième paramètre ("-name") qui
+  Noter le premier paramètre ("mozart-sonata") qui définit l'affi-
+  xe des fichiers finaux et le deuxième paramètre ("-name") qui
   modifie la clé de classement des fichiers.
 
-  Noter également l'utilisation de variable (`dMuscat`,`dImages`)
-  pour faciliter l'écriture. Le dossier `dMuscat`, par exemple,
-  pourrait être défini dans votre fichier `.bash` pour être utili-
-  sé partout.
+OPTIONS
+-------
+
+  -h/--help   Pour afficher cette aide de la commande.

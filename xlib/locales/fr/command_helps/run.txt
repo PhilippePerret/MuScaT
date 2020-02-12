@@ -32,7 +32,7 @@ En considérant que `mus` est votre alias, vous pouvez utiliser :
 
     Lance les tests (en ouvrant le fichier test.html dans Firefox).
 
-Création de la commande
+CRÉATION DE LA COMMANDE
 -----------------------
 
 Sur Mac/Apple :

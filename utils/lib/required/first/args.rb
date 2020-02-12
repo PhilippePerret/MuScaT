@@ -15,6 +15,7 @@
 
 =end
 OPTIONS_DIM_TO_REAL = {
+  'a' => :all,
   'c' => :cible,
   'e' => :edit,
   'h' => :help,

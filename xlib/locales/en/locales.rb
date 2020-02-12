@@ -23,6 +23,7 @@ EOT
 
 LOCALES = {
 
+'command'   => "Command",
 'currente'  => 'Current:',
 
 'analysis-folder' => "Analysis folder: %{name}",
